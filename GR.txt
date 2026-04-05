@@ -1,0 +1,144 @@
+######################################################
+###                                                ###
+###      Modified General Relativity               ###
+###                                                ###
+######################################################
+
+######################################################
+GENEROR_Curvature_BLOCK
+#object   id   rank(r)  order(s)  degree(q) mass_dimenson            # name         
+RiemannT  Rie  	4  	    2 	      1		2                    # Riemann_Tensor
+RicciT    Ric   2           2	      1 	2                    # Ricci_Tensor  
+RicciS    R     0           2 	      1		2                    # Ricci_Scalar
+Metric    g     2           0 	      0		0                    # Contravariant_Metric
+Cov_d     d     1          N/A 	      0		1                    # Covariant_Derivative
+Laplace   L     0          N/A        0         2                    # Laplace-Beltrami_Operator
+
+################################################################
+Rank_0_Riemann_polynomials
+#object         rank(r)  order(s)  degree(q)  mass_dimension  lambda   	type            degeneracy  contraction
+
+R                 0        2         1          2               {0}      R^{0}_{2,1}     N/A         
+
+L_R               0        4         1          4               {0}      R^{0}_{4,1}     N/A         
+
+R^2               0        4         2          4               {0}      R^{0}_{4,2}     N/A         
+Ric_Ric           0        4         2          4               {0}      R^{0}_{4,2}     N/A         
+Rie_Rie_1         0        4         2          4               {0}      R^{0}_{4,2}      2        
+
+L_L_R             0        6         1          6               {0}      R^{0}_{6,1}     N/A         
+
+R_L_R             0        6         2          6               {2,0}    R^{0}_{{2,0}}   N/A         
+d_d_R_Ric         0        6         2          6               {2,0}    R^{0}_{{2,0}}   N/A         
+Ric_L_Ric         0        6         2          6               {2,0}    R^{0}_{{2,0}} 	 N/A         
+d_d_Ric_Rie       0        6         2          6               {2,0}    R^{0}_{{2,0}}   N/A         
+
+d_R_d_R           0        6         2          6               {1,1}    R^{0}_{{1,1}}   N/A         
+d_Ric_d_Ric_1     0        6         2          6               {1,1}    R^{0}_{{1,1}}   2         
+d_Ric_d_Ric_2     0        6         2          6               {1,1}    R^{0}_{{1,1}}   2         
+d_Rie_d_Rie       0        6         2          6               {1,1}    R^{0}_{{1,1}}   N/A
+
+R^3               0        6         3          6               {0}      R^{0}_{6,3}     N/A         
+R_Ric_Ric_1       0        6         3          6               {0}      R^{0}_{6,3}     2         
+Ric_Ric_Ric       0        6         3          6               {0}      R^{0}_{6,3}     N/A
+Ric_Ric_Rie       0        6         3          6               {0}      R^{0}_{6,3}     N/A         
+R_Rie_Rie_1       0        6         3          6               {0}      R^{0}_{6,3}     2         
+Ric_Rie_Rie       0        6         3          6               {0}      R^{0}_{6,3}     N/A         
+Rie_Rie_Rie_1     0        6         3          6               {0}      R^{0}_{6,3}     2         
+Rie_Rie_Rie_2     0        6         3          6               {0}      R^{0}_{6,3}     2         
+
+
+
+################################################################
+Rank_1_Riemann_polynomials
+#object          rank(r)  order(s)  degree(q)  mass_dimension  lambda   type         degeneracy  contraction
+
+d_R                1        3         1          3               {0}      R^{1}_{3,1}  N/A         
+
+d_L_R              1        5         1          5               {0}      R^{1}_{5,1}  N/A         
+
+R_d_R              1        5         2          5               {0}      R^{1}_{5,2}  N/A         
+d_R_Ric            1        5         2          5               {0}      R^{1}_{5,2}  N/A         
+Ric_d_Ric_1        1        5         2          5               {0}      R^{1}_{5,2}  2         
+Ric_d_Ric_2        1        5         2          5               {0}      R^{1}_{5,2}  2         
+d_Ric_Rie          1        5         2          5               {0}      R^{1}_{5,2}  N/A
+Rie_d_Rie          1        5         2          5               {0}      R^{1}_{5,2}  N/A    
+
+
+
+################################################################
+Rank_2_Riemann_polynomials
+#object               rank(r)  order(s)  degree(q)  mass_dimension  lambda   type               degeneracy  contraction
+
+Ric                   2        2         1          2               {0}      R^{2}_{2,1}        N/A         
+
+d_d_R                 2        4         1          4               {0}      R^{2}_{4,1}        N/A         
+L_Ric                 2        4         1          4               {0}      R^{2}_{4,1}        N/A         
+
+R_Ric                 2        4         2          4               {0}      R^{2}_{4,2}        N/A        
+Ric_Ric_1             2        4         2          4               {0}      R^{2}_{4,2}        N/A         
+Ric_Rie               2        4         2          4               {0}      R^{2}_{4,2}        N/A         
+Rie_Rie_2             2        4         2          4               {0}      R^{2}_{4,2}         2         
+
+d_d_L_R               2        6         1          6               {0}      R^{2}_{6,1}        N/A         
+L_L_Ric               2        6         1          6               {0}      R^{2}_{6,1}        N/A         
+
+R_d_d_R               2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A         
+L_R_Ric               2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A        
+d_d_R_Ric             2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A         
+R_L_Ric               2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A         
+Ric_L_Ric             2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A         
+Ric_d_d_Ric_1         2        6         2          6               {2,0}    R^{2}_{{2,0}}    3         
+Ric_d_d_Ric_2         2        6         2          6               {2,0}    R^{2}_{{2,0}}    3         
+Ric_d_d_Ric_3         2        6         2          6               {2,0}    R^{2}_{{2,0}}    3    
+d_d_Ric_Rie           2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A        
+L_Ric_Rie             2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A        
+d_d_Ric_Rie_1         2        6         2          6               {2,0}    R^{2}_{{2,0}}    2         
+d_d_Ric_Rie_2         2        6         2          6               {2,0}    R^{2}_{{2,0}}    2         
+Rie_d_d_Rie           2        6         2          6               {2,0}    R^{2}_{{2,0}}    N/A        
+
+d_R_d_R               2        6         2          6               {1,1}    R^{2}_{{1,1}}    N/A         
+d_R_d_Ric_1           2        6         2          6               {1,1}    R^{2}_{{1,1}}    2         
+d_R_d_Ric_2           2        6         2          6               {1,1}    R^{2}_{{1,1}}    2         
+d_Ric_d_Ric_1         2        6         2          6               {1,1}    R^{2}_{{1,1}}    4         
+d_Ric_d_Ric_2         2        6         2          6               {1,1}    R^{2}_{{1,1}}    4         
+d_Ric_d_Ric_3         2        6         2          6               {1,1}    R^{2}_{{1,1}}    4         
+d_Ric_d_Ric_4         2        6         2          6               {1,1}    R^{2}_{{1,1}}    4         
+d_Ric_d_Rie_1         2        6         2          6               {1,1}    R^{2}_{{1,1}}    2         
+d_Ric_d_Rie_2         2        6         2          6               {1,1}    R^{2}_{{1,1}}    2         
+d_Riem_d_Riem_1       2        6         2          6               {1,1}    R^{2}_{{1,1}}    2         
+d_Riem_d_Riem_2       2        6         2          6               {1,1}    R^{2}_{{1,1}}    2        
+
+R^2_Ric               2        6         3          6               {0}      R^{2}_{6,3}       N/A         
+R_Ric_Ric_2           2        6         3          6               {0}      R^{2}_{6,3}        2         
+Ric_Ric_Ric_1         2        6         3          6               {0}      R^{2}_{6,3}        2         
+Ric_Ric_Ric_2         2        6         3          6               {0}      R^{2}_{6,3}        2        
+R_Ric_Rie             2        6         3          6               {0}      R^{2}_{6,3}       N/A         
+Ric_Ric_Rie_1         2        6         3          6               {0}      R^{2}_{6,3}        2        
+Ric_Ric_Rie_2         2        6         3          6               {0}      R^{2}_{6,3}        2         
+R_Rie_Rie_2           2        6         3          6               {0}      R^{2}_{6,3}        2         
+Ric_Rie_Rie_1         2        6         3          6               {0}      R^{2}_{6,3}        5        
+Ric_Rie_Rie_2         2        6         3          6               {0}      R^{2}_{6,3}        5         
+Ric_Rie_Rie_3         2        6         3          6               {0}      R^{2}_{6,3}        5        
+Ric_Rie_Rie_4         2        6         3          6               {0}      R^{2}_{6,3}        5         
+Ric_Rie_Rie_5         2        6         3          6               {0}      R^{2}_{6,3}        5         
+Rie_Rie_Rie_3          2        6         3          6               {0}      R^{2}_{6,3}       5         
+Rie_Rie_Rie_4          2        6         3          6               {0}      R^{2}_{6,3}       5         
+Rie_Rie_Rie_5          2        6         3          6               {0}      R^{2}_{6,3}       5         
+
+     
+
+
+######################################################
+RULES
+
+rank(r) = number of free indices= # of scalar field derivatives
+order(s) = total order of differentiations of metric tensor(对g的导数)=i_Sum(λi+2)= mass_dimension
+degree(q) = number of curvature tensor/scalar in one term
+lambda(λ) = a set of numbers representing the order of derivative in each curvature tensor/scalar(q in total)
+4-dimension = # of scalar field + # of coefficient dimension(这个怎么写是个问题)
+# of Rank+ # of mass dimension <=6
+
+######################################################
+
+

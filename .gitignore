@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.venv/
+venv/
+.env
+.idea/
+.vscode/
+# 运行生成的日志
+log/
