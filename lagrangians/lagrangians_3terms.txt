@@ -1,0 +1,803 @@
+# Lagrangians with 3 terms
+# Total: 100
+
+[Lagrangian #1]
+General:     √(-g) [ \alpha M_p^-1 · φ · R^{ab} · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)**4*a(t)**4*dphi/dt**2 - M_p*\gamma*m**2*N(t)**6*a(t)**4*phi(t)**2 + 24*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*phi(t))/(2*M_p*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #2]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}φ · ∇^{b}φ · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**3*a(t)*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**5*a(t)*phi(t)**2 - 6*\alpha*(N(t)*d^2a/dt^2 - dN/dt*da/dt)*dphi/dt**2)*a(t)**2/(2*M_p**2*N(t)**4)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}φ · ∇^{b}φ · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #3]
+General:     √(-g) [ \alpha M_p^-1 · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)**4*a(t)**4*dphi/dt**2 - M_p*\gamma*m**2*N(t)**6*a(t)**4*phi(t)**2 + 24*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*phi(t))/(2*M_p*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #4]
+General:     √(-g) [ \alpha M_p^-2 · φ · ∇^{a}∇_{a}φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**4*a(t)**3*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**6*a(t)**3*phi(t)**2 - 12*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2*d^2phi/dt^2 + N(t)**2*a(t)*da/dt**2*d^2phi/dt^2 + 3*N(t)**2*a(t)*da/dt*d^2a/dt^2*dphi/dt + 3*N(t)**2*da/dt**3*dphi/dt - N(t)*a(t)**2*dN/dt*da/dt*d^2phi/dt^2 - N(t)*a(t)**2*dN/dt*d^2a/dt^2*dphi/dt - 4*N(t)*a(t)*dN/dt*da/dt**2*dphi/dt + a(t)**2*dN/dt**2*da/dt*dphi/dt)*phi(t))/(2*M_p**2*N(t)**5)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · ∇^{a}∇_{a}φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #5]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**7*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**9*a(t)**6*phi(t)**2 + 144*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))/(2*M_p**2*N(t)**8*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #6]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}R · ∇_{a}R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**8*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**10*a(t)**6*phi(t)**2 - 72*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(2*M_p**2*N(t)**9*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #7]
+General:     √(-g) [ \alpha M_p^-2 · R · R · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -\beta*a(t)**3*dphi/dt**2/(2*N(t)) - \gamma*m**2*N(t)*a(t)**3*phi(t)**2/2 + 216*\alpha*(N(t)*a(t)*d^2a/dt^2 + N(t)*da/dt**2 - a(t)*dN/dt*da/dt)**3/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #8]
+General:     √(-g) [ \alpha · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (24*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2) - \beta*N(t)**4*a(t)**4*dphi/dt**2 - \gamma*m**2*N(t)**6*a(t)**4*phi(t)**2)/(2*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #9]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \beta · ∇^{a}∇_{a}R  +  \gamma M_p^-2 · ∇^{a}∇^{b}R · R_{ab} ]
+Substituted: 6*(-M_p**2*\beta*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*N(t)**3*a(t)**3 - 2*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2) + 3*\gamma*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ∇^{a}∇_{a}R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+
+[Lagrangian #10]
+General:     √(-g) [ \alpha · ∇^{a}φ · ∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-2*\alpha*dphi/dt**2 - \beta*dphi/dt**2 - \gamma*m**2*N(t)**2*phi(t)**2)*a(t)**3/(2*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, ∇^{a}φ · ∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #11]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**7*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**9*a(t)**6*phi(t)**2 + 144*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))/(2*M_p**2*N(t)**8*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #12]
+General:     √(-g) [ \alpha M_p^-2 · φ · ∇^{a}∇^{b}φ · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**4*a(t)**3*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**6*a(t)**3*phi(t)**2 - 6*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2*d^2phi/dt^2 + N(t)**2*a(t)*da/dt*d^2a/dt^2*dphi/dt + 2*N(t)**2*da/dt**3*dphi/dt - N(t)*a(t)**2*dN/dt*da/dt*d^2phi/dt^2 - N(t)*a(t)**2*dN/dt*d^2a/dt^2*dphi/dt - N(t)*a(t)*dN/dt*da/dt**2*dphi/dt + a(t)**2*dN/dt**2*da/dt*dphi/dt)*phi(t))/(2*M_p**2*N(t)**5)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · ∇^{a}∇^{b}φ · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #13]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}φ · ∇_{a}φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -(M_p**2*\beta*N(t)**3*a(t)**2*dphi/dt**2 + M_p**2*\gamma*m**2*N(t)**5*a(t)**2*phi(t)**2 + 12*\alpha*(N(t)*a(t)*d^2a/dt^2 + N(t)*da/dt**2 - a(t)*dN/dt*da/dt)*dphi/dt**2)*a(t)/(2*M_p**2*N(t)**4)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}φ · ∇_{a}φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #14]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**8*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**10*a(t)**6*phi(t)**2 - 6*\alpha*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(2*M_p**2*N(t)**9*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #15]
+General:     √(-g) [ \alpha M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**7*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**9*a(t)**6*phi(t)**2 + 12*\alpha*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3))/(2*M_p**2*N(t)**8*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #16]
+General:     √(-g) [ \alpha M_p^-1 · ∇^{a}∇^{b}φ · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)**4*a(t)**3*dphi/dt**2 - M_p*\gamma*m**2*N(t)**6*a(t)**3*phi(t)**2 - 6*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2*d^2phi/dt^2 + N(t)**2*a(t)*da/dt*d^2a/dt^2*dphi/dt + 2*N(t)**2*da/dt**3*dphi/dt - N(t)*a(t)**2*dN/dt*da/dt*d^2phi/dt^2 - N(t)*a(t)**2*dN/dt*d^2a/dt^2*dphi/dt - N(t)*a(t)*dN/dt*da/dt**2*dphi/dt + a(t)**2*dN/dt**2*da/dt*dphi/dt))/(2*M_p*N(t)**5)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, ∇^{a}∇^{b}φ · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #17]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · R^{ab} · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**4*a(t)**4*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**6*a(t)**4*phi(t)**2 + 24*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*phi(t)**2)/(2*M_p**2*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #18]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · φ · ∇^{a}∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)*a(t)*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**3*a(t)*phi(t)**2 - 2*\alpha*(N(t)*a(t)*d^2phi/dt^2 + 3*N(t)*da/dt*dphi/dt - a(t)*dN/dt*dphi/dt)*phi(t)**3)*a(t)**2/(2*M_p**2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · φ · ∇^{a}∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #19]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · ∇^{a}∇_{a}R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**5*a(t)**3*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**7*a(t)**3*phi(t)**2 - 12*\alpha*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*phi(t)**2)/(2*M_p**2*N(t)**6)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · ∇^{a}∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #20]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · ∇^{a}φ · ∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**2*phi(t)**2 - 2*\alpha*phi(t)**2*dphi/dt**2)*a(t)**3/(2*M_p**2*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · ∇^{a}φ · ∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #21]
+General:     √(-g) [ \alpha · R · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (72*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**2 - \beta*N(t)**4*a(t)**4*dphi/dt**2 - \gamma*m**2*N(t)**6*a(t)**4*phi(t)**2)/(2*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, R · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #22]
+General:     √(-g) [ \alpha M_p^1 · φ · φ · φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-\beta*dphi/dt**2 - (-2*M_p*\alpha*phi(t) + \gamma*m**2)*N(t)**2*phi(t)**2)*a(t)**3/(2*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=3, Mp^1, φ · φ · φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #23]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**8*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**10*a(t)**6*phi(t)**2 - 24*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2))/(2*M_p**2*N(t)**9*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #24]
+General:     √(-g) [ \alpha M_p^-2 · φ · ∇^{a}φ · ∇_{a}R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**4*a(t)**3*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**6*a(t)**3*phi(t)**2 + 12*\alpha*(-N(t)**2*a(t)**2*d^3a/dt^3 - N(t)**2*a(t)*da/dt*d^2a/dt^2 + 2*N(t)**2*da/dt**3 + 3*N(t)*a(t)**2*dN/dt*d^2a/dt^2 + N(t)*a(t)**2*d^2N/dt^2*da/dt + N(t)*a(t)*dN/dt*da/dt**2 - 3*a(t)**2*dN/dt**2*da/dt)*phi(t)*dphi/dt)/(2*M_p**2*N(t)**5)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · ∇^{a}φ · ∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #25]
+General:     √(-g) [ \alpha M_p^-1 · φ · φ · φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -(M_p*\beta*N(t)*a(t)**2*dphi/dt**2 + M_p*\gamma*m**2*N(t)**3*a(t)**2*phi(t)**2 - 12*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*phi(t)**3)*a(t)/(2*M_p*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · φ · φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #26]
+General:     √(-g) [ \alpha M_p^-1 · φ · ∇^{a}∇_{a}R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)**5*a(t)**3*dphi/dt**2 - M_p*\gamma*m**2*N(t)**7*a(t)**3*phi(t)**2 - 12*\alpha*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*phi(t))/(2*M_p*N(t)**6)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · ∇^{a}∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #27]
+General:     √(-g) [ \alpha · φ · ∇^{a}∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-2*\alpha*(N(t)*a(t)*d^2phi/dt^2 + 3*N(t)*da/dt*dphi/dt - a(t)*dN/dt*dphi/dt)*phi(t) - \beta*N(t)*a(t)*dphi/dt**2 - \gamma*m**2*N(t)**3*a(t)*phi(t)**2)*a(t)**2/(2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, φ · ∇^{a}∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #28]
+General:     √(-g) [ \alpha M_p^2 · R  +  \beta M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \gamma M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd} ]
+Substituted: 6*(M_p**4*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**7*a(t)**4 + 3*\beta*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2) - 2*\gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=2, Mp^2, R
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+
+[Lagrangian #29]
+General:     √(-g) [ \alpha M_p^1 · ∇^{a}∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-2*M_p*\alpha*(N(t)*a(t)*d^2phi/dt^2 + 3*N(t)*da/dt*dphi/dt - a(t)*dN/dt*dphi/dt) - \beta*N(t)*a(t)*dphi/dt**2 - \gamma*m**2*N(t)**3*a(t)*phi(t)**2)*a(t)**2/(2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=3, Mp^1, ∇^{a}∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #30]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · φ · φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -(M_p**2*\beta*N(t)*a(t)**2*dphi/dt**2 + M_p**2*\gamma*m**2*N(t)**3*a(t)**2*phi(t)**2 - 12*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*phi(t)**4)*a(t)/(2*M_p**2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · φ · φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #31]
+General:     √(-g) [ \alpha · ∇^{a}∇_{a}R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-12*\alpha*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt) - \beta*N(t)**5*a(t)**3*dphi/dt**2 - \gamma*m**2*N(t)**7*a(t)**3*phi(t)**2)/(2*N(t)**6)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, ∇^{a}∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #32]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \beta · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd} ]
+Substituted: 6*(2*M_p**2*\beta*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + 3*\alpha*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2) - 2*\gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+
+[Lagrangian #33]
+General:     √(-g) [ \alpha · φ · φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -(-12*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*phi(t)**2 + \beta*N(t)*a(t)**2*dphi/dt**2 + \gamma*m**2*N(t)**3*a(t)**2*phi(t)**2)*a(t)/(2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, φ · φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #34]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**8*a(t)**5*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**10*a(t)**5*phi(t)**2 + 72*\alpha*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2))/(2*M_p**2*N(t)**9*a(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #35]
+General:     √(-g) [ \alpha M_p^-2 · R^{ab} · R^{d}_{a} · R_{bd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**7*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**9*a(t)**6*phi(t)**2 + 12*\alpha*(5*N(t)**3*a(t)**3*d^2a/dt^2**3 + 3*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 6*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 15*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 6*N(t)**2*a(t)*dN/dt*da/dt**5 + 15*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 5*a(t)**3*dN/dt**3*da/dt**3))/(2*M_p**2*N(t)**8*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{ab} · R^{d}_{a} · R_{bd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #36]
+General:     √(-g) [ \alpha · φ · φ · φ · φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-\beta*dphi/dt**2 - (-2*\alpha*phi(t)**2 + \gamma*m**2)*N(t)**2*phi(t)**2)*a(t)**3/(2*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, φ · φ · φ · φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #37]
+General:     √(-g) [ \alpha M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**7*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**9*a(t)**6*phi(t)**2 + 24*\alpha*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3))/(2*M_p**2*N(t)**8*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #38]
+General:     √(-g) [ \alpha · R^{ab} · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (24*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2) - \beta*N(t)**4*a(t)**4*dphi/dt**2 - \gamma*m**2*N(t)**6*a(t)**4*phi(t)**2)/(2*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #39]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**8*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**10*a(t)**6*phi(t)**2 - 24*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(2*M_p**2*N(t)**9*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #40]
+General:     √(-g) [ \alpha M_p^-1 · φ · φ · φ · φ · φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*dphi/dt**2 - M_p*\gamma*m**2*N(t)**2*phi(t)**2 + 2*\alpha*N(t)**2*phi(t)**5)*a(t)**3/(2*M_p*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · φ · φ · φ · φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #41]
+General:     √(-g) [ \alpha M_p^2 · φ · φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-\beta*dphi/dt**2 - (-2*M_p**2*\alpha + \gamma*m**2)*N(t)**2*phi(t)**2)*a(t)**3/(2*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=2, Mp^2, φ · φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #42]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · R · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -\beta*a(t)**3*dphi/dt**2/(2*N(t)) - \gamma*m**2*N(t)*a(t)**3*phi(t)**2/2 + 36*\alpha*(N(t)*a(t)*d^2a/dt^2 + N(t)*da/dt**2 - a(t)*dN/dt*da/dt)**2*phi(t)**2/(M_p**2*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · R · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #43]
+General:     √(-g) [ \alpha M_p^-1 · ∇^{a}φ · ∇_{a}R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)**4*a(t)**3*dphi/dt**2 - M_p*\gamma*m**2*N(t)**6*a(t)**3*phi(t)**2 + 12*\alpha*(-N(t)**2*a(t)**2*d^3a/dt^3 - N(t)**2*a(t)*da/dt*d^2a/dt^2 + 2*N(t)**2*da/dt**3 + 3*N(t)*a(t)**2*dN/dt*d^2a/dt^2 + N(t)*a(t)**2*d^2N/dt^2*da/dt + N(t)*a(t)*dN/dt*da/dt**2 - 3*a(t)**2*dN/dt**2*da/dt)*dphi/dt)/(2*M_p*N(t)**5)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, ∇^{a}φ · ∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #44]
+General:     √(-g) [ \alpha M_p^-1 · φ · ∇^{a}φ · ∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*dphi/dt**2 - M_p*\gamma*m**2*N(t)**2*phi(t)**2 - 2*\alpha*phi(t)*dphi/dt**2)*a(t)**3/(2*M_p*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · ∇^{a}φ · ∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #45]
+General:     √(-g) [ \alpha M_p^2 · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -(-12*M_p**2*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2) + \beta*N(t)*a(t)**2*dphi/dt**2 + \gamma*m**2*N(t)**3*a(t)**2*phi(t)**2)*a(t)/(2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=2, Mp^2, R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #46]
+General:     √(-g) [ \alpha M_p^-1 · φ · φ · ∇^{a}∇_{a}φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)*a(t)*dphi/dt**2 - M_p*\gamma*m**2*N(t)**3*a(t)*phi(t)**2 - 2*\alpha*(N(t)*a(t)*d^2phi/dt^2 + 3*N(t)*da/dt*dphi/dt - a(t)*dN/dt*dphi/dt)*phi(t)**2)*a(t)**2/(2*M_p*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · φ · ∇^{a}∇_{a}φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #47]
+General:     √(-g) [ \alpha M_p^-1 · ∇^{a}∇_{a}φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p*\beta*N(t)**4*a(t)**3*dphi/dt**2 - M_p*\gamma*m**2*N(t)**6*a(t)**3*phi(t)**2 - 12*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2*d^2phi/dt^2 + N(t)**2*a(t)*da/dt**2*d^2phi/dt^2 + 3*N(t)**2*a(t)*da/dt*d^2a/dt^2*dphi/dt + 3*N(t)**2*da/dt**3*dphi/dt - N(t)*a(t)**2*dN/dt*da/dt*d^2phi/dt^2 - N(t)*a(t)**2*dN/dt*d^2a/dt^2*dphi/dt - 4*N(t)*a(t)*dN/dt*da/dt**2*dphi/dt + a(t)**2*dN/dt**2*da/dt*dphi/dt))/(2*M_p*N(t)**5)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, ∇^{a}∇_{a}φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #48]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \gamma M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf} ]
+Substituted: 6*(12*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + 2*\beta*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3) + \gamma*(-N(t)**3*a(t)*d^2a/dt^2**3 + 3*N(t)**3*da/dt**2*d^2a/dt^2**2 + 3*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 3*N(t)*a(t)*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*dN/dt**2*da/dt**4 + a(t)*dN/dt**3*da/dt**3)*a(t)**2)/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}
+
+[Lagrangian #49]
+General:     √(-g) [ \alpha M_p^1 · φ · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -(-12*M_p*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*phi(t) + \beta*N(t)*a(t)**2*dphi/dt**2 + \gamma*m**2*N(t)**3*a(t)**2*phi(t)**2)*a(t)/(2*N(t)**2)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=3, Mp^1, φ · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #50]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \gamma M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh} ]
+Substituted: 6*(12*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + 2*\beta*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3) + \gamma*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)*da/dt**2)/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+
+[Lagrangian #51]
+General:     √(-g) [ \alpha M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -\beta*a(t)**3*dphi/dt**2/(2*N(t)) - \gamma*m**2*N(t)*a(t)**3*phi(t)**2/2 + 24*\alpha*d^2a/dt^2**3/(M_p**2*N(t)**5) + 24*\alpha*da/dt**6/(M_p**2*N(t)**5*a(t)**3) - 72*\alpha*dN/dt*da/dt*d^2a/dt^2**2/(M_p**2*N(t)**6) + 72*\alpha*dN/dt**2*da/dt**2*d^2a/dt^2/(M_p**2*N(t)**7) - 24*\alpha*dN/dt**3*da/dt**3/(M_p**2*N(t)**8)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #52]
+General:     √(-g) [ \alpha M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**6*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**8*a(t)**6*phi(t)**2 + 12*\alpha*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*da/dt**2)/(2*M_p**2*N(t)**7*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #53]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · φ · φ · φ · φ  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**2*phi(t)**2 + 2*\alpha*N(t)**2*phi(t)**6)*a(t)**3/(2*M_p**2*N(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · φ · φ · φ · φ
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #54]
+General:     √(-g) [ \alpha M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**7*a(t)**4*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**9*a(t)**4*phi(t)**2 + 12*\alpha*(-N(t)**3*a(t)*d^2a/dt^2**3 + 3*N(t)**3*da/dt**2*d^2a/dt^2**2 + 3*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 3*N(t)*a(t)*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*dN/dt**2*da/dt**4 + a(t)*dN/dt**3*da/dt**3))/(2*M_p**2*N(t)**8*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #55]
+General:     √(-g) [ \alpha M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \beta M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh} ]
+Substituted: 12*(\alpha*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3) + 6*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + 2*\gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+
+[Lagrangian #56]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**8*a(t)**6*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**10*a(t)**6*phi(t)**2 + 36*\alpha*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2))/(2*M_p**2*N(t)**9*a(t)**3)
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #57]
+General:     √(-g) [ \alpha M_p^2 · R  +  \beta · R^{ab} · R_{ab}  +  \gamma M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c} ]
+Substituted: 6*(M_p**4*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**7*a(t)**3 + 2*M_p**2*\beta*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t) + 6*\gamma*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**2)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=2, Mp^2, R
+  term[2]: coeff=\beta, dim=4, Mp^0, R^{ab} · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+
+[Lagrangian #58]
+General:     √(-g) [ \alpha M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \gamma M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh} ]
+Substituted: 6*(4*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3)*N(t) - 2*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) + \gamma*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)**2*da/dt**2)/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+
+[Lagrangian #59]
+General:     √(-g) [ \alpha M_p^-2 · φ · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: (-M_p**2*\beta*N(t)**4*a(t)**4*dphi/dt**2 - M_p**2*\gamma*m**2*N(t)**6*a(t)**4*phi(t)**2 + 24*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*phi(t)**2)/(2*M_p**2*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=6, Mp^-2, φ · φ · R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #60]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \beta M_p^-2 · ∇^{a}R · ∇_{a}R  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab} ]
+Substituted: 12*(3*\alpha*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) - 3*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) - \gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+
+[Lagrangian #61]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \gamma M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd} ]
+Substituted: 12*(6*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3)*N(t) + 3*\beta*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) - \gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+
+[Lagrangian #62]
+General:     √(-g) [ \alpha M_p^-1 · φ · R · R  +  \beta · ½ g^{μν} ∇_μφ ∇_νφ  +  \gamma · -½ m² φ² ]
+Substituted: -\beta*a(t)**3*dphi/dt**2/(2*N(t)) - \gamma*m**2*N(t)*a(t)**3*phi(t)**2/2 + 36*\alpha*(N(t)*a(t)*d^2a/dt^2 + N(t)*da/dt**2 - a(t)*dN/dt*da/dt)**2*phi(t)/(M_p*N(t)**5*a(t))
+has_phi:     True
+  term[1]: coeff=\alpha, dim=5, Mp^-1, φ · R · R
+  term[2]: coeff=\beta, dim=4, Mp^0, ½ g^{μν} ∇_μφ ∇_νφ
+  term[3]: coeff=\gamma, dim=4, Mp^0, -½ m² φ²
+
+[Lagrangian #63]
+General:     √(-g) [ \alpha M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \beta M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \gamma M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf} ]
+Substituted: 6*(\alpha*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3)*N(t) + 6*\beta*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) + \gamma*(-N(t)**3*a(t)*d^2a/dt^2**3 + 3*N(t)**3*da/dt**2*d^2a/dt^2**2 + 3*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 3*N(t)*a(t)*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*dN/dt**2*da/dt**4 + a(t)*dN/dt**3*da/dt**3)*N(t)*a(t)**2)/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}
+
+[Lagrangian #64]
+General:     √(-g) [ \alpha M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac} ]
+Substituted: 3*(8*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3)*N(t) - 4*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) - \gamma*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+
+[Lagrangian #65]
+General:     √(-g) [ \alpha · R^{ab} · R_{ab}  +  \beta M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \gamma M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c} ]
+Substituted: 6*(2*M_p**2*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + 3*\beta*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2) + 6*\gamma*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+
+[Lagrangian #66]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \beta M_p^-2 · R · R · R  +  \gamma M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd} ]
+Substituted: 12*(-\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2) + 18*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**3*N(t) - \gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R · R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+
+[Lagrangian #67]
+General:     √(-g) [ \alpha M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \beta M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \gamma M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c} ]
+Substituted: 6*(\alpha*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3)*N(t) - 2*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) + 6*\gamma*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+
+[Lagrangian #68]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \beta · ∇^{a}∇_{a}R  +  \gamma M_p^-2 · ∇^{a}∇^{b}R · R_{ab} ]
+Substituted: 6*(-M_p**2*\beta*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*N(t)**3*a(t)**3 + 6*\alpha*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) + 3*\gamma*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[2]: coeff=\beta, dim=4, Mp^0, ∇^{a}∇_{a}R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+
+[Lagrangian #69]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \beta · ∇^{a}∇_{a}R  +  \gamma M_p^2 · R ]
+Substituted: 6*(M_p**4*\gamma*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**7*a(t)**4 - M_p**2*\beta*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*N(t)**3*a(t)**3 + 3*\alpha*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, ∇^{a}∇_{a}R
+  term[3]: coeff=\gamma, dim=2, Mp^2, R
+
+[Lagrangian #70]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}R · ∇_{a}R  +  \beta M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac} ]
+Substituted: 3*(-12*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) + 12*\beta*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) - \gamma*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+
+[Lagrangian #71]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \beta · R^{ab} · R_{ab}  +  \gamma M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh} ]
+Substituted: 6*(2*M_p**2*\beta*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 - 2*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2) + \gamma*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)**2*da/dt**2)/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+  term[2]: coeff=\beta, dim=4, Mp^0, R^{ab} · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+
+[Lagrangian #72]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · R · R · R  +  \gamma M_p^-2 · ∇^{a}∇^{b}R · R_{ab} ]
+Substituted: 18*(\gamma*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2) + 4*(\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + 3*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**3)*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R · R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+
+[Lagrangian #73]
+General:     √(-g) [ \alpha M_p^2 · R  +  \beta M_p^-2 · R · R^{ab} · R_{ab}  +  \gamma · R^{bcd}_{a} · R^{a}_{bcd} ]
+Substituted: 6*(M_p**4*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**6*a(t)**4 + 2*M_p**2*\gamma*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**3*a(t)**2 + 12*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=2, Mp^2, R
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[3]: coeff=\gamma, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+
+[Lagrangian #74]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · ∇^{a}R · ∇_{a}R  +  \gamma M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd} ]
+Substituted: 12*(6*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3)*N(t) - 3*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) - \gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+
+[Lagrangian #75]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \beta M_p^2 · R  +  \gamma M_p^-2 · ∇^{a}R · ∇_{a}R ]
+Substituted: 3*(2*M_p**4*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**7*a(t)**4 - \alpha*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2) - 12*\gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[2]: coeff=\beta, dim=2, Mp^2, R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+
+[Lagrangian #76]
+General:     √(-g) [ \alpha M_p^-2 · R^{ab} · R^{d}_{a} · R_{bd}  +  \beta · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac} ]
+Substituted: 3*(4*M_p**2*\beta*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + 2*\alpha*(5*N(t)**3*a(t)**3*d^2a/dt^2**3 + 3*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 6*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 15*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 6*N(t)**2*a(t)*dN/dt*da/dt**5 + 15*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 5*a(t)**3*dN/dt**3*da/dt**3)*N(t) - \gamma*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{ab} · R^{d}_{a} · R_{bd}
+  term[2]: coeff=\beta, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+
+[Lagrangian #77]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \gamma M_p^-2 · ∇^{a}R · ∇_{a}R ]
+Substituted: 18*(4*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3)*N(t) + \beta*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2) - 2*\gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+
+[Lagrangian #78]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \gamma M_p^-2 · R^{ab} · R^{d}_{a} · R_{bd} ]
+Substituted: 6*(-2*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) + (12*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + \gamma*(5*N(t)**3*a(t)**3*d^2a/dt^2**3 + 3*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 6*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 15*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 6*N(t)**2*a(t)*dN/dt*da/dt**5 + 15*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 5*a(t)**3*dN/dt**3*da/dt**3))*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{ab} · R^{d}_{a} · R_{bd}
+
+[Lagrangian #79]
+General:     √(-g) [ \alpha · R^{ab} · R_{ab}  +  \beta M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \gamma M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd} ]
+Substituted: 6*(2*M_p**2*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + \beta*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3)*N(t) - 2*\gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+
+[Lagrangian #80]
+General:     √(-g) [ \alpha M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \beta M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac} ]
+Substituted: 3*(2*\alpha*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)**2*da/dt**2 + 12*\beta*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) - \gamma*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+
+[Lagrangian #81]
+General:     √(-g) [ \alpha · ∇^{a}∇_{a}R  +  \beta · R · R  +  \gamma M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd} ]
+Substituted: 6*(-M_p**2*\alpha*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*N(t)**2*a(t)**3 + 6*M_p**2*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**2*N(t)**3*a(t)**2 + 12*\gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, ∇^{a}∇_{a}R
+  term[2]: coeff=\beta, dim=4, Mp^0, R · R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+
+[Lagrangian #82]
+General:     √(-g) [ \alpha · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac} ]
+Substituted: 3*(4*M_p**2*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + 4*\beta*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3)*N(t) - \gamma*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+
+[Lagrangian #83]
+General:     √(-g) [ \alpha · R^{ab} · R_{ab}  +  \beta M_p^2 · R  +  \gamma M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd} ]
+Substituted: 6*(M_p**4*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**6*a(t)**4 + 2*M_p**2*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**3*a(t)**2 + 12*\gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=2, Mp^2, R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+
+[Lagrangian #84]
+General:     √(-g) [ \alpha M_p^2 · R  +  \beta M_p^-2 · R · R^{ab} · R_{ab}  +  \gamma M_p^-2 · R · R · R ]
+Substituted: 6*(M_p**4*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**6*a(t)**4 + 12*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + 36*\gamma*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**3)/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=2, Mp^2, R
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R · R · R
+
+[Lagrangian #85]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \beta M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \gamma M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh} ]
+Substituted: 6*(6*\alpha*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) - 2*\beta*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2) + \gamma*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)**2*da/dt**2)/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+
+[Lagrangian #86]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \beta M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \gamma M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh} ]
+Substituted: 3*(-\alpha*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2) + 2*(\beta*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3) + 4*\gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3))*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+
+[Lagrangian #87]
+General:     √(-g) [ \alpha · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta M_p^2 · R  +  \gamma · R^{ab} · R_{ab} ]
+Substituted: 6*(M_p**2*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**3*a(t)**2 + 2*\alpha*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2) + 2*\gamma*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*a(t)*da/dt**2*d^2a/dt^2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 - N(t)*a(t)*dN/dt*da/dt**3 + a(t)**2*dN/dt**2*da/dt**2))/(N(t)**5*a(t))
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=2, Mp^2, R
+  term[3]: coeff=\gamma, dim=4, Mp^0, R^{ab} · R_{ab}
+
+[Lagrangian #88]
+General:     √(-g) [ \alpha · ∇^{a}∇_{a}R  +  \beta M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac} ]
+Substituted: 3*(-2*M_p**2*\alpha*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*N(t)**3*a(t)**3 + 2*\beta*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)**2*da/dt**2 - \gamma*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, ∇^{a}∇_{a}R
+  term[2]: coeff=\beta, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+
+[Lagrangian #89]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \gamma M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd} ]
+Substituted: 3*(-\beta*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2) + 24*(\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + \gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+
+[Lagrangian #90]
+General:     √(-g) [ \alpha M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \beta M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \gamma M_p^-2 · R · R^{ab} · R_{ab} ]
+Substituted: 12*(\alpha*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3) + 2*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3) + 6*\gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+
+[Lagrangian #91]
+General:     √(-g) [ \alpha M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \beta M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \gamma · R · R ]
+Substituted: 6*(6*M_p**2*\gamma*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**2*N(t)**4*a(t)**2 + \alpha*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3)*N(t) + 3*\beta*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[3]: coeff=\gamma, dim=4, Mp^0, R · R
+
+[Lagrangian #92]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  \beta M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \gamma · R^{bcd}_{a} · R^{a}_{bcd} ]
+Substituted: 12*(M_p**2*\gamma*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + 3*\alpha*(-N(t)**4*a(t)**3*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**2*da/dt**2*d^4a/dt^4 - 3*N(t)**4*a(t)**2*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**2*d^2a/dt^2**3 - 3*N(t)**4*a(t)*da/dt**3*d^3a/dt^3 + 4*N(t)**4*a(t)*da/dt**2*d^2a/dt^2**2 + 5*N(t)**4*da/dt**4*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**3*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**3*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^3N/dt^3*da/dt*d^2a/dt^2 + 9*N(t)**3*a(t)**2*dN/dt*da/dt**2*d^3a/dt^3 + 12*N(t)**3*a(t)**2*dN/dt*da/dt*d^2a/dt^2**2 + 7*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**2*d^2a/dt^2 + N(t)**3*a(t)**2*d^3N/dt^3*da/dt**3 + N(t)**3*a(t)*dN/dt*da/dt**3*d^2a/dt^2 + 3*N(t)**3*a(t)*d^2N/dt^2*da/dt**4 - 5*N(t)**3*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**3*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**3*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^3N/dt^3*da/dt**2 - 36*N(t)**2*a(t)**2*dN/dt**2*da/dt**2*d^2a/dt^2 - 13*N(t)**2*a(t)**2*dN/dt*d^2N/dt^2*da/dt**3 - 5*N(t)**2*a(t)*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**3*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**3*dN/dt**2*d^2N/dt^2*da/dt**2 + 25*N(t)*a(t)**2*dN/dt**3*da/dt**3 - 15*a(t)**3*dN/dt**4*da/dt**2)*a(t) + 2*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3)*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{a}∇_{a}R · R^{c}_{c}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+  term[3]: coeff=\gamma, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+
+[Lagrangian #93]
+General:     √(-g) [ \alpha M_p^-2 · R · R · R  +  \beta M_p^-2 · R · R^{ab} · R_{ab}  +  \gamma M_p^-2 · R^{ab} · R^{d}_{a} · R_{bd} ]
+Substituted: 6*(36*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**3 + 12*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3) + \gamma*(5*N(t)**3*a(t)**3*d^2a/dt^2**3 + 3*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 6*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 15*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 6*N(t)**2*a(t)*dN/dt*da/dt**5 + 15*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 5*a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R · R
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{ab} · R^{d}_{a} · R_{bd}
+
+[Lagrangian #94]
+General:     √(-g) [ \alpha · R · R  +  \beta M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \gamma M_p^-2 · ∇^{a}R · ∇_{a}R ]
+Substituted: 3*(12*M_p**2*\alpha*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)**2*N(t)**4*a(t)**2 - \beta*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2) - 12*\gamma*(N(t)**4*a(t)**4*d^3a/dt^3**2 + 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 4*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 - 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 + 10*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 4*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 + 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 - 11*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 - 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=4, Mp^0, R · R
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}R · ∇_{a}R
+
+[Lagrangian #95]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \beta M_p^2 · R  +  \gamma M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def} ]
+Substituted: 3*(2*M_p**4*\beta*((N(t)*d^2a/dt^2 - dN/dt*da/dt)*a(t) + N(t)*da/dt**2)*N(t)**7*a(t)**4 - \alpha*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2) + 4*\gamma*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3)*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[2]: coeff=\beta, dim=2, Mp^2, R
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+
+[Lagrangian #96]
+General:     √(-g) [ \alpha M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta M_p^-2 · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \gamma · R^{bcd}_{a} · R^{a}_{bcd} ]
+Substituted: 3*(4*M_p**2*\gamma*(N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 2*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + a(t)**2*dN/dt**2*da/dt**2)*N(t)**4*a(t)**2 + 24*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3)*N(t) - \beta*(3*N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - 4*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 19*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 36*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 20*N(t)**4*da/dt**6 - 18*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 6*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 26*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 4*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 36*N(t)**3*a(t)*dN/dt*da/dt**5 + 18*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 27*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 18*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + 3*N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 7*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 54*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 18*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 27*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R · R^{bcd}_{a} · R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{b}R_{ac}
+  term[3]: coeff=\gamma, dim=4, Mp^0, R^{bcd}_{a} · R^{a}_{bcd}
+
+[Lagrangian #97]
+General:     √(-g) [ \alpha M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \gamma M_p^-2 · R^{ab} · R^{d}_{a} · R_{bd} ]
+Substituted: 6*(4*\alpha*(N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - a(t)**3*dN/dt**3*da/dt**3) + 2*\beta*(2*N(t)**3*a(t)**3*d^2a/dt^2**3 + N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 2*N(t)**3*da/dt**6 - 6*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 2*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - N(t)**2*a(t)*dN/dt*da/dt**5 + 6*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + N(t)*a(t)**2*dN/dt**2*da/dt**4 - 2*a(t)**3*dN/dt**3*da/dt**3) + \gamma*(5*N(t)**3*a(t)**3*d^2a/dt^2**3 + 3*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 6*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 15*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 6*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 6*N(t)**2*a(t)*dN/dt*da/dt**5 + 15*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 3*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 5*a(t)**3*dN/dt**3*da/dt**3))/(M_p**2*N(t)**8*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R_{ab} · R^{adef} · R^{b}_{def}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R^{ab} · R^{d}_{a} · R_{bd}
+
+[Lagrangian #98]
+General:     √(-g) [ \alpha M_p^-2 · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \beta M_p^-2 · ∇^{a}∇^{b}R · R_{ab}  +  \gamma M_p^-2 · R · R^{ab} · R_{ab} ]
+Substituted: 6*(3*\beta*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2) + (\alpha*(3*N(t)**3*a(t)**3*d^2a/dt^2**3 + 7*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 4*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**3*da/dt**6 - 9*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 14*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 4*N(t)**2*a(t)*dN/dt*da/dt**5 + 9*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 7*N(t)*a(t)**2*dN/dt**2*da/dt**4 - 3*a(t)**3*dN/dt**3*da/dt**3) + 12*\gamma*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3))*N(t))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, R^{b}_{a} · R^{cd} · R^{a}_{cbd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+
+[Lagrangian #99]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \beta M_p^-2 · R · R^{ab} · R_{ab}  +  \gamma M_p^-2 · ∇^{a}∇^{b}R · R_{ab} ]
+Substituted: 6*(-2*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 5*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 10*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 6*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 - 4*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 10*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 9*a(t)**4*dN/dt**4*da/dt**2) + 12*\beta*(N(t)**3*a(t)**3*d^2a/dt^2**3 + 2*N(t)**3*a(t)**2*da/dt**2*d^2a/dt^2**2 + 2*N(t)**3*a(t)*da/dt**4*d^2a/dt^2 + N(t)**3*da/dt**6 - 3*N(t)**2*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 - 4*N(t)**2*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 - 2*N(t)**2*a(t)*dN/dt*da/dt**5 + 3*N(t)*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 + 2*N(t)*a(t)**2*dN/dt**2*da/dt**4 - a(t)**3*dN/dt**3*da/dt**3)*N(t) + 3*\gamma*(-N(t)**4*a(t)**4*d^2a/dt^2*d^4a/dt^4 - N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 - N(t)**4*a(t)**3*d^2a/dt^2**3 - 2*N(t)**4*a(t)**2*da/dt**3*d^3a/dt^3 + 7*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 6*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 4*N(t)**4*da/dt**6 + N(t)**3*a(t)**4*dN/dt*da/dt*d^4a/dt^4 + 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 + 4*N(t)**3*a(t)**4*d^2N/dt^2*d^2a/dt^2**2 + N(t)**3*a(t)**4*d^3N/dt^3*da/dt*d^2a/dt^2 + N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 8*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 2*N(t)**3*a(t)**2*d^2N/dt^2*da/dt**4 + 6*N(t)**3*a(t)*dN/dt*da/dt**5 - 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 - 15*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 - 14*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 - N(t)**2*a(t)**4*dN/dt*d^3N/dt^3*da/dt**2 - 9*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + N(t)**2*a(t)**2*dN/dt**2*da/dt**4 + 30*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 + 10*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 4*N(t)*a(t)**3*dN/dt**3*da/dt**3 - 15*a(t)**4*dN/dt**4*da/dt**2))/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{c}R^{ab} · ∇_{c}R_{ab}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R · R^{ab} · R_{ab}
+  term[3]: coeff=\gamma, dim=6, Mp^-2, ∇^{a}∇^{b}R · R_{ab}
+
+[Lagrangian #100]
+General:     √(-g) [ \alpha M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \beta M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \gamma · ∇^{a}∇_{a}R ]
+Substituted: 6*(-M_p**2*\gamma*(N(t)**3*a(t)**2*d^4a/dt^4 + 3*N(t)**3*a(t)*da/dt*d^3a/dt^3 + N(t)**3*a(t)*d^2a/dt^2**2 - 5*N(t)**3*da/dt**2*d^2a/dt^2 - 6*N(t)**2*a(t)**2*dN/dt*d^3a/dt^3 - 4*N(t)**2*a(t)**2*d^2N/dt^2*d^2a/dt^2 - N(t)**2*a(t)**2*d^3N/dt^3*da/dt - 11*N(t)**2*a(t)*dN/dt*da/dt*d^2a/dt^2 - 3*N(t)**2*a(t)*d^2N/dt^2*da/dt**2 + 5*N(t)**2*dN/dt*da/dt**3 + 15*N(t)*a(t)**2*dN/dt**2*d^2a/dt^2 + 10*N(t)*a(t)**2*dN/dt*d^2N/dt^2*da/dt + 10*N(t)*a(t)*dN/dt**2*da/dt**2 - 15*a(t)**2*dN/dt**3*da/dt)*N(t)**3*a(t)**3 - 2*\alpha*(N(t)**4*a(t)**4*d^3a/dt^3**2 - 2*N(t)**4*a(t)**3*da/dt*d^2a/dt^2*d^3a/dt^3 + 9*N(t)**4*a(t)**2*da/dt**2*d^2a/dt^2**2 - 16*N(t)**4*a(t)*da/dt**4*d^2a/dt^2 + 8*N(t)**4*da/dt**6 - 6*N(t)**3*a(t)**4*dN/dt*d^2a/dt^2*d^3a/dt^3 - 2*N(t)**3*a(t)**4*d^2N/dt^2*da/dt*d^3a/dt^3 + 2*N(t)**3*a(t)**3*dN/dt*da/dt**2*d^3a/dt^3 + 6*N(t)**3*a(t)**3*dN/dt*da/dt*d^2a/dt^2**2 + 2*N(t)**3*a(t)**3*d^2N/dt^2*da/dt**2*d^2a/dt^2 - 18*N(t)**3*a(t)**2*dN/dt*da/dt**3*d^2a/dt^2 + 16*N(t)**3*a(t)*dN/dt*da/dt**5 + 6*N(t)**2*a(t)**4*dN/dt**2*da/dt*d^3a/dt^3 + 9*N(t)**2*a(t)**4*dN/dt**2*d^2a/dt^2**2 + 6*N(t)**2*a(t)**4*dN/dt*d^2N/dt^2*da/dt*d^2a/dt^2 + N(t)**2*a(t)**4*d^2N/dt^2**2*da/dt**2 - 12*N(t)**2*a(t)**3*dN/dt**2*da/dt**2*d^2a/dt^2 - 2*N(t)**2*a(t)**3*dN/dt*d^2N/dt^2*da/dt**3 + 9*N(t)**2*a(t)**2*dN/dt**2*da/dt**4 - 18*N(t)*a(t)**4*dN/dt**3*da/dt*d^2a/dt^2 - 6*N(t)*a(t)**4*dN/dt**2*d^2N/dt^2*da/dt**2 + 6*N(t)*a(t)**3*dN/dt**3*da/dt**3 + 9*a(t)**4*dN/dt**4*da/dt**2) + \beta*(3*N(t)**2*a(t)**2*d^2a/dt^2**2 + N(t)**2*da/dt**4 - 6*N(t)*a(t)**2*dN/dt*da/dt*d^2a/dt^2 + 3*a(t)**2*dN/dt**2*da/dt**2)*N(t)**2*da/dt**2)/(M_p**2*N(t)**9*a(t)**3)
+has_phi:     False
+  term[1]: coeff=\alpha, dim=6, Mp^-2, ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+  term[2]: coeff=\beta, dim=6, Mp^-2, R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}
+  term[3]: coeff=\gamma, dim=4, Mp^0, ∇^{a}∇_{a}R
+
