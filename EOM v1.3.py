@@ -719,7 +719,7 @@ if __name__ == '__main__':
     #  For each n_terms, process the first N_SAMPLES Lagrangians.
     #  EL computation is expensive for high-dimensional terms;
     #  adjust N_SAMPLES as needed.
-    N_SAMPLES = 3
+    N_SAMPLES = 4
 
     all_results = []
     summary_lines = []
