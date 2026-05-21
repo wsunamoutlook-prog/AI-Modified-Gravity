@@ -1,0 +1,298 @@
+AI Modified Gravity: automatic ghost-free Lagrangian H(z) scan
+==============================================================================
+Output directory: /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1
+Run time: 163.57 s
+Mode: eft_scan
+Mp_eff (Lambda_cut/H0): 1
+Data choice: combined; N_data=39; z_max=2.400
+Parsed Lagrangians: 159
+Built nontrivial IVP models: 35
+Samples per model: 200
+Accepted samples: 1652
+
+Physics conventions
+- Uses x=ln(a)=-ln(1+z), h=H/H0, varphi=phi/Mpred, q=dvarphi/dln(a).
+- a0 and h0 are fixed to 1. q0 is solved from E_N(x=0)=0 for scalar models.
+- rho_m0 is sampled as rho_bar=3 Omega_m0; no Omega_Lambda is assumed in the MG scan.
+- Mpred is the reduced Planck mass; physical values are restored only after solving.
+- Ranking uses chi2 plus AIC/BIC penalties; AIC=chi2+2k, BIC=chi2+k ln N.
+
+Flat-LambdaCDM reference fit to the same H(z) table, for benchmark only
+  chi2=19.5987, chi2/N=0.502531, AIC=23.5987, BIC=26.9258
+  H0=69.95, Omega_m0=0.265
+
+Best sample by AIC
+  Lagrangian #521
+  chi2=35.3495, chi2/N=0.906397, AIC=47.3495, BIC=57.3309, k=6
+  max |constraint|=6.107e-08
+  General: √(-g) [ \alpha M_p^-1 · φ · ∇^{a}∇_{a}R  +  \beta M_p^-1 · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \delta M_p^2 · φ · φ  +  \epsilon M_p^-1 · φ · R^{ab} · R_{ab}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+  Ghost-free relations: \alpha = 0.0  (determined); \beta = -\epsilon  (determined); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = \epsilon  (free)
+  Free symbols in final EOM: delta, epsilon
+  Parameters:
+    H0_km_s_Mpc = 66.7941147657
+    Mp_eff_Lcut_over_H0 = 1
+    Omega_m0 = 0.231501006359
+    delta = -0.000285161088571
+    eps_HM_H0_over_Mp = 5.85132629548e-61
+    epsilon = -1.20733499104
+    mu_m_over_H0 = 0.277968606918
+    q0_dvarphi_dln_a = -1.57607533116
+    rho_bar = 0.694503019077
+    varphi0_phi_over_Mp = 23.1724298188
+
+H(z) residuals at data points
+  z=0.07: H_obs=69, sigma=19.6, H_model=69.7708, pull=0.03933
+  z=0.09: H_obs=69, sigma=12, H_model=70.6754, pull=0.1396
+  z=0.12: H_obs=68.6, sigma=26.2, H_model=72.0735, pull=0.1326
+  z=0.17: H_obs=83, sigma=8, H_model=74.5051, pull=-1.062
+  z=0.179: H_obs=75, sigma=4, H_model=74.9551, pull=-0.01122
+  z=0.199: H_obs=75, sigma=5, H_model=75.9676, pull=0.1935
+  z=0.2: H_obs=72.9, sigma=29.6, H_model=76.0187, pull=0.1054
+  z=0.27: H_obs=77, sigma=14, H_model=79.686, pull=0.1919
+  z=0.28: H_obs=88.8, sigma=36.6, H_model=80.2235, pull=-0.2343
+  z=0.352: H_obs=83, sigma=14, H_model=84.1766, pull=0.08404
+  z=0.3802: H_obs=83, sigma=13.5, H_model=85.7592, pull=0.2044
+  z=0.4: H_obs=95, sigma=17, H_model=86.8803, pull=-0.4776
+  z=0.4004: H_obs=77, sigma=10.2, H_model=86.903, pull=0.9709
+  z=0.4247: H_obs=87.1, sigma=11.2, H_model=88.289, pull=0.1062
+  z=0.4497: H_obs=92.8, sigma=12.9, H_model=89.7253, pull=-0.2383
+  z=0.47: H_obs=89, sigma=49.6, H_model=90.8987, pull=0.03828
+  z=0.4783: H_obs=80.9, sigma=9, H_model=91.3801, pull=1.164
+  z=0.48: H_obs=97, sigma=62, H_model=91.4788, pull=-0.08905
+  z=0.593: H_obs=104, sigma=13, H_model=98.1156, pull=-0.4526
+  z=0.68: H_obs=92, sigma=8, H_model=103.301, pull=1.413
+  z=0.75: H_obs=98.8, sigma=33.6, H_model=107.506, pull=0.2591
+  z=0.781: H_obs=105, sigma=12, H_model=109.375, pull=0.3646
+  z=0.8: H_obs=113.1, sigma=25.22, H_model=110.522, pull=-0.1022
+  z=0.875: H_obs=125, sigma=17, H_model=115.063, pull=-0.5845
+  z=0.88: H_obs=90, sigma=40, H_model=115.366, pull=0.6342
+  z=0.9: H_obs=117, sigma=23, H_model=116.58, pull=-0.01827
+  z=1.037: H_obs=154, sigma=20, H_model=124.915, pull=-1.454
+  z=1.3: H_obs=168, sigma=17, H_model=140.979, pull=-1.589
+  z=1.363: H_obs=160, sigma=33.6, H_model=144.834, pull=-0.4514
+  z=1.43: H_obs=177, sigma=18, H_model=148.935, pull=-1.559
+  z=1.53: H_obs=140, sigma=14, H_model=155.059, pull=1.076
+  z=1.75: H_obs=202, sigma=40, H_model=168.538, pull=-0.8366
+  z=1.965: H_obs=186.5, sigma=50.4, H_model=181.715, pull=-0.09494
+  z=0.38: H_obs=81.5, sigma=1.9, H_model=85.7479, pull=2.236
+  z=0.51: H_obs=90.4, sigma=1.9, H_model=93.2271, pull=1.488
+  z=0.61: H_obs=97.3, sigma=2.1, H_model=99.1246, pull=0.8689
+  z=1.48: H_obs=153.81, sigma=6.39, H_model=151.996, pull=-0.2838
+  z=2.33: H_obs=224, sigma=8, H_model=204.089, pull=-2.489
+  z=2.4: H_obs=226, sigma=8, H_model=208.381, pull=-2.202
+
+Top models by AIC
+  01. L#521: chi2=35.3495, AIC=47.3495, BIC=57.3309, k=6, maxC=6.11e-08
+      General: √(-g) [ \alpha M_p^-1 · φ · ∇^{a}∇_{a}R  +  \beta M_p^-1 · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \delta M_p^2 · φ · φ  +  \epsilon M_p^-1 · φ · R^{ab} · R_{ab}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = -\epsilon  (determined); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = \epsilon  (free)
+      params: H0_km_s_Mpc=66.79, Mp_eff_Lcut_over_H0=1, Omega_m0=0.2315, delta=-0.0002852, epsilon=-1.207, mu_m_over_H0=0.278, q0_dvarphi_dln_a=-1.576, rho_bar=0.6945, varphi0_phi_over_Mp=23.17
+  02. L#426: chi2=213.341, AIC=227.341, BIC=238.986, k=7, maxC=1.70e-07
+      General: √(-g) [ \alpha M_p^-1 · ∇^{a}∇_{a}φ · R  +  \beta M_p^-2 · φ · φ · φ · φ · R  +  \gamma M_p^-2 · φ · φ · φ · φ · φ · φ  +  \delta M_p^1 · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = \gamma  (free); \delta = \delta  (free)
+      params: H0_km_s_Mpc=65.31, Mp_eff_Lcut_over_H0=1, Omega_m0=0.2857, beta=-0.0623, delta=0.001761, gamma=0.05249, mu_m_over_H0=0.4007, q0_dvarphi_dln_a=-0.1442, rho_bar=0.857, varphi0_phi_over_Mp=-2.981
+  03. L#340: chi2=237.405, AIC=249.405, BIC=259.387, k=6, maxC=2.98e-07
+      General: √(-g) [ \alpha M_p^-2 · ∇^{a}φ · ∇^{b}φ · R_{ab}  +  \beta M_p^2 · R  +  \gamma M_p^-2 · φ · φ · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = \gamma  (free)
+      params: H0_km_s_Mpc=63.77, Mp_eff_Lcut_over_H0=1, Omega_m0=0.1588, beta=0.0003519, gamma=-2.752e-05, mu_m_over_H0=0.01321, q0_dvarphi_dln_a=-11.13, rho_bar=0.4763, varphi0_phi_over_Mp=28.99
+  04. L#639: chi2=243.897, AIC=257.897, BIC=269.542, k=7, maxC=7.62e-07
+      General: √(-g) [ \alpha M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta · ∇^{a}φ · ∇_{a}φ  +  \gamma M_p^-2 · ∇^{a}R · ∇_{a}R  +  \delta M_p^-1 · ∇^{a}∇^{b}φ · R_{ab}  +  \epsilon M_p^-2 · φ · φ · ∇^{a}φ · ∇_{a}φ  +  \zeta M_p^2 · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = 0.0  (determined); \epsilon = \epsilon  (free); \zeta = \zeta  (free)
+      params: H0_km_s_Mpc=74.39, Mp_eff_Lcut_over_H0=1, Omega_m0=0.4268, beta=-0.07764, epsilon=-2.548e-06, mu_m_over_H0=0.1264, q0_dvarphi_dln_a=-0.3679, rho_bar=1.28, varphi0_phi_over_Mp=44.73, zeta=2.888
+  05. L#425: chi2=262.518, AIC=274.518, BIC=284.5, k=6, maxC=7.95e-05
+      General: √(-g) [ \alpha M_p^-1 · φ · R · R  +  \beta M_p^-1 · φ · φ · ∇^{a}∇_{a}φ  +  \gamma M_p^-1 · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \delta M_p^-2 · φ · φ · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = \delta  (free)
+      params: H0_km_s_Mpc=65.67, Mp_eff_Lcut_over_H0=1, Omega_m0=0.3003, beta=-4.848, delta=-0.01688, mu_m_over_H0=0.3383, q0_dvarphi_dln_a=10.33, rho_bar=0.9008, varphi0_phi_over_Mp=-25.28
+  06. L#630: chi2=385.046, AIC=397.046, BIC=407.027, k=6, maxC=9.45e-06
+      General: √(-g) [ \alpha M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta M_p^-2 · φ · φ · R · R  +  \gamma · φ · ∇^{a}∇_{a}φ  +  \delta M_p^-2 · φ · φ · φ · φ · R  +  \epsilon M_p^-2 · R_{ab} · R^{adef} · R^{b}_{def}  +  \zeta M_p^-1 · φ · R · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = \delta  (free); \epsilon = 0.0  (determined); \zeta = 0.0  (determined)
+      params: H0_km_s_Mpc=68.17, Mp_eff_Lcut_over_H0=1, Omega_m0=0.1731, delta=0.002056, gamma=0.06491, mu_m_over_H0=3.49, q0_dvarphi_dln_a=5.37, rho_bar=0.5194, varphi0_phi_over_Mp=14.08
+  07. L#338: chi2=398.852, AIC=408.852, BIC=417.17, k=5, maxC=5.22e-05
+      General: √(-g) [ \alpha M_p^-2 · R^{ab} · R^{d}_{a} · R_{bd}  +  \beta M_p^-2 · φ · ∇^{a}∇_{a}φ · R  +  \gamma M_p^-2 · φ · φ · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free)
+      params: H0_km_s_Mpc=60.06, Mp_eff_Lcut_over_H0=1, Omega_m0=0.4258, gamma=8.56e-05, mu_m_over_H0=2.378, q0_dvarphi_dln_a=-15.84, rho_bar=1.277, varphi0_phi_over_Mp=-49.61
+  08. L#526: chi2=644.633, AIC=656.633, BIC=666.614, k=6, maxC=1.81e-05
+      General: √(-g) [ \alpha M_p^-2 · φ · φ · φ · φ · R  +  \beta · φ · ∇^{a}∇_{a}φ  +  \gamma M_p^-2 · ∇^{a}φ · ∇^{b}φ · R_{ab}  +  \delta M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \epsilon M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = 0.0  (determined); \epsilon = 0.0  (determined)
+      params: H0_km_s_Mpc=74.7, Mp_eff_Lcut_over_H0=1, Omega_m0=0.4453, alpha=0.0001663, beta=-8.289, mu_m_over_H0=0.215, q0_dvarphi_dln_a=-17.36, rho_bar=1.336, varphi0_phi_over_Mp=46.37
+  09. L#224: chi2=658.203, AIC=668.203, BIC=676.521, k=5, maxC=2.16e-07
+      General: √(-g) [ \alpha M_p^-1 · φ · φ · φ · R  +  \beta M_p^-2 · ∇^{a}∇_{a}R · R^{c}_{c}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined)
+      params: H0_km_s_Mpc=61.34, Mp_eff_Lcut_over_H0=1, Omega_m0=0.3091, alpha=-0.005373, mu_m_over_H0=0.605, q0_dvarphi_dln_a=-0.3777, rho_bar=0.9274, varphi0_phi_over_Mp=-5.549
+  10. L#427: chi2=660.654, AIC=672.654, BIC=682.635, k=6, maxC=7.00e-05
+      General: √(-g) [ \alpha · φ · φ · R  +  \beta M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \gamma M_p^-1 · φ · φ · φ · φ · φ  +  \delta M_p^-2 · φ · φ · ∇^{a}∇_{a}R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined)
+      params: H0_km_s_Mpc=69.93, Mp_eff_Lcut_over_H0=1, Omega_m0=0.1585, alpha=-0.3002, gamma=1.532e-05, mu_m_over_H0=0.2965, q0_dvarphi_dln_a=-11.31, rho_bar=0.4756, varphi0_phi_over_Mp=37.41
+  11. L#628: chi2=702.668, AIC=712.668, BIC=720.985, k=5, maxC=2.36e-07
+      General: √(-g) [ \alpha M_p^-2 · φ · φ · ∇^{a}∇_{a}R  +  \beta M_p^-2 · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \gamma M_p^-1 · φ · φ · φ · R  +  \delta M_p^-1 · φ · ∇^{a}∇_{a}R  +  \epsilon M_p^-2 · R · R · R  +  \zeta M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = 0.0  (determined)
+      params: H0_km_s_Mpc=66.62, Mp_eff_Lcut_over_H0=1, Omega_m0=0.2313, gamma=2.916e-05, mu_m_over_H0=0.1071, q0_dvarphi_dln_a=-0.3215, rho_bar=0.6938, varphi0_phi_over_Mp=36.89
+  12. L#537: chi2=856.886, AIC=870.886, BIC=882.531, k=7, maxC=4.22e-07
+      General: √(-g) [ \alpha M_p^-1 · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta · φ · φ · φ · φ  +  \gamma M_p^-2 · φ · φ · φ · φ · R  +  \delta M_p^-2 · φ · ∇^{a}φ · ∇_{a}R  +  \epsilon M_p^-2 · φ · φ · ∇^{a}φ · ∇_{a}φ  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = \gamma  (free); \delta = 0.0  (determined); \epsilon = \epsilon  (free)
+      params: H0_km_s_Mpc=69.69, Mp_eff_Lcut_over_H0=1, Omega_m0=0.1723, beta=3.268e-05, epsilon=0.001253, gamma=-4.826e-06, mu_m_over_H0=0.002147, q0_dvarphi_dln_a=-1.063, rho_bar=0.5168, varphi0_phi_over_Mp=-30.71
+  13. L#528: chi2=1047.06, AIC=1061.06, BIC=1072.71, k=7, maxC=3.18e-06
+      General: √(-g) [ \alpha M_p^1 · φ · R  +  \beta M_p^-2 · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \gamma M_p^-1 · φ · φ · ∇^{a}∇_{a}φ  +  \delta M_p^2 · φ · φ  +  \epsilon M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = \delta  (free); \epsilon = 0.0  (determined)
+      params: H0_km_s_Mpc=67.03, Mp_eff_Lcut_over_H0=1, Omega_m0=0.4416, alpha=-3.127, delta=-4.022e-06, gamma=-0.004099, mu_m_over_H0=1.486, q0_dvarphi_dln_a=0.3281, rho_bar=1.325, varphi0_phi_over_Mp=-16.58
+  14. L#321: chi2=1054.25, AIC=1066.25, BIC=1076.23, k=6, maxC=7.44e-08
+      General: √(-g) [ \alpha M_p^-1 · φ · R^{ab} · R_{ab}  +  \beta M_p^2 · φ · φ  +  \gamma M_p^-2 · φ · φ · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = \gamma  (free)
+      params: H0_km_s_Mpc=65.12, Mp_eff_Lcut_over_H0=1, Omega_m0=0.3975, beta=-0.007758, gamma=3.38e-05, mu_m_over_H0=0.1924, q0_dvarphi_dln_a=-0.1347, rho_bar=1.193, varphi0_phi_over_Mp=-12.64
+  15. L#623: chi2=1071.04, AIC=1081.04, BIC=1089.36, k=5, maxC=6.46e-07
+      General: √(-g) [ \alpha M_p^-2 · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \beta M_p^-2 · φ · φ · ∇^{a}∇_{a}R  +  \gamma M_p^-2 · φ · φ · φ · φ · R  +  \delta M_p^-1 · ∇^{a}∇_{a}φ · R  +  \epsilon M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \zeta · R^{ab} · R_{ab}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = 0.0  (determined)
+      params: H0_km_s_Mpc=63.56, Mp_eff_Lcut_over_H0=1, Omega_m0=0.346, gamma=-3.683e-05, mu_m_over_H0=0.05732, q0_dvarphi_dln_a=9.483, rho_bar=1.038, varphi0_phi_over_Mp=-26.63
+  16. L#428: chi2=1084.43, AIC=1098.43, BIC=1110.08, k=7, maxC=3.48e-05
+      General: √(-g) [ \alpha M_p^-1 · φ · φ · φ · R  +  \beta · R · R  +  \gamma M_p^-1 · φ · φ · ∇^{a}∇_{a}φ  +  \delta M_p^1 · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = \delta  (free)
+      params: H0_km_s_Mpc=71.8, Mp_eff_Lcut_over_H0=1, Omega_m0=0.3727, alpha=0.0008662, delta=0.001206, gamma=4.487e-06, mu_m_over_H0=0.7819, q0_dvarphi_dln_a=7.271, rho_bar=1.118, varphi0_phi_over_Mp=40.24
+  17. L#535: chi2=1481.92, AIC=1491.92, BIC=1500.24, k=5, maxC=7.29e-07
+      General: √(-g) [ \alpha M_p^-1 · φ · φ · φ · R  +  \beta M_p^-2 · φ · ∇^{a}∇_{a}φ · R  +  \gamma M_p^-2 · R · R · R  +  \delta M_p^-2 · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \epsilon M_p^-1 · φ · R^{ab} · R_{ab}  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = 0.0  (determined); \epsilon = 0.0  (determined)
+      params: H0_km_s_Mpc=71.62, Mp_eff_Lcut_over_H0=1, Omega_m0=0.4114, alpha=-0.001463, mu_m_over_H0=0.02498, q0_dvarphi_dln_a=-14.48, rho_bar=1.234, varphi0_phi_over_Mp=29.8
+  18. L#440: chi2=1819.02, AIC=1833.02, BIC=1844.67, k=7, maxC=1.33e-06
+      General: √(-g) [ \alpha · ∇^{a}∇_{a}R  +  \beta · φ · φ · R  +  \gamma M_p^1 · φ · R  +  \delta M_p^-1 · φ · ∇^{a}φ · ∇_{a}φ  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = \alpha  (free); \beta = \beta  (free); \gamma = \gamma  (free); \delta = \delta  (free)
+      params: H0_km_s_Mpc=61.93, Mp_eff_Lcut_over_H0=1, Omega_m0=0.3046, beta=-0.0003959, delta=-6.251e-06, gamma=4.285, mu_m_over_H0=4.594, q0_dvarphi_dln_a=-0.5643, rho_bar=0.9138, varphi0_phi_over_Mp=1.303
+  19. L#433: chi2=1945.27, AIC=1957.27, BIC=1967.25, k=6, maxC=9.26e-05
+      General: √(-g) [ \alpha M_p^-2 · R · R^{ab} · R_{ab}  +  \beta M_p^-2 · φ · φ · ∇^{a}∇_{a}R  +  \gamma M_p^2 · φ · φ  +  \delta · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = \delta  (free)
+      params: H0_km_s_Mpc=61.71, Mp_eff_Lcut_over_H0=1, Omega_m0=0.3896, delta=4.008, gamma=-3.21e-05, mu_m_over_H0=7.533, q0_dvarphi_dln_a=-1.879, rho_bar=1.169, varphi0_phi_over_Mp=-20.87
+  20. L#238: chi2=2406.7, AIC=2416.7, BIC=2425.01, k=5, maxC=5.50e-05
+      General: √(-g) [ \alpha M_p^-2 · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \beta M_p^-1 · φ · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free)
+      params: H0_km_s_Mpc=68.02, Mp_eff_Lcut_over_H0=1, Omega_m0=0.1518, beta=-0.01206, mu_m_over_H0=3.101, q0_dvarphi_dln_a=-9.123, rho_bar=0.4554, varphi0_phi_over_Mp=-39.43
+
+Skipped / structurally rejected models
+  L#1: no e-fold evolution equation for h_x/q_x
+  L#3: no e-fold evolution equation for h_x/q_x
+  L#4: no e-fold evolution equation for h_x/q_x
+  L#5: no e-fold evolution equation for h_x/q_x
+  L#6: no e-fold evolution equation for h_x/q_x
+  L#8: no e-fold evolution equation for h_x/q_x
+  L#9: no e-fold evolution equation for h_x/q_x
+  L#10: no e-fold evolution equation for h_x/q_x
+  L#11: no e-fold evolution equation for h_x/q_x
+  L#12: no e-fold evolution equation for h_x/q_x
+  L#13: no e-fold evolution equation for h_x/q_x
+  L#14: no e-fold evolution equation for h_x/q_x
+  L#15: no e-fold evolution equation for h_x/q_x
+  L#16: no e-fold evolution equation for h_x/q_x
+  L#17: no e-fold evolution equation for h_x/q_x
+  L#18: no e-fold evolution equation for h_x/q_x
+  L#19: no e-fold evolution equation for h_x/q_x
+  L#20: no e-fold evolution equation for h_x/q_x
+  L#22: no e-fold evolution equation for h_x/q_x
+  L#23: no e-fold evolution equation for h_x/q_x
+  L#24: no e-fold evolution equation for h_x/q_x
+  L#26: no e-fold evolution equation for h_x/q_x
+  L#27: no e-fold evolution equation for h_x/q_x
+  L#28: no e-fold evolution equation for h_x/q_x
+  L#29: no e-fold evolution equation for h_x/q_x
+  L#30: no e-fold evolution equation for h_x/q_x
+  L#31: no e-fold evolution equation for h_x/q_x
+  L#32: no e-fold evolution equation for h_x/q_x
+  L#33: no e-fold evolution equation for h_x/q_x
+  L#34: no e-fold evolution equation for h_x/q_x
+  L#35: no e-fold evolution equation for h_x/q_x
+  L#36: no e-fold evolution equation for h_x/q_x
+  L#37: no e-fold evolution equation for h_x/q_x
+  L#38: no e-fold evolution equation for h_x/q_x
+  L#39: no e-fold evolution equation for h_x/q_x
+  L#40: no e-fold evolution equation for h_x/q_x
+  L#121: q_x not determined by coupled scalar EOM
+  L#122: q_x not determined by coupled scalar EOM
+  L#123: q_x not determined by coupled scalar EOM
+  L#124: q_x not determined by coupled scalar EOM
+  L#125: q_x not determined by coupled scalar EOM
+  L#126: q_x not determined by coupled scalar EOM
+  L#127: q_x not determined by coupled scalar EOM
+  L#128: q_x not determined by coupled scalar EOM
+  L#129: no e-fold evolution equation for h_x/q_x
+  L#130: q_x not determined by coupled scalar EOM
+  L#131: q_x not determined by coupled scalar EOM
+  L#132: q_x not determined by coupled scalar EOM
+  L#133: q_x not determined by coupled scalar EOM
+  L#134: q_x not determined by coupled scalar EOM
+  L#135: q_x not determined by coupled scalar EOM
+  L#136: q_x not determined by coupled scalar EOM
+  L#137: q_x not determined by coupled scalar EOM
+  L#138: q_x not determined by coupled scalar EOM
+  L#139: q_x not determined by coupled scalar EOM
+  L#140: q_x not determined by coupled scalar EOM
+  L#221: q_x not determined by coupled scalar EOM
+  L#222: q_x not determined by coupled scalar EOM
+  L#223: q_x not determined by coupled scalar EOM
+  L#225: q_x not determined by coupled scalar EOM
+  L#226: q_x not determined by coupled scalar EOM
+  L#227: no e-fold evolution equation for h_x/q_x
+  L#228: q_x not determined by coupled scalar EOM
+  L#229: q_x not determined by coupled scalar EOM
+  L#230: q_x not determined by coupled scalar EOM
+  L#231: q_x not determined by coupled scalar EOM
+  L#232: q_x not determined by coupled scalar EOM
+  L#233: q_x not determined by coupled scalar EOM
+  L#234: q_x not determined by coupled scalar EOM
+  L#235: q_x not determined by coupled scalar EOM
+  L#236: q_x not determined by coupled scalar EOM
+  L#237: q_x not determined by coupled scalar EOM
+  L#239: q_x not determined by coupled scalar EOM
+  L#240: q_x not determined by coupled scalar EOM
+  L#322: q_x not determined by coupled scalar EOM
+  L#323: q_x not determined by coupled scalar EOM
+  L#324: q_x not determined by coupled scalar EOM
+  L#325: q_x not determined by coupled scalar EOM
+  L#326: q_x not determined by coupled scalar EOM
+  L#327: q_x not determined by coupled scalar EOM
+  L#328: q_x not determined by coupled scalar EOM
+  L#329: q_x not determined by coupled scalar EOM
+  L#330: q_x not determined by coupled scalar EOM
+  L#331: q_x not determined by coupled scalar EOM
+  L#332: q_x not determined by coupled scalar EOM
+  L#333: q_x not determined by coupled scalar EOM
+  L#334: q_x not determined by coupled scalar EOM
+  L#335: q_x not determined by coupled scalar EOM
+  L#336: q_x not determined by coupled scalar EOM
+  L#337: q_x not determined by coupled scalar EOM
+  L#339: q_x not determined by coupled scalar EOM
+  L#421: q_x not determined by coupled scalar EOM
+  L#422: q_x not determined by coupled scalar EOM
+  L#423: q_x not determined by coupled scalar EOM
+  L#424: q_x not determined by coupled scalar EOM
+  L#429: q_x not determined by coupled scalar EOM
+  L#430: q_x not determined by coupled scalar EOM
+  L#431: q_x not determined by coupled scalar EOM
+  L#432: q_x not determined by coupled scalar EOM
+  L#435: q_x not determined by coupled scalar EOM
+  L#437: q_x not determined by coupled scalar EOM
+  L#522: q_x not determined by coupled scalar EOM
+  L#524: q_x not determined by coupled scalar EOM
+  L#525: q_x not determined by coupled scalar EOM
+  L#529: q_x not determined by coupled scalar EOM
+  L#531: q_x not determined by coupled scalar EOM
+  L#532: q_x not determined by coupled scalar EOM
+  L#533: q_x not determined by coupled scalar EOM
+  L#534: q_x not determined by coupled scalar EOM
+  L#538: q_x not determined by coupled scalar EOM
+  L#539: q_x not determined by coupled scalar EOM
+  L#540: q_x not determined by coupled scalar EOM
+  L#621: q_x not determined by coupled scalar EOM
+  L#622: q_x not determined by coupled scalar EOM
+  L#624: q_x not determined by coupled scalar EOM
+  L#625: q_x not determined by coupled scalar EOM
+  L#626: q_x not determined by coupled scalar EOM
+  L#627: q_x not determined by coupled scalar EOM
+  L#629: q_x not determined by coupled scalar EOM
+  L#632: q_x not determined by coupled scalar EOM
+  L#634: q_x not determined by coupled scalar EOM
+  L#636: q_x not determined by coupled scalar EOM
+  L#637: q_x not determined by coupled scalar EOM
+  L#638: q_x not determined by coupled scalar EOM
+
+Files written
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1/scan_report.txt
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1/model_ranking.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1/accepted_samples_summary.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1/best_solution.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1/best_fit_Hz.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_3/Mp_1/reject_reasons_by_model.csv

@@ -1,0 +1,238 @@
+Top fitted Lagrangians: forms, initial conditions, and numerical-fit parameters
+============================================================================================
+
+Output directory: /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2
+EOM summary source: external file only; no embedded EOM fallback is used.
+Lagrangian pkl: /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/lagrangians.pkl
+Ranking source: /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/model_ranking.csv
+
+Numerical convention
+- Independent variable: x = ln(a) = -ln(1+z).
+- Dimensionless Hubble variable: h(x) = H(x) / H0.
+- Scalar variable: varphi(x) = phi(x) / Mpred.
+- Scalar slope: q(x) = d varphi / d ln(a).
+- EFT cutoff ratio: lambda_H = Lambda / H0  (dimensionless).
+- Universal initial conditions: x0 = 0, a0 = 1, h0 = 1.
+- Physical adot0 is not independently sampled; h0=1 is equivalent to adot0 = H0_phys.
+- Matter density in the code: rho_bar = rho_m0/(Mpred^2 H0^2) = 3 Omega_m0.
+- If scalar is present, q0 is selected by the Hamiltonian/Friedmann constraint E_N(x=0)=0.
+- Mpred is the reduced Planck mass, Mpred = 2.435e27 eV (PHYSICAL, not set to 1).
+- Physical EFT mode keeps eps_HM = H0/Mpred inside the equations.
+- EFT validity cut: max_x |h|/lambda_H < 0.1 (enabled=True).
+- EH coefficient fixed to 0.5 when detected (enabled=True).
+- Physical Lambda [eV] = lambda_H * H0 [eV].
+
+
+============================================================================================
+Rank 1: Lagrangian #530
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \beta Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \epsilon Λ^{-2} · ∇^{a}∇_{a}R )  +  \alpha Λ^{-2} · φ · φ · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma Λ^{-2} · φ · φ · ∇^{a}∇_{a}R  +  \delta · φ · φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-2, dim=6, non-minimal: φ · φ · R^{bcd}_{a} · R^{a}_{bcd}
+    [2] coeff=\beta, Λ^-4, dim=6: R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+    [3] coeff=\gamma, Λ^-2, dim=6, non-minimal: φ · φ · ∇^{a}∇_{a}R
+    [4] coeff=\delta, Λ^0, dim=4, non-minimal: φ · φ · R
+    [5] coeff=\epsilon, Λ^-2, dim=4: ∇^{a}∇_{a}R
+    [6] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ ∇_νφ
+    [7] coeff=1, Λ^0, dim=4, fixed, matter: -½ m² φ²
+
+Fit metrics
+  chi2            = 257.48028
+  chi2 per point  = 6.6020584
+  AIC             = 267.48028
+  BIC             = 275.79808
+  k_params        = 5
+  max |E_N|       = 3.11727957e-05
+
+Initial conditions and sampled/fitted values
+  x0 = ln(a0)                       = 0
+  a0                                = 1
+  h0 = H0/H0                        = 1
+  adot0 / H0_phys                   = 1
+  H0_phys [km/s/Mpc]                = 66.329831
+  H0_phys [eV]                      = 1.41489423e-33
+  Mpred [eV]                        = 2.43500000e+27
+  eps_HM = H0/Mpred                 = 5.81065392e-61
+  lambda_H = Lambda/H0              = 83248.593
+  Lambda [eV]                       = 1.17787954e-28
+  Omega_m0                          = 0.1999791
+  rho_bar = rho_m0/(Mpred^2 H0^2)   = 0.59993729
+  varphi0 = phi0/Mpred              = 46.291419
+  phi0 [eV]                         = 1.12719605e+29
+  q0 = dvarphi/dln(a)|0             = 11.558867
+  phidot0/(Mpred H0) = h0*q0        = 11.558867
+  mu = m/H0                         = 3.0588905
+  m [eV]                            = 4.32800653e-33
+
+Free coupling values used in this best numerical sample
+  delta            = 0.5235287
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_01_lagrangian_530_solution.csv
+
+============================================================================================
+Rank 2: Lagrangian #536
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \alpha · R  +  \gamma Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \epsilon Λ^{-2} · ∇^{a}∇_{a}R )  +  \beta Λ^{-2} · φ · φ · ∇^{a}∇_{a}R  +  \delta Λ^{-2} · ∇^{a}φ · ∇_{a}φ · R  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^0, dim=2: R
+    [2] coeff=\beta, Λ^-2, dim=6, non-minimal: φ · φ · ∇^{a}∇_{a}R
+    [3] coeff=\gamma, Λ^-4, dim=6: R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+    [4] coeff=\delta, Λ^-2, dim=6, non-minimal: ∇^{a}φ · ∇_{a}φ · R
+    [5] coeff=\epsilon, Λ^-2, dim=4: ∇^{a}∇_{a}R
+    [6] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ ∇_νφ
+    [7] coeff=1, Λ^0, dim=4, fixed, matter: -½ m² φ²
+
+Fit metrics
+  chi2            = 405.5723
+  chi2 per point  = 10.39929
+  AIC             = 413.5723
+  BIC             = 420.22654
+  k_params        = 4
+  max |E_N|       = 1.76098502e-07
+
+Initial conditions and sampled/fitted values
+  x0 = ln(a0)                       = 0
+  a0                                = 1
+  h0 = H0/H0                        = 1
+  adot0 / H0_phys                   = 1
+  H0_phys [km/s/Mpc]                = 60.158186
+  H0_phys [eV]                      = 1.28324569e-33
+  Mpred [eV]                        = 2.43500000e+27
+  eps_HM = H0/Mpred                 = 5.27000282e-61
+  lambda_H = Lambda/H0              = 15997.877
+  Lambda [eV]                       = 2.05292069e-29
+  Omega_m0                          = 0.29965029
+  rho_bar = rho_m0/(Mpred^2 H0^2)   = 0.89895088
+  varphi0 = phi0/Mpred              = -31.702595
+  phi0 [eV]                         = -7.71958188e+28
+  q0 = dvarphi/dln(a)|0             = 0.30024007
+  phidot0/(Mpred H0) = h0*q0        = 0.30024007
+  mu = m/H0                         = 0.063963073
+  m [eV]                            = 8.20803373e-35
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_02_lagrangian_536_solution.csv
+
+============================================================================================
+Rank 3: Lagrangian #633
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \beta · R  +  \gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def} )  +  \delta Λ^{-2} · φ · ∇^{a}∇^{b}φ · R_{ab}  +  \zeta Λ^{-2} · φ · ∇^{a}∇_{a}φ · R  +  \alpha Λ^{1} · ∇^{a}∇_{a}φ  +  \epsilon · ∇^{a}φ · ∇_{a}φ  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^1, dim=3, scalar: ∇^{a}∇_{a}φ
+    [2] coeff=\beta, Λ^0, dim=2: R
+    [3] coeff=\gamma, Λ^-4, dim=6: R_{ab} · R^{adef} · R^{b}_{def}
+    [4] coeff=\delta, Λ^-2, dim=6, non-minimal: φ · ∇^{a}∇^{b}φ · R_{ab}
+    [5] coeff=\epsilon, Λ^0, dim=4, scalar: ∇^{a}φ · ∇_{a}φ
+    [6] coeff=\zeta, Λ^-2, dim=6, non-minimal: φ · ∇^{a}∇_{a}φ · R
+    [7] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ ∇_νφ
+    [8] coeff=1, Λ^0, dim=4, fixed, matter: -½ m² φ²
+
+Fit metrics
+  chi2            = 427.32324
+  chi2 per point  = 10.957006
+  AIC             = 437.32324
+  BIC             = 445.64105
+  k_params        = 5
+  max |E_N|       = 1.45531049e-07
+
+Initial conditions and sampled/fitted values
+  x0 = ln(a0)                       = 0
+  a0                                = 1
+  h0 = H0/H0                        = 1
+  adot0 / H0_phys                   = 1
+  H0_phys [km/s/Mpc]                = 62.869022
+  H0_phys [eV]                      = 1.34107105e-33
+  Mpred [eV]                        = 2.43500000e+27
+  eps_HM = H0/Mpred                 = 5.50747866e-61
+  lambda_H = Lambda/H0              = 8934.835
+  Lambda [eV]                       = 1.19822487e-29
+  Omega_m0                          = 0.39175862
+  rho_bar = rho_m0/(Mpred^2 H0^2)   = 1.1752758
+  varphi0 = phi0/Mpred              = -34.619517
+  phi0 [eV]                         = -8.42985243e+28
+  q0 = dvarphi/dln(a)|0             = 0.25299587
+  phidot0/(Mpred H0) = h0*q0        = 0.25299587
+  mu = m/H0                         = 0.054684218
+  m [eV]                            = 7.33354219e-35
+
+Free coupling values used in this best numerical sample
+  epsilon          = -0.011387088
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_03_lagrangian_633_solution.csv
+
+============================================================================================
+Rank 4: Lagrangian #433
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \alpha Λ^{-4} · R · R^{ab} · R_{ab} )  +  \beta Λ^{-2} · φ · φ · ∇^{a}∇_{a}R  +  \delta · φ · φ · R  +  \gamma Λ^{2} · φ · φ  +  -½ g^{μν} ∇_μφ ∇_νφ  +  -½ m² φ² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-4, dim=6: R · R^{ab} · R_{ab}
+    [2] coeff=\beta, Λ^-2, dim=6, non-minimal: φ · φ · ∇^{a}∇_{a}R
+    [3] coeff=\gamma, Λ^2, dim=2, scalar: φ · φ
+    [4] coeff=\delta, Λ^0, dim=4, non-minimal: φ · φ · R
+    [5] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ ∇_νφ
+    [6] coeff=1, Λ^0, dim=4, fixed, matter: -½ m² φ²
+
+Fit metrics
+  chi2            = 1293.2717
+  chi2 per point  = 33.160812
+  AIC             = 1307.2717
+  BIC             = 1318.9166
+  k_params        = 7
+  max |E_N|       = 4.33378397e-06
+
+Initial conditions and sampled/fitted values
+  x0 = ln(a0)                       = 0
+  a0                                = 1
+  h0 = H0/H0                        = 1
+  adot0 / H0_phys                   = 1
+  H0_phys [km/s/Mpc]                = 65.658153
+  H0_phys [eV]                      = 1.40056654e-33
+  Mpred [eV]                        = 2.43500000e+27
+  eps_HM = H0/Mpred                 = 5.75181331e-61
+  lambda_H = Lambda/H0              = 353.49117
+  Lambda [eV]                       = 4.95087904e-31
+  Omega_m0                          = 0.40536419
+  rho_bar = rho_m0/(Mpred^2 H0^2)   = 1.2160926
+  varphi0 = phi0/Mpred              = -2.5903055
+  phi0 [eV]                         = -6.30739396e+27
+  q0 = dvarphi/dln(a)|0             = -1.2297857
+  phidot0/(Mpred H0) = h0*q0        = -1.2297857
+  mu = m/H0                         = 1.7021667
+  m [eV]                            = 2.38399780e-33
+
+Free coupling values used in this best numerical sample
+  delta            = 2.7543887
+  gamma            = -0.00024389336
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_04_lagrangian_433_solution.csv
+
+============================================================================================
+Generated plots
+============================================================================================
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_01_lagrangian_530_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_02_lagrangian_536_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_03_lagrangian_633_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top_04_lagrangian_433_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result_2/top5_overlay_Hz_fit.png
+
+Interpretation reminder
+- These are numerical IVP solutions sampled over parameter priors, not analytic formulas.
+- In physical EFT mode, fitted coefficients are interpreted with the H0/Mp hierarchy retained.
+- Use SOLVER_MODE=phenomenological only if you intentionally want effective-coupling scans.
+- This single script first scans/fits models, then writes this top-5 summary.
+- Increase N_SAMPLES_PER_MODEL for a more stable random-search ranking.
