@@ -92,7 +92,7 @@ OUTPUT_DIR = make_timestamped_output_dir(BASE_OUTPUT_DIR)
 
 DATA_CHOICE = "combined"
 
-N_SAMPLES_PER_MODEL = int(os.environ.get("N_SAMPLES_PER_MODEL", "100"))
+N_SAMPLES_PER_MODEL = int(os.environ.get("N_SAMPLES_PER_MODEL", "3000"))
 RANDOM_SEED = int(os.environ.get("RANDOM_SEED", "0"))
 
 # Parallel / progress controls
