@@ -1,0 +1,472 @@
+Top fitted Lagrangians: forms, initial conditions, and numerical-fit parameters (v5.0)
+============================================================================================
+
+Base output directory: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result
+Run output directory: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546
+Lagrangian pkl: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/lagrangians.pkl
+Ranking source: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/model_ranking.csv
+
+Numerical convention
+- Independent variable: x = ln(a) = -ln(1+z).
+- Dimensionless Hubble: h(x) = H(x) / H0.
+- Scalar 1: varphi1(x) = phi1(x) / Mp;  q1 = d varphi1 / dx.
+- Scalar 2: varphi2(x) = phi2(x) / Lambda;  q2 = d varphi2 / dx.
+- Masses: mu1 = m1/H0, mu2 = m2/Lambda.
+- Decay constants: fbar1 = f1/Mp, fbar2 = f2/Lambda.
+- EFT cutoff ratio: lambda_H = Lambda / H0.
+- a0 = 1, h0 = 1.  q1_0 solved from E_N(x=0)=0 (or q2_0 for phi2-only models).
+- Mp = 2.435e27 eV (physical reduced Planck mass).
+- Physical Lambda [eV] = lambda_H * H0 [eV].
+
+
+============================================================================================
+Rank 1: Lagrangian #682
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \beta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \gamma · R  +  \epsilon Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \zeta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \alpha Λ^{-4} · ∇^{a}φ1 · ∇_{a}φ1 · R  +  \delta Λ^{-4} · φ1 · φ1 · ∇^{a}∇_{a}R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-4, dim=6, non-minimal: ∇^{a}φ1 · ∇_{a}φ1 · R
+    [2] coeff=\beta, Λ^-4, dim=6: ∇^{c}R^{ab} · ∇_{c}R_{ab}
+    [3] coeff=\gamma, Λ^0, dim=2: R
+    [4] coeff=\delta, Λ^-4, dim=6, non-minimal: φ1 · φ1 · ∇^{a}∇_{a}R
+    [5] coeff=\epsilon, Λ^-4, dim=6: R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+    [6] coeff=\zeta, Λ^-4, dim=6: R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}
+    [7] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ1 ∇_νφ1
+    [8] coeff=1, Λ^0, dim=4, fixed, matter, pot=quadratic: -½ m_1² φ1²
+
+Fit metrics
+  chi2            = 1525.675
+  chi2 per point  = 0.91742331
+  AIC             = 1535.675
+  BIC             = 1562.7569
+  k_params        = 5
+  max |E_N|       = 1.97796160e-05
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 67.013834
+  H0 [eV]                  = 1.42948482e-33
+  eps_HM = H0/Mp            = 5.87057422e-61
+  lambda_H = Lambda/H0      = 721.38999
+  Lambda [eV]               = 1.03121604e-30
+  Omega_m0                  = 0.21589548
+  rho_bar                   = 0.64768643
+  varphi1_0 = phi1_0/Mp     = 4.3797644
+  q1_0 = dvarphi1/dx|0      = -0.41896224
+  mu1 = m1/H0               = 0.48590917
+  fbar1 = f1/Mp              = 14.845856
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_01_lagrangian_682_solution.csv
+
+============================================================================================
+Rank 2: Lagrangian #961
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def}  +  \alpha Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta Λ^{-3} · φ2 · R · R  +  \delta Λ^{-4} · φ2 · ∇^{a}∇^{b}φ2 · R_{ab}  +  \epsilon Λ^{-3} · φ2 · ∇^{a}∇_{a}R  +  \zeta Λ^{-1} · φ2 · R  +  \eta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \theta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \iota Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [2] coeff=\beta, Λ^-3, dim=5, non-minimal: φ2 · R · R
+    [3] coeff=\gamma, Λ^-4, dim=6: R_{ab} · R^{adef} · R^{b}_{def}
+    [4] coeff=\delta, Λ^-4, dim=6, non-minimal: φ2 · ∇^{a}∇^{b}φ2 · R_{ab}
+    [5] coeff=\epsilon, Λ^-3, dim=5, non-minimal: φ2 · ∇^{a}∇_{a}R
+    [6] coeff=\zeta, Λ^-1, dim=3, non-minimal: φ2 · R
+    [7] coeff=\eta, Λ^-3, dim=5, non-minimal: φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [8] coeff=\theta, Λ^-4, dim=6, non-minimal: ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}
+    [9] coeff=\iota, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{ab} · R_{ab}
+    [10] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ2 ∇_νφ2
+    [11] coeff=1, Λ^0, dim=4, fixed, matter, pot=quadratic: -½ m_2² φ2²
+
+Fit metrics
+  chi2            = 1533.024
+  chi2 per point  = 0.92184246
+  AIC             = 1549.024
+  BIC             = 1592.355
+  k_params        = 8
+  max |E_N|       = 3.68767803e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 64.269907
+  H0 [eV]                  = 1.37095359e-33
+  eps_HM = H0/Mp            = 5.63019955e-61
+  lambda_H = Lambda/H0      = 5352.1752
+  Lambda [eV]               = 7.33758380e-30
+  Omega_m0                  = 0.32939665
+  rho_bar                   = 0.98818996
+  varphi2_0 = phi2_0/Lambda = -4.48716
+  q2_0 = dvarphi2/dx|0      = -1.0331228
+  mu2 = m2/Lambda           = 0.011059003
+  fbar2 = f2/Lambda          = 17.222072
+
+Free coupling values
+  iota             = -3.33928560e+06
+  zeta             = -0.42141023
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_02_lagrangian_961_solution.csv
+
+============================================================================================
+Rank 3: Lagrangian #140
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^0, dim=2: R
+    [2] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ1 ∇_νφ1
+    [3] coeff=1, Λ^0, dim=4, fixed, matter, pot=quadratic: -½ m_1² φ1²
+
+Fit metrics
+  chi2            = 1550.4837
+  chi2 per point  = 0.93234139
+  AIC             = 1560.4837
+  BIC             = 1587.5656
+  k_params        = 5
+  max |E_N|       = 9.73299355e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 70.143489
+  H0 [eV]                  = 1.49624410e-33
+  eps_HM = H0/Mp            = 6.14473963e-61
+  lambda_H = Lambda/H0      = 50261.622
+  Lambda [eV]               = 7.52036548e-29
+  Omega_m0                  = 0.24544694
+  rho_bar                   = 0.73634081
+  varphi1_0 = phi1_0/Mp     = -2.6236159
+  q1_0 = dvarphi1/dx|0      = 0.32545422
+  mu1 = m1/H0               = 0.80145574
+  fbar1 = f1/Mp              = 0.01495511
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_03_lagrangian_140_solution.csv
+
+============================================================================================
+Rank 4: Lagrangian #1038
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \alpha Λ^{-2} · R · R  +  \gamma Λ^{-4} · ∇^{a}∇_{a}R · R^{c}_{c}  +  \zeta Λ^{-2} · R^{ab} · R_{ab}  +  \eta Λ^{-4} · ∇^{a}R · ∇_{a}R  +  \theta · R  +  \kappa Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta Λ^{-4} · φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}  +  \delta Λ^{-4} · φ1 · ∇^{a}∇^{b}φ1 · R_{ab}  +  \epsilon Λ^{-4} · ∇^{a}φ1 · ∇^{b}φ1 · R_{ab}  +  \iota Λ^{-3} · ∇^{a}∇_{a}φ1 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-2, dim=4: R · R
+    [2] coeff=\beta, Λ^-4, dim=6, non-minimal: φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}
+    [3] coeff=\gamma, Λ^-4, dim=6: ∇^{a}∇_{a}R · R^{c}_{c}
+    [4] coeff=\delta, Λ^-4, dim=6, non-minimal: φ1 · ∇^{a}∇^{b}φ1 · R_{ab}
+    [5] coeff=\epsilon, Λ^-4, dim=6, non-minimal: ∇^{a}φ1 · ∇^{b}φ1 · R_{ab}
+    [6] coeff=\zeta, Λ^-2, dim=4: R^{ab} · R_{ab}
+    [7] coeff=\eta, Λ^-4, dim=6: ∇^{a}R · ∇_{a}R
+    [8] coeff=\theta, Λ^0, dim=2: R
+    [9] coeff=\iota, Λ^-3, dim=5, non-minimal: ∇^{a}∇_{a}φ1 · R
+    [10] coeff=\kappa, Λ^-4, dim=6: R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}
+    [11] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ1 ∇_νφ1
+    [12] coeff=1, Λ^0, dim=4, fixed, matter, pot=quadratic: -½ m_1² φ1²
+
+Fit metrics
+  chi2            = 1584.0182
+  chi2 per point  = 0.95250646
+  AIC             = 1594.0182
+  BIC             = 1621.1001
+  k_params        = 5
+  max |E_N|       = 3.76047909e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 60.299606
+  H0 [eV]                  = 1.28626235e-33
+  eps_HM = H0/Mp            = 5.28239160e-61
+  lambda_H = Lambda/H0      = 848.96884
+  Lambda [eV]               = 1.09199666e-30
+  Omega_m0                  = 0.4070956
+  rho_bar                   = 1.2212868
+  varphi1_0 = phi1_0/Mp     = 0.95368441
+  q1_0 = dvarphi1/dx|0      = -0.87301167
+  mu1 = m1/H0               = 1.7531042
+  fbar1 = f1/Mp              = 32.431839
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_04_lagrangian_1038_solution.csv
+
+============================================================================================
+Rank 5: Lagrangian #434
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \beta Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-4} · φ2 · ∇^{a}∇_{a}φ2 · R )  +  \alpha Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-2, dim=6, scalar: φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2
+    [2] coeff=\beta, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [3] coeff=\gamma, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{ab} · R_{ab}
+    [4] coeff=\delta, Λ^-4, dim=6, non-minimal: φ2 · ∇^{a}∇_{a}φ2 · R
+    [5] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ2 ∇_νφ2
+    [6] coeff=1, Λ^0, dim=4, fixed, matter, pot=quadratic: -½ m_2² φ2²
+
+Fit metrics
+  chi2            = 1591.1786
+  chi2 per point  = 0.95681215
+  AIC             = 1607.1786
+  BIC             = 1650.5096
+  k_params        = 8
+  max |E_N|       = 1.82322972e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 61.286704
+  H0 [eV]                  = 1.30731832e-33
+  eps_HM = H0/Mp            = 5.36886373e-61
+  lambda_H = Lambda/H0      = 283.00531
+  Lambda [eV]               = 3.69978029e-31
+  Omega_m0                  = 0.18111675
+  rho_bar                   = 0.54335025
+  varphi2_0 = phi2_0/Lambda = -2.9738599
+  q2_0 = dvarphi2/dx|0      = 0.099247499
+  mu2 = m2/Lambda           = 0.58488542
+  fbar2 = f2/Lambda          = 0.01055569
+
+Free coupling values
+  alpha            = -7.62657225e+09
+  gamma            = -6143.5263
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_05_lagrangian_434_solution.csv
+
+============================================================================================
+Rank 6: Lagrangian #622
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \beta Λ^{-2} · R^{bcd}_{a} · R^{a}_{bcd}  +  \alpha Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \delta Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \epsilon Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \zeta Λ^{-4} · φ2 · φ2 · R · R )  +  \gamma Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-4, dim=6, non-minimal: ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}
+    [2] coeff=\beta, Λ^-2, dim=4: R^{bcd}_{a} · R^{a}_{bcd}
+    [3] coeff=\gamma, Λ^-2, dim=6, scalar: φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2
+    [4] coeff=\delta, Λ^-3, dim=5, non-minimal: φ2 · R^{ab} · R_{ab}
+    [5] coeff=\epsilon, Λ^-3, dim=5, non-minimal: φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [6] coeff=\zeta, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R · R
+    [7] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ2 ∇_νφ2
+    [8] coeff=1, Λ^0, dim=4, fixed, matter, pot=quadratic: -½ m_2² φ2²
+
+Fit metrics
+  chi2            = 1591.1788
+  chi2 per point  = 0.95681225
+  AIC             = 1607.1788
+  BIC             = 1650.5098
+  k_params        = 8
+  max |E_N|       = 1.09443460e-05
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 61.300353
+  H0 [eV]                  = 1.30760947e-33
+  eps_HM = H0/Mp            = 5.37005943e-61
+  lambda_H = Lambda/H0      = 834.10685
+  Lambda [eV]               = 1.09068601e-30
+  Omega_m0                  = 0.44033607
+  rho_bar                   = 1.3210082
+  varphi2_0 = phi2_0/Lambda = 0.76652083
+  q2_0 = dvarphi2/dx|0      = 3.38763089e-05
+  mu2 = m2/Lambda           = 0.16842724
+  fbar2 = f2/Lambda          = 0.28909542
+
+Free coupling values
+  epsilon          = -2.26084900e+09
+  gamma            = 2.12444673e-10
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_06_lagrangian_622_solution.csv
+
+============================================================================================
+Rank 7: Lagrangian #823
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \epsilon Λ^{-2} · R^{ab} · R_{ab}  +  \zeta · R  +  \theta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \alpha Λ^{-4} · φ2 · φ2 · ∇^{a}∇_{a}R  +  \beta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \eta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-4, dim=6, non-minimal: φ2 · φ2 · ∇^{a}∇_{a}R
+    [2] coeff=\beta, Λ^-4, dim=6, non-minimal: ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}
+    [3] coeff=\gamma, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{ab} · R_{ab}
+    [4] coeff=\delta, Λ^-3, dim=5, non-minimal: φ2 · R^{ab} · R_{ab}
+    [5] coeff=\epsilon, Λ^-2, dim=4: R^{ab} · R_{ab}
+    [6] coeff=\zeta, Λ^0, dim=2: R
+    [7] coeff=\eta, Λ^-3, dim=5, non-minimal: φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [8] coeff=\theta, Λ^-4, dim=6: ∇^{c}R^{ab} · ∇_{c}R_{ab}
+    [9] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ2 ∇_νφ2
+    [10] coeff=1, Λ^0, dim=4, fixed, matter, pot=axion: -m_2² f_2² (1 - cos(φ2/f_2))
+
+Fit metrics
+  chi2            = 1591.1811
+  chi2 per point  = 0.95681366
+  AIC             = 1607.1811
+  BIC             = 1650.5121
+  k_params        = 8
+  max |E_N|       = 1.94242935e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 61.326187
+  H0 [eV]                  = 1.30816055e-33
+  eps_HM = H0/Mp            = 5.37232260e-61
+  lambda_H = Lambda/H0      = 2052.1411
+  Lambda [eV]               = 2.68453010e-30
+  Omega_m0                  = 0.16263058
+  rho_bar                   = 0.48789174
+  varphi2_0 = phi2_0/Lambda = 0.69407318
+  q2_0 = dvarphi2/dx|0      = -0.82771324
+  mu2 = m2/Lambda           = 0.10013225
+  fbar2 = f2/Lambda          = 1.9384322
+
+Free coupling values
+  eta              = -1.06510312e+06
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_07_lagrangian_823_solution.csv
+
+============================================================================================
+Rank 8: Lagrangian #663
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \gamma Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \alpha Λ^{-3} · φ2 · ∇^{a}∇_{a}R  +  \beta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \epsilon Λ^{-3} · φ2 · R^{ab} · R_{ab} )  +  \delta Λ^{2} · φ2 · φ2  +  \zeta Λ^{-1} · φ2 · φ2 · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-3, dim=5, non-minimal: φ2 · ∇^{a}∇_{a}R
+    [2] coeff=\beta, Λ^-3, dim=5, non-minimal: φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [3] coeff=\gamma, Λ^-4, dim=6: ∇^{c}R^{ab} · ∇_{c}R_{ab}
+    [4] coeff=\delta, Λ^2, dim=2, scalar: φ2 · φ2
+    [5] coeff=\epsilon, Λ^-3, dim=5, non-minimal: φ2 · R^{ab} · R_{ab}
+    [6] coeff=\zeta, Λ^-1, dim=5, scalar: φ2 · φ2 · φ2 · φ2 · φ2
+    [7] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ2 ∇_νφ2
+    [8] coeff=1, Λ^0, dim=4, fixed, matter, pot=axion: -m_2² f_2² (1 - cos(φ2/f_2))
+
+Fit metrics
+  chi2            = 1591.1792
+  chi2 per point  = 0.95681252
+  AIC             = 1611.1792
+  BIC             = 1665.343
+  k_params        = 1e+01
+  max |E_N|       = 1.09257023e-05
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 61.280268
+  H0 [eV]                  = 1.30718105e-33
+  eps_HM = H0/Mp            = 5.36829999e-61
+  lambda_H = Lambda/H0      = 143.19494
+  Lambda [eV]               = 1.87181713e-31
+  Omega_m0                  = 0.43958341
+  rho_bar                   = 1.3187502
+  varphi2_0 = phi2_0/Lambda = 3.8148312
+  q2_0 = dvarphi2/dx|0      = 7.14403994e-07
+  mu2 = m2/Lambda           = 7.2580253
+  fbar2 = f2/Lambda          = 16.19835
+
+Free coupling values
+  delta            = 1.40737830e+06
+  epsilon          = 3.15422580e+09
+  zeta             = -1.64118822e+06
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_08_lagrangian_663_solution.csv
+
+============================================================================================
+Rank 9: Lagrangian #860
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \beta Λ^{-4} · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \epsilon Λ^{-4} · ∇^{a}∇^{b}R · R_{ab}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \zeta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab} )  +  \alpha Λ^{2} · φ2 · φ2  +  \eta Λ^{1} · φ2 · φ2 · φ2  +  \theta Λ^{-1} · φ2 · φ2 · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^2, dim=2, scalar: φ2 · φ2
+    [2] coeff=\beta, Λ^-4, dim=6: ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}
+    [3] coeff=\gamma, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{ab} · R_{ab}
+    [4] coeff=\delta, Λ^-4, dim=6, non-minimal: φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}
+    [5] coeff=\epsilon, Λ^-4, dim=6: ∇^{a}∇^{b}R · R_{ab}
+    [6] coeff=\zeta, Λ^-4, dim=6, non-minimal: ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}
+    [7] coeff=\eta, Λ^1, dim=3, scalar: φ2 · φ2 · φ2
+    [8] coeff=\theta, Λ^-1, dim=5, scalar: φ2 · φ2 · φ2 · φ2 · φ2
+    [9] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ2 ∇_νφ2
+    [10] coeff=1, Λ^0, dim=4, fixed, matter, pot=axion: -m_2² f_2² (1 - cos(φ2/f_2))
+
+Fit metrics
+  chi2            = 1591.1788
+  chi2 per point  = 0.95681227
+  AIC             = 1613.1788
+  BIC             = 1672.759
+  k_params        = 1e+01
+  max |E_N|       = 9.11915040e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 61.286975
+  H0 [eV]                  = 1.30732412e-33
+  eps_HM = H0/Mp            = 5.36888755e-61
+  lambda_H = Lambda/H0      = 22764.146
+  Lambda [eV]               = 2.97601170e-29
+  Omega_m0                  = 0.37835195
+  rho_bar                   = 1.1350558
+  varphi2_0 = phi2_0/Lambda = 3.0475358
+  q2_0 = dvarphi2/dx|0      = -0.0053052351
+  mu2 = m2/Lambda           = 2.1623823
+  fbar2 = f2/Lambda          = 28.414439
+
+Free coupling values
+  alpha            = 9.41748164e+05
+  delta            = 1.51584660e+09
+  eta              = 2.59559118e+08
+  theta            = -0.0036148341
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_09_lagrangian_860_solution.csv
+
+============================================================================================
+Rank 10: Lagrangian #420
+============================================================================================
+
+Raw Lagrangian from pkl
+√(-g) [ M_p² ( \alpha Λ^{-4} · R · R^{ab} · R_{ab}  +  \beta · R  +  \gamma Λ^{-4} · ∇^{a}∇^{b}R · R_{ab} )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]
+
+Raw terms
+    [1] coeff=\alpha, Λ^-4, dim=6: R · R^{ab} · R_{ab}
+    [2] coeff=\beta, Λ^0, dim=2: R
+    [3] coeff=\gamma, Λ^-4, dim=6: ∇^{a}∇^{b}R · R_{ab}
+    [4] coeff=1, Λ^0, dim=4, fixed, matter: -½ g^{μν} ∇_μφ1 ∇_νφ1
+    [5] coeff=1, Λ^0, dim=4, fixed, matter, pot=axion: -m_1² f_1² (1 - cos(φ1/f_1))
+
+Fit metrics
+  chi2            = 1644.4975
+  chi2 per point  = 0.98887404
+  AIC             = 1656.4975
+  BIC             = 1688.9958
+  k_params        = 6
+  max |E_N|       = 1.80737099e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 61.772291
+  H0 [eV]                  = 1.31767647e-33
+  eps_HM = H0/Mp            = 5.41140235e-61
+  lambda_H = Lambda/H0      = 52961.343
+  Lambda [eV]               = 6.97859152e-29
+  Omega_m0                  = 0.15205896
+  rho_bar                   = 0.45617689
+  varphi1_0 = phi1_0/Mp     = 0.59997729
+  q1_0 = dvarphi1/dx|0      = -1.5049184
+  mu1 = m1/H0               = 2.8126806
+  fbar1 = f1/Mp              = 1.8475326
+
+Numerical solution file
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_10_lagrangian_420_solution.csv
+
+============================================================================================
+Generated plots
+============================================================================================
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_01_lagrangian_682_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_02_lagrangian_961_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_03_lagrangian_140_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_04_lagrangian_1038_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_05_lagrangian_434_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_06_lagrangian_622_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_07_lagrangian_823_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_08_lagrangian_663_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_09_lagrangian_860_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top_10_lagrangian_420_Hz_fit.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_130546/top10_overlay_Hz_fit.png

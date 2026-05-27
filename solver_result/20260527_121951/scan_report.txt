@@ -1,0 +1,60 @@
+AI Modified Gravity: automatic ghost-free Lagrangian H(z) scan (v5.0 — two scalars)
+==============================================================================
+Base output directory: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result
+Run output directory: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951
+Run time: 9.56 s
+Mode: eft
+Data choice: combined; N_Hz=39; z_max_Hz=2.400
+SN enabled: False
+SN processed path: /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/data/processed/pantheonplus_no_shoes.npz
+SN data: disabled
+Total N_data=39
+Parsed Lagrangians: 2
+Built nontrivial IVP models: 2
+Samples per model: 2
+Parallel enabled: False; workers=1
+Parallel auto threshold: N_SAMPLES_PER_MODEL > 100
+Parser fast-skip trivial dust models: True
+Scalar config filter: all
+Build simplify mode: fast
+Use linear RHS solver: True; allow general solve: True
+Accepted samples: 0
+
+Physics conventions
+- Uses x=ln(a)=-ln(1+z), h=H/H0.
+- Scalar field 1: varphi1=phi1/Mp, q1=dvarphi1/dx.  phi1 is Planck-scale.
+- Scalar field 2: varphi2=phi2/Lambda, q2=dvarphi2/dx.  phi2 is EFT-cutoff-scale.
+- Masses: mu1=m1/H0, mu2=m2/Lambda.
+- Decay constants: fbar1=f1/Mp, fbar2=f2/Lambda.
+- EFT cutoff: lambda_H=Lambda/H0.
+- Default physical EFT mode keeps eps_HM=H0/Mp in the dimensionless equations.
+- EOMs are normalized by Mp^2 H0^2 after substitution.
+- EFT validity cut: max_x |h|/lambda_H < 0.1 (enabled=True).
+- EH coefficient fixed to 0.5 when detected (enabled=True).
+- a0 and h0 are fixed to 1.
+- q1_0 is solved from E_N(x=0)=0 for phi1 models; q2_0 for phi2-only models.
+- rho_m0 is sampled as rho_bar=3 Omega_m0.
+- Mp = 2.435e27 eV (physical reduced Planck mass).
+
+Flat-LambdaCDM reference fit
+  chi2_total=19.5987, chi2_Hz=19.5987, chi2_SN=0, chi2/N=0.502531, AIC=23.5987, BIC=26.9258
+  sn_offset_hat=None
+  H0=69.95, Omega_m0=0.265
+
+No accepted model sample was found.  Check reject_reasons_by_model.csv.
+
+Top models by AIC
+  None
+
+Skipped / structurally rejected models
+
+Files written
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/scan_report.txt
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/model_ranking.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/accepted_samples_summary.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/best_solution.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/best_fit_Hz.png
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/reject_reasons_by_model.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/accepted_samples_summary_partial.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/model_ranking_partial.csv
+  /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/solver_result/20260527_121951/reject_reasons_by_model_partial.csv

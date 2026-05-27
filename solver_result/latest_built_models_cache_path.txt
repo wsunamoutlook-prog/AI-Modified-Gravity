@@ -1,0 +1,1 @@
+/Users/sunwenrong/Desktop/AI Modified Gravity/TheoryGPT-main/Modify GR/solver_result/20260526_114750/built_models_cache.pkl

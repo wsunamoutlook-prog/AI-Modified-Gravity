@@ -108,7 +108,7 @@ MAX_ABS_CONSTRAINT = 1e-4
 PRIORS = {
     "H0_km_s_Mpc": (60.0, 75.0),
     "Omega_m0": (0.15, 0.45),
-    "varphi0": (-50, 50),
+    "varphi0": (-5, 5),
     "log10_mu": (-3.0, 1.0),
     # EFT cutoff ratio lambda_H = Lambda/H0 (dimensionless).
     # Controlled EFT prior. lambda_H = Lambda/H0.
@@ -119,7 +119,7 @@ PRIORS = {
         float(os.environ.get("LOG10_LAMBDA_H_MAX", "5.0")),
     ),
     # For all free couplings (including EH coefficient if present).
-    "log10_abs_c": (-6.0, 1.0),
+    "log10_abs_c": (-10.0, 10.0),
 }
 
 # Physical EFT consistency switches.
