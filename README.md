@@ -5,6 +5,7 @@
 
 
 For SN+BAO data(in progress)
+
 3. RUN prepare_pantheonplus to get the SN data+
 4. RUN Builder v4.6 for precalculation
 5. RUN Solver v5.0 for numerical solving SN+BAO data
