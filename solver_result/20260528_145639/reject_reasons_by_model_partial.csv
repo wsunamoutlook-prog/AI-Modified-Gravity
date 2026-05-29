@@ -1,0 +1,2946 @@
+lag_id,count,total_rejected_or_skipped,reason
+6,10,3000,no-scalar constraint not satisfied at x=0: C0=2.393e+00
+6,9,3000,no-scalar constraint not satisfied at x=0: C0=2.303e+00
+6,9,3000,no-scalar constraint not satisfied at x=0: C0=2.296e+00
+6,9,3000,no-scalar constraint not satisfied at x=0: C0=1.903e+00
+6,9,3000,no-scalar constraint not satisfied at x=0: C0=2.245e+00
+6,8,3000,no-scalar constraint not satisfied at x=0: C0=2.234e+00
+6,8,3000,no-scalar constraint not satisfied at x=0: C0=2.227e+00
+6,8,3000,no-scalar constraint not satisfied at x=0: C0=2.275e+00
+32,13,3000,no-scalar constraint not satisfied at x=0: C0=2.226e+00
+32,9,3000,no-scalar constraint not satisfied at x=0: C0=2.199e+00
+32,9,3000,no-scalar constraint not satisfied at x=0: C0=2.450e+00
+32,9,3000,no-scalar constraint not satisfied at x=0: C0=1.923e+00
+32,9,3000,no-scalar constraint not satisfied at x=0: C0=2.269e+00
+32,9,3000,no-scalar constraint not satisfied at x=0: C0=1.830e+00
+32,9,3000,no-scalar constraint not satisfied at x=0: C0=2.401e+00
+32,8,3000,no-scalar constraint not satisfied at x=0: C0=2.029e+00
+45,9,3000,no-scalar constraint not satisfied at x=0: C0=1.976e+00
+45,9,3000,no-scalar constraint not satisfied at x=0: C0=2.245e+00
+45,9,3000,no-scalar constraint not satisfied at x=0: C0=1.659e+00
+45,8,3000,no-scalar constraint not satisfied at x=0: C0=1.981e+00
+45,8,3000,no-scalar constraint not satisfied at x=0: C0=2.478e+00
+45,8,3000,no-scalar constraint not satisfied at x=0: C0=1.954e+00
+45,8,3000,no-scalar constraint not satisfied at x=0: C0=2.454e+00
+45,8,3000,no-scalar constraint not satisfied at x=0: C0=2.181e+00
+61,9,3000,no-scalar constraint not satisfied at x=0: C0=1.888e+00
+61,9,3000,no-scalar constraint not satisfied at x=0: C0=1.983e+00
+61,9,3000,no-scalar constraint not satisfied at x=0: C0=2.353e+00
+61,9,3000,no-scalar constraint not satisfied at x=0: C0=2.105e+00
+61,9,3000,no-scalar constraint not satisfied at x=0: C0=2.466e+00
+61,8,3000,no-scalar constraint not satisfied at x=0: C0=2.379e+00
+61,8,3000,no-scalar constraint not satisfied at x=0: C0=2.328e+00
+61,8,3000,no-scalar constraint not satisfied at x=0: C0=1.856e+00
+67,11,3000,no-scalar constraint not satisfied at x=0: C0=1.682e+00
+67,11,3000,no-scalar constraint not satisfied at x=0: C0=1.702e+00
+67,10,3000,no-scalar constraint not satisfied at x=0: C0=2.488e+00
+67,9,3000,no-scalar constraint not satisfied at x=0: C0=1.837e+00
+67,9,3000,no-scalar constraint not satisfied at x=0: C0=1.949e+00
+67,9,3000,no-scalar constraint not satisfied at x=0: C0=2.187e+00
+67,9,3000,no-scalar constraint not satisfied at x=0: C0=2.230e+00
+67,9,3000,no-scalar constraint not satisfied at x=0: C0=2.504e+00
+91,9,3000,no-scalar constraint not satisfied at x=0: C0=1.693e+00
+91,9,3000,no-scalar constraint not satisfied at x=0: C0=1.867e+00
+91,9,3000,no-scalar constraint not satisfied at x=0: C0=1.997e+00
+91,8,3000,no-scalar constraint not satisfied at x=0: C0=2.447e+00
+91,8,3000,no-scalar constraint not satisfied at x=0: C0=2.220e+00
+91,8,3000,no-scalar constraint not satisfied at x=0: C0=2.336e+00
+91,8,3000,no-scalar constraint not satisfied at x=0: C0=2.337e+00
+91,8,3000,no-scalar constraint not satisfied at x=0: C0=1.961e+00
+93,10,3000,no-scalar constraint not satisfied at x=0: C0=2.298e+00
+93,9,3000,no-scalar constraint not satisfied at x=0: C0=2.063e+00
+93,9,3000,no-scalar constraint not satisfied at x=0: C0=1.772e+00
+93,9,3000,no-scalar constraint not satisfied at x=0: C0=2.239e+00
+93,9,3000,no-scalar constraint not satisfied at x=0: C0=2.006e+00
+93,8,3000,no-scalar constraint not satisfied at x=0: C0=2.256e+00
+93,8,3000,no-scalar constraint not satisfied at x=0: C0=2.399e+00
+93,8,3000,no-scalar constraint not satisfied at x=0: C0=2.523e+00
+115,10,3000,no-scalar constraint not satisfied at x=0: C0=2.067e+00
+115,10,3000,no-scalar constraint not satisfied at x=0: C0=2.507e+00
+115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.397e+00
+115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.312e+00
+115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.514e+00
+115,9,3000,no-scalar constraint not satisfied at x=0: C0=1.657e+00
+115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.183e+00
+115,9,3000,no-scalar constraint not satisfied at x=0: C0=1.942e+00
+122,10,3000,no-scalar constraint not satisfied at x=0: C0=1.840e+00
+122,10,3000,no-scalar constraint not satisfied at x=0: C0=2.091e+00
+122,10,3000,no-scalar constraint not satisfied at x=0: C0=1.867e+00
+122,9,3000,no-scalar constraint not satisfied at x=0: C0=1.999e+00
+122,9,3000,no-scalar constraint not satisfied at x=0: C0=2.182e+00
+122,9,3000,no-scalar constraint not satisfied at x=0: C0=1.843e+00
+122,9,3000,no-scalar constraint not satisfied at x=0: C0=2.422e+00
+122,8,3000,no-scalar constraint not satisfied at x=0: C0=1.811e+00
+123,3000,3000,q2_x not determined by coupled scalar EOM
+124,3000,3000,q1_x not determined by coupled scalar EOM
+125,10,3000,no-scalar constraint not satisfied at x=0: C0=2.437e+00
+125,9,3000,no-scalar constraint not satisfied at x=0: C0=2.369e+00
+125,9,3000,no-scalar constraint not satisfied at x=0: C0=1.973e+00
+125,9,3000,no-scalar constraint not satisfied at x=0: C0=1.715e+00
+125,9,3000,no-scalar constraint not satisfied at x=0: C0=2.417e+00
+125,9,3000,no-scalar constraint not satisfied at x=0: C0=2.535e+00
+125,8,3000,no-scalar constraint not satisfied at x=0: C0=1.937e+00
+125,8,3000,no-scalar constraint not satisfied at x=0: C0=2.157e+00
+126,2,3000,constraint drift too large: max|C|=1.218e+37
+126,2,3000,constraint drift too large: max|C|=4.852e+42
+126,2,3000,constraint drift too large: max|C|=1.180e+52
+126,2,3000,constraint drift too large: max|C|=1.241e+41
+126,2,3000,constraint drift too large: max|C|=8.765e+48
+126,2,3000,constraint drift too large: max|C|=2.227e+45
+126,2,3000,constraint drift too large: max|C|=5.616e+50
+126,2,3000,constraint drift too large: max|C|=1.113e+37
+127,3000,3000,q1_x not determined by coupled scalar EOM
+128,3000,3000,q2_x not determined by coupled scalar EOM
+129,3000,3000,q1_x not determined by coupled scalar EOM
+130,3000,3000,q2_x not determined by coupled scalar EOM
+131,3000,3000,q2_x not determined by coupled scalar EOM
+133,3000,3000,q1_x not determined by coupled scalar EOM
+134,3000,3000,q1_x not determined by coupled scalar EOM
+135,3000,3000,q2_x not determined by coupled scalar EOM
+136,3000,3000,q2_x not determined by coupled scalar EOM
+137,3000,3000,q2_x not determined by coupled scalar EOM
+139,3000,3000,q1_x not determined by coupled scalar EOM
+140,1792,2867,H(z) absurdly large
+140,744,2867,no acceptable real q1_0 root from E_N(x=0)=0
+140,3,2867,EFT cutoff violated: max(h/lambda_H)=1.066e-01
+140,2,2867,EFT cutoff violated: max(h/lambda_H)=1.838e-01
+140,2,2867,EFT cutoff violated: max(h/lambda_H)=1.359e-01
+140,2,2867,EFT cutoff violated: max(h/lambda_H)=1.140e-01
+140,2,2867,EFT cutoff violated: max(h/lambda_H)=2.738e-01
+140,2,2867,EFT cutoff violated: max(h/lambda_H)=1.332e-01
+141,3000,3000,q2_x not determined by coupled scalar EOM
+144,3000,3000,q2_x not determined by coupled scalar EOM
+145,3000,3000,q1_x not determined by coupled scalar EOM
+149,1076,1373,no acceptable real q2_0 root from E_N(x=0)=0
+149,86,1373,solve_ivp failed: Required step size is less than spacing between numbers.
+149,2,1373,constraint drift too large: max|C|=1.252e-04
+149,2,1373,constraint drift too large: max|C|=2.924e-04
+149,2,1373,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+149,2,1373,constraint drift too large: max|C|=1.125e-04
+149,2,1373,EFT cutoff violated: max(h/lambda_H)=1.060e-01
+149,2,1373,constraint drift too large: max|C|=3.519e-04
+150,3000,3000,q2_x not determined by coupled scalar EOM
+156,3000,3000,q1_x not determined by coupled scalar EOM
+157,3000,3000,q1_x not determined by coupled scalar EOM
+159,3000,3000,q1_x not determined by coupled scalar EOM
+161,3000,3000,q1_x not determined by coupled scalar EOM
+162,3000,3000,q1_x not determined by coupled scalar EOM
+165,3000,3000,q1_x not determined by coupled scalar EOM
+167,3000,3000,q1_x not determined by coupled scalar EOM
+168,3000,3000,q2_x not determined by coupled scalar EOM
+170,3000,3000,q2_x not determined by coupled scalar EOM
+172,3000,3000,q1_x not determined by coupled scalar EOM
+173,10,3000,no-scalar constraint not satisfied at x=0: C0=2.139e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=2.125e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=1.815e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=1.843e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=2.036e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=1.680e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=2.326e+00
+173,9,3000,no-scalar constraint not satisfied at x=0: C0=2.499e+00
+174,11,3000,no-scalar constraint not satisfied at x=0: C0=2.479e+00
+174,11,3000,no-scalar constraint not satisfied at x=0: C0=2.004e+00
+174,10,3000,no-scalar constraint not satisfied at x=0: C0=1.697e+00
+174,10,3000,no-scalar constraint not satisfied at x=0: C0=1.758e+00
+174,9,3000,no-scalar constraint not satisfied at x=0: C0=1.794e+00
+174,9,3000,no-scalar constraint not satisfied at x=0: C0=1.882e+00
+174,9,3000,no-scalar constraint not satisfied at x=0: C0=2.321e+00
+174,9,3000,no-scalar constraint not satisfied at x=0: C0=1.733e+00
+175,3000,3000,q2_x not determined by coupled scalar EOM
+176,3000,3000,q2_x not determined by coupled scalar EOM
+177,3000,3000,q1_x not determined by coupled scalar EOM
+179,9,3000,no-scalar constraint not satisfied at x=0: C0=1.833e+00
+179,9,3000,no-scalar constraint not satisfied at x=0: C0=2.228e+00
+179,9,3000,no-scalar constraint not satisfied at x=0: C0=1.658e+00
+179,9,3000,no-scalar constraint not satisfied at x=0: C0=2.161e+00
+179,9,3000,no-scalar constraint not satisfied at x=0: C0=2.230e+00
+179,8,3000,no-scalar constraint not satisfied at x=0: C0=2.501e+00
+179,8,3000,no-scalar constraint not satisfied at x=0: C0=1.717e+00
+179,8,3000,no-scalar constraint not satisfied at x=0: C0=2.530e+00
+182,10,3000,no-scalar constraint not satisfied at x=0: C0=2.488e+00
+182,10,3000,no-scalar constraint not satisfied at x=0: C0=1.699e+00
+182,9,3000,no-scalar constraint not satisfied at x=0: C0=2.281e+00
+182,9,3000,no-scalar constraint not satisfied at x=0: C0=1.896e+00
+182,9,3000,no-scalar constraint not satisfied at x=0: C0=1.671e+00
+182,9,3000,no-scalar constraint not satisfied at x=0: C0=2.426e+00
+182,9,3000,no-scalar constraint not satisfied at x=0: C0=1.694e+00
+182,9,3000,no-scalar constraint not satisfied at x=0: C0=2.434e+00
+184,3000,3000,q2_x not determined by coupled scalar EOM
+187,3000,3000,q2_x not determined by coupled scalar EOM
+191,3000,3000,q1_x not determined by coupled scalar EOM
+193,3000,3000,q1_x not determined by coupled scalar EOM
+194,10,3000,no-scalar constraint not satisfied at x=0: C0=1.833e+00
+194,10,3000,no-scalar constraint not satisfied at x=0: C0=2.093e+00
+194,10,3000,no-scalar constraint not satisfied at x=0: C0=2.361e+00
+194,9,3000,no-scalar constraint not satisfied at x=0: C0=2.006e+00
+194,9,3000,no-scalar constraint not satisfied at x=0: C0=2.145e+00
+194,9,3000,no-scalar constraint not satisfied at x=0: C0=2.340e+00
+194,9,3000,no-scalar constraint not satisfied at x=0: C0=2.009e+00
+194,9,3000,no-scalar constraint not satisfied at x=0: C0=2.255e+00
+197,3000,3000,q2_x not determined by coupled scalar EOM
+198,3000,3000,q1_x not determined by coupled scalar EOM
+199,3000,3000,q2_x not determined by coupled scalar EOM
+201,3000,3000,q1_x not determined by coupled scalar EOM
+202,990,1413,no acceptable real q2_0 root from E_N(x=0)=0
+202,119,1413,solve_ivp failed: Required step size is less than spacing between numbers.
+202,3,1413,EFT cutoff violated: max(h/lambda_H)=1.086e-01
+202,2,1413,EFT cutoff violated: max(h/lambda_H)=1.055e-01
+202,2,1413,constraint drift too large: max|C|=1.383e-03
+202,2,1413,EFT cutoff violated: max(h/lambda_H)=1.100e-01
+202,1,1413,constraint drift too large: max|C|=4.710e-02
+202,1,1413,constraint drift too large: max|C|=8.426e-03
+203,3000,3000,q2_x not determined by coupled scalar EOM
+204,3000,3000,q1_x not determined by coupled scalar EOM
+207,943,1351,no acceptable real q2_0 root from E_N(x=0)=0
+207,98,1351,solve_ivp failed: Required step size is less than spacing between numbers.
+207,3,1351,EFT cutoff violated: max(h/lambda_H)=1.028e-01
+207,2,1351,EFT cutoff violated: max(h/lambda_H)=1.050e-01
+207,2,1351,constraint drift too large: max|C|=1.232e-02
+207,2,1351,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+207,2,1351,EFT cutoff violated: max(h/lambda_H)=1.090e-01
+207,2,1351,EFT cutoff violated: max(h/lambda_H)=1.100e-01
+208,3000,3000,q1_x not determined by coupled scalar EOM
+209,3000,3000,q2_x not determined by coupled scalar EOM
+210,3000,3000,q1_x not determined by coupled scalar EOM
+211,10,3000,no-scalar constraint not satisfied at x=0: C0=2.149e+00
+211,9,3000,no-scalar constraint not satisfied at x=0: C0=2.532e+00
+211,9,3000,no-scalar constraint not satisfied at x=0: C0=2.075e+00
+211,9,3000,no-scalar constraint not satisfied at x=0: C0=2.036e+00
+211,9,3000,no-scalar constraint not satisfied at x=0: C0=2.168e+00
+211,9,3000,no-scalar constraint not satisfied at x=0: C0=2.468e+00
+211,8,3000,no-scalar constraint not satisfied at x=0: C0=1.756e+00
+211,8,3000,no-scalar constraint not satisfied at x=0: C0=2.504e+00
+213,3000,3000,q1_x not determined by coupled scalar EOM
+216,3000,3000,q2_x not determined by coupled scalar EOM
+218,3000,3000,q1_x not determined by coupled scalar EOM
+220,3000,3000,q1_x not determined by coupled scalar EOM
+221,3000,3000,q2_x not determined by coupled scalar EOM
+222,3000,3000,q1_x not determined by coupled scalar EOM
+223,3000,3000,q2_x not determined by coupled scalar EOM
+224,3000,3000,q2_x not determined by coupled scalar EOM
+225,10,3000,no-scalar constraint not satisfied at x=0: C0=1.751e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=2.513e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=2.355e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=2.429e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=1.949e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=1.771e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=2.186e+00
+225,9,3000,no-scalar constraint not satisfied at x=0: C0=2.507e+00
+226,3000,3000,q2_x not determined by coupled scalar EOM
+227,3000,3000,q2_x not determined by coupled scalar EOM
+229,3000,3000,q1_x not determined by coupled scalar EOM
+230,11,3000,no-scalar constraint not satisfied at x=0: C0=2.354e+00
+230,11,3000,no-scalar constraint not satisfied at x=0: C0=2.456e+00
+230,10,3000,no-scalar constraint not satisfied at x=0: C0=1.852e+00
+230,10,3000,no-scalar constraint not satisfied at x=0: C0=2.104e+00
+230,9,3000,no-scalar constraint not satisfied at x=0: C0=1.682e+00
+230,9,3000,no-scalar constraint not satisfied at x=0: C0=1.853e+00
+230,9,3000,no-scalar constraint not satisfied at x=0: C0=2.005e+00
+230,9,3000,no-scalar constraint not satisfied at x=0: C0=2.164e+00
+234,10,3000,no-scalar constraint not satisfied at x=0: C0=2.444e+00
+234,10,3000,no-scalar constraint not satisfied at x=0: C0=2.116e+00
+234,10,3000,no-scalar constraint not satisfied at x=0: C0=2.421e+00
+234,10,3000,no-scalar constraint not satisfied at x=0: C0=1.725e+00
+234,9,3000,no-scalar constraint not satisfied at x=0: C0=2.546e+00
+234,9,3000,no-scalar constraint not satisfied at x=0: C0=2.266e+00
+234,9,3000,no-scalar constraint not satisfied at x=0: C0=2.027e+00
+234,9,3000,no-scalar constraint not satisfied at x=0: C0=2.199e+00
+236,3000,3000,q2_x not determined by coupled scalar EOM
+237,3000,3000,q1_x not determined by coupled scalar EOM
+238,3000,3000,q2_x not determined by coupled scalar EOM
+240,1035,1362,no acceptable real q2_0 root from E_N(x=0)=0
+240,83,1362,solve_ivp failed: Required step size is less than spacing between numbers.
+240,2,1362,constraint drift too large: max|C|=8.147e-04
+240,2,1362,EFT cutoff violated: max(h/lambda_H)=1.059e-01
+240,2,1362,EFT cutoff violated: max(h/lambda_H)=1.007e-01
+240,2,1362,constraint drift too large: max|C|=1.029e-04
+240,2,1362,EFT cutoff violated: max(h/lambda_H)=1.005e-01
+240,1,1362,constraint drift too large: max|C|=3.493e-03
+241,3000,3000,q2_x not determined by coupled scalar EOM
+242,1016,1392,no acceptable real q2_0 root from E_N(x=0)=0
+242,71,1392,solve_ivp failed: Required step size is less than spacing between numbers.
+242,2,1392,EFT cutoff violated: max(h/lambda_H)=1.065e-01
+242,2,1392,EFT cutoff violated: max(h/lambda_H)=1.081e-01
+242,2,1392,EFT cutoff violated: max(h/lambda_H)=1.005e-01
+242,2,1392,EFT cutoff violated: max(h/lambda_H)=1.008e-01
+242,2,1392,constraint drift too large: max|C|=1.096e-02
+242,2,1392,EFT cutoff violated: max(h/lambda_H)=1.022e-01
+243,3000,3000,q2_x not determined by coupled scalar EOM
+245,3000,3000,q1_x not determined by coupled scalar EOM
+246,3000,3000,q1_x not determined by coupled scalar EOM
+247,3000,3000,q2_x not determined by coupled scalar EOM
+248,3000,3000,q2_x not determined by coupled scalar EOM
+249,3000,3000,q2_x not determined by coupled scalar EOM
+253,3000,3000,q1_x not determined by coupled scalar EOM
+254,3,3000,EFT cutoff violated: max(h/lambda_H)=1.056e-01
+254,2,3000,constraint drift too large: max|C|=1.949e+211
+254,2,3000,constraint drift too large: max|C|=1.467e+213
+254,2,3000,constraint drift too large: max|C|=1.400e+219
+254,2,3000,constraint drift too large: max|C|=1.241e+219
+254,2,3000,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+254,2,3000,constraint drift too large: max|C|=6.203e+217
+254,2,3000,constraint drift too large: max|C|=2.120e+208
+255,3000,3000,q1_x not determined by coupled scalar EOM
+257,3000,3000,q1_x not determined by coupled scalar EOM
+263,1095,1396,no acceptable real q2_0 root from E_N(x=0)=0
+263,93,1396,solve_ivp failed: Required step size is less than spacing between numbers.
+263,3,1396,EFT cutoff violated: max(h/lambda_H)=1.065e-01
+263,2,1396,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+263,2,1396,EFT cutoff violated: max(h/lambda_H)=1.101e-01
+263,2,1396,EFT cutoff violated: max(h/lambda_H)=1.060e-01
+263,2,1396,EFT cutoff violated: max(h/lambda_H)=1.098e-01
+263,1,1396,constraint drift too large: max|C|=1.819e-03
+265,3000,3000,q2_x not determined by coupled scalar EOM
+266,3000,3000,q2_x not determined by coupled scalar EOM
+267,3000,3000,q1_x not determined by coupled scalar EOM
+268,10,3000,no-scalar constraint not satisfied at x=0: C0=2.418e+00
+268,9,3000,no-scalar constraint not satisfied at x=0: C0=2.484e+00
+268,9,3000,no-scalar constraint not satisfied at x=0: C0=2.274e+00
+268,9,3000,no-scalar constraint not satisfied at x=0: C0=2.296e+00
+268,9,3000,no-scalar constraint not satisfied at x=0: C0=2.438e+00
+268,9,3000,no-scalar constraint not satisfied at x=0: C0=2.069e+00
+268,9,3000,no-scalar constraint not satisfied at x=0: C0=2.067e+00
+268,8,3000,no-scalar constraint not satisfied at x=0: C0=2.155e+00
+269,10,3000,no-scalar constraint not satisfied at x=0: C0=1.688e+00
+269,10,3000,no-scalar constraint not satisfied at x=0: C0=2.466e+00
+269,9,3000,no-scalar constraint not satisfied at x=0: C0=1.653e+00
+269,9,3000,no-scalar constraint not satisfied at x=0: C0=1.706e+00
+269,9,3000,no-scalar constraint not satisfied at x=0: C0=2.326e+00
+269,9,3000,no-scalar constraint not satisfied at x=0: C0=2.054e+00
+269,9,3000,no-scalar constraint not satisfied at x=0: C0=1.914e+00
+269,9,3000,no-scalar constraint not satisfied at x=0: C0=2.264e+00
+271,1481,3000,no acceptable real q1_0 root from E_N(x=0)=0
+271,340,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+271,5,3000,constraint drift too large: max|C|=1.720e+00
+271,5,3000,constraint drift too large: max|C|=1.805e+00
+271,4,3000,constraint drift too large: max|C|=2.187e+00
+271,4,3000,constraint drift too large: max|C|=1.699e+00
+271,4,3000,constraint drift too large: max|C|=2.101e+00
+271,4,3000,constraint drift too large: max|C|=1.947e+00
+272,3000,3000,q2_x not determined by coupled scalar EOM
+274,3000,3000,q1_x not determined by coupled scalar EOM
+278,3000,3000,q1_x not determined by coupled scalar EOM
+280,2,3000,constraint drift too large: max|C|=3.805e+36
+280,2,3000,constraint drift too large: max|C|=2.032e+47
+280,2,3000,EFT cutoff violated: max(h/lambda_H)=1.050e-01
+280,2,3000,constraint drift too large: max|C|=8.962e+40
+280,2,3000,constraint drift too large: max|C|=1.214e+41
+280,2,3000,constraint drift too large: max|C|=1.077e+45
+280,2,3000,constraint drift too large: max|C|=3.798e+36
+280,2,3000,constraint drift too large: max|C|=1.120e+42
+283,3000,3000,q2_x not determined by coupled scalar EOM
+285,3000,3000,q2_x not determined by coupled scalar EOM
+286,3000,3000,q1_x not determined by coupled scalar EOM
+288,3000,3000,q2_x not determined by coupled scalar EOM
+290,3000,3000,q1_x not determined by coupled scalar EOM
+292,3,3000,EFT cutoff violated: max(h/lambda_H)=1.103e-01
+292,2,3000,EFT cutoff violated: max(h/lambda_H)=1.075e-01
+292,2,3000,constraint drift too large: max|C|=1.126e+154
+292,2,3000,EFT cutoff violated: max(h/lambda_H)=1.100e-01
+292,2,3000,EFT cutoff violated: max(h/lambda_H)=1.005e-01
+292,2,3000,constraint drift too large: max|C|=9.578e+161
+292,2,3000,constraint drift too large: max|C|=1.119e+166
+292,2,3000,EFT cutoff violated: max(h/lambda_H)=1.000e-01
+293,3000,3000,q1_x not determined by coupled scalar EOM
+294,3,3000,constraint drift too large: max|C|=1.085e+42
+294,2,3000,constraint drift too large: max|C|=1.387e+49
+294,2,3000,constraint drift too large: max|C|=6.788e+42
+294,2,3000,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+294,2,3000,constraint drift too large: max|C|=1.455e+51
+294,2,3000,constraint drift too large: max|C|=1.291e+48
+294,2,3000,constraint drift too large: max|C|=1.323e+39
+294,2,3000,constraint drift too large: max|C|=1.912e+52
+295,3000,3000,q1_x not determined by coupled scalar EOM
+296,3000,3000,q1_x not determined by coupled scalar EOM
+297,1071,1430,no acceptable real q2_0 root from E_N(x=0)=0
+297,85,1430,solve_ivp failed: Required step size is less than spacing between numbers.
+297,2,1430,constraint drift too large: max|C|=1.315e-04
+297,1,1430,constraint drift too large: max|C|=4.960e-03
+297,1,1430,constraint drift too large: max|C|=6.719e-02
+297,1,1430,constraint drift too large: max|C|=6.687e-03
+297,1,1430,constraint drift too large: max|C|=1.468e-04
+297,1,1430,constraint drift too large: max|C|=4.247e-04
+298,3,3000,EFT cutoff violated: max(h/lambda_H)=1.082e-01
+298,2,3000,constraint drift too large: max|C|=1.596e+49
+298,2,3000,constraint drift too large: max|C|=1.877e+42
+298,2,3000,constraint drift too large: max|C|=1.126e+38
+298,2,3000,constraint drift too large: max|C|=1.115e+35
+298,2,3000,constraint drift too large: max|C|=1.868e+51
+298,2,3000,constraint drift too large: max|C|=1.147e+41
+298,2,3000,constraint drift too large: max|C|=2.090e+40
+299,3000,3000,q2_x not determined by coupled scalar EOM
+301,3000,3000,q2_x not determined by coupled scalar EOM
+303,3000,3000,q2_x not determined by coupled scalar EOM
+304,3000,3000,q1_x not determined by coupled scalar EOM
+305,3000,3000,q2_x not determined by coupled scalar EOM
+306,3000,3000,q2_x not determined by coupled scalar EOM
+307,11,3000,no-scalar constraint not satisfied at x=0: C0=2.317e+00
+307,10,3000,no-scalar constraint not satisfied at x=0: C0=1.717e+00
+307,9,3000,no-scalar constraint not satisfied at x=0: C0=2.023e+00
+307,8,3000,no-scalar constraint not satisfied at x=0: C0=2.380e+00
+307,8,3000,no-scalar constraint not satisfied at x=0: C0=2.089e+00
+307,8,3000,no-scalar constraint not satisfied at x=0: C0=2.274e+00
+307,8,3000,no-scalar constraint not satisfied at x=0: C0=2.074e+00
+307,8,3000,no-scalar constraint not satisfied at x=0: C0=1.947e+00
+308,3000,3000,q1_x not determined by coupled scalar EOM
+310,2,3000,EFT cutoff violated: max(h/lambda_H)=1.004e-01
+310,2,3000,EFT cutoff violated: max(h/lambda_H)=1.069e-01
+310,2,3000,constraint drift too large: max|C|=1.100e+161
+310,2,3000,EFT cutoff violated: max(h/lambda_H)=1.012e-01
+310,2,3000,constraint drift too large: max|C|=9.008e+151
+310,2,3000,constraint drift too large: max|C|=2.834e+156
+310,2,3000,constraint drift too large: max|C|=1.837e+149
+310,2,3000,constraint drift too large: max|C|=7.515e+162
+311,958,1369,no acceptable real q2_0 root from E_N(x=0)=0
+311,106,1369,solve_ivp failed: Required step size is less than spacing between numbers.
+311,2,1369,EFT cutoff violated: max(h/lambda_H)=1.017e-01
+311,2,1369,EFT cutoff violated: max(h/lambda_H)=1.003e-01
+311,2,1369,EFT cutoff violated: max(h/lambda_H)=1.054e-01
+311,2,1369,constraint drift too large: max|C|=1.210e-02
+311,1,1369,constraint drift too large: max|C|=6.737e-04
+311,1,1369,constraint drift too large: max|C|=8.013e-03
+313,10,3000,no-scalar constraint not satisfied at x=0: C0=2.267e+00
+313,10,3000,no-scalar constraint not satisfied at x=0: C0=2.323e+00
+313,10,3000,no-scalar constraint not satisfied at x=0: C0=1.952e+00
+313,9,3000,no-scalar constraint not satisfied at x=0: C0=2.547e+00
+313,9,3000,no-scalar constraint not satisfied at x=0: C0=2.313e+00
+313,9,3000,no-scalar constraint not satisfied at x=0: C0=2.274e+00
+313,9,3000,no-scalar constraint not satisfied at x=0: C0=2.465e+00
+313,9,3000,no-scalar constraint not satisfied at x=0: C0=1.720e+00
+316,3000,3000,q1_x not determined by coupled scalar EOM
+317,3000,3000,q1_x not determined by coupled scalar EOM
+318,3000,3000,q1_x not determined by coupled scalar EOM
+319,3000,3000,q1_x not determined by coupled scalar EOM
+321,980,1374,no acceptable real q2_0 root from E_N(x=0)=0
+321,87,1374,solve_ivp failed: Required step size is less than spacing between numbers.
+321,2,1374,EFT cutoff violated: max(h/lambda_H)=1.067e-01
+321,2,1374,EFT cutoff violated: max(h/lambda_H)=1.100e-01
+321,2,1374,constraint drift too large: max|C|=1.380e-03
+321,2,1374,constraint drift too large: max|C|=1.505e-04
+321,2,1374,constraint drift too large: max|C|=9.334e-04
+321,2,1374,EFT cutoff violated: max(h/lambda_H)=1.021e-01
+322,3,3000,constraint drift too large: max|C|=1.229e+95
+322,2,3000,constraint drift too large: max|C|=2.797e+96
+322,2,3000,constraint drift too large: max|C|=2.561e+93
+322,2,3000,constraint drift too large: max|C|=4.608e+92
+322,2,3000,EFT cutoff violated: max(h/lambda_H)=1.076e-01
+322,2,3000,EFT cutoff violated: max(h/lambda_H)=1.074e-01
+322,2,3000,constraint drift too large: max|C|=1.178e+101
+322,2,3000,constraint drift too large: max|C|=3.130e+105
+324,9,3000,no-scalar constraint not satisfied at x=0: C0=2.074e+00
+324,9,3000,no-scalar constraint not satisfied at x=0: C0=1.880e+00
+324,9,3000,no-scalar constraint not satisfied at x=0: C0=2.399e+00
+324,9,3000,no-scalar constraint not satisfied at x=0: C0=2.170e+00
+324,9,3000,no-scalar constraint not satisfied at x=0: C0=2.415e+00
+324,9,3000,no-scalar constraint not satisfied at x=0: C0=1.715e+00
+324,8,3000,no-scalar constraint not satisfied at x=0: C0=2.527e+00
+324,8,3000,no-scalar constraint not satisfied at x=0: C0=2.482e+00
+326,2864,2961,no acceptable real q1_0 root from E_N(x=0)=0
+326,77,2961,solve_ivp failed: Required step size is less than spacing between numbers.
+326,1,2961,EFT cutoff violated: max(h/lambda_H)=1.031e-01
+326,1,2961,constraint drift too large: max|C|=4.425e-04
+326,1,2961,constraint drift too large: max|C|=1.086e-03
+326,1,2961,constraint drift too large: max|C|=1.293e-04
+326,1,2961,constraint drift too large: max|C|=1.013e-03
+326,1,2961,constraint drift too large: max|C|=3.693e-04
+327,3000,3000,q1_x not determined by coupled scalar EOM
+329,3000,3000,q2_x not determined by coupled scalar EOM
+330,3000,3000,q2_x not determined by coupled scalar EOM
+331,3000,3000,q1_x not determined by coupled scalar EOM
+333,3000,3000,q2_x not determined by coupled scalar EOM
+335,3,3000,EFT cutoff violated: max(h/lambda_H)=1.011e-01
+335,2,3000,EFT cutoff violated: max(h/lambda_H)=1.034e-01
+335,2,3000,constraint drift too large: max|C|=1.079e+222
+335,2,3000,constraint drift too large: max|C|=1.101e+225
+335,2,3000,constraint drift too large: max|C|=1.432e+210
+335,2,3000,constraint drift too large: max|C|=1.490e+213
+335,2,3000,constraint drift too large: max|C|=1.656e+211
+335,2,3000,constraint drift too large: max|C|=4.034e+212
+336,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+337,3000,3000,q1_x not determined by coupled scalar EOM
+338,3000,3000,q2_x not determined by coupled scalar EOM
+339,3000,3000,q1_x not determined by coupled scalar EOM
+342,3000,3000,q2_x not determined by coupled scalar EOM
+343,1510,3000,no acceptable real q1_0 root from E_N(x=0)=0
+343,2,3000,constraint drift too large: max|C|=3.156e+56
+343,2,3000,constraint drift too large: max|C|=4.941e+51
+343,2,3000,constraint drift too large: max|C|=3.842e+60
+343,2,3000,constraint drift too large: max|C|=2.279e+56
+343,2,3000,constraint drift too large: max|C|=1.526e+48
+343,2,3000,constraint drift too large: max|C|=1.164e+56
+343,2,3000,constraint drift too large: max|C|=2.376e+56
+344,3000,3000,symbolic build timeout > 60s
+346,3000,3000,q2_x not determined by coupled scalar EOM
+347,10,3000,no-scalar constraint not satisfied at x=0: C0=2.127e+00
+347,10,3000,no-scalar constraint not satisfied at x=0: C0=1.781e+00
+347,9,3000,no-scalar constraint not satisfied at x=0: C0=1.794e+00
+347,9,3000,no-scalar constraint not satisfied at x=0: C0=2.341e+00
+347,8,3000,no-scalar constraint not satisfied at x=0: C0=1.919e+00
+347,8,3000,no-scalar constraint not satisfied at x=0: C0=2.035e+00
+347,8,3000,no-scalar constraint not satisfied at x=0: C0=2.063e+00
+347,8,3000,no-scalar constraint not satisfied at x=0: C0=2.268e+00
+348,3000,3000,q2_x not determined by coupled scalar EOM
+349,3000,3000,q2_x not determined by coupled scalar EOM
+350,3000,3000,q2_x not determined by coupled scalar EOM
+351,3000,3000,q2_x not determined by coupled scalar EOM
+353,3000,3000,q2_x not determined by coupled scalar EOM
+355,3000,3000,q2_x not determined by coupled scalar EOM
+356,3000,3000,q2_x not determined by coupled scalar EOM
+361,989,1370,no acceptable real q2_0 root from E_N(x=0)=0
+361,80,1370,solve_ivp failed: Required step size is less than spacing between numbers.
+361,2,1370,EFT cutoff violated: max(h/lambda_H)=1.013e-01
+361,2,1370,constraint drift too large: max|C|=1.262e-04
+361,2,1370,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+361,2,1370,constraint drift too large: max|C|=2.873e-04
+361,2,1370,EFT cutoff violated: max(h/lambda_H)=1.036e-01
+361,2,1370,EFT cutoff violated: max(h/lambda_H)=1.046e-01
+363,3000,3000,q1_x not determined by coupled scalar EOM
+364,3000,3000,q2_x not determined by coupled scalar EOM
+365,3000,3000,q2_x not determined by coupled scalar EOM
+366,11,3000,no-scalar constraint not satisfied at x=0: C0=1.882e+00
+366,11,3000,no-scalar constraint not satisfied at x=0: C0=1.915e+00
+366,9,3000,no-scalar constraint not satisfied at x=0: C0=2.192e+00
+366,9,3000,no-scalar constraint not satisfied at x=0: C0=1.741e+00
+366,9,3000,no-scalar constraint not satisfied at x=0: C0=2.466e+00
+366,9,3000,no-scalar constraint not satisfied at x=0: C0=1.908e+00
+366,8,3000,no-scalar constraint not satisfied at x=0: C0=2.149e+00
+366,8,3000,no-scalar constraint not satisfied at x=0: C0=2.439e+00
+367,3000,3000,q2_x not determined by coupled scalar EOM
+368,2,3000,constraint drift too large: max|C|=2.103e+158
+368,2,3000,constraint drift too large: max|C|=2.072e+162
+368,2,3000,constraint drift too large: max|C|=2.606e+154
+368,2,3000,constraint drift too large: max|C|=2.144e+159
+368,2,3000,constraint drift too large: max|C|=1.592e+156
+368,2,3000,constraint drift too large: max|C|=1.244e+160
+368,2,3000,constraint drift too large: max|C|=5.900e+151
+368,2,3000,constraint drift too large: max|C|=1.641e+153
+369,3000,3000,q2_x not determined by coupled scalar EOM
+370,3000,3000,q2_x not determined by coupled scalar EOM
+371,3000,3000,q1_x not determined by coupled scalar EOM
+373,3000,3000,q1_x not determined by coupled scalar EOM
+374,1042,1405,no acceptable real q2_0 root from E_N(x=0)=0
+374,94,1405,solve_ivp failed: Required step size is less than spacing between numbers.
+374,2,1405,EFT cutoff violated: max(h/lambda_H)=1.075e-01
+374,2,1405,constraint drift too large: max|C|=2.069e-04
+374,2,1405,EFT cutoff violated: max(h/lambda_H)=1.009e-01
+374,2,1405,EFT cutoff violated: max(h/lambda_H)=1.003e-01
+374,2,1405,EFT cutoff violated: max(h/lambda_H)=1.053e-01
+374,2,1405,constraint drift too large: max|C|=1.025e-03
+375,3000,3000,q2_x not determined by coupled scalar EOM
+376,3000,3000,q2_x not determined by coupled scalar EOM
+377,3000,3000,q2_x not determined by coupled scalar EOM
+378,3000,3000,q2_x not determined by coupled scalar EOM
+381,3000,3000,q2_x not determined by coupled scalar EOM
+382,10,3000,no-scalar constraint not satisfied at x=0: C0=2.547e+00
+382,10,3000,no-scalar constraint not satisfied at x=0: C0=2.539e+00
+382,9,3000,no-scalar constraint not satisfied at x=0: C0=2.066e+00
+382,9,3000,no-scalar constraint not satisfied at x=0: C0=1.756e+00
+382,9,3000,no-scalar constraint not satisfied at x=0: C0=2.128e+00
+382,9,3000,no-scalar constraint not satisfied at x=0: C0=2.434e+00
+382,9,3000,no-scalar constraint not satisfied at x=0: C0=1.903e+00
+382,9,3000,no-scalar constraint not satisfied at x=0: C0=1.819e+00
+384,3000,3000,q2_x not determined by coupled scalar EOM
+386,3000,3000,symbolic build timeout > 60s
+388,3000,3000,q1_x not determined by coupled scalar EOM
+389,1045,1418,no acceptable real q2_0 root from E_N(x=0)=0
+389,81,1418,solve_ivp failed: Required step size is less than spacing between numbers.
+389,2,1418,constraint drift too large: max|C|=1.751e-03
+389,2,1418,constraint drift too large: max|C|=2.697e-03
+389,2,1418,constraint drift too large: max|C|=1.382e-04
+389,2,1418,EFT cutoff violated: max(h/lambda_H)=1.016e-01
+389,2,1418,constraint drift too large: max|C|=1.335e-03
+389,2,1418,constraint drift too large: max|C|=4.633e-03
+390,3000,3000,q1_x not determined by coupled scalar EOM
+391,3000,3000,q2_x not determined by coupled scalar EOM
+392,3000,3000,q1_x not determined by coupled scalar EOM
+393,2,3000,constraint drift too large: max|C|=9.235e+158
+393,2,3000,constraint drift too large: max|C|=1.263e+163
+393,2,3000,constraint drift too large: max|C|=1.229e+163
+393,2,3000,constraint drift too large: max|C|=1.505e+157
+393,2,3000,constraint drift too large: max|C|=2.060e+155
+393,2,3000,constraint drift too large: max|C|=1.427e+160
+393,2,3000,constraint drift too large: max|C|=4.675e+160
+393,2,3000,constraint drift too large: max|C|=1.017e+149
+394,3000,3000,q2_x not determined by coupled scalar EOM
+395,1124,1403,no acceptable real q2_0 root from E_N(x=0)=0
+395,75,1403,solve_ivp failed: Required step size is less than spacing between numbers.
+395,2,1403,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+395,2,1403,EFT cutoff violated: max(h/lambda_H)=1.087e-01
+395,2,1403,EFT cutoff violated: max(h/lambda_H)=1.101e-01
+395,2,1403,EFT cutoff violated: max(h/lambda_H)=1.045e-01
+395,1,1403,constraint drift too large: max|C|=7.478e-04
+395,1,1403,constraint drift too large: max|C|=9.042e-04
+396,3000,3000,q2_x not determined by coupled scalar EOM
+397,3000,3000,q1_x not determined by coupled scalar EOM
+398,3000,3000,q2_x not determined by coupled scalar EOM
+400,3000,3000,q2_x not determined by coupled scalar EOM
+401,11,3000,no-scalar constraint not satisfied at x=0: C0=1.745e+00
+401,11,3000,no-scalar constraint not satisfied at x=0: C0=2.241e+00
+401,9,3000,no-scalar constraint not satisfied at x=0: C0=2.361e+00
+401,9,3000,no-scalar constraint not satisfied at x=0: C0=2.074e+00
+401,9,3000,no-scalar constraint not satisfied at x=0: C0=1.684e+00
+401,8,3000,no-scalar constraint not satisfied at x=0: C0=1.894e+00
+401,8,3000,no-scalar constraint not satisfied at x=0: C0=1.669e+00
+401,8,3000,no-scalar constraint not satisfied at x=0: C0=2.192e+00
+402,3000,3000,q1_x not determined by coupled scalar EOM
+403,3000,3000,q1_x not determined by coupled scalar EOM
+404,3000,3000,q2_x not determined by coupled scalar EOM
+406,3000,3000,q2_x not determined by coupled scalar EOM
+407,13,3000,no-scalar constraint not satisfied at x=0: C0=2.235e+00
+407,11,3000,no-scalar constraint not satisfied at x=0: C0=2.360e+00
+407,9,3000,no-scalar constraint not satisfied at x=0: C0=1.680e+00
+407,9,3000,no-scalar constraint not satisfied at x=0: C0=2.291e+00
+407,9,3000,no-scalar constraint not satisfied at x=0: C0=1.670e+00
+407,9,3000,no-scalar constraint not satisfied at x=0: C0=1.660e+00
+407,9,3000,no-scalar constraint not satisfied at x=0: C0=2.453e+00
+407,9,3000,no-scalar constraint not satisfied at x=0: C0=1.663e+00
+408,3000,3000,q1_x not determined by coupled scalar EOM
+409,3000,3000,q1_x not determined by coupled scalar EOM
+411,1061,1343,no acceptable real q2_0 root from E_N(x=0)=0
+411,82,1343,solve_ivp failed: Required step size is less than spacing between numbers.
+411,2,1343,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+411,2,1343,constraint drift too large: max|C|=1.920e-03
+411,2,1343,constraint drift too large: max|C|=1.004e-04
+411,2,1343,constraint drift too large: max|C|=2.734e-04
+411,2,1343,constraint drift too large: max|C|=3.383e-04
+411,1,1343,EFT cutoff violated: max(h/lambda_H)=1.089e-01
+413,3000,3000,q2_x not determined by coupled scalar EOM
+414,3000,3000,q2_x not determined by coupled scalar EOM
+415,3000,3000,symbolic build timeout > 60s
+416,3000,3000,q1_x not determined by coupled scalar EOM
+418,3000,3000,q2_x not determined by coupled scalar EOM
+420,2066,2912,H(z) absurdly large
+420,443,2912,no acceptable real q1_0 root from E_N(x=0)=0
+420,3,2912,EFT cutoff violated: max(h/lambda_H)=1.814e-01
+420,2,2912,EFT cutoff violated: max(h/lambda_H)=1.921e-01
+420,2,2912,EFT cutoff violated: max(h/lambda_H)=1.036e-01
+420,2,2912,EFT cutoff violated: max(h/lambda_H)=1.652e-01
+420,2,2912,EFT cutoff violated: max(h/lambda_H)=1.912e-01
+420,2,2912,EFT cutoff violated: max(h/lambda_H)=1.447e-01
+422,3000,3000,symbolic build timeout > 60s
+425,3000,3000,q2_x not determined by coupled scalar EOM
+426,3000,3000,q1_x not determined by coupled scalar EOM
+429,3000,3000,symbolic build timeout > 60s
+431,3000,3000,q2_x not determined by coupled scalar EOM
+432,1106,1405,no acceptable real q2_0 root from E_N(x=0)=0
+432,82,1405,solve_ivp failed: Required step size is less than spacing between numbers.
+432,2,1405,EFT cutoff violated: max(h/lambda_H)=1.056e-01
+432,2,1405,EFT cutoff violated: max(h/lambda_H)=1.089e-01
+432,2,1405,constraint drift too large: max|C|=1.149e-04
+432,2,1405,constraint drift too large: max|C|=8.657e-04
+432,1,1405,constraint drift too large: max|C|=4.151e-03
+432,1,1405,EFT cutoff violated: max(h/lambda_H)=1.049e-01
+433,3000,3000,q2_x not determined by coupled scalar EOM
+434,2075,2179,no acceptable real q2_0 root from E_N(x=0)=0
+434,104,2179,solve_ivp failed: Required step size is less than spacing between numbers.
+435,3,3000,EFT cutoff violated: max(h/lambda_H)=1.012e-01
+435,2,3000,constraint drift too large: max|C|=4.321e+154
+435,2,3000,EFT cutoff violated: max(h/lambda_H)=1.015e-01
+435,2,3000,constraint drift too large: max|C|=1.595e+155
+435,2,3000,constraint drift too large: max|C|=3.758e+162
+435,2,3000,EFT cutoff violated: max(h/lambda_H)=1.097e-01
+435,2,3000,constraint drift too large: max|C|=1.472e+161
+435,2,3000,EFT cutoff violated: max(h/lambda_H)=1.102e-01
+438,3000,3000,q2_x not determined by coupled scalar EOM
+440,3000,3000,q1_x not determined by coupled scalar EOM
+441,3000,3000,q1_x not determined by coupled scalar EOM
+442,1016,1384,no acceptable real q2_0 root from E_N(x=0)=0
+442,89,1384,solve_ivp failed: Required step size is less than spacing between numbers.
+442,2,1384,constraint drift too large: max|C|=3.228e-04
+442,2,1384,EFT cutoff violated: max(h/lambda_H)=1.062e-01
+442,2,1384,EFT cutoff violated: max(h/lambda_H)=1.073e-01
+442,2,1384,constraint drift too large: max|C|=1.964e-04
+442,1,1384,constraint drift too large: max|C|=7.978e-04
+442,1,1384,constraint drift too large: max|C|=1.056e-03
+445,3000,3000,q2_x not determined by coupled scalar EOM
+446,3000,3000,q2_x not determined by coupled scalar EOM
+447,2841,2964,no acceptable real q1_0 root from E_N(x=0)=0
+447,88,2964,solve_ivp failed: Required step size is less than spacing between numbers.
+447,1,2964,constraint drift too large: max|C|=2.928e-02
+447,1,2964,constraint drift too large: max|C|=2.150e-04
+447,1,2964,constraint drift too large: max|C|=3.332e-03
+447,1,2964,constraint drift too large: max|C|=3.407e-03
+447,1,2964,constraint drift too large: max|C|=6.781e-04
+447,1,2964,constraint drift too large: max|C|=1.524e-03
+448,3000,3000,q2_x not determined by coupled scalar EOM
+449,1283,3000,initial q2_x is singular or absurd
+449,861,3000,|q2| trajectory too large
+449,3,3000,EFT cutoff violated: max(h/lambda_H)=1.031e-01
+449,2,3000,constraint drift too large: max|C|=1.652e+211
+449,2,3000,EFT cutoff violated: max(h/lambda_H)=1.085e-01
+449,2,3000,EFT cutoff violated: max(h/lambda_H)=1.019e-01
+449,2,3000,constraint drift too large: max|C|=1.116e+212
+449,2,3000,EFT cutoff violated: max(h/lambda_H)=1.033e-01
+451,10,3000,no-scalar constraint not satisfied at x=0: C0=2.160e+00
+451,10,3000,no-scalar constraint not satisfied at x=0: C0=2.018e+00
+451,9,3000,no-scalar constraint not satisfied at x=0: C0=1.974e+00
+451,9,3000,no-scalar constraint not satisfied at x=0: C0=2.242e+00
+451,9,3000,no-scalar constraint not satisfied at x=0: C0=2.145e+00
+451,9,3000,no-scalar constraint not satisfied at x=0: C0=2.434e+00
+451,9,3000,no-scalar constraint not satisfied at x=0: C0=2.228e+00
+451,9,3000,no-scalar constraint not satisfied at x=0: C0=1.738e+00
+452,3000,3000,q1_x not determined by coupled scalar EOM
+453,11,3000,no-scalar constraint not satisfied at x=0: C0=1.758e+00
+453,10,3000,no-scalar constraint not satisfied at x=0: C0=2.132e+00
+453,10,3000,no-scalar constraint not satisfied at x=0: C0=2.308e+00
+453,10,3000,no-scalar constraint not satisfied at x=0: C0=2.084e+00
+453,10,3000,no-scalar constraint not satisfied at x=0: C0=2.045e+00
+453,9,3000,no-scalar constraint not satisfied at x=0: C0=2.466e+00
+453,9,3000,no-scalar constraint not satisfied at x=0: C0=2.345e+00
+453,8,3000,no-scalar constraint not satisfied at x=0: C0=2.054e+00
+454,3000,3000,q2_x not determined by coupled scalar EOM
+455,3000,3000,q2_x not determined by coupled scalar EOM
+456,3000,3000,q1_x not determined by coupled scalar EOM
+457,3000,3000,q1_x not determined by coupled scalar EOM
+458,3000,3000,q2_x not determined by coupled scalar EOM
+459,11,3000,no-scalar constraint not satisfied at x=0: C0=1.685e+00
+459,10,3000,no-scalar constraint not satisfied at x=0: C0=1.894e+00
+459,9,3000,no-scalar constraint not satisfied at x=0: C0=2.119e+00
+459,9,3000,no-scalar constraint not satisfied at x=0: C0=1.860e+00
+459,9,3000,no-scalar constraint not satisfied at x=0: C0=1.771e+00
+459,9,3000,no-scalar constraint not satisfied at x=0: C0=1.793e+00
+459,8,3000,no-scalar constraint not satisfied at x=0: C0=2.438e+00
+459,8,3000,no-scalar constraint not satisfied at x=0: C0=2.195e+00
+460,934,3000,initial q2_x is singular or absurd
+460,540,3000,|q2| trajectory too large
+460,190,3000,|varphi2| trajectory too large
+460,2,3000,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+460,2,3000,constraint drift too large: max|C|=1.994e+48
+460,2,3000,EFT cutoff violated: max(h/lambda_H)=1.033e-01
+460,2,3000,constraint drift too large: max|C|=2.175e+44
+460,2,3000,EFT cutoff violated: max(h/lambda_H)=1.029e-01
+461,10,3000,no-scalar constraint not satisfied at x=0: C0=1.769e+00
+461,10,3000,no-scalar constraint not satisfied at x=0: C0=1.720e+00
+461,9,3000,no-scalar constraint not satisfied at x=0: C0=2.178e+00
+461,9,3000,no-scalar constraint not satisfied at x=0: C0=2.102e+00
+461,9,3000,no-scalar constraint not satisfied at x=0: C0=2.097e+00
+461,9,3000,no-scalar constraint not satisfied at x=0: C0=2.217e+00
+461,9,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+461,9,3000,no-scalar constraint not satisfied at x=0: C0=1.656e+00
+462,10,3000,no-scalar constraint not satisfied at x=0: C0=2.027e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=2.257e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=2.400e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=1.978e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=1.704e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=2.379e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=2.231e+00
+462,8,3000,no-scalar constraint not satisfied at x=0: C0=2.289e+00
+463,3,3000,EFT cutoff violated: max(h/lambda_H)=1.005e-01
+463,3,3000,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+463,3,3000,EFT cutoff violated: max(h/lambda_H)=1.075e-01
+463,2,3000,EFT cutoff violated: max(h/lambda_H)=1.055e-01
+463,2,3000,constraint drift too large: max|C|=2.079e+104
+463,2,3000,constraint drift too large: max|C|=2.023e+103
+463,2,3000,constraint drift too large: max|C|=1.627e+103
+463,2,3000,constraint drift too large: max|C|=1.532e+91
+464,10,3000,no-scalar constraint not satisfied at x=0: C0=1.999e+00
+464,10,3000,no-scalar constraint not satisfied at x=0: C0=1.963e+00
+464,9,3000,no-scalar constraint not satisfied at x=0: C0=2.416e+00
+464,9,3000,no-scalar constraint not satisfied at x=0: C0=2.435e+00
+464,9,3000,no-scalar constraint not satisfied at x=0: C0=2.419e+00
+464,9,3000,no-scalar constraint not satisfied at x=0: C0=1.981e+00
+464,8,3000,no-scalar constraint not satisfied at x=0: C0=2.479e+00
+464,8,3000,no-scalar constraint not satisfied at x=0: C0=2.292e+00
+465,3000,3000,q1_x not determined by coupled scalar EOM
+467,3000,3000,q1_x not determined by coupled scalar EOM
+469,3000,3000,q2_x not determined by coupled scalar EOM
+470,3000,3000,q1_x not determined by coupled scalar EOM
+471,3000,3000,q1_x not determined by coupled scalar EOM
+472,11,3000,no-scalar constraint not satisfied at x=0: C0=2.324e+00
+472,11,3000,no-scalar constraint not satisfied at x=0: C0=1.941e+00
+472,9,3000,no-scalar constraint not satisfied at x=0: C0=1.779e+00
+472,9,3000,no-scalar constraint not satisfied at x=0: C0=2.462e+00
+472,9,3000,no-scalar constraint not satisfied at x=0: C0=2.114e+00
+472,9,3000,no-scalar constraint not satisfied at x=0: C0=2.363e+00
+472,9,3000,no-scalar constraint not satisfied at x=0: C0=2.151e+00
+472,9,3000,no-scalar constraint not satisfied at x=0: C0=2.425e+00
+473,10,3000,no-scalar constraint not satisfied at x=0: C0=2.227e+00
+473,10,3000,no-scalar constraint not satisfied at x=0: C0=2.219e+00
+473,10,3000,no-scalar constraint not satisfied at x=0: C0=2.183e+00
+473,9,3000,no-scalar constraint not satisfied at x=0: C0=2.507e+00
+473,9,3000,no-scalar constraint not satisfied at x=0: C0=2.195e+00
+473,9,3000,no-scalar constraint not satisfied at x=0: C0=2.330e+00
+473,8,3000,no-scalar constraint not satisfied at x=0: C0=1.883e+00
+473,8,3000,no-scalar constraint not satisfied at x=0: C0=2.357e+00
+474,3000,3000,q1_x not determined by coupled scalar EOM
+477,3000,3000,q2_x not determined by coupled scalar EOM
+479,10,3000,no-scalar constraint not satisfied at x=0: C0=1.863e+00
+479,10,3000,no-scalar constraint not satisfied at x=0: C0=2.533e+00
+479,10,3000,no-scalar constraint not satisfied at x=0: C0=1.718e+00
+479,8,3000,no-scalar constraint not satisfied at x=0: C0=1.766e+00
+479,8,3000,no-scalar constraint not satisfied at x=0: C0=2.148e+00
+479,8,3000,no-scalar constraint not satisfied at x=0: C0=2.459e+00
+479,8,3000,no-scalar constraint not satisfied at x=0: C0=2.239e+00
+479,8,3000,no-scalar constraint not satisfied at x=0: C0=2.122e+00
+480,3000,3000,symbolic build timeout > 60s
+483,2,3000,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+483,2,3000,constraint drift too large: max|C|=2.114e+149
+483,2,3000,constraint drift too large: max|C|=1.144e+154
+483,2,3000,constraint drift too large: max|C|=2.079e+159
+483,2,3000,constraint drift too large: max|C|=1.256e+157
+483,2,3000,constraint drift too large: max|C|=1.631e+152
+483,2,3000,constraint drift too large: max|C|=1.457e+163
+483,2,3000,constraint drift too large: max|C|=2.375e+169
+485,3000,3000,q2_x not determined by coupled scalar EOM
+486,3000,3000,q1_x not determined by coupled scalar EOM
+487,3000,3000,q1_x not determined by coupled scalar EOM
+489,3000,3000,q2_x not determined by coupled scalar EOM
+491,3000,3000,q1_x not determined by coupled scalar EOM
+493,3000,3000,q1_x not determined by coupled scalar EOM
+494,1822,2878,H(z) absurdly large
+494,715,2878,no acceptable real q1_0 root from E_N(x=0)=0
+494,3,2878,EFT cutoff violated: max(h/lambda_H)=1.242e-01
+494,3,2878,EFT cutoff violated: max(h/lambda_H)=1.511e-01
+494,3,2878,EFT cutoff violated: max(h/lambda_H)=1.218e-01
+494,2,2878,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+494,2,2878,EFT cutoff violated: max(h/lambda_H)=1.113e-01
+494,2,2878,EFT cutoff violated: max(h/lambda_H)=1.992e-01
+495,3000,3000,q2_x not determined by coupled scalar EOM
+496,3000,3000,q2_x not determined by coupled scalar EOM
+497,1127,1304,no acceptable real q2_0 root from E_N(x=0)=0
+497,3,1304,EFT cutoff violated: max(h/lambda_H)=1.057e-01
+497,2,1304,EFT cutoff violated: max(h/lambda_H)=1.075e-01
+497,2,1304,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+497,1,1304,constraint drift too large: max|C|=2.821e-04
+497,1,1304,constraint drift too large: max|C|=2.607e-03
+497,1,1304,EFT cutoff violated: max(h/lambda_H)=1.102e-01
+497,1,1304,constraint drift too large: max|C|=1.434e-03
+498,3000,3000,q2_x not determined by coupled scalar EOM
+499,10,3000,no-scalar constraint not satisfied at x=0: C0=2.270e+00
+499,9,3000,no-scalar constraint not satisfied at x=0: C0=2.301e+00
+499,9,3000,no-scalar constraint not satisfied at x=0: C0=2.232e+00
+499,9,3000,no-scalar constraint not satisfied at x=0: C0=1.880e+00
+499,9,3000,no-scalar constraint not satisfied at x=0: C0=2.108e+00
+499,9,3000,no-scalar constraint not satisfied at x=0: C0=2.217e+00
+499,9,3000,no-scalar constraint not satisfied at x=0: C0=1.986e+00
+499,8,3000,no-scalar constraint not satisfied at x=0: C0=1.661e+00
+500,3000,3000,q2_x not determined by coupled scalar EOM
+501,3000,3000,q2_x not determined by coupled scalar EOM
+502,2,3000,constraint drift too large: max|C|=1.573e+108
+502,2,3000,constraint drift too large: max|C|=3.653e+109
+502,2,3000,constraint drift too large: max|C|=3.295e+106
+502,2,3000,constraint drift too large: max|C|=1.455e+99
+502,2,3000,constraint drift too large: max|C|=1.346e+103
+502,2,3000,EFT cutoff violated: max(h/lambda_H)=1.076e-01
+502,2,3000,constraint drift too large: max|C|=3.436e+104
+502,2,3000,constraint drift too large: max|C|=1.031e+99
+503,3000,3000,q2_x not determined by coupled scalar EOM
+504,3000,3000,q1_x not determined by coupled scalar EOM
+505,3000,3000,q1_x not determined by coupled scalar EOM
+506,3,3000,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+506,2,3000,constraint drift too large: max|C|=1.560e+209
+506,2,3000,constraint drift too large: max|C|=1.352e+211
+506,2,3000,constraint drift too large: max|C|=4.306e+215
+506,2,3000,constraint drift too large: max|C|=1.474e+214
+506,2,3000,constraint drift too large: max|C|=2.956e+205
+506,2,3000,constraint drift too large: max|C|=8.678e+210
+506,2,3000,constraint drift too large: max|C|=2.222e+222
+507,3000,3000,q2_x not determined by coupled scalar EOM
+508,2842,2967,no acceptable real q1_0 root from E_N(x=0)=0
+508,94,2967,solve_ivp failed: Required step size is less than spacing between numbers.
+508,1,2967,constraint drift too large: max|C|=1.820e-04
+508,1,2967,constraint drift too large: max|C|=2.336e-04
+508,1,2967,constraint drift too large: max|C|=3.482e-02
+508,1,2967,constraint drift too large: max|C|=5.812e-03
+508,1,2967,constraint drift too large: max|C|=1.370e-04
+508,1,2967,constraint drift too large: max|C|=2.573e-04
+509,3000,3000,symbolic build timeout > 60s
+511,1124,1429,no acceptable real q2_0 root from E_N(x=0)=0
+511,76,1429,solve_ivp failed: Required step size is less than spacing between numbers.
+511,2,1429,constraint drift too large: max|C|=1.137e-04
+511,2,1429,EFT cutoff violated: max(h/lambda_H)=1.021e-01
+511,2,1429,constraint drift too large: max|C|=2.711e-03
+511,2,1429,EFT cutoff violated: max(h/lambda_H)=1.050e-01
+511,2,1429,constraint drift too large: max|C|=1.271e-04
+511,2,1429,constraint drift too large: max|C|=2.221e-04
+515,3000,3000,q1_x not determined by coupled scalar EOM
+516,2377,2978,no acceptable real q1_0 root from E_N(x=0)=0
+516,243,2978,H(z) absurdly large
+516,119,2978,solve_ivp failed: Required step size is less than spacing between numbers.
+516,84,2978,initial h_x is singular or absurd
+516,9,2978,initial q1_x is singular or absurd
+516,1,2978,EFT cutoff violated: max(h/lambda_H)=7.375e-01
+516,1,2978,EFT cutoff violated: max(h/lambda_H)=1.085e-01
+516,1,2978,EFT cutoff violated: max(h/lambda_H)=2.208e-01
+517,9,3000,no-scalar constraint not satisfied at x=0: C0=2.457e+00
+517,9,3000,no-scalar constraint not satisfied at x=0: C0=2.505e+00
+517,9,3000,no-scalar constraint not satisfied at x=0: C0=1.953e+00
+517,9,3000,no-scalar constraint not satisfied at x=0: C0=1.834e+00
+517,9,3000,no-scalar constraint not satisfied at x=0: C0=1.757e+00
+517,8,3000,no-scalar constraint not satisfied at x=0: C0=2.367e+00
+517,8,3000,no-scalar constraint not satisfied at x=0: C0=2.445e+00
+517,8,3000,no-scalar constraint not satisfied at x=0: C0=2.069e+00
+519,3000,3000,q2_x not determined by coupled scalar EOM
+520,10,3000,no-scalar constraint not satisfied at x=0: C0=2.545e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=2.156e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=1.938e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=2.061e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=1.865e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=2.058e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=1.810e+00
+520,9,3000,no-scalar constraint not satisfied at x=0: C0=1.827e+00
+521,9,3000,no-scalar constraint not satisfied at x=0: C0=2.269e+00
+521,9,3000,no-scalar constraint not satisfied at x=0: C0=1.733e+00
+521,9,3000,no-scalar constraint not satisfied at x=0: C0=2.049e+00
+521,8,3000,no-scalar constraint not satisfied at x=0: C0=2.399e+00
+521,8,3000,no-scalar constraint not satisfied at x=0: C0=1.877e+00
+521,8,3000,no-scalar constraint not satisfied at x=0: C0=1.821e+00
+521,8,3000,no-scalar constraint not satisfied at x=0: C0=2.509e+00
+521,8,3000,no-scalar constraint not satisfied at x=0: C0=2.193e+00
+522,3000,3000,symbolic build timeout > 60s
+523,3000,3000,q1_x not determined by coupled scalar EOM
+524,3000,3000,q1_x not determined by coupled scalar EOM
+525,3000,3000,q2_x not determined by coupled scalar EOM
+527,947,1390,no acceptable real q2_0 root from E_N(x=0)=0
+527,106,1390,solve_ivp failed: Required step size is less than spacing between numbers.
+527,3,1390,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+527,2,1390,EFT cutoff violated: max(h/lambda_H)=1.015e-01
+527,2,1390,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+527,2,1390,constraint drift too large: max|C|=1.652e-02
+527,2,1390,EFT cutoff violated: max(h/lambda_H)=1.007e-01
+527,2,1390,EFT cutoff violated: max(h/lambda_H)=1.103e-01
+528,1161,1321,no acceptable real q2_0 root from E_N(x=0)=0
+528,3,1321,EFT cutoff violated: max(h/lambda_H)=1.077e-01
+528,2,1321,EFT cutoff violated: max(h/lambda_H)=1.053e-01
+528,2,1321,constraint drift too large: max|C|=1.645e-04
+528,1,1321,constraint drift too large: max|C|=1.376e-04
+528,1,1321,constraint drift too large: max|C|=1.712e-04
+528,1,1321,constraint drift too large: max|C|=8.570e-04
+528,1,1321,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+529,3000,3000,symbolic build timeout > 60s
+530,1422,3000,no acceptable real q1_0 root from E_N(x=0)=0
+530,2,3000,constraint drift too large: max|C|=1.027e+57
+530,2,3000,constraint drift too large: max|C|=1.717e+52
+530,2,3000,constraint drift too large: max|C|=1.137e+59
+530,2,3000,constraint drift too large: max|C|=1.013e+59
+530,2,3000,constraint drift too large: max|C|=2.488e+57
+530,2,3000,constraint drift too large: max|C|=1.068e+65
+530,1,3000,constraint drift too large: max|C|=6.567e+58
+531,3000,3000,q2_x not determined by coupled scalar EOM
+533,3000,3000,symbolic build timeout > 60s
+534,3000,3000,q1_x not determined by coupled scalar EOM
+535,3000,3000,q1_x not determined by coupled scalar EOM
+536,11,3000,no-scalar constraint not satisfied at x=0: C0=1.904e+00
+536,11,3000,no-scalar constraint not satisfied at x=0: C0=2.085e+00
+536,10,3000,no-scalar constraint not satisfied at x=0: C0=2.494e+00
+536,10,3000,no-scalar constraint not satisfied at x=0: C0=1.682e+00
+536,10,3000,no-scalar constraint not satisfied at x=0: C0=2.524e+00
+536,9,3000,no-scalar constraint not satisfied at x=0: C0=1.875e+00
+536,9,3000,no-scalar constraint not satisfied at x=0: C0=1.990e+00
+536,9,3000,no-scalar constraint not satisfied at x=0: C0=1.654e+00
+538,3000,3000,q2_x not determined by coupled scalar EOM
+539,1082,1343,no acceptable real q2_0 root from E_N(x=0)=0
+539,66,1343,solve_ivp failed: Required step size is less than spacing between numbers.
+539,2,1343,EFT cutoff violated: max(h/lambda_H)=1.004e-01
+539,2,1343,constraint drift too large: max|C|=1.547e-04
+539,2,1343,constraint drift too large: max|C|=1.245e-03
+539,2,1343,constraint drift too large: max|C|=1.588e-04
+539,1,1343,constraint drift too large: max|C|=3.665e-04
+539,1,1343,constraint drift too large: max|C|=7.633e-04
+540,3000,3000,q2_x not determined by coupled scalar EOM
+541,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+542,10,3000,no-scalar constraint not satisfied at x=0: C0=2.360e+00
+542,9,3000,no-scalar constraint not satisfied at x=0: C0=2.116e+00
+542,9,3000,no-scalar constraint not satisfied at x=0: C0=2.467e+00
+542,9,3000,no-scalar constraint not satisfied at x=0: C0=1.747e+00
+542,9,3000,no-scalar constraint not satisfied at x=0: C0=1.674e+00
+542,9,3000,no-scalar constraint not satisfied at x=0: C0=1.833e+00
+542,9,3000,no-scalar constraint not satisfied at x=0: C0=1.811e+00
+542,8,3000,no-scalar constraint not satisfied at x=0: C0=2.179e+00
+544,1095,1400,no acceptable real q2_0 root from E_N(x=0)=0
+544,73,1400,solve_ivp failed: Required step size is less than spacing between numbers.
+544,2,1400,constraint drift too large: max|C|=1.233e-04
+544,2,1400,EFT cutoff violated: max(h/lambda_H)=1.082e-01
+544,2,1400,EFT cutoff violated: max(h/lambda_H)=1.048e-01
+544,2,1400,EFT cutoff violated: max(h/lambda_H)=1.080e-01
+544,2,1400,constraint drift too large: max|C|=3.345e-04
+544,2,1400,EFT cutoff violated: max(h/lambda_H)=1.081e-01
+545,3000,3000,q2_x not determined by coupled scalar EOM
+546,3000,3000,q2_x not determined by coupled scalar EOM
+547,3000,3000,q2_x not determined by coupled scalar EOM
+548,3000,3000,q2_x not determined by coupled scalar EOM
+549,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+550,3000,3000,q1_x not determined by coupled scalar EOM
+551,1187,1366,no acceptable real q2_0 root from E_N(x=0)=0
+551,3,1366,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+551,2,1366,EFT cutoff violated: max(h/lambda_H)=1.101e-01
+551,2,1366,EFT cutoff violated: max(h/lambda_H)=1.076e-01
+551,2,1366,EFT cutoff violated: max(h/lambda_H)=1.012e-01
+551,2,1366,EFT cutoff violated: max(h/lambda_H)=1.008e-01
+551,2,1366,EFT cutoff violated: max(h/lambda_H)=1.055e-01
+551,2,1366,constraint drift too large: max|C|=1.122e-03
+554,11,3000,no-scalar constraint not satisfied at x=0: C0=1.931e+00
+554,10,3000,no-scalar constraint not satisfied at x=0: C0=2.483e+00
+554,10,3000,no-scalar constraint not satisfied at x=0: C0=1.745e+00
+554,10,3000,no-scalar constraint not satisfied at x=0: C0=1.770e+00
+554,9,3000,no-scalar constraint not satisfied at x=0: C0=1.722e+00
+554,9,3000,no-scalar constraint not satisfied at x=0: C0=1.882e+00
+554,8,3000,no-scalar constraint not satisfied at x=0: C0=2.123e+00
+554,8,3000,no-scalar constraint not satisfied at x=0: C0=2.436e+00
+555,10,3000,no-scalar constraint not satisfied at x=0: C0=2.542e+00
+555,10,3000,no-scalar constraint not satisfied at x=0: C0=2.450e+00
+555,9,3000,no-scalar constraint not satisfied at x=0: C0=1.674e+00
+555,9,3000,no-scalar constraint not satisfied at x=0: C0=2.293e+00
+555,9,3000,no-scalar constraint not satisfied at x=0: C0=2.064e+00
+555,9,3000,no-scalar constraint not satisfied at x=0: C0=2.498e+00
+555,8,3000,no-scalar constraint not satisfied at x=0: C0=1.657e+00
+555,8,3000,no-scalar constraint not satisfied at x=0: C0=2.514e+00
+556,3000,3000,q1_x not determined by coupled scalar EOM
+557,3000,3000,q1_x not determined by coupled scalar EOM
+559,3000,3000,q1_x not determined by coupled scalar EOM
+560,3000,3000,q2_x not determined by coupled scalar EOM
+561,2,3000,constraint drift too large: max|C|=1.050e+224
+561,2,3000,EFT cutoff violated: max(h/lambda_H)=1.083e-01
+561,2,3000,constraint drift too large: max|C|=2.704e+209
+561,2,3000,constraint drift too large: max|C|=2.147e+212
+561,2,3000,EFT cutoff violated: max(h/lambda_H)=1.077e-01
+561,2,3000,constraint drift too large: max|C|=3.530e+212
+561,2,3000,constraint drift too large: max|C|=8.457e+214
+561,2,3000,constraint drift too large: max|C|=3.023e+205
+563,3000,3000,symbolic build timeout > 60s
+564,3,3000,EFT cutoff violated: max(h/lambda_H)=1.105e-01
+564,3,3000,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+564,3,3000,EFT cutoff violated: max(h/lambda_H)=1.073e-01
+564,2,3000,constraint drift too large: max|C|=5.642e+156
+564,2,3000,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+564,2,3000,constraint drift too large: max|C|=4.158e+157
+564,2,3000,constraint drift too large: max|C|=3.109e+159
+564,2,3000,constraint drift too large: max|C|=1.484e+159
+565,1167,1335,no acceptable real q2_0 root from E_N(x=0)=0
+565,2,1335,EFT cutoff violated: max(h/lambda_H)=1.091e-01
+565,2,1335,EFT cutoff violated: max(h/lambda_H)=1.036e-01
+565,1,1335,constraint drift too large: max|C|=4.360e-04
+565,1,1335,EFT cutoff violated: max(h/lambda_H)=1.009e-01
+565,1,1335,EFT cutoff violated: max(h/lambda_H)=1.061e-01
+565,1,1335,EFT cutoff violated: max(h/lambda_H)=1.070e-01
+565,1,1335,constraint drift too large: max|C|=6.902e-04
+568,3000,3000,q2_x not determined by coupled scalar EOM
+569,11,3000,no-scalar constraint not satisfied at x=0: C0=2.002e+00
+569,10,3000,no-scalar constraint not satisfied at x=0: C0=2.159e+00
+569,9,3000,no-scalar constraint not satisfied at x=0: C0=2.527e+00
+569,9,3000,no-scalar constraint not satisfied at x=0: C0=2.203e+00
+569,9,3000,no-scalar constraint not satisfied at x=0: C0=1.906e+00
+569,9,3000,no-scalar constraint not satisfied at x=0: C0=2.454e+00
+569,8,3000,no-scalar constraint not satisfied at x=0: C0=2.212e+00
+569,8,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+571,3000,3000,q1_x not determined by coupled scalar EOM
+574,11,3000,no-scalar constraint not satisfied at x=0: C0=1.924e+00
+574,10,3000,no-scalar constraint not satisfied at x=0: C0=2.307e+00
+574,10,3000,no-scalar constraint not satisfied at x=0: C0=1.728e+00
+574,9,3000,no-scalar constraint not satisfied at x=0: C0=2.339e+00
+574,9,3000,no-scalar constraint not satisfied at x=0: C0=2.170e+00
+574,9,3000,no-scalar constraint not satisfied at x=0: C0=1.943e+00
+574,9,3000,no-scalar constraint not satisfied at x=0: C0=1.738e+00
+574,8,3000,no-scalar constraint not satisfied at x=0: C0=1.938e+00
+575,3000,3000,symbolic build timeout > 60s
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=2.221e+00
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=2.446e+00
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=2.253e+00
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=2.353e+00
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=1.839e+00
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=2.312e+00
+576,9,3000,no-scalar constraint not satisfied at x=0: C0=2.498e+00
+576,8,3000,no-scalar constraint not satisfied at x=0: C0=1.794e+00
+578,3000,3000,q1_x not determined by coupled scalar EOM
+579,3000,3000,symbolic build timeout > 60s
+581,3000,3000,q2_x not determined by coupled scalar EOM
+582,134,1475,no acceptable real q2_0 root from E_N(x=0)=0
+582,85,1475,solve_ivp failed: Required step size is less than spacing between numbers.
+582,3,1475,EFT cutoff violated: max(h/lambda_H)=1.063e-01
+582,2,1475,constraint drift too large: max|C|=2.176e-02
+582,2,1475,constraint drift too large: max|C|=1.444e-04
+582,2,1475,constraint drift too large: max|C|=1.917e-04
+582,2,1475,EFT cutoff violated: max(h/lambda_H)=1.029e-01
+582,2,1475,constraint drift too large: max|C|=2.487e-02
+584,3000,3000,q1_x not determined by coupled scalar EOM
+585,3000,3000,q2_x not determined by coupled scalar EOM
+586,3000,3000,q1_x not determined by coupled scalar EOM
+587,3000,3000,q1_x not determined by coupled scalar EOM
+589,3000,3000,q1_x not determined by coupled scalar EOM
+590,3000,3000,symbolic build timeout > 60s
+591,3000,3000,q1_x not determined by coupled scalar EOM
+592,947,1372,no acceptable real q2_0 root from E_N(x=0)=0
+592,110,1372,solve_ivp failed: Required step size is less than spacing between numbers.
+592,2,1372,EFT cutoff violated: max(h/lambda_H)=1.017e-01
+592,2,1372,EFT cutoff violated: max(h/lambda_H)=1.056e-01
+592,2,1372,EFT cutoff violated: max(h/lambda_H)=1.036e-01
+592,2,1372,constraint drift too large: max|C|=1.643e-03
+592,2,1372,constraint drift too large: max|C|=1.918e-03
+592,1,1372,constraint drift too large: max|C|=1.274e-02
+593,10,3000,no-scalar constraint not satisfied at x=0: C0=2.446e+00
+593,9,3000,no-scalar constraint not satisfied at x=0: C0=2.445e+00
+593,9,3000,no-scalar constraint not satisfied at x=0: C0=2.012e+00
+593,9,3000,no-scalar constraint not satisfied at x=0: C0=1.711e+00
+593,9,3000,no-scalar constraint not satisfied at x=0: C0=2.072e+00
+593,9,3000,no-scalar constraint not satisfied at x=0: C0=2.449e+00
+593,9,3000,no-scalar constraint not satisfied at x=0: C0=2.405e+00
+593,8,3000,no-scalar constraint not satisfied at x=0: C0=2.116e+00
+594,3000,3000,q1_x not determined by coupled scalar EOM
+596,3000,3000,q2_x not determined by coupled scalar EOM
+597,3000,3000,q2_x not determined by coupled scalar EOM
+598,3000,3000,q1_x not determined by coupled scalar EOM
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=1.875e+00
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=1.814e+00
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=1.959e+00
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=2.173e+00
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=2.546e+00
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=1.944e+00
+599,9,3000,no-scalar constraint not satisfied at x=0: C0=2.260e+00
+599,8,3000,no-scalar constraint not satisfied at x=0: C0=2.344e+00
+600,3000,3000,symbolic build timeout > 60s
+601,3000,3000,symbolic build timeout > 60s
+602,3000,3000,q2_x not determined by coupled scalar EOM
+603,3000,3000,q2_x not determined by coupled scalar EOM
+604,3000,3000,q2_x not determined by coupled scalar EOM
+605,12,3000,no-scalar constraint not satisfied at x=0: C0=1.955e+00
+605,11,3000,no-scalar constraint not satisfied at x=0: C0=2.424e+00
+605,10,3000,no-scalar constraint not satisfied at x=0: C0=2.535e+00
+605,9,3000,no-scalar constraint not satisfied at x=0: C0=2.296e+00
+605,9,3000,no-scalar constraint not satisfied at x=0: C0=1.789e+00
+605,8,3000,no-scalar constraint not satisfied at x=0: C0=2.147e+00
+605,8,3000,no-scalar constraint not satisfied at x=0: C0=1.706e+00
+605,8,3000,no-scalar constraint not satisfied at x=0: C0=2.453e+00
+608,3000,3000,q2_x not determined by coupled scalar EOM
+610,3000,3000,q1_x not determined by coupled scalar EOM
+611,2,3000,constraint drift too large: max|C|=1.085e+53
+611,2,3000,constraint drift too large: max|C|=3.902e+35
+611,2,3000,constraint drift too large: max|C|=2.917e+43
+611,2,3000,constraint drift too large: max|C|=7.965e+37
+611,2,3000,constraint drift too large: max|C|=1.528e+49
+611,2,3000,constraint drift too large: max|C|=9.660e+37
+611,2,3000,constraint drift too large: max|C|=1.872e+52
+611,2,3000,constraint drift too large: max|C|=1.032e+49
+612,2,3000,constraint drift too large: max|C|=1.977e+154
+612,2,3000,constraint drift too large: max|C|=7.358e+158
+612,2,3000,EFT cutoff violated: max(h/lambda_H)=1.004e-01
+612,2,3000,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+612,2,3000,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+612,2,3000,constraint drift too large: max|C|=6.562e+155
+612,2,3000,constraint drift too large: max|C|=5.859e+165
+612,2,3000,constraint drift too large: max|C|=1.737e+148
+614,3000,3000,symbolic build timeout > 60s
+615,10,3000,no-scalar constraint not satisfied at x=0: C0=2.217e+00
+615,9,3000,no-scalar constraint not satisfied at x=0: C0=2.514e+00
+615,8,3000,no-scalar constraint not satisfied at x=0: C0=1.774e+00
+615,8,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+615,8,3000,no-scalar constraint not satisfied at x=0: C0=2.369e+00
+615,8,3000,no-scalar constraint not satisfied at x=0: C0=2.253e+00
+615,8,3000,no-scalar constraint not satisfied at x=0: C0=1.807e+00
+615,8,3000,no-scalar constraint not satisfied at x=0: C0=2.157e+00
+616,3,3000,constraint drift too large: max|C|=1.558e+158
+616,2,3000,constraint drift too large: max|C|=1.140e+157
+616,2,3000,constraint drift too large: max|C|=1.288e+153
+616,2,3000,constraint drift too large: max|C|=2.870e+161
+616,2,3000,constraint drift too large: max|C|=4.667e+158
+616,2,3000,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+616,2,3000,constraint drift too large: max|C|=2.043e+163
+616,2,3000,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+617,3000,3000,q2_x not determined by coupled scalar EOM
+618,3000,3000,q2_x not determined by coupled scalar EOM
+619,3000,3000,q1_x not determined by coupled scalar EOM
+620,3000,3000,q2_x not determined by coupled scalar EOM
+621,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+622,2175,2175,no acceptable real q2_0 root from E_N(x=0)=0
+623,3000,3000,q1_x not determined by coupled scalar EOM
+624,3,3000,EFT cutoff violated: max(h/lambda_H)=1.106e-01
+624,3,3000,EFT cutoff violated: max(h/lambda_H)=1.076e-01
+624,2,3000,constraint drift too large: max|C|=2.098e+165
+624,2,3000,constraint drift too large: max|C|=8.970e+151
+624,2,3000,constraint drift too large: max|C|=2.191e+152
+624,2,3000,constraint drift too large: max|C|=1.721e+164
+624,2,3000,constraint drift too large: max|C|=4.449e+167
+624,2,3000,constraint drift too large: max|C|=1.992e+154
+625,11,3000,no-scalar constraint not satisfied at x=0: C0=2.533e+00
+625,10,3000,no-scalar constraint not satisfied at x=0: C0=2.529e+00
+625,10,3000,no-scalar constraint not satisfied at x=0: C0=1.978e+00
+625,10,3000,no-scalar constraint not satisfied at x=0: C0=2.497e+00
+625,10,3000,no-scalar constraint not satisfied at x=0: C0=2.464e+00
+625,9,3000,no-scalar constraint not satisfied at x=0: C0=2.234e+00
+625,9,3000,no-scalar constraint not satisfied at x=0: C0=2.300e+00
+625,9,3000,no-scalar constraint not satisfied at x=0: C0=2.023e+00
+628,3000,3000,symbolic build timeout > 60s
+630,11,3000,no-scalar constraint not satisfied at x=0: C0=1.676e+00
+630,10,3000,no-scalar constraint not satisfied at x=0: C0=2.330e+00
+630,10,3000,no-scalar constraint not satisfied at x=0: C0=2.461e+00
+630,10,3000,no-scalar constraint not satisfied at x=0: C0=1.872e+00
+630,10,3000,no-scalar constraint not satisfied at x=0: C0=2.481e+00
+630,10,3000,no-scalar constraint not satisfied at x=0: C0=1.910e+00
+630,9,3000,no-scalar constraint not satisfied at x=0: C0=2.544e+00
+630,9,3000,no-scalar constraint not satisfied at x=0: C0=1.731e+00
+631,3000,3000,q2_x not determined by coupled scalar EOM
+632,3000,3000,q2_x not determined by coupled scalar EOM
+634,921,1360,no acceptable real q2_0 root from E_N(x=0)=0
+634,97,1360,solve_ivp failed: Required step size is less than spacing between numbers.
+634,2,1360,EFT cutoff violated: max(h/lambda_H)=1.028e-01
+634,2,1360,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+634,2,1360,EFT cutoff violated: max(h/lambda_H)=1.042e-01
+634,2,1360,EFT cutoff violated: max(h/lambda_H)=1.030e-01
+634,2,1360,EFT cutoff violated: max(h/lambda_H)=1.108e-01
+634,2,1360,constraint drift too large: max|C|=1.437e-04
+635,4,3000,EFT cutoff violated: max(h/lambda_H)=1.059e-01
+635,3,3000,EFT cutoff violated: max(h/lambda_H)=1.058e-01
+635,2,3000,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+635,2,3000,constraint drift too large: max|C|=1.695e+211
+635,2,3000,constraint drift too large: max|C|=8.258e+216
+635,2,3000,constraint drift too large: max|C|=4.383e+215
+635,2,3000,constraint drift too large: max|C|=1.011e+218
+635,2,3000,constraint drift too large: max|C|=3.378e+207
+636,11,3000,no-scalar constraint not satisfied at x=0: C0=2.398e+00
+636,10,3000,no-scalar constraint not satisfied at x=0: C0=2.120e+00
+636,9,3000,no-scalar constraint not satisfied at x=0: C0=1.693e+00
+636,9,3000,no-scalar constraint not satisfied at x=0: C0=2.481e+00
+636,9,3000,no-scalar constraint not satisfied at x=0: C0=2.172e+00
+636,9,3000,no-scalar constraint not satisfied at x=0: C0=2.527e+00
+636,9,3000,no-scalar constraint not satisfied at x=0: C0=2.443e+00
+636,9,3000,no-scalar constraint not satisfied at x=0: C0=2.432e+00
+637,12,3000,no-scalar constraint not satisfied at x=0: C0=1.953e+00
+637,12,3000,no-scalar constraint not satisfied at x=0: C0=1.968e+00
+637,11,3000,no-scalar constraint not satisfied at x=0: C0=2.386e+00
+637,11,3000,no-scalar constraint not satisfied at x=0: C0=1.908e+00
+637,10,3000,no-scalar constraint not satisfied at x=0: C0=2.091e+00
+637,10,3000,no-scalar constraint not satisfied at x=0: C0=2.064e+00
+637,10,3000,no-scalar constraint not satisfied at x=0: C0=1.847e+00
+637,10,3000,no-scalar constraint not satisfied at x=0: C0=1.708e+00
+639,3000,3000,symbolic build timeout > 60s
+640,3000,3000,q2_x not determined by coupled scalar EOM
+641,1039,1373,no acceptable real q2_0 root from E_N(x=0)=0
+641,84,1373,solve_ivp failed: Required step size is less than spacing between numbers.
+641,2,1373,EFT cutoff violated: max(h/lambda_H)=1.080e-01
+641,2,1373,EFT cutoff violated: max(h/lambda_H)=1.056e-01
+641,2,1373,EFT cutoff violated: max(h/lambda_H)=1.008e-01
+641,2,1373,constraint drift too large: max|C|=2.431e-03
+641,1,1373,constraint drift too large: max|C|=9.248e-03
+641,1,1373,constraint drift too large: max|C|=1.188e-02
+643,3000,3000,symbolic build timeout > 60s
+645,2162,3000,no acceptable real q1_0 root from E_N(x=0)=0
+645,86,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+645,52,3000,H(z) absurdly large
+645,2,3000,EFT cutoff violated: max(h/lambda_H)=1.025e-01
+645,2,3000,constraint drift too large: max|C|=2.811e+112
+645,2,3000,constraint drift too large: max|C|=1.646e+111
+645,2,3000,constraint drift too large: max|C|=1.038e+108
+645,1,3000,constraint drift too large: max|C|=1.041e+108
+646,3000,3000,q2_x not determined by coupled scalar EOM
+647,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+648,3000,3000,symbolic build timeout > 60s
+650,5,3000,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+650,3,3000,EFT cutoff violated: max(h/lambda_H)=1.101e-01
+650,2,3000,constraint drift too large: max|C|=1.189e+102
+650,2,3000,constraint drift too large: max|C|=1.031e+105
+650,2,3000,constraint drift too large: max|C|=2.347e+93
+650,2,3000,constraint drift too large: max|C|=7.084e+104
+650,2,3000,constraint drift too large: max|C|=1.850e+95
+650,2,3000,constraint drift too large: max|C|=7.116e+102
+653,3000,3000,q2_x not determined by coupled scalar EOM
+654,1152,1320,no acceptable real q2_0 root from E_N(x=0)=0
+654,2,1320,constraint drift too large: max|C|=1.149e-04
+654,2,1320,EFT cutoff violated: max(h/lambda_H)=1.065e-01
+654,2,1320,constraint drift too large: max|C|=1.217e-03
+654,2,1320,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+654,2,1320,EFT cutoff violated: max(h/lambda_H)=1.074e-01
+654,2,1320,EFT cutoff violated: max(h/lambda_H)=1.066e-01
+654,2,1320,constraint drift too large: max|C|=2.572e-04
+655,3000,3000,q1_x not determined by coupled scalar EOM
+656,10,3000,no-scalar constraint not satisfied at x=0: C0=1.790e+00
+656,10,3000,no-scalar constraint not satisfied at x=0: C0=2.414e+00
+656,9,3000,no-scalar constraint not satisfied at x=0: C0=2.047e+00
+656,9,3000,no-scalar constraint not satisfied at x=0: C0=1.659e+00
+656,9,3000,no-scalar constraint not satisfied at x=0: C0=2.293e+00
+656,9,3000,no-scalar constraint not satisfied at x=0: C0=2.011e+00
+656,9,3000,no-scalar constraint not satisfied at x=0: C0=1.951e+00
+656,9,3000,no-scalar constraint not satisfied at x=0: C0=1.914e+00
+657,3000,3000,symbolic build timeout > 60s
+658,11,3000,no-scalar constraint not satisfied at x=0: C0=1.973e+00
+658,11,3000,no-scalar constraint not satisfied at x=0: C0=2.177e+00
+658,10,3000,no-scalar constraint not satisfied at x=0: C0=2.047e+00
+658,10,3000,no-scalar constraint not satisfied at x=0: C0=1.847e+00
+658,10,3000,no-scalar constraint not satisfied at x=0: C0=2.444e+00
+658,10,3000,no-scalar constraint not satisfied at x=0: C0=2.025e+00
+658,10,3000,no-scalar constraint not satisfied at x=0: C0=2.412e+00
+658,9,3000,no-scalar constraint not satisfied at x=0: C0=2.472e+00
+659,11,3000,no-scalar constraint not satisfied at x=0: C0=2.449e+00
+659,10,3000,no-scalar constraint not satisfied at x=0: C0=2.419e+00
+659,10,3000,no-scalar constraint not satisfied at x=0: C0=1.714e+00
+659,10,3000,no-scalar constraint not satisfied at x=0: C0=1.694e+00
+659,9,3000,no-scalar constraint not satisfied at x=0: C0=2.293e+00
+659,9,3000,no-scalar constraint not satisfied at x=0: C0=2.006e+00
+659,9,3000,no-scalar constraint not satisfied at x=0: C0=1.788e+00
+659,9,3000,no-scalar constraint not satisfied at x=0: C0=2.252e+00
+660,1491,3000,no acceptable real q1_0 root from E_N(x=0)=0
+660,161,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+660,7,3000,constraint drift too large: max|C|=2.110e+00
+660,5,3000,constraint drift too large: max|C|=1.758e+00
+660,5,3000,constraint drift too large: max|C|=1.760e+00
+660,5,3000,constraint drift too large: max|C|=2.087e+00
+660,5,3000,constraint drift too large: max|C|=2.005e+00
+660,5,3000,constraint drift too large: max|C|=2.085e+00
+661,1486,3000,no acceptable real q1_0 root from E_N(x=0)=0
+661,511,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+661,119,3000,initial q2_x is singular or absurd
+661,36,3000,|q2| trajectory too large
+661,2,3000,constraint drift too large: max|C|=1.124e+00
+661,2,3000,constraint drift too large: max|C|=7.925e-01
+661,2,3000,constraint drift too large: max|C|=1.226e+00
+661,2,3000,constraint drift too large: max|C|=1.297e+00
+662,3000,3000,q1_x not determined by coupled scalar EOM
+663,2187,2187,no acceptable real q2_0 root from E_N(x=0)=0
+664,3000,3000,q2_x not determined by coupled scalar EOM
+665,3000,3000,q2_x not determined by coupled scalar EOM
+666,3000,3000,q2_x not determined by coupled scalar EOM
+667,1476,3000,no acceptable real q1_0 root from E_N(x=0)=0
+667,361,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+667,89,3000,initial q2_x is singular or absurd
+667,32,3000,|q2| trajectory too large
+667,24,3000,|varphi2| trajectory too large
+667,3,3000,constraint drift too large: max|C|=1.104e+00
+667,3,3000,constraint drift too large: max|C|=1.237e+00
+667,2,3000,constraint drift too large: max|C|=1.209e+00
+668,12,3000,no-scalar constraint not satisfied at x=0: C0=1.808e+00
+668,10,3000,no-scalar constraint not satisfied at x=0: C0=2.194e+00
+668,10,3000,no-scalar constraint not satisfied at x=0: C0=1.942e+00
+668,10,3000,no-scalar constraint not satisfied at x=0: C0=2.345e+00
+668,10,3000,no-scalar constraint not satisfied at x=0: C0=2.549e+00
+668,9,3000,no-scalar constraint not satisfied at x=0: C0=2.300e+00
+668,9,3000,no-scalar constraint not satisfied at x=0: C0=1.855e+00
+668,9,3000,no-scalar constraint not satisfied at x=0: C0=2.400e+00
+669,959,1364,no acceptable real q2_0 root from E_N(x=0)=0
+669,111,1364,solve_ivp failed: Required step size is less than spacing between numbers.
+669,2,1364,EFT cutoff violated: max(h/lambda_H)=1.069e-01
+669,2,1364,EFT cutoff violated: max(h/lambda_H)=1.056e-01
+669,2,1364,constraint drift too large: max|C|=2.249e-03
+669,2,1364,EFT cutoff violated: max(h/lambda_H)=1.065e-01
+669,2,1364,constraint drift too large: max|C|=9.371e-03
+669,2,1364,EFT cutoff violated: max(h/lambda_H)=1.001e-01
+670,11,3000,no-scalar constraint not satisfied at x=0: C0=2.064e+00
+670,11,3000,no-scalar constraint not satisfied at x=0: C0=2.176e+00
+670,10,3000,no-scalar constraint not satisfied at x=0: C0=1.913e+00
+670,9,3000,no-scalar constraint not satisfied at x=0: C0=2.010e+00
+670,9,3000,no-scalar constraint not satisfied at x=0: C0=2.471e+00
+670,9,3000,no-scalar constraint not satisfied at x=0: C0=2.208e+00
+670,9,3000,no-scalar constraint not satisfied at x=0: C0=2.178e+00
+670,9,3000,no-scalar constraint not satisfied at x=0: C0=2.075e+00
+671,1232,1386,no acceptable real q2_0 root from E_N(x=0)=0
+671,2,1386,constraint drift too large: max|C|=2.925e-04
+671,2,1386,EFT cutoff violated: max(h/lambda_H)=1.025e-01
+671,1,1386,constraint drift too large: max|C|=4.498e-04
+671,1,1386,constraint drift too large: max|C|=1.059e-04
+671,1,1386,EFT cutoff violated: max(h/lambda_H)=1.016e-01
+671,1,1386,constraint drift too large: max|C|=1.909e-04
+671,1,1386,constraint drift too large: max|C|=1.072e-04
+672,3000,3000,q1_x not determined by coupled scalar EOM
+673,10,3000,no-scalar constraint not satisfied at x=0: C0=1.814e+00
+673,10,3000,no-scalar constraint not satisfied at x=0: C0=2.429e+00
+673,10,3000,no-scalar constraint not satisfied at x=0: C0=2.187e+00
+673,10,3000,no-scalar constraint not satisfied at x=0: C0=1.963e+00
+673,9,3000,no-scalar constraint not satisfied at x=0: C0=2.301e+00
+673,9,3000,no-scalar constraint not satisfied at x=0: C0=2.342e+00
+673,9,3000,no-scalar constraint not satisfied at x=0: C0=1.775e+00
+673,8,3000,no-scalar constraint not satisfied at x=0: C0=2.436e+00
+674,3000,3000,initial q2_x is singular or absurd
+675,3000,3000,q2_x not determined by coupled scalar EOM
+676,3000,3000,symbolic build timeout > 60s
+677,1037,1427,no acceptable real q2_0 root from E_N(x=0)=0
+677,90,1427,solve_ivp failed: Required step size is less than spacing between numbers.
+677,3,1427,constraint drift too large: max|C|=4.209e-03
+677,2,1427,EFT cutoff violated: max(h/lambda_H)=1.010e-01
+677,2,1427,EFT cutoff violated: max(h/lambda_H)=1.091e-01
+677,2,1427,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+677,2,1427,constraint drift too large: max|C|=1.084e-04
+677,2,1427,constraint drift too large: max|C|=1.822e-03
+678,3000,3000,q2_x not determined by coupled scalar EOM
+679,3000,3000,q1_x not determined by coupled scalar EOM
+680,3000,3000,q2_x not determined by coupled scalar EOM
+681,3000,3000,q1_x not determined by coupled scalar EOM
+682,1826,2857,H(z) absurdly large
+682,689,2857,no acceptable real q1_0 root from E_N(x=0)=0
+682,4,2857,EFT cutoff violated: max(h/lambda_H)=1.125e-01
+682,3,2857,EFT cutoff violated: max(h/lambda_H)=1.554e-01
+682,3,2857,EFT cutoff violated: max(h/lambda_H)=1.273e-01
+682,3,2857,EFT cutoff violated: max(h/lambda_H)=1.739e-01
+682,2,2857,EFT cutoff violated: max(h/lambda_H)=1.151e-01
+682,2,2857,EFT cutoff violated: max(h/lambda_H)=1.304e-01
+683,937,1354,no acceptable real q2_0 root from E_N(x=0)=0
+683,95,1354,solve_ivp failed: Required step size is less than spacing between numbers.
+683,2,1354,EFT cutoff violated: max(h/lambda_H)=1.054e-01
+683,2,1354,EFT cutoff violated: max(h/lambda_H)=1.100e-01
+683,2,1354,constraint drift too large: max|C|=4.210e-03
+683,1,1354,constraint drift too large: max|C|=7.101e-03
+683,1,1354,constraint drift too large: max|C|=4.405e-04
+683,1,1354,constraint drift too large: max|C|=6.168e-02
+684,3000,3000,q2_x not determined by coupled scalar EOM
+685,3000,3000,q2_x not determined by coupled scalar EOM
+686,10,3000,no-scalar constraint not satisfied at x=0: C0=1.856e+00
+686,10,3000,no-scalar constraint not satisfied at x=0: C0=2.179e+00
+686,9,3000,no-scalar constraint not satisfied at x=0: C0=2.256e+00
+686,9,3000,no-scalar constraint not satisfied at x=0: C0=2.025e+00
+686,9,3000,no-scalar constraint not satisfied at x=0: C0=2.276e+00
+686,9,3000,no-scalar constraint not satisfied at x=0: C0=1.697e+00
+686,8,3000,no-scalar constraint not satisfied at x=0: C0=2.543e+00
+686,8,3000,no-scalar constraint not satisfied at x=0: C0=1.849e+00
+688,10,3000,no-scalar constraint not satisfied at x=0: C0=2.140e+00
+688,10,3000,no-scalar constraint not satisfied at x=0: C0=2.416e+00
+688,9,3000,no-scalar constraint not satisfied at x=0: C0=1.726e+00
+688,9,3000,no-scalar constraint not satisfied at x=0: C0=1.725e+00
+688,8,3000,no-scalar constraint not satisfied at x=0: C0=2.439e+00
+688,8,3000,no-scalar constraint not satisfied at x=0: C0=2.297e+00
+688,8,3000,no-scalar constraint not satisfied at x=0: C0=2.059e+00
+688,8,3000,no-scalar constraint not satisfied at x=0: C0=1.732e+00
+689,11,3000,no-scalar constraint not satisfied at x=0: C0=1.764e+00
+689,10,3000,no-scalar constraint not satisfied at x=0: C0=2.504e+00
+689,9,3000,no-scalar constraint not satisfied at x=0: C0=2.071e+00
+689,9,3000,no-scalar constraint not satisfied at x=0: C0=1.919e+00
+689,9,3000,no-scalar constraint not satisfied at x=0: C0=1.754e+00
+689,9,3000,no-scalar constraint not satisfied at x=0: C0=1.756e+00
+689,9,3000,no-scalar constraint not satisfied at x=0: C0=2.243e+00
+689,9,3000,no-scalar constraint not satisfied at x=0: C0=2.468e+00
+690,3000,3000,q1_x not determined by coupled scalar EOM
+691,2,3000,constraint drift too large: max|C|=1.386e+203
+691,2,3000,constraint drift too large: max|C|=1.795e+221
+691,2,3000,constraint drift too large: max|C|=8.060e+209
+691,2,3000,constraint drift too large: max|C|=5.551e+208
+691,2,3000,constraint drift too large: max|C|=7.605e+219
+691,2,3000,constraint drift too large: max|C|=4.453e+217
+691,2,3000,constraint drift too large: max|C|=1.549e+219
+691,2,3000,constraint drift too large: max|C|=6.177e+221
+692,3000,3000,q2_x not determined by coupled scalar EOM
+693,3000,3000,symbolic build timeout > 60s
+694,3000,3000,q1_x not determined by coupled scalar EOM
+695,3,3000,constraint drift too large: max|C|=1.315e+95
+695,2,3000,EFT cutoff violated: max(h/lambda_H)=1.039e-01
+695,2,3000,EFT cutoff violated: max(h/lambda_H)=1.010e-01
+695,2,3000,EFT cutoff violated: max(h/lambda_H)=1.079e-01
+695,2,3000,constraint drift too large: max|C|=1.145e+94
+695,2,3000,constraint drift too large: max|C|=1.907e+95
+695,2,3000,constraint drift too large: max|C|=1.191e+92
+695,2,3000,constraint drift too large: max|C|=1.455e+95
+696,10,3000,no-scalar constraint not satisfied at x=0: C0=2.527e+00
+696,9,3000,no-scalar constraint not satisfied at x=0: C0=1.920e+00
+696,9,3000,no-scalar constraint not satisfied at x=0: C0=1.732e+00
+696,9,3000,no-scalar constraint not satisfied at x=0: C0=2.356e+00
+696,8,3000,no-scalar constraint not satisfied at x=0: C0=2.063e+00
+696,8,3000,no-scalar constraint not satisfied at x=0: C0=2.495e+00
+696,8,3000,no-scalar constraint not satisfied at x=0: C0=2.466e+00
+696,8,3000,no-scalar constraint not satisfied at x=0: C0=2.111e+00
+697,3000,3000,q2_x not determined by coupled scalar EOM
+699,2,3000,constraint drift too large: max|C|=1.163e+96
+699,2,3000,constraint drift too large: max|C|=3.156e+98
+699,2,3000,constraint drift too large: max|C|=8.329e+97
+699,2,3000,EFT cutoff violated: max(h/lambda_H)=1.009e-01
+699,2,3000,constraint drift too large: max|C|=2.537e+105
+699,2,3000,EFT cutoff violated: max(h/lambda_H)=1.070e-01
+699,2,3000,constraint drift too large: max|C|=2.266e+94
+699,2,3000,constraint drift too large: max|C|=2.023e+94
+700,3000,3000,q1_x not determined by coupled scalar EOM
+702,373,1616,no acceptable real q2_0 root from E_N(x=0)=0
+702,157,1616,solve_ivp failed: Required step size is less than spacing between numbers.
+702,2,1616,constraint drift too large: max|C|=6.646e-02
+702,2,1616,EFT cutoff violated: max(h/lambda_H)=1.034e-01
+702,2,1616,EFT cutoff violated: max(h/lambda_H)=1.094e-01
+702,2,1616,constraint drift too large: max|C|=1.335e-01
+702,2,1616,constraint drift too large: max|C|=1.136e-04
+702,2,1616,constraint drift too large: max|C|=8.074e+01
+704,3000,3000,q1_x not determined by coupled scalar EOM
+705,389,1578,no acceptable real q2_0 root from E_N(x=0)=0
+705,159,1578,solve_ivp failed: Required step size is less than spacing between numbers.
+705,2,1578,EFT cutoff violated: max(h/lambda_H)=1.105e-01
+705,2,1578,constraint drift too large: max|C|=1.655e-03
+705,2,1578,constraint drift too large: max|C|=3.538e-04
+705,2,1578,constraint drift too large: max|C|=3.156e-04
+705,2,1578,EFT cutoff violated: max(h/lambda_H)=1.021e-01
+705,2,1578,EFT cutoff violated: max(h/lambda_H)=1.009e-01
+706,3000,3000,q2_x not determined by coupled scalar EOM
+708,3000,3000,q2_x not determined by coupled scalar EOM
+709,11,3000,no-scalar constraint not satisfied at x=0: C0=2.535e+00
+709,10,3000,no-scalar constraint not satisfied at x=0: C0=2.272e+00
+709,10,3000,no-scalar constraint not satisfied at x=0: C0=2.383e+00
+709,9,3000,no-scalar constraint not satisfied at x=0: C0=2.417e+00
+709,9,3000,no-scalar constraint not satisfied at x=0: C0=1.775e+00
+709,9,3000,no-scalar constraint not satisfied at x=0: C0=2.080e+00
+709,9,3000,no-scalar constraint not satisfied at x=0: C0=2.230e+00
+709,8,3000,no-scalar constraint not satisfied at x=0: C0=2.098e+00
+710,1160,1320,no acceptable real q2_0 root from E_N(x=0)=0
+710,2,1320,constraint drift too large: max|C|=1.149e-04
+710,2,1320,constraint drift too large: max|C|=1.145e-04
+710,1,1320,constraint drift too large: max|C|=5.269e-04
+710,1,1320,constraint drift too large: max|C|=3.461e-04
+710,1,1320,constraint drift too large: max|C|=3.121e-04
+710,1,1320,EFT cutoff violated: max(h/lambda_H)=1.057e-01
+710,1,1320,constraint drift too large: max|C|=1.429e-03
+712,3000,3000,symbolic build timeout > 60s
+713,13,3000,no-scalar constraint not satisfied at x=0: C0=2.291e+00
+713,10,3000,no-scalar constraint not satisfied at x=0: C0=2.333e+00
+713,10,3000,no-scalar constraint not satisfied at x=0: C0=1.949e+00
+713,9,3000,no-scalar constraint not satisfied at x=0: C0=1.907e+00
+713,9,3000,no-scalar constraint not satisfied at x=0: C0=2.009e+00
+713,9,3000,no-scalar constraint not satisfied at x=0: C0=1.672e+00
+713,9,3000,no-scalar constraint not satisfied at x=0: C0=2.396e+00
+713,8,3000,no-scalar constraint not satisfied at x=0: C0=2.366e+00
+714,1485,3000,no acceptable real q1_0 root from E_N(x=0)=0
+714,221,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+714,6,3000,constraint drift too large: max|C|=1.869e+00
+714,6,3000,constraint drift too large: max|C|=2.247e+00
+714,6,3000,constraint drift too large: max|C|=1.727e+00
+714,5,3000,constraint drift too large: max|C|=1.784e+00
+714,5,3000,constraint drift too large: max|C|=1.805e+00
+714,5,3000,constraint drift too large: max|C|=2.334e+00
+715,10,3000,no-scalar constraint not satisfied at x=0: C0=1.733e+00
+715,10,3000,no-scalar constraint not satisfied at x=0: C0=2.221e+00
+715,9,3000,no-scalar constraint not satisfied at x=0: C0=1.937e+00
+715,9,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+715,9,3000,no-scalar constraint not satisfied at x=0: C0=1.771e+00
+715,9,3000,no-scalar constraint not satisfied at x=0: C0=2.230e+00
+715,9,3000,no-scalar constraint not satisfied at x=0: C0=1.819e+00
+715,9,3000,no-scalar constraint not satisfied at x=0: C0=1.711e+00
+716,1545,3000,no acceptable real q1_0 root from E_N(x=0)=0
+716,316,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+716,5,3000,constraint drift too large: max|C|=2.080e+00
+716,5,3000,constraint drift too large: max|C|=2.289e+00
+716,5,3000,constraint drift too large: max|C|=1.928e+00
+716,4,3000,constraint drift too large: max|C|=1.766e+00
+716,4,3000,constraint drift too large: max|C|=2.461e+00
+716,4,3000,constraint drift too large: max|C|=2.360e+00
+717,3000,3000,q1_x not determined by coupled scalar EOM
+718,3000,3000,q1_x not determined by coupled scalar EOM
+720,3000,3000,q2_x not determined by coupled scalar EOM
+721,3000,3000,q1_x not determined by coupled scalar EOM
+722,3000,3000,symbolic build timeout > 60s
+723,3000,3000,q1_x not determined by coupled scalar EOM
+724,13,3000,no-scalar constraint not satisfied at x=0: C0=2.021e+00
+724,10,3000,no-scalar constraint not satisfied at x=0: C0=1.684e+00
+724,9,3000,no-scalar constraint not satisfied at x=0: C0=2.030e+00
+724,9,3000,no-scalar constraint not satisfied at x=0: C0=1.744e+00
+724,9,3000,no-scalar constraint not satisfied at x=0: C0=2.130e+00
+724,9,3000,no-scalar constraint not satisfied at x=0: C0=1.757e+00
+724,9,3000,no-scalar constraint not satisfied at x=0: C0=2.294e+00
+724,9,3000,no-scalar constraint not satisfied at x=0: C0=1.758e+00
+725,11,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+725,10,3000,no-scalar constraint not satisfied at x=0: C0=1.704e+00
+725,10,3000,no-scalar constraint not satisfied at x=0: C0=2.024e+00
+725,10,3000,no-scalar constraint not satisfied at x=0: C0=1.903e+00
+725,9,3000,no-scalar constraint not satisfied at x=0: C0=1.954e+00
+725,9,3000,no-scalar constraint not satisfied at x=0: C0=2.517e+00
+725,9,3000,no-scalar constraint not satisfied at x=0: C0=2.188e+00
+725,8,3000,no-scalar constraint not satisfied at x=0: C0=2.258e+00
+727,3000,3000,q2_x not determined by coupled scalar EOM
+729,1021,1392,no acceptable real q2_0 root from E_N(x=0)=0
+729,81,1392,solve_ivp failed: Required step size is less than spacing between numbers.
+729,2,1392,EFT cutoff violated: max(h/lambda_H)=1.021e-01
+729,2,1392,constraint drift too large: max|C|=1.136e-03
+729,2,1392,constraint drift too large: max|C|=1.125e-04
+729,2,1392,EFT cutoff violated: max(h/lambda_H)=1.059e-01
+729,2,1392,EFT cutoff violated: max(h/lambda_H)=1.078e-01
+729,2,1392,EFT cutoff violated: max(h/lambda_H)=1.070e-01
+731,3,3000,EFT cutoff violated: max(h/lambda_H)=1.028e-01
+731,2,3000,constraint drift too large: max|C|=7.642e+91
+731,2,3000,constraint drift too large: max|C|=2.105e+110
+731,2,3000,constraint drift too large: max|C|=1.452e+107
+731,2,3000,constraint drift too large: max|C|=1.406e+99
+731,2,3000,constraint drift too large: max|C|=2.128e+92
+731,2,3000,constraint drift too large: max|C|=2.141e+103
+731,2,3000,constraint drift too large: max|C|=1.735e+96
+732,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+735,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+736,3000,3000,symbolic build timeout > 60s
+737,3000,3000,q2_x not determined by coupled scalar EOM
+738,808,2957,H(z) absurdly large
+738,625,2957,initial q2_x is singular or absurd
+738,432,2957,solve_ivp failed: Required step size is less than spacing between numbers.
+738,410,2957,no acceptable real q1_0 root from E_N(x=0)=0
+738,284,2957,|q2| trajectory too large
+738,86,2957,|varphi2| trajectory too large
+738,2,2957,EFT cutoff violated: max(h/lambda_H)=1.354e-01
+738,2,2957,EFT cutoff violated: max(h/lambda_H)=1.539e-01
+739,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+740,10,3000,no-scalar constraint not satisfied at x=0: C0=2.278e+00
+740,10,3000,no-scalar constraint not satisfied at x=0: C0=1.864e+00
+740,10,3000,no-scalar constraint not satisfied at x=0: C0=1.851e+00
+740,10,3000,no-scalar constraint not satisfied at x=0: C0=2.193e+00
+740,9,3000,no-scalar constraint not satisfied at x=0: C0=2.410e+00
+740,9,3000,no-scalar constraint not satisfied at x=0: C0=1.707e+00
+740,8,3000,no-scalar constraint not satisfied at x=0: C0=2.099e+00
+740,8,3000,no-scalar constraint not satisfied at x=0: C0=2.201e+00
+741,3000,3000,q1_x not determined by coupled scalar EOM
+742,3000,3000,symbolic build timeout > 60s
+744,3000,3000,q2_x not determined by coupled scalar EOM
+745,3000,3000,q2_x not determined by coupled scalar EOM
+748,11,3000,no-scalar constraint not satisfied at x=0: C0=2.215e+00
+748,10,3000,no-scalar constraint not satisfied at x=0: C0=2.368e+00
+748,9,3000,no-scalar constraint not satisfied at x=0: C0=2.292e+00
+748,9,3000,no-scalar constraint not satisfied at x=0: C0=2.338e+00
+748,9,3000,no-scalar constraint not satisfied at x=0: C0=2.256e+00
+748,9,3000,no-scalar constraint not satisfied at x=0: C0=2.453e+00
+748,9,3000,no-scalar constraint not satisfied at x=0: C0=1.716e+00
+748,9,3000,no-scalar constraint not satisfied at x=0: C0=1.876e+00
+749,3000,3000,q2_x not determined by coupled scalar EOM
+750,11,3000,no-scalar constraint not satisfied at x=0: C0=1.911e+00
+750,9,3000,no-scalar constraint not satisfied at x=0: C0=2.086e+00
+750,8,3000,no-scalar constraint not satisfied at x=0: C0=1.994e+00
+750,8,3000,no-scalar constraint not satisfied at x=0: C0=2.350e+00
+750,8,3000,no-scalar constraint not satisfied at x=0: C0=2.174e+00
+750,8,3000,no-scalar constraint not satisfied at x=0: C0=1.757e+00
+750,8,3000,no-scalar constraint not satisfied at x=0: C0=2.541e+00
+750,8,3000,no-scalar constraint not satisfied at x=0: C0=2.527e+00
+751,3000,3000,q2_x not determined by coupled scalar EOM
+752,420,1149,no acceptable real q2_0 root from E_N(x=0)=0
+752,85,1149,solve_ivp failed: Required step size is less than spacing between numbers.
+752,3,1149,constraint drift too large: max|C|=1.165e-04
+752,2,1149,constraint drift too large: max|C|=1.282e-01
+752,2,1149,constraint drift too large: max|C|=2.732e-04
+752,2,1149,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+752,2,1149,EFT cutoff violated: max(h/lambda_H)=1.058e-01
+752,2,1149,constraint drift too large: max|C|=7.770e-03
+753,3000,3000,q1_x not determined by coupled scalar EOM
+754,3000,3000,q1_x not determined by coupled scalar EOM
+755,3000,3000,q1_x not determined by coupled scalar EOM
+758,739,3000,no acceptable real q1_0 root from E_N(x=0)=0
+758,509,3000,H(z) absurdly large
+758,52,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+758,4,3000,constraint drift too large: max|C|=1.099e+106
+758,3,3000,EFT cutoff violated: max(h/lambda_H)=1.063e-01
+758,2,3000,constraint drift too large: max|C|=1.125e+103
+758,2,3000,constraint drift too large: max|C|=3.505e+107
+758,2,3000,EFT cutoff violated: max(h/lambda_H)=1.173e-01
+759,3000,3000,q2_x not determined by coupled scalar EOM
+760,10,3000,no-scalar constraint not satisfied at x=0: C0=2.474e+00
+760,9,3000,no-scalar constraint not satisfied at x=0: C0=1.838e+00
+760,8,3000,no-scalar constraint not satisfied at x=0: C0=2.251e+00
+760,8,3000,no-scalar constraint not satisfied at x=0: C0=2.536e+00
+760,8,3000,no-scalar constraint not satisfied at x=0: C0=2.339e+00
+760,8,3000,no-scalar constraint not satisfied at x=0: C0=1.985e+00
+760,8,3000,no-scalar constraint not satisfied at x=0: C0=2.516e+00
+760,8,3000,no-scalar constraint not satisfied at x=0: C0=2.285e+00
+762,3000,3000,q1_x not determined by coupled scalar EOM
+763,3000,3000,symbolic build timeout > 60s
+764,11,3000,no-scalar constraint not satisfied at x=0: C0=1.911e+00
+764,11,3000,no-scalar constraint not satisfied at x=0: C0=1.753e+00
+764,10,3000,no-scalar constraint not satisfied at x=0: C0=1.868e+00
+764,10,3000,no-scalar constraint not satisfied at x=0: C0=2.120e+00
+764,9,3000,no-scalar constraint not satisfied at x=0: C0=2.503e+00
+764,9,3000,no-scalar constraint not satisfied at x=0: C0=1.657e+00
+764,9,3000,no-scalar constraint not satisfied at x=0: C0=2.436e+00
+764,9,3000,no-scalar constraint not satisfied at x=0: C0=2.305e+00
+765,2,3000,constraint drift too large: max|C|=1.131e+158
+765,2,3000,constraint drift too large: max|C|=2.019e+158
+765,2,3000,EFT cutoff violated: max(h/lambda_H)=1.040e-01
+765,2,3000,EFT cutoff violated: max(h/lambda_H)=1.092e-01
+765,2,3000,constraint drift too large: max|C|=5.269e+153
+765,2,3000,EFT cutoff violated: max(h/lambda_H)=1.021e-01
+765,2,3000,constraint drift too large: max|C|=3.420e+164
+765,2,3000,constraint drift too large: max|C|=1.520e+161
+766,3000,3000,symbolic build timeout > 60s
+768,3,3000,EFT cutoff violated: max(h/lambda_H)=1.082e-01
+768,3,3000,constraint drift too large: max|C|=1.196e+208
+768,3,3000,constraint drift too large: max|C|=1.344e+211
+768,2,3000,constraint drift too large: max|C|=1.045e+222
+768,2,3000,EFT cutoff violated: max(h/lambda_H)=1.028e-01
+768,2,3000,constraint drift too large: max|C|=1.006e+226
+768,2,3000,constraint drift too large: max|C|=3.931e+219
+768,2,3000,constraint drift too large: max|C|=1.987e+216
+770,3000,3000,symbolic build timeout > 60s
+771,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+773,3000,3000,q2_x not determined by coupled scalar EOM
+774,1223,1390,no acceptable real q2_0 root from E_N(x=0)=0
+774,3,1390,EFT cutoff violated: max(h/lambda_H)=1.064e-01
+774,2,1390,constraint drift too large: max|C|=1.521e-04
+774,2,1390,EFT cutoff violated: max(h/lambda_H)=1.048e-01
+774,2,1390,EFT cutoff violated: max(h/lambda_H)=1.091e-01
+774,2,1390,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+774,1,1390,constraint drift too large: max|C|=1.218e-03
+774,1,1390,constraint drift too large: max|C|=2.366e-04
+775,11,3000,no-scalar constraint not satisfied at x=0: C0=2.225e+00
+775,10,3000,no-scalar constraint not satisfied at x=0: C0=2.450e+00
+775,10,3000,no-scalar constraint not satisfied at x=0: C0=1.951e+00
+775,9,3000,no-scalar constraint not satisfied at x=0: C0=1.767e+00
+775,9,3000,no-scalar constraint not satisfied at x=0: C0=2.096e+00
+775,9,3000,no-scalar constraint not satisfied at x=0: C0=1.679e+00
+775,9,3000,no-scalar constraint not satisfied at x=0: C0=2.118e+00
+775,9,3000,no-scalar constraint not satisfied at x=0: C0=2.467e+00
+776,2,3000,constraint drift too large: max|C|=1.390e+161
+776,2,3000,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+776,2,3000,constraint drift too large: max|C|=2.268e+164
+776,2,3000,constraint drift too large: max|C|=2.477e+167
+776,2,3000,constraint drift too large: max|C|=1.297e+149
+776,2,3000,constraint drift too large: max|C|=1.771e+167
+776,2,3000,EFT cutoff violated: max(h/lambda_H)=1.040e-01
+776,2,3000,constraint drift too large: max|C|=1.219e+166
+777,3000,3000,q2_x not determined by coupled scalar EOM
+778,3000,3000,q1_x not determined by coupled scalar EOM
+779,3000,3000,q2_x not determined by coupled scalar EOM
+781,3000,3000,symbolic build timeout > 60s
+784,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+786,12,3000,no-scalar constraint not satisfied at x=0: C0=1.756e+00
+786,11,3000,no-scalar constraint not satisfied at x=0: C0=1.749e+00
+786,10,3000,no-scalar constraint not satisfied at x=0: C0=2.344e+00
+786,10,3000,no-scalar constraint not satisfied at x=0: C0=1.900e+00
+786,10,3000,no-scalar constraint not satisfied at x=0: C0=2.549e+00
+786,9,3000,no-scalar constraint not satisfied at x=0: C0=2.153e+00
+786,9,3000,no-scalar constraint not satisfied at x=0: C0=1.916e+00
+786,9,3000,no-scalar constraint not satisfied at x=0: C0=2.413e+00
+787,3000,3000,q1_x not determined by coupled scalar EOM
+788,10,3000,no-scalar constraint not satisfied at x=0: C0=1.740e+00
+788,9,3000,no-scalar constraint not satisfied at x=0: C0=1.673e+00
+788,9,3000,no-scalar constraint not satisfied at x=0: C0=2.023e+00
+788,9,3000,no-scalar constraint not satisfied at x=0: C0=1.897e+00
+788,8,3000,no-scalar constraint not satisfied at x=0: C0=2.103e+00
+788,8,3000,no-scalar constraint not satisfied at x=0: C0=2.054e+00
+788,8,3000,no-scalar constraint not satisfied at x=0: C0=1.697e+00
+788,8,3000,no-scalar constraint not satisfied at x=0: C0=1.862e+00
+789,1135,1324,no acceptable real q2_0 root from E_N(x=0)=0
+789,2,1324,constraint drift too large: max|C|=6.254e-04
+789,2,1324,EFT cutoff violated: max(h/lambda_H)=1.109e-01
+789,1,1324,constraint drift too large: max|C|=3.591e-04
+789,1,1324,EFT cutoff violated: max(h/lambda_H)=1.044e-01
+789,1,1324,constraint drift too large: max|C|=2.148e-04
+789,1,1324,EFT cutoff violated: max(h/lambda_H)=1.104e-01
+789,1,1324,constraint drift too large: max|C|=1.204e-03
+790,3000,3000,q2_x not determined by coupled scalar EOM
+791,2511,2953,no acceptable real q1_0 root from E_N(x=0)=0
+791,284,2953,H(z) absurdly large
+791,2,2953,EFT cutoff violated: max(h/lambda_H)=1.472e-01
+791,1,2953,EFT cutoff violated: max(h/lambda_H)=8.141e-01
+791,1,2953,EFT cutoff violated: max(h/lambda_H)=2.195e-01
+791,1,2953,EFT cutoff violated: max(h/lambda_H)=1.929e-01
+791,1,2953,EFT cutoff violated: max(h/lambda_H)=1.293e-01
+791,1,2953,EFT cutoff violated: max(h/lambda_H)=2.783e-01
+792,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+793,3000,3000,q2_x not determined by coupled scalar EOM
+794,9,3000,no-scalar constraint not satisfied at x=0: C0=2.070e+00
+794,9,3000,no-scalar constraint not satisfied at x=0: C0=2.079e+00
+794,8,3000,no-scalar constraint not satisfied at x=0: C0=1.746e+00
+794,8,3000,no-scalar constraint not satisfied at x=0: C0=2.212e+00
+794,8,3000,no-scalar constraint not satisfied at x=0: C0=2.291e+00
+794,8,3000,no-scalar constraint not satisfied at x=0: C0=2.390e+00
+794,8,3000,no-scalar constraint not satisfied at x=0: C0=1.816e+00
+794,8,3000,no-scalar constraint not satisfied at x=0: C0=2.546e+00
+795,1073,1376,no acceptable real q2_0 root from E_N(x=0)=0
+795,90,1376,solve_ivp failed: Required step size is less than spacing between numbers.
+795,2,1376,constraint drift too large: max|C|=2.471e-04
+795,2,1376,constraint drift too large: max|C|=1.073e-03
+795,2,1376,EFT cutoff violated: max(h/lambda_H)=1.045e-01
+795,2,1376,EFT cutoff violated: max(h/lambda_H)=1.105e-01
+795,2,1376,constraint drift too large: max|C|=1.451e-03
+795,2,1376,EFT cutoff violated: max(h/lambda_H)=1.013e-01
+796,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+798,10,3000,no-scalar constraint not satisfied at x=0: C0=1.867e+00
+798,10,3000,no-scalar constraint not satisfied at x=0: C0=1.833e+00
+798,10,3000,no-scalar constraint not satisfied at x=0: C0=2.393e+00
+798,10,3000,no-scalar constraint not satisfied at x=0: C0=2.346e+00
+798,9,3000,no-scalar constraint not satisfied at x=0: C0=2.405e+00
+798,9,3000,no-scalar constraint not satisfied at x=0: C0=1.841e+00
+798,8,3000,no-scalar constraint not satisfied at x=0: C0=1.982e+00
+798,8,3000,no-scalar constraint not satisfied at x=0: C0=2.546e+00
+799,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+800,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+802,3000,3000,q1_x not determined by coupled scalar EOM
+803,397,1181,no acceptable real q2_0 root from E_N(x=0)=0
+803,98,1181,solve_ivp failed: Required step size is less than spacing between numbers.
+803,2,1181,EFT cutoff violated: max(h/lambda_H)=1.050e-01
+803,2,1181,constraint drift too large: max|C|=1.743e-04
+803,2,1181,constraint drift too large: max|C|=3.111e-04
+803,2,1181,constraint drift too large: max|C|=1.196e-03
+803,2,1181,constraint drift too large: max|C|=1.245e-04
+803,2,1181,constraint drift too large: max|C|=1.704e-03
+805,3000,3000,q2_x not determined by coupled scalar EOM
+806,3000,3000,q1_x not determined by coupled scalar EOM
+807,3000,3000,q1_x not determined by coupled scalar EOM
+808,13,3000,no-scalar constraint not satisfied at x=0: C0=2.368e+00
+808,11,3000,no-scalar constraint not satisfied at x=0: C0=2.458e+00
+808,9,3000,no-scalar constraint not satisfied at x=0: C0=1.924e+00
+808,9,3000,no-scalar constraint not satisfied at x=0: C0=2.308e+00
+808,9,3000,no-scalar constraint not satisfied at x=0: C0=2.042e+00
+808,8,3000,no-scalar constraint not satisfied at x=0: C0=2.548e+00
+808,8,3000,no-scalar constraint not satisfied at x=0: C0=1.660e+00
+808,8,3000,no-scalar constraint not satisfied at x=0: C0=2.025e+00
+809,3000,3000,q2_x not determined by coupled scalar EOM
+810,2171,3000,no acceptable real q1_0 root from E_N(x=0)=0
+810,93,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+810,43,3000,H(z) absurdly large
+810,2,3000,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+810,2,3000,constraint drift too large: max|C|=2.107e+232
+810,2,3000,constraint drift too large: max|C|=2.693e+224
+810,2,3000,constraint drift too large: max|C|=2.788e+222
+810,2,3000,constraint drift too large: max|C|=1.354e+217
+811,3000,3000,q1_x not determined by coupled scalar EOM
+812,10,3000,no-scalar constraint not satisfied at x=0: C0=2.420e+00
+812,9,3000,no-scalar constraint not satisfied at x=0: C0=2.378e+00
+812,9,3000,no-scalar constraint not satisfied at x=0: C0=1.778e+00
+812,9,3000,no-scalar constraint not satisfied at x=0: C0=1.812e+00
+812,8,3000,no-scalar constraint not satisfied at x=0: C0=2.294e+00
+812,8,3000,no-scalar constraint not satisfied at x=0: C0=2.380e+00
+812,8,3000,no-scalar constraint not satisfied at x=0: C0=2.102e+00
+812,8,3000,no-scalar constraint not satisfied at x=0: C0=1.651e+00
+813,11,3000,no-scalar constraint not satisfied at x=0: C0=1.959e+00
+813,10,3000,no-scalar constraint not satisfied at x=0: C0=2.267e+00
+813,9,3000,no-scalar constraint not satisfied at x=0: C0=1.940e+00
+813,9,3000,no-scalar constraint not satisfied at x=0: C0=2.236e+00
+813,9,3000,no-scalar constraint not satisfied at x=0: C0=1.909e+00
+813,9,3000,no-scalar constraint not satisfied at x=0: C0=2.306e+00
+813,8,3000,no-scalar constraint not satisfied at x=0: C0=1.674e+00
+813,8,3000,no-scalar constraint not satisfied at x=0: C0=2.461e+00
+814,11,3000,no-scalar constraint not satisfied at x=0: C0=1.774e+00
+814,10,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+814,10,3000,no-scalar constraint not satisfied at x=0: C0=1.885e+00
+814,9,3000,no-scalar constraint not satisfied at x=0: C0=2.124e+00
+814,9,3000,no-scalar constraint not satisfied at x=0: C0=2.103e+00
+814,9,3000,no-scalar constraint not satisfied at x=0: C0=1.845e+00
+814,8,3000,no-scalar constraint not satisfied at x=0: C0=2.226e+00
+814,8,3000,no-scalar constraint not satisfied at x=0: C0=1.855e+00
+815,3000,3000,symbolic build timeout > 60s
+816,3000,3000,q2_x not determined by coupled scalar EOM
+818,3000,3000,symbolic build timeout > 60s
+819,12,3000,no-scalar constraint not satisfied at x=0: C0=1.671e+00
+819,11,3000,no-scalar constraint not satisfied at x=0: C0=1.798e+00
+819,11,3000,no-scalar constraint not satisfied at x=0: C0=2.111e+00
+819,9,3000,no-scalar constraint not satisfied at x=0: C0=1.970e+00
+819,9,3000,no-scalar constraint not satisfied at x=0: C0=1.993e+00
+819,8,3000,no-scalar constraint not satisfied at x=0: C0=2.059e+00
+819,8,3000,no-scalar constraint not satisfied at x=0: C0=1.810e+00
+819,8,3000,no-scalar constraint not satisfied at x=0: C0=2.439e+00
+820,2198,3000,no acceptable real q1_0 root from E_N(x=0)=0
+820,81,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+820,36,3000,H(z) absurdly large
+820,2,3000,constraint drift too large: max|C|=4.044e+173
+820,2,3000,constraint drift too large: max|C|=2.740e+168
+820,1,3000,constraint drift too large: max|C|=9.935e+160
+820,1,3000,constraint drift too large: max|C|=3.734e+165
+820,1,3000,constraint drift too large: max|C|=6.656e+173
+821,2143,3000,no acceptable real q1_0 root from E_N(x=0)=0
+821,79,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+821,39,3000,H(z) absurdly large
+821,2,3000,constraint drift too large: max|C|=1.298e+170
+821,2,3000,constraint drift too large: max|C|=1.248e+168
+821,2,3000,constraint drift too large: max|C|=1.369e+165
+821,2,3000,constraint drift too large: max|C|=1.812e+166
+821,2,3000,constraint drift too large: max|C|=1.140e+162
+822,3000,3000,symbolic build timeout > 60s
+823,2220,2353,no acceptable real q2_0 root from E_N(x=0)=0
+823,4,2353,constraint drift too large: max|C|=3.103e-04
+823,4,2353,constraint drift too large: max|C|=3.075e-04
+823,3,2353,constraint drift too large: max|C|=3.066e-04
+823,3,2353,constraint drift too large: max|C|=3.047e-04
+823,3,2353,constraint drift too large: max|C|=3.076e-04
+823,3,2353,constraint drift too large: max|C|=3.048e-04
+823,3,2353,constraint drift too large: max|C|=3.069e-04
+824,934,1344,no acceptable real q2_0 root from E_N(x=0)=0
+824,106,1344,solve_ivp failed: Required step size is less than spacing between numbers.
+824,2,1344,constraint drift too large: max|C|=1.049e-04
+824,2,1344,constraint drift too large: max|C|=1.335e-04
+824,2,1344,constraint drift too large: max|C|=1.041e-03
+824,2,1344,EFT cutoff violated: max(h/lambda_H)=1.012e-01
+824,2,1344,constraint drift too large: max|C|=1.435e-04
+824,2,1344,constraint drift too large: max|C|=9.160e-03
+825,3000,3000,q1_x not determined by coupled scalar EOM
+826,3000,3000,q1_x not determined by coupled scalar EOM
+827,12,3000,no-scalar constraint not satisfied at x=0: C0=2.075e+00
+827,9,3000,no-scalar constraint not satisfied at x=0: C0=2.047e+00
+827,9,3000,no-scalar constraint not satisfied at x=0: C0=2.343e+00
+827,9,3000,no-scalar constraint not satisfied at x=0: C0=2.044e+00
+827,9,3000,no-scalar constraint not satisfied at x=0: C0=2.249e+00
+827,8,3000,no-scalar constraint not satisfied at x=0: C0=1.668e+00
+827,8,3000,no-scalar constraint not satisfied at x=0: C0=1.947e+00
+827,8,3000,no-scalar constraint not satisfied at x=0: C0=2.169e+00
+828,3,3000,EFT cutoff violated: max(h/lambda_H)=1.095e-01
+828,3,3000,constraint drift too large: max|C|=1.676e+207
+828,2,3000,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+828,2,3000,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+828,2,3000,constraint drift too large: max|C|=4.168e+222
+828,2,3000,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+828,2,3000,constraint drift too large: max|C|=1.185e+214
+828,2,3000,constraint drift too large: max|C|=8.552e+211
+829,3000,3000,q2_x not determined by coupled scalar EOM
+830,3,3000,EFT cutoff violated: max(h/lambda_H)=1.060e-01
+830,2,3000,constraint drift too large: max|C|=3.560e+210
+830,2,3000,constraint drift too large: max|C|=1.515e+217
+830,2,3000,EFT cutoff violated: max(h/lambda_H)=1.031e-01
+830,2,3000,constraint drift too large: max|C|=1.309e+217
+830,2,3000,constraint drift too large: max|C|=2.452e+219
+830,2,3000,constraint drift too large: max|C|=9.095e+219
+830,2,3000,constraint drift too large: max|C|=7.526e+217
+831,3000,3000,symbolic build timeout > 60s
+832,11,3000,no-scalar constraint not satisfied at x=0: C0=2.190e+00
+832,10,3000,no-scalar constraint not satisfied at x=0: C0=2.364e+00
+832,10,3000,no-scalar constraint not satisfied at x=0: C0=2.002e+00
+832,9,3000,no-scalar constraint not satisfied at x=0: C0=1.969e+00
+832,9,3000,no-scalar constraint not satisfied at x=0: C0=2.549e+00
+832,9,3000,no-scalar constraint not satisfied at x=0: C0=2.519e+00
+832,9,3000,no-scalar constraint not satisfied at x=0: C0=2.218e+00
+832,8,3000,no-scalar constraint not satisfied at x=0: C0=2.042e+00
+833,3000,3000,q2_x not determined by coupled scalar EOM
+835,11,3000,no-scalar constraint not satisfied at x=0: C0=2.159e+00
+835,9,3000,no-scalar constraint not satisfied at x=0: C0=2.486e+00
+835,9,3000,no-scalar constraint not satisfied at x=0: C0=2.383e+00
+835,8,3000,no-scalar constraint not satisfied at x=0: C0=1.807e+00
+835,8,3000,no-scalar constraint not satisfied at x=0: C0=2.296e+00
+835,8,3000,no-scalar constraint not satisfied at x=0: C0=2.293e+00
+835,8,3000,no-scalar constraint not satisfied at x=0: C0=1.985e+00
+835,8,3000,no-scalar constraint not satisfied at x=0: C0=2.225e+00
+836,3000,3000,q1_x not determined by coupled scalar EOM
+837,1034,1410,no acceptable real q2_0 root from E_N(x=0)=0
+837,103,1410,solve_ivp failed: Required step size is less than spacing between numbers.
+837,2,1410,EFT cutoff violated: max(h/lambda_H)=1.030e-01
+837,1,1410,constraint drift too large: max|C|=1.371e-03
+837,1,1410,constraint drift too large: max|C|=2.881e-03
+837,1,1410,constraint drift too large: max|C|=2.392e-04
+837,1,1410,constraint drift too large: max|C|=1.013e-03
+837,1,1410,constraint drift too large: max|C|=2.897e-04
+838,3000,3000,symbolic build timeout > 60s
+839,3000,3000,q2_x not determined by coupled scalar EOM
+840,3000,3000,symbolic build timeout > 60s
+841,3000,3000,q1_x not determined by coupled scalar EOM
+842,3000,3000,q1_x not determined by coupled scalar EOM
+843,992,1382,no acceptable real q2_0 root from E_N(x=0)=0
+843,106,1382,solve_ivp failed: Required step size is less than spacing between numbers.
+843,2,1382,constraint drift too large: max|C|=8.544e-03
+843,2,1382,EFT cutoff violated: max(h/lambda_H)=1.047e-01
+843,2,1382,constraint drift too large: max|C|=1.462e-04
+843,2,1382,constraint drift too large: max|C|=2.674e-03
+843,2,1382,constraint drift too large: max|C|=1.487e-04
+843,1,1382,constraint drift too large: max|C|=1.935e-04
+844,3000,3000,q2_x not determined by coupled scalar EOM
+845,3000,3000,symbolic build timeout > 60s
+846,3000,3000,q2_x not determined by coupled scalar EOM
+847,3000,3000,q1_x not determined by coupled scalar EOM
+848,3000,3000,q2_x not determined by coupled scalar EOM
+850,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+851,3000,3000,q2_x not determined by coupled scalar EOM
+852,3000,3000,q1_x not determined by coupled scalar EOM
+853,3000,3000,symbolic build timeout > 60s
+854,3000,3000,symbolic build timeout > 60s
+855,3000,3000,symbolic build timeout > 60s
+856,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+857,11,3000,no-scalar constraint not satisfied at x=0: C0=2.405e+00
+857,10,3000,no-scalar constraint not satisfied at x=0: C0=2.447e+00
+857,9,3000,no-scalar constraint not satisfied at x=0: C0=1.912e+00
+857,9,3000,no-scalar constraint not satisfied at x=0: C0=2.263e+00
+857,9,3000,no-scalar constraint not satisfied at x=0: C0=2.053e+00
+857,9,3000,no-scalar constraint not satisfied at x=0: C0=2.305e+00
+857,9,3000,no-scalar constraint not satisfied at x=0: C0=1.697e+00
+857,9,3000,no-scalar constraint not satisfied at x=0: C0=1.794e+00
+859,981,1334,no acceptable real q2_0 root from E_N(x=0)=0
+859,75,1334,solve_ivp failed: Required step size is less than spacing between numbers.
+859,3,1334,EFT cutoff violated: max(h/lambda_H)=1.029e-01
+859,2,1334,constraint drift too large: max|C|=1.616e-04
+859,2,1334,EFT cutoff violated: max(h/lambda_H)=1.009e-01
+859,2,1334,constraint drift too large: max|C|=1.085e-03
+859,2,1334,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+859,1,1334,constraint drift too large: max|C|=4.118e-04
+860,2055,2146,no acceptable real q2_0 root from E_N(x=0)=0
+860,91,2146,solve_ivp failed: Required step size is less than spacing between numbers.
+862,1125,1419,no acceptable real q2_0 root from E_N(x=0)=0
+862,82,1419,solve_ivp failed: Required step size is less than spacing between numbers.
+862,2,1419,EFT cutoff violated: max(h/lambda_H)=1.033e-01
+862,2,1419,EFT cutoff violated: max(h/lambda_H)=1.098e-01
+862,1,1419,constraint drift too large: max|C|=2.669e-04
+862,1,1419,constraint drift too large: max|C|=7.508e-04
+862,1,1419,constraint drift too large: max|C|=2.552e-03
+862,1,1419,constraint drift too large: max|C|=2.278e-04
+863,3000,3000,symbolic build timeout > 60s
+865,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+866,3000,3000,q1_x not determined by coupled scalar EOM
+868,3000,3000,symbolic build timeout > 60s
+870,3000,3000,q1_x not determined by coupled scalar EOM
+871,998,1392,no acceptable real q2_0 root from E_N(x=0)=0
+871,84,1392,solve_ivp failed: Required step size is less than spacing between numbers.
+871,2,1392,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+871,2,1392,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+871,2,1392,EFT cutoff violated: max(h/lambda_H)=1.050e-01
+871,2,1392,constraint drift too large: max|C|=3.537e-04
+871,2,1392,EFT cutoff violated: max(h/lambda_H)=1.074e-01
+871,2,1392,constraint drift too large: max|C|=1.938e-04
+873,11,3000,no-scalar constraint not satisfied at x=0: C0=2.192e+00
+873,10,3000,no-scalar constraint not satisfied at x=0: C0=1.812e+00
+873,9,3000,no-scalar constraint not satisfied at x=0: C0=1.784e+00
+873,9,3000,no-scalar constraint not satisfied at x=0: C0=1.977e+00
+873,9,3000,no-scalar constraint not satisfied at x=0: C0=2.104e+00
+873,9,3000,no-scalar constraint not satisfied at x=0: C0=1.957e+00
+873,9,3000,no-scalar constraint not satisfied at x=0: C0=2.433e+00
+873,8,3000,no-scalar constraint not satisfied at x=0: C0=2.358e+00
+874,2,3000,constraint drift too large: max|C|=1.404e+209
+874,2,3000,constraint drift too large: max|C|=1.257e+218
+874,2,3000,constraint drift too large: max|C|=2.117e+219
+874,2,3000,constraint drift too large: max|C|=3.675e+208
+874,2,3000,constraint drift too large: max|C|=1.497e+210
+874,2,3000,constraint drift too large: max|C|=1.065e+210
+874,2,3000,EFT cutoff violated: max(h/lambda_H)=1.028e-01
+874,2,3000,constraint drift too large: max|C|=1.972e+214
+875,3000,3000,q2_x not determined by coupled scalar EOM
+876,3,3000,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+876,3,3000,EFT cutoff violated: max(h/lambda_H)=1.089e-01
+876,2,3000,constraint drift too large: max|C|=2.005e+153
+876,2,3000,constraint drift too large: max|C|=2.288e+155
+876,2,3000,constraint drift too large: max|C|=5.258e+163
+876,2,3000,EFT cutoff violated: max(h/lambda_H)=1.016e-01
+876,2,3000,constraint drift too large: max|C|=6.331e+160
+876,2,3000,constraint drift too large: max|C|=2.497e+149
+877,3000,3000,symbolic build timeout > 60s
+878,3000,3000,q2_x not determined by coupled scalar EOM
+879,3,3000,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+879,2,3000,EFT cutoff violated: max(h/lambda_H)=1.093e-01
+879,2,3000,constraint drift too large: max|C|=4.789e+203
+879,2,3000,constraint drift too large: max|C|=2.271e+208
+879,2,3000,constraint drift too large: max|C|=5.175e+214
+879,2,3000,constraint drift too large: max|C|=2.182e+221
+879,2,3000,constraint drift too large: max|C|=2.886e+214
+879,2,3000,constraint drift too large: max|C|=3.120e+222
+880,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+881,3000,3000,q1_x not determined by coupled scalar EOM
+882,3000,3000,symbolic build timeout > 60s
+883,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+884,3000,3000,q1_x not determined by coupled scalar EOM
+885,3000,3000,symbolic build timeout > 60s
+886,3000,3000,q2_x not determined by coupled scalar EOM
+887,960,1423,no acceptable real q2_0 root from E_N(x=0)=0
+887,99,1423,solve_ivp failed: Required step size is less than spacing between numbers.
+887,2,1423,constraint drift too large: max|C|=5.480e-03
+887,2,1423,constraint drift too large: max|C|=2.964e-03
+887,2,1423,constraint drift too large: max|C|=4.728e-03
+887,2,1423,constraint drift too large: max|C|=1.854e-04
+887,2,1423,constraint drift too large: max|C|=1.165e-04
+887,2,1423,EFT cutoff violated: max(h/lambda_H)=1.077e-01
+888,3000,3000,q1_x not determined by coupled scalar EOM
+889,3000,3000,q2_x not determined by coupled scalar EOM
+890,981,1381,no acceptable real q2_0 root from E_N(x=0)=0
+890,88,1381,solve_ivp failed: Required step size is less than spacing between numbers.
+890,2,1381,EFT cutoff violated: max(h/lambda_H)=1.042e-01
+890,2,1381,EFT cutoff violated: max(h/lambda_H)=1.079e-01
+890,2,1381,constraint drift too large: max|C|=2.605e-02
+890,2,1381,EFT cutoff violated: max(h/lambda_H)=1.020e-01
+890,2,1381,constraint drift too large: max|C|=1.237e-02
+890,2,1381,EFT cutoff violated: max(h/lambda_H)=1.103e-01
+891,3000,3000,symbolic build timeout > 60s
+892,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+893,1132,1308,no acceptable real q2_0 root from E_N(x=0)=0
+893,2,1308,EFT cutoff violated: max(h/lambda_H)=1.013e-01
+893,2,1308,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+893,2,1308,EFT cutoff violated: max(h/lambda_H)=1.075e-01
+893,2,1308,EFT cutoff violated: max(h/lambda_H)=1.072e-01
+893,1,1308,constraint drift too large: max|C|=7.079e-04
+893,1,1308,constraint drift too large: max|C|=1.183e-03
+893,1,1308,constraint drift too large: max|C|=3.852e-04
+894,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+895,3000,3000,symbolic build timeout > 60s
+897,1148,1307,no acceptable real q2_0 root from E_N(x=0)=0
+897,2,1307,EFT cutoff violated: max(h/lambda_H)=1.068e-01
+897,2,1307,EFT cutoff violated: max(h/lambda_H)=1.039e-01
+897,2,1307,EFT cutoff violated: max(h/lambda_H)=1.058e-01
+897,2,1307,constraint drift too large: max|C|=1.233e-04
+897,2,1307,EFT cutoff violated: max(h/lambda_H)=1.074e-01
+897,2,1307,EFT cutoff violated: max(h/lambda_H)=1.060e-01
+897,2,1307,constraint drift too large: max|C|=1.451e-03
+898,3000,3000,q2_x not determined by coupled scalar EOM
+899,1167,1494,no acceptable real q2_0 root from E_N(x=0)=0
+899,89,1494,solve_ivp failed: Required step size is less than spacing between numbers.
+899,2,1494,constraint drift too large: max|C|=2.870e-03
+899,2,1494,constraint drift too large: max|C|=1.273e-03
+899,2,1494,constraint drift too large: max|C|=1.243e-04
+899,2,1494,constraint drift too large: max|C|=1.121e-04
+899,1,1494,constraint drift too large: max|C|=1.364e-04
+899,1,1494,constraint drift too large: max|C|=2.696e-03
+900,3000,3000,symbolic build timeout > 60s
+901,1064,1365,no acceptable real q2_0 root from E_N(x=0)=0
+901,93,1365,solve_ivp failed: Required step size is less than spacing between numbers.
+901,2,1365,EFT cutoff violated: max(h/lambda_H)=1.076e-01
+901,2,1365,EFT cutoff violated: max(h/lambda_H)=1.108e-01
+901,2,1365,constraint drift too large: max|C|=5.040e-04
+901,2,1365,constraint drift too large: max|C|=1.489e-03
+901,2,1365,EFT cutoff violated: max(h/lambda_H)=1.089e-01
+901,2,1365,constraint drift too large: max|C|=1.017e-04
+902,9,3000,no-scalar constraint not satisfied at x=0: C0=2.119e+00
+902,9,3000,no-scalar constraint not satisfied at x=0: C0=2.078e+00
+902,9,3000,no-scalar constraint not satisfied at x=0: C0=2.031e+00
+902,9,3000,no-scalar constraint not satisfied at x=0: C0=1.923e+00
+902,9,3000,no-scalar constraint not satisfied at x=0: C0=1.716e+00
+902,8,3000,no-scalar constraint not satisfied at x=0: C0=2.542e+00
+902,8,3000,no-scalar constraint not satisfied at x=0: C0=2.525e+00
+902,8,3000,no-scalar constraint not satisfied at x=0: C0=2.003e+00
+903,3000,3000,symbolic build timeout > 60s
+904,3000,3000,q1_x not determined by coupled scalar EOM
+905,445,1230,no acceptable real q2_0 root from E_N(x=0)=0
+905,83,1230,solve_ivp failed: Required step size is less than spacing between numbers.
+905,3,1230,constraint drift too large: max|C|=1.322e-04
+905,3,1230,EFT cutoff violated: max(h/lambda_H)=1.003e-01
+905,3,1230,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+905,2,1230,constraint drift too large: max|C|=1.179e-03
+905,2,1230,constraint drift too large: max|C|=1.120e+02
+905,2,1230,constraint drift too large: max|C|=4.598e-04
+906,3000,3000,q2_x not determined by coupled scalar EOM
+907,744,3000,no acceptable real q1_0 root from E_N(x=0)=0
+907,595,3000,H(z) absurdly large
+907,70,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+907,2,3000,constraint drift too large: max|C|=3.213e+49
+907,2,3000,EFT cutoff violated: max(h/lambda_H)=1.168e-01
+907,2,3000,constraint drift too large: max|C|=1.144e+53
+907,2,3000,constraint drift too large: max|C|=2.473e+50
+907,2,3000,EFT cutoff violated: max(h/lambda_H)=1.158e-01
+908,2325,2902,no acceptable real q1_0 root from E_N(x=0)=0
+908,321,2902,solve_ivp failed: Required step size is less than spacing between numbers.
+908,119,2902,initial q2_x is singular or absurd
+908,22,2902,|q2| trajectory too large
+908,13,2902,|varphi2| trajectory too large
+908,1,2902,constraint drift too large: max|C|=8.836e-03
+908,1,2902,constraint drift too large: max|C|=3.032e-04
+908,1,2902,constraint drift too large: max|C|=1.853e+00
+910,3000,3000,symbolic build timeout > 60s
+911,3,3000,constraint drift too large: max|C|=1.324e+156
+911,3,3000,constraint drift too large: max|C|=1.367e+153
+911,2,3000,constraint drift too large: max|C|=1.061e+159
+911,2,3000,constraint drift too large: max|C|=1.478e+162
+911,2,3000,constraint drift too large: max|C|=1.173e+152
+911,2,3000,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+911,2,3000,EFT cutoff violated: max(h/lambda_H)=1.085e-01
+911,2,3000,constraint drift too large: max|C|=1.005e+148
+912,3000,3000,q1_x not determined by coupled scalar EOM
+913,3000,3000,q2_x not determined by coupled scalar EOM
+914,498,3000,initial q2_x is singular or absurd
+914,422,3000,|q2| trajectory too large
+914,344,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+914,49,3000,|varphi2| trajectory too large
+914,2,3000,EFT cutoff violated: max(h/lambda_H)=1.017e-01
+914,2,3000,EFT cutoff violated: max(h/lambda_H)=1.090e-01
+914,2,3000,constraint drift too large: max|C|=2.563e+216
+914,2,3000,constraint drift too large: max|C|=4.145e+217
+915,2848,2964,no acceptable real q1_0 root from E_N(x=0)=0
+915,81,2964,solve_ivp failed: Required step size is less than spacing between numbers.
+915,1,2964,constraint drift too large: max|C|=2.246e-04
+915,1,2964,constraint drift too large: max|C|=4.080e-03
+915,1,2964,constraint drift too large: max|C|=2.269e-04
+915,1,2964,constraint drift too large: max|C|=1.102e-03
+915,1,2964,constraint drift too large: max|C|=1.057e-03
+915,1,2964,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+916,11,3000,no-scalar constraint not satisfied at x=0: C0=1.948e+00
+916,9,3000,no-scalar constraint not satisfied at x=0: C0=2.189e+00
+916,9,3000,no-scalar constraint not satisfied at x=0: C0=1.998e+00
+916,9,3000,no-scalar constraint not satisfied at x=0: C0=2.489e+00
+916,9,3000,no-scalar constraint not satisfied at x=0: C0=2.523e+00
+916,9,3000,no-scalar constraint not satisfied at x=0: C0=1.745e+00
+916,9,3000,no-scalar constraint not satisfied at x=0: C0=1.920e+00
+916,8,3000,no-scalar constraint not satisfied at x=0: C0=2.470e+00
+917,3000,3000,q2_x not determined by coupled scalar EOM
+918,1038,1413,no acceptable real q2_0 root from E_N(x=0)=0
+918,87,1413,solve_ivp failed: Required step size is less than spacing between numbers.
+918,2,1413,EFT cutoff violated: max(h/lambda_H)=1.015e-01
+918,2,1413,constraint drift too large: max|C|=1.030e-04
+918,2,1413,EFT cutoff violated: max(h/lambda_H)=1.097e-01
+918,2,1413,constraint drift too large: max|C|=1.448e-04
+918,1,1413,constraint drift too large: max|C|=3.979e-03
+918,1,1413,constraint drift too large: max|C|=1.698e-04
+919,3000,3000,q2_x not determined by coupled scalar EOM
+920,998,1329,no acceptable real q2_0 root from E_N(x=0)=0
+920,78,1329,solve_ivp failed: Required step size is less than spacing between numbers.
+920,2,1329,constraint drift too large: max|C|=1.219e-02
+920,2,1329,EFT cutoff violated: max(h/lambda_H)=1.073e-01
+920,2,1329,EFT cutoff violated: max(h/lambda_H)=1.081e-01
+920,2,1329,EFT cutoff violated: max(h/lambda_H)=1.094e-01
+920,2,1329,constraint drift too large: max|C|=1.142e-04
+920,1,1329,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+921,3000,3000,symbolic build timeout > 60s
+922,3000,3000,q1_x not determined by coupled scalar EOM
+923,3000,3000,symbolic build timeout > 60s
+924,2,3000,constraint drift too large: max|C|=3.791e+209
+924,2,3000,constraint drift too large: max|C|=9.593e+209
+924,2,3000,constraint drift too large: max|C|=2.235e+211
+924,2,3000,EFT cutoff violated: max(h/lambda_H)=1.063e-01
+924,2,3000,constraint drift too large: max|C|=1.198e+213
+924,2,3000,EFT cutoff violated: max(h/lambda_H)=1.099e-01
+924,2,3000,constraint drift too large: max|C|=2.425e+218
+924,2,3000,constraint drift too large: max|C|=5.669e+221
+925,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+926,3000,3000,q2_x not determined by coupled scalar EOM
+927,1205,1372,no acceptable real q2_0 root from E_N(x=0)=0
+927,2,1372,EFT cutoff violated: max(h/lambda_H)=1.045e-01
+927,2,1372,constraint drift too large: max|C|=1.348e-04
+927,2,1372,EFT cutoff violated: max(h/lambda_H)=1.026e-01
+927,2,1372,EFT cutoff violated: max(h/lambda_H)=1.039e-01
+927,1,1372,constraint drift too large: max|C|=2.916e-04
+927,1,1372,constraint drift too large: max|C|=6.878e-04
+927,1,1372,constraint drift too large: max|C|=3.022e-04
+928,3000,3000,symbolic build timeout > 60s
+929,432,1456,no acceptable real q2_0 root from E_N(x=0)=0
+929,111,1456,solve_ivp failed: Required step size is less than spacing between numbers.
+929,9,1456,|q2| trajectory too large
+929,3,1456,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+929,3,1456,constraint drift too large: max|C|=1.999e-02
+929,2,1456,constraint drift too large: max|C|=1.861e+03
+929,2,1456,constraint drift too large: max|C|=1.872e-03
+929,2,1456,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+930,1031,1386,no acceptable real q2_0 root from E_N(x=0)=0
+930,87,1386,solve_ivp failed: Required step size is less than spacing between numbers.
+930,2,1386,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+930,2,1386,EFT cutoff violated: max(h/lambda_H)=1.064e-01
+930,2,1386,EFT cutoff violated: max(h/lambda_H)=1.104e-01
+930,2,1386,EFT cutoff violated: max(h/lambda_H)=1.025e-01
+930,2,1386,constraint drift too large: max|C|=1.311e-03
+930,2,1386,EFT cutoff violated: max(h/lambda_H)=1.049e-01
+931,10,3000,no-scalar constraint not satisfied at x=0: C0=1.910e+00
+931,10,3000,no-scalar constraint not satisfied at x=0: C0=1.694e+00
+931,9,3000,no-scalar constraint not satisfied at x=0: C0=2.255e+00
+931,9,3000,no-scalar constraint not satisfied at x=0: C0=1.738e+00
+931,9,3000,no-scalar constraint not satisfied at x=0: C0=2.229e+00
+931,8,3000,no-scalar constraint not satisfied at x=0: C0=2.090e+00
+931,8,3000,no-scalar constraint not satisfied at x=0: C0=2.033e+00
+931,8,3000,no-scalar constraint not satisfied at x=0: C0=1.678e+00
+932,3000,3000,q2_x not determined by coupled scalar EOM
+933,1140,1316,no acceptable real q2_0 root from E_N(x=0)=0
+933,2,1316,EFT cutoff violated: max(h/lambda_H)=1.097e-01
+933,2,1316,constraint drift too large: max|C|=1.324e-04
+933,2,1316,constraint drift too large: max|C|=1.747e-03
+933,1,1316,constraint drift too large: max|C|=7.705e-04
+933,1,1316,constraint drift too large: max|C|=7.236e-04
+933,1,1316,constraint drift too large: max|C|=2.870e-04
+933,1,1316,constraint drift too large: max|C|=3.000e-04
+934,398,1604,no acceptable real q2_0 root from E_N(x=0)=0
+934,149,1604,solve_ivp failed: Required step size is less than spacing between numbers.
+934,2,1604,constraint drift too large: max|C|=3.374e-03
+934,2,1604,constraint drift too large: max|C|=5.367e-04
+934,2,1604,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+934,2,1604,constraint drift too large: max|C|=3.066e-03
+934,2,1604,EFT cutoff violated: max(h/lambda_H)=1.051e-01
+934,2,1604,constraint drift too large: max|C|=1.618e-04
+935,739,3000,no acceptable real q1_0 root from E_N(x=0)=0
+935,507,3000,H(z) absurdly large
+935,46,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+935,2,3000,constraint drift too large: max|C|=1.631e+108
+935,2,3000,EFT cutoff violated: max(h/lambda_H)=2.662e-01
+935,2,3000,constraint drift too large: max|C|=1.102e+100
+935,2,3000,EFT cutoff violated: max(h/lambda_H)=1.034e-01
+935,2,3000,constraint drift too large: max|C|=2.403e+108
+936,2,3000,constraint drift too large: max|C|=8.111e+219
+936,2,3000,EFT cutoff violated: max(h/lambda_H)=1.105e-01
+936,2,3000,constraint drift too large: max|C|=2.398e+217
+936,2,3000,constraint drift too large: max|C|=1.763e+219
+936,2,3000,constraint drift too large: max|C|=1.570e+219
+936,2,3000,constraint drift too large: max|C|=1.122e+207
+936,2,3000,constraint drift too large: max|C|=3.967e+210
+936,2,3000,constraint drift too large: max|C|=7.797e+212
+938,788,3000,no acceptable real q1_0 root from E_N(x=0)=0
+938,507,3000,H(z) absurdly large
+938,52,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+938,3,3000,EFT cutoff violated: max(h/lambda_H)=1.083e-01
+938,2,3000,constraint drift too large: max|C|=1.981e+104
+938,2,3000,constraint drift too large: max|C|=1.626e+102
+938,2,3000,EFT cutoff violated: max(h/lambda_H)=1.175e-01
+938,2,3000,constraint drift too large: max|C|=4.875e+110
+939,10,3000,no-scalar constraint not satisfied at x=0: C0=2.522e+00
+939,10,3000,no-scalar constraint not satisfied at x=0: C0=2.285e+00
+939,10,3000,no-scalar constraint not satisfied at x=0: C0=2.093e+00
+939,10,3000,no-scalar constraint not satisfied at x=0: C0=2.328e+00
+939,10,3000,no-scalar constraint not satisfied at x=0: C0=1.659e+00
+939,9,3000,no-scalar constraint not satisfied at x=0: C0=2.536e+00
+939,9,3000,no-scalar constraint not satisfied at x=0: C0=1.741e+00
+939,9,3000,no-scalar constraint not satisfied at x=0: C0=1.857e+00
+940,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+941,3000,3000,symbolic build timeout > 60s
+942,3000,3000,q1_x not determined by coupled scalar EOM
+944,2300,2987,no acceptable real q1_0 root from E_N(x=0)=0
+944,227,2987,H(z) absurdly large
+944,154,2987,solve_ivp failed: Required step size is less than spacing between numbers.
+944,152,2987,initial h_x is singular or absurd
+944,9,2987,initial q1_x is singular or absurd
+944,2,2987,EFT cutoff violated: max(h/lambda_H)=1.540e-01
+944,2,2987,EFT cutoff violated: max(h/lambda_H)=1.500e-01
+944,2,2987,EFT cutoff violated: max(h/lambda_H)=1.588e+00
+945,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+946,1441,3000,no acceptable real q1_0 root from E_N(x=0)=0
+946,191,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+946,39,3000,initial q2_x is singular or absurd
+946,38,3000,|q2| trajectory too large
+946,7,3000,|varphi2| trajectory too large
+946,2,3000,constraint drift too large: max|C|=7.261e+03
+946,2,3000,constraint drift too large: max|C|=1.149e+11
+946,2,3000,constraint drift too large: max|C|=1.801e+06
+947,3000,3000,q1_x not determined by coupled scalar EOM
+948,3,3000,constraint drift too large: max|C|=2.067e+103
+948,2,3000,constraint drift too large: max|C|=4.778e+94
+948,2,3000,constraint drift too large: max|C|=2.273e+99
+948,2,3000,constraint drift too large: max|C|=1.835e+105
+948,2,3000,constraint drift too large: max|C|=1.079e+107
+948,2,3000,constraint drift too large: max|C|=1.029e+95
+948,2,3000,EFT cutoff violated: max(h/lambda_H)=1.040e-01
+948,2,3000,constraint drift too large: max|C|=1.816e+99
+949,3000,3000,symbolic build timeout > 60s
+950,1167,1490,no acceptable real q2_0 root from E_N(x=0)=0
+950,93,1490,solve_ivp failed: Required step size is less than spacing between numbers.
+950,2,1490,EFT cutoff violated: max(h/lambda_H)=1.020e-01
+950,2,1490,EFT cutoff violated: max(h/lambda_H)=1.016e-01
+950,2,1490,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+950,2,1490,constraint drift too large: max|C|=1.599e-03
+950,1,1490,EFT cutoff violated: max(h/lambda_H)=1.081e-01
+950,1,1490,constraint drift too large: max|C|=3.787e-04
+951,3000,3000,q1_x not determined by coupled scalar EOM
+952,10,3000,no-scalar constraint not satisfied at x=0: C0=2.340e+00
+952,10,3000,no-scalar constraint not satisfied at x=0: C0=1.805e+00
+952,9,3000,no-scalar constraint not satisfied at x=0: C0=1.769e+00
+952,9,3000,no-scalar constraint not satisfied at x=0: C0=2.137e+00
+952,8,3000,no-scalar constraint not satisfied at x=0: C0=1.939e+00
+952,8,3000,no-scalar constraint not satisfied at x=0: C0=2.187e+00
+952,8,3000,no-scalar constraint not satisfied at x=0: C0=2.156e+00
+952,8,3000,no-scalar constraint not satisfied at x=0: C0=2.018e+00
+953,3,3000,constraint drift too large: max|C|=6.008e+211
+953,2,3000,constraint drift too large: max|C|=1.561e+217
+953,2,3000,EFT cutoff violated: max(h/lambda_H)=1.083e-01
+953,2,3000,constraint drift too large: max|C|=2.546e+222
+953,2,3000,constraint drift too large: max|C|=2.040e+213
+953,2,3000,constraint drift too large: max|C|=1.143e+210
+953,2,3000,EFT cutoff violated: max(h/lambda_H)=1.064e-01
+953,2,3000,EFT cutoff violated: max(h/lambda_H)=1.108e-01
+954,2099,3000,no acceptable real q1_0 root from E_N(x=0)=0
+954,117,3000,initial h_x is singular or absurd
+954,107,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+954,79,3000,H(z) absurdly large
+954,2,3000,constraint drift too large: max|C|=1.320e+109
+954,2,3000,constraint drift too large: max|C|=1.187e+108
+954,2,3000,constraint drift too large: max|C|=1.510e+108
+954,1,3000,EFT cutoff violated: max(h/lambda_H)=1.478e-01
+955,1002,1399,no acceptable real q2_0 root from E_N(x=0)=0
+955,88,1399,solve_ivp failed: Required step size is less than spacing between numbers.
+955,2,1399,EFT cutoff violated: max(h/lambda_H)=1.105e-01
+955,2,1399,EFT cutoff violated: max(h/lambda_H)=1.109e-01
+955,2,1399,EFT cutoff violated: max(h/lambda_H)=1.062e-01
+955,2,1399,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+955,1,1399,constraint drift too large: max|C|=3.306e-04
+955,1,1399,constraint drift too large: max|C|=2.477e-03
+956,2,3000,constraint drift too large: max|C|=1.276e+157
+956,2,3000,constraint drift too large: max|C|=3.985e+169
+956,2,3000,EFT cutoff violated: max(h/lambda_H)=1.020e-01
+956,2,3000,constraint drift too large: max|C|=2.580e+153
+956,2,3000,constraint drift too large: max|C|=3.956e+162
+956,2,3000,constraint drift too large: max|C|=1.592e+158
+956,2,3000,constraint drift too large: max|C|=2.530e+164
+956,2,3000,constraint drift too large: max|C|=5.107e+156
+957,730,3000,no acceptable real q1_0 root from E_N(x=0)=0
+957,570,3000,H(z) absurdly large
+957,37,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+957,3,3000,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+957,2,3000,EFT cutoff violated: max(h/lambda_H)=1.030e-01
+957,2,3000,constraint drift too large: max|C|=1.492e+109
+957,2,3000,constraint drift too large: max|C|=1.830e+107
+957,2,3000,EFT cutoff violated: max(h/lambda_H)=1.016e-01
+958,11,3000,no-scalar constraint not satisfied at x=0: C0=1.947e+00
+958,11,3000,no-scalar constraint not satisfied at x=0: C0=2.442e+00
+958,10,3000,no-scalar constraint not satisfied at x=0: C0=2.036e+00
+958,10,3000,no-scalar constraint not satisfied at x=0: C0=2.229e+00
+958,10,3000,no-scalar constraint not satisfied at x=0: C0=2.291e+00
+958,9,3000,no-scalar constraint not satisfied at x=0: C0=1.679e+00
+958,9,3000,no-scalar constraint not satisfied at x=0: C0=2.538e+00
+958,9,3000,no-scalar constraint not satisfied at x=0: C0=1.782e+00
+959,968,1379,no acceptable real q2_0 root from E_N(x=0)=0
+959,105,1379,solve_ivp failed: Required step size is less than spacing between numbers.
+959,2,1379,constraint drift too large: max|C|=2.077e-04
+959,2,1379,EFT cutoff violated: max(h/lambda_H)=1.052e-01
+959,2,1379,constraint drift too large: max|C|=5.438e-03
+959,2,1379,constraint drift too large: max|C|=2.505e-03
+959,1,1379,constraint drift too large: max|C|=2.028e-04
+959,1,1379,constraint drift too large: max|C|=3.094e-04
+960,3000,3000,q2_x not determined by coupled scalar EOM
+961,837,1560,no acceptable real q2_0 root from E_N(x=0)=0
+961,116,1560,solve_ivp failed: Required step size is less than spacing between numbers.
+961,2,1560,constraint drift too large: max|C|=2.080e-03
+961,2,1560,constraint drift too large: max|C|=2.631e-04
+961,2,1560,constraint drift too large: max|C|=4.640e-04
+961,2,1560,constraint drift too large: max|C|=1.103e-04
+961,2,1560,constraint drift too large: max|C|=1.006e-04
+961,2,1560,constraint drift too large: max|C|=6.884e-04
+962,3000,3000,symbolic build timeout > 60s
+963,3000,3000,q2_x not determined by coupled scalar EOM
+964,3000,3000,symbolic build timeout > 60s
+965,3000,3000,q1_x not determined by coupled scalar EOM
+966,3000,3000,symbolic build timeout > 60s
+967,3000,3000,symbolic build timeout > 60s
+968,395,1575,no acceptable real q2_0 root from E_N(x=0)=0
+968,153,1575,solve_ivp failed: Required step size is less than spacing between numbers.
+968,2,1575,constraint drift too large: max|C|=1.642e-04
+968,2,1575,EFT cutoff violated: max(h/lambda_H)=1.059e-01
+968,2,1575,EFT cutoff violated: max(h/lambda_H)=1.010e-01
+968,2,1575,EFT cutoff violated: max(h/lambda_H)=1.058e-01
+968,2,1575,constraint drift too large: max|C|=1.824e-04
+968,2,1575,EFT cutoff violated: max(h/lambda_H)=1.025e-01
+972,11,3000,no-scalar constraint not satisfied at x=0: C0=2.452e+00
+972,10,3000,no-scalar constraint not satisfied at x=0: C0=2.415e+00
+972,10,3000,no-scalar constraint not satisfied at x=0: C0=1.751e+00
+972,9,3000,no-scalar constraint not satisfied at x=0: C0=2.389e+00
+972,9,3000,no-scalar constraint not satisfied at x=0: C0=2.416e+00
+972,9,3000,no-scalar constraint not satisfied at x=0: C0=1.823e+00
+972,9,3000,no-scalar constraint not satisfied at x=0: C0=2.194e+00
+972,9,3000,no-scalar constraint not satisfied at x=0: C0=1.913e+00
+973,3000,3000,q1_x not determined by coupled scalar EOM
+974,12,3000,no-scalar constraint not satisfied at x=0: C0=2.234e+00
+974,10,3000,no-scalar constraint not satisfied at x=0: C0=2.122e+00
+974,10,3000,no-scalar constraint not satisfied at x=0: C0=2.312e+00
+974,9,3000,no-scalar constraint not satisfied at x=0: C0=2.083e+00
+974,9,3000,no-scalar constraint not satisfied at x=0: C0=2.028e+00
+974,9,3000,no-scalar constraint not satisfied at x=0: C0=1.904e+00
+974,9,3000,no-scalar constraint not satisfied at x=0: C0=2.297e+00
+974,9,3000,no-scalar constraint not satisfied at x=0: C0=1.779e+00
+975,3000,3000,q2_x not determined by coupled scalar EOM
+977,3000,3000,q2_x not determined by coupled scalar EOM
+978,3000,3000,q2_x not determined by coupled scalar EOM
+979,3000,3000,q2_x not determined by coupled scalar EOM
+980,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+981,1508,3000,no acceptable real q1_0 root from E_N(x=0)=0
+981,389,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+981,78,3000,initial q2_x is singular or absurd
+981,48,3000,|q2| trajectory too large
+981,4,3000,|varphi2| trajectory too large
+981,2,3000,constraint drift too large: max|C|=2.896e+00
+981,2,3000,constraint drift too large: max|C|=1.004e+00
+981,2,3000,constraint drift too large: max|C|=1.103e+00
+982,3,3000,EFT cutoff violated: max(h/lambda_H)=1.096e-01
+982,3,3000,constraint drift too large: max|C|=1.054e+153
+982,2,3000,constraint drift too large: max|C|=3.426e+159
+982,2,3000,constraint drift too large: max|C|=1.450e+149
+982,2,3000,constraint drift too large: max|C|=3.305e+154
+982,2,3000,EFT cutoff violated: max(h/lambda_H)=1.005e-01
+982,2,3000,constraint drift too large: max|C|=2.147e+160
+982,2,3000,constraint drift too large: max|C|=4.428e+156
+983,987,1384,no acceptable real q2_0 root from E_N(x=0)=0
+983,80,1384,solve_ivp failed: Required step size is less than spacing between numbers.
+983,3,1384,EFT cutoff violated: max(h/lambda_H)=1.100e-01
+983,3,1384,constraint drift too large: max|C|=1.860e-03
+983,2,1384,constraint drift too large: max|C|=1.113e-03
+983,2,1384,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+983,2,1384,constraint drift too large: max|C|=2.139e-02
+983,2,1384,EFT cutoff violated: max(h/lambda_H)=1.044e-01
+984,3000,3000,symbolic build timeout > 60s
+985,3000,3000,symbolic build timeout > 60s
+988,3000,3000,q2_x not determined by coupled scalar EOM
+989,11,3000,no-scalar constraint not satisfied at x=0: C0=2.111e+00
+989,11,3000,no-scalar constraint not satisfied at x=0: C0=1.993e+00
+989,10,3000,no-scalar constraint not satisfied at x=0: C0=2.029e+00
+989,9,3000,no-scalar constraint not satisfied at x=0: C0=2.311e+00
+989,9,3000,no-scalar constraint not satisfied at x=0: C0=2.432e+00
+989,9,3000,no-scalar constraint not satisfied at x=0: C0=2.041e+00
+989,8,3000,no-scalar constraint not satisfied at x=0: C0=2.025e+00
+989,8,3000,no-scalar constraint not satisfied at x=0: C0=2.243e+00
+990,9,3000,no-scalar constraint not satisfied at x=0: C0=1.914e+00
+990,9,3000,no-scalar constraint not satisfied at x=0: C0=2.241e+00
+990,8,3000,no-scalar constraint not satisfied at x=0: C0=1.783e+00
+990,8,3000,no-scalar constraint not satisfied at x=0: C0=1.771e+00
+990,8,3000,no-scalar constraint not satisfied at x=0: C0=2.103e+00
+990,8,3000,no-scalar constraint not satisfied at x=0: C0=1.779e+00
+990,8,3000,no-scalar constraint not satisfied at x=0: C0=1.895e+00
+990,8,3000,no-scalar constraint not satisfied at x=0: C0=2.470e+00
+991,3000,3000,symbolic build timeout > 60s
+993,3000,3000,q1_x not determined by coupled scalar EOM
+994,3,3000,EFT cutoff violated: max(h/lambda_H)=1.083e-01
+994,2,3000,constraint drift too large: max|C|=2.308e+212
+994,2,3000,constraint drift too large: max|C|=1.569e+209
+994,2,3000,constraint drift too large: max|C|=3.673e+214
+994,2,3000,constraint drift too large: max|C|=1.119e+221
+994,2,3000,constraint drift too large: max|C|=3.345e+203
+994,2,3000,constraint drift too large: max|C|=2.145e+210
+994,2,3000,EFT cutoff violated: max(h/lambda_H)=1.047e-01
+996,9,3000,no-scalar constraint not satisfied at x=0: C0=1.733e+00
+996,9,3000,no-scalar constraint not satisfied at x=0: C0=2.067e+00
+996,9,3000,no-scalar constraint not satisfied at x=0: C0=2.143e+00
+996,8,3000,no-scalar constraint not satisfied at x=0: C0=1.858e+00
+996,8,3000,no-scalar constraint not satisfied at x=0: C0=1.686e+00
+996,8,3000,no-scalar constraint not satisfied at x=0: C0=2.173e+00
+996,8,3000,no-scalar constraint not satisfied at x=0: C0=2.116e+00
+996,8,3000,no-scalar constraint not satisfied at x=0: C0=2.111e+00
+997,3000,3000,q2_x not determined by coupled scalar EOM
+998,12,3000,no-scalar constraint not satisfied at x=0: C0=2.044e+00
+998,10,3000,no-scalar constraint not satisfied at x=0: C0=2.020e+00
+998,10,3000,no-scalar constraint not satisfied at x=0: C0=1.796e+00
+998,10,3000,no-scalar constraint not satisfied at x=0: C0=2.344e+00
+998,9,3000,no-scalar constraint not satisfied at x=0: C0=2.082e+00
+998,9,3000,no-scalar constraint not satisfied at x=0: C0=2.141e+00
+998,9,3000,no-scalar constraint not satisfied at x=0: C0=2.039e+00
+998,8,3000,no-scalar constraint not satisfied at x=0: C0=2.372e+00
+999,3000,3000,q2_x not determined by coupled scalar EOM
+1001,3000,3000,q1_x not determined by coupled scalar EOM
+1002,3000,3000,q1_x not determined by coupled scalar EOM
+1003,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1004,11,3000,no-scalar constraint not satisfied at x=0: C0=2.371e+00
+1004,9,3000,no-scalar constraint not satisfied at x=0: C0=2.211e+00
+1004,9,3000,no-scalar constraint not satisfied at x=0: C0=1.713e+00
+1004,9,3000,no-scalar constraint not satisfied at x=0: C0=1.702e+00
+1004,8,3000,no-scalar constraint not satisfied at x=0: C0=2.165e+00
+1004,8,3000,no-scalar constraint not satisfied at x=0: C0=1.665e+00
+1004,8,3000,no-scalar constraint not satisfied at x=0: C0=1.989e+00
+1004,8,3000,no-scalar constraint not satisfied at x=0: C0=1.737e+00
+1005,3000,3000,symbolic build timeout > 60s
+1006,1130,1458,no acceptable real q2_0 root from E_N(x=0)=0
+1006,92,1458,solve_ivp failed: Required step size is less than spacing between numbers.
+1006,2,1458,EFT cutoff violated: max(h/lambda_H)=1.021e-01
+1006,2,1458,EFT cutoff violated: max(h/lambda_H)=1.013e-01
+1006,2,1458,constraint drift too large: max|C|=1.851e-03
+1006,2,1458,EFT cutoff violated: max(h/lambda_H)=1.002e-01
+1006,2,1458,constraint drift too large: max|C|=1.240e-04
+1006,2,1458,EFT cutoff violated: max(h/lambda_H)=1.051e-01
+1007,1799,2938,no acceptable real q1_0 root from E_N(x=0)=0
+1007,286,2938,solve_ivp failed: Required step size is less than spacing between numbers.
+1007,274,2938,H(z) absurdly large
+1007,229,2938,initial h_x is singular or absurd
+1007,5,2938,initial q2_x is singular or absurd
+1007,2,2938,EFT cutoff violated: max(h/lambda_H)=1.161e-01
+1007,2,2938,constraint drift too large: max|C|=3.611e-03
+1007,2,2938,EFT cutoff violated: max(h/lambda_H)=2.028e-01
+1008,2134,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1008,68,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+1008,46,3000,H(z) absurdly large
+1008,2,3000,constraint drift too large: max|C|=5.599e+228
+1008,2,3000,constraint drift too large: max|C|=3.554e+226
+1008,2,3000,EFT cutoff violated: max(h/lambda_H)=1.025e-01
+1008,2,3000,constraint drift too large: max|C|=6.414e+221
+1008,1,3000,constraint drift too large: max|C|=5.029e+228
+1009,419,1166,no acceptable real q2_0 root from E_N(x=0)=0
+1009,86,1166,solve_ivp failed: Required step size is less than spacing between numbers.
+1009,3,1166,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+1009,3,1166,EFT cutoff violated: max(h/lambda_H)=1.008e-01
+1009,2,1166,constraint drift too large: max|C|=1.582e-04
+1009,2,1166,EFT cutoff violated: max(h/lambda_H)=1.044e-01
+1009,2,1166,EFT cutoff violated: max(h/lambda_H)=1.055e-01
+1009,2,1166,constraint drift too large: max|C|=5.235e-04
+1010,3000,3000,q1_x not determined by coupled scalar EOM
+1011,3000,3000,symbolic build timeout > 60s
+1012,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+1013,10,3000,no-scalar constraint not satisfied at x=0: C0=2.107e+00
+1013,10,3000,no-scalar constraint not satisfied at x=0: C0=2.310e+00
+1013,9,3000,no-scalar constraint not satisfied at x=0: C0=1.900e+00
+1013,9,3000,no-scalar constraint not satisfied at x=0: C0=2.061e+00
+1013,8,3000,no-scalar constraint not satisfied at x=0: C0=2.301e+00
+1013,8,3000,no-scalar constraint not satisfied at x=0: C0=2.037e+00
+1013,8,3000,no-scalar constraint not satisfied at x=0: C0=2.405e+00
+1013,8,3000,no-scalar constraint not satisfied at x=0: C0=1.998e+00
+1014,3000,3000,symbolic build timeout > 60s
+1015,3000,3000,symbolic build timeout > 60s
+1016,414,1465,no acceptable real q2_0 root from E_N(x=0)=0
+1016,104,1465,solve_ivp failed: Required step size is less than spacing between numbers.
+1016,4,1465,EFT cutoff violated: max(h/lambda_H)=1.013e-01
+1016,4,1465,|q2| trajectory too large
+1016,3,1465,EFT cutoff violated: max(h/lambda_H)=1.062e-01
+1016,2,1465,EFT cutoff violated: max(h/lambda_H)=1.095e-01
+1016,2,1465,constraint drift too large: max|C|=2.585e-04
+1016,2,1465,constraint drift too large: max|C|=1.115e-04
+1017,3,3000,EFT cutoff violated: max(h/lambda_H)=1.026e-01
+1017,3,3000,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+1017,3,3000,EFT cutoff violated: max(h/lambda_H)=1.091e-01
+1017,2,3000,constraint drift too large: max|C|=5.208e+216
+1017,2,3000,constraint drift too large: max|C|=4.004e+215
+1017,2,3000,constraint drift too large: max|C|=1.160e+212
+1017,2,3000,constraint drift too large: max|C|=6.980e+218
+1017,2,3000,constraint drift too large: max|C|=1.994e+204
+1018,10,3000,no-scalar constraint not satisfied at x=0: C0=2.405e+00
+1018,10,3000,no-scalar constraint not satisfied at x=0: C0=2.410e+00
+1018,9,3000,no-scalar constraint not satisfied at x=0: C0=1.928e+00
+1018,9,3000,no-scalar constraint not satisfied at x=0: C0=2.536e+00
+1018,9,3000,no-scalar constraint not satisfied at x=0: C0=2.025e+00
+1018,9,3000,no-scalar constraint not satisfied at x=0: C0=2.439e+00
+1018,8,3000,no-scalar constraint not satisfied at x=0: C0=2.111e+00
+1018,8,3000,no-scalar constraint not satisfied at x=0: C0=1.988e+00
+1019,1007,1425,no acceptable real q2_0 root from E_N(x=0)=0
+1019,102,1425,solve_ivp failed: Required step size is less than spacing between numbers.
+1019,2,1425,constraint drift too large: max|C|=2.256e-04
+1019,2,1425,EFT cutoff violated: max(h/lambda_H)=1.004e-01
+1019,2,1425,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+1019,2,1425,constraint drift too large: max|C|=8.436e-03
+1019,2,1425,EFT cutoff violated: max(h/lambda_H)=1.077e-01
+1019,2,1425,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+1020,3000,3000,symbolic build timeout > 60s
+1021,10,3000,no-scalar constraint not satisfied at x=0: C0=2.297e+00
+1021,10,3000,no-scalar constraint not satisfied at x=0: C0=2.258e+00
+1021,10,3000,no-scalar constraint not satisfied at x=0: C0=2.541e+00
+1021,10,3000,no-scalar constraint not satisfied at x=0: C0=2.398e+00
+1021,9,3000,no-scalar constraint not satisfied at x=0: C0=1.776e+00
+1021,9,3000,no-scalar constraint not satisfied at x=0: C0=1.752e+00
+1021,9,3000,no-scalar constraint not satisfied at x=0: C0=2.233e+00
+1021,9,3000,no-scalar constraint not satisfied at x=0: C0=1.699e+00
+1024,3000,3000,q1_x not determined by coupled scalar EOM
+1025,10,3000,no-scalar constraint not satisfied at x=0: C0=2.122e+00
+1025,9,3000,no-scalar constraint not satisfied at x=0: C0=2.311e+00
+1025,9,3000,no-scalar constraint not satisfied at x=0: C0=2.526e+00
+1025,9,3000,no-scalar constraint not satisfied at x=0: C0=2.175e+00
+1025,9,3000,no-scalar constraint not satisfied at x=0: C0=1.919e+00
+1025,8,3000,no-scalar constraint not satisfied at x=0: C0=2.483e+00
+1025,8,3000,no-scalar constraint not satisfied at x=0: C0=2.172e+00
+1025,8,3000,no-scalar constraint not satisfied at x=0: C0=1.984e+00
+1026,1081,1362,no acceptable real q2_0 root from E_N(x=0)=0
+1026,68,1362,solve_ivp failed: Required step size is less than spacing between numbers.
+1026,2,1362,EFT cutoff violated: max(h/lambda_H)=1.072e-01
+1026,2,1362,EFT cutoff violated: max(h/lambda_H)=1.046e-01
+1026,2,1362,EFT cutoff violated: max(h/lambda_H)=1.029e-01
+1026,2,1362,EFT cutoff violated: max(h/lambda_H)=1.005e-01
+1026,1,1362,constraint drift too large: max|C|=1.968e-04
+1026,1,1362,constraint drift too large: max|C|=3.136e-04
+1027,2,3000,constraint drift too large: max|C|=1.057e+105
+1027,2,3000,constraint drift too large: max|C|=1.299e+90
+1027,2,3000,EFT cutoff violated: max(h/lambda_H)=1.011e-01
+1027,2,3000,constraint drift too large: max|C|=2.314e+97
+1027,2,3000,constraint drift too large: max|C|=1.015e+102
+1027,2,3000,constraint drift too large: max|C|=1.332e+91
+1027,2,3000,constraint drift too large: max|C|=1.067e+96
+1027,2,3000,constraint drift too large: max|C|=2.100e+91
+1028,10,3000,no-scalar constraint not satisfied at x=0: C0=1.752e+00
+1028,9,3000,no-scalar constraint not satisfied at x=0: C0=2.328e+00
+1028,9,3000,no-scalar constraint not satisfied at x=0: C0=1.982e+00
+1028,9,3000,no-scalar constraint not satisfied at x=0: C0=1.666e+00
+1028,9,3000,no-scalar constraint not satisfied at x=0: C0=1.750e+00
+1028,9,3000,no-scalar constraint not satisfied at x=0: C0=2.214e+00
+1028,8,3000,no-scalar constraint not satisfied at x=0: C0=2.411e+00
+1028,8,3000,no-scalar constraint not satisfied at x=0: C0=1.934e+00
+1029,395,1295,no acceptable real q2_0 root from E_N(x=0)=0
+1029,106,1295,solve_ivp failed: Required step size is less than spacing between numbers.
+1029,3,1295,EFT cutoff violated: max(h/lambda_H)=1.044e-01
+1029,2,1295,EFT cutoff violated: max(h/lambda_H)=1.097e-01
+1029,2,1295,constraint drift too large: max|C|=1.087e-02
+1029,2,1295,constraint drift too large: max|C|=1.159e-04
+1029,2,1295,constraint drift too large: max|C|=1.015e-02
+1029,2,1295,constraint drift too large: max|C|=3.313e-03
+1030,3000,3000,q2_x not determined by coupled scalar EOM
+1032,2,3000,constraint drift too large: max|C|=1.494e+96
+1032,2,3000,EFT cutoff violated: max(h/lambda_H)=1.077e-01
+1032,2,3000,constraint drift too large: max|C|=1.773e+107
+1032,2,3000,constraint drift too large: max|C|=1.120e+104
+1032,2,3000,EFT cutoff violated: max(h/lambda_H)=1.042e-01
+1032,2,3000,constraint drift too large: max|C|=2.310e+92
+1032,2,3000,constraint drift too large: max|C|=1.497e+99
+1032,2,3000,constraint drift too large: max|C|=1.600e+97
+1033,3000,3000,symbolic build timeout > 60s
+1034,3000,3000,q1_x not determined by coupled scalar EOM
+1035,1036,1410,no acceptable real q2_0 root from E_N(x=0)=0
+1035,99,1410,solve_ivp failed: Required step size is less than spacing between numbers.
+1035,2,1410,EFT cutoff violated: max(h/lambda_H)=1.091e-01
+1035,2,1410,EFT cutoff violated: max(h/lambda_H)=1.068e-01
+1035,2,1410,constraint drift too large: max|C|=2.961e-03
+1035,2,1410,constraint drift too large: max|C|=1.075e-03
+1035,2,1410,EFT cutoff violated: max(h/lambda_H)=1.079e-01
+1035,2,1410,EFT cutoff violated: max(h/lambda_H)=1.015e-01
+1037,3,3000,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+1037,2,3000,constraint drift too large: max|C|=2.659e+207
+1037,2,3000,constraint drift too large: max|C|=1.040e+226
+1037,2,3000,constraint drift too large: max|C|=1.288e+213
+1037,2,3000,constraint drift too large: max|C|=3.539e+210
+1037,2,3000,EFT cutoff violated: max(h/lambda_H)=1.093e-01
+1037,2,3000,constraint drift too large: max|C|=2.298e+213
+1037,2,3000,constraint drift too large: max|C|=6.341e+227
+1038,1774,2863,H(z) absurdly large
+1038,738,2863,no acceptable real q1_0 root from E_N(x=0)=0
+1038,3,2863,EFT cutoff violated: max(h/lambda_H)=1.038e-01
+1038,2,2863,EFT cutoff violated: max(h/lambda_H)=1.140e-01
+1038,2,2863,EFT cutoff violated: max(h/lambda_H)=1.334e-01
+1038,2,2863,EFT cutoff violated: max(h/lambda_H)=1.347e-01
+1038,2,2863,EFT cutoff violated: max(h/lambda_H)=1.379e-01
+1038,2,2863,EFT cutoff violated: max(h/lambda_H)=1.719e-01
+1040,359,1516,no acceptable real q2_0 root from E_N(x=0)=0
+1040,159,1516,solve_ivp failed: Required step size is less than spacing between numbers.
+1040,3,1516,EFT cutoff violated: max(h/lambda_H)=1.023e-01
+1040,2,1516,constraint drift too large: max|C|=1.032e+03
+1040,2,1516,constraint drift too large: max|C|=5.589e+03
+1040,2,1516,constraint drift too large: max|C|=1.802e+00
+1040,2,1516,constraint drift too large: max|C|=1.247e-02
+1040,2,1516,EFT cutoff violated: max(h/lambda_H)=1.015e-01
+1042,1059,1432,no acceptable real q2_0 root from E_N(x=0)=0
+1042,90,1432,solve_ivp failed: Required step size is less than spacing between numbers.
+1042,2,1432,EFT cutoff violated: max(h/lambda_H)=1.035e-01
+1042,2,1432,EFT cutoff violated: max(h/lambda_H)=1.047e-01
+1042,2,1432,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+1042,2,1432,constraint drift too large: max|C|=2.279e-04
+1042,1,1432,constraint drift too large: max|C|=6.990e-03
+1042,1,1432,constraint drift too large: max|C|=5.202e-04
+1043,3000,3000,symbolic build timeout > 60s
+1044,3000,3000,symbolic build timeout > 60s
+1045,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+1046,3000,3000,symbolic build timeout > 60s
+1047,3000,3000,symbolic build timeout > 60s
+1048,11,3000,no-scalar constraint not satisfied at x=0: C0=2.012e+00
+1048,11,3000,no-scalar constraint not satisfied at x=0: C0=2.385e+00
+1048,11,3000,no-scalar constraint not satisfied at x=0: C0=1.786e+00
+1048,10,3000,no-scalar constraint not satisfied at x=0: C0=2.315e+00
+1048,8,3000,no-scalar constraint not satisfied at x=0: C0=2.532e+00
+1048,8,3000,no-scalar constraint not satisfied at x=0: C0=1.746e+00
+1048,8,3000,no-scalar constraint not satisfied at x=0: C0=1.946e+00
+1048,8,3000,no-scalar constraint not satisfied at x=0: C0=2.153e+00
+1049,3000,3000,q1_x not determined by coupled scalar EOM
+1050,11,3000,no-scalar constraint not satisfied at x=0: C0=1.666e+00
+1050,9,3000,no-scalar constraint not satisfied at x=0: C0=1.973e+00
+1050,9,3000,no-scalar constraint not satisfied at x=0: C0=2.504e+00
+1050,9,3000,no-scalar constraint not satisfied at x=0: C0=2.523e+00
+1050,9,3000,no-scalar constraint not satisfied at x=0: C0=1.887e+00
+1050,9,3000,no-scalar constraint not satisfied at x=0: C0=1.836e+00
+1050,8,3000,no-scalar constraint not satisfied at x=0: C0=1.864e+00
+1050,8,3000,no-scalar constraint not satisfied at x=0: C0=1.693e+00
+1051,3000,3000,q1_x not determined by coupled scalar EOM
+1052,2,3000,constraint drift too large: max|C|=1.012e+159
+1052,2,3000,constraint drift too large: max|C|=1.918e+158
+1052,2,3000,constraint drift too large: max|C|=4.093e+165
+1052,2,3000,constraint drift too large: max|C|=2.624e+158
+1052,2,3000,constraint drift too large: max|C|=1.296e+163
+1052,2,3000,constraint drift too large: max|C|=1.977e+155
+1052,2,3000,EFT cutoff violated: max(h/lambda_H)=1.027e-01
+1052,2,3000,constraint drift too large: max|C|=2.047e+150
+1053,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1054,10,3000,no-scalar constraint not satisfied at x=0: C0=2.454e+00
+1054,10,3000,no-scalar constraint not satisfied at x=0: C0=1.982e+00
+1054,10,3000,no-scalar constraint not satisfied at x=0: C0=1.734e+00
+1054,9,3000,no-scalar constraint not satisfied at x=0: C0=1.907e+00
+1054,9,3000,no-scalar constraint not satisfied at x=0: C0=2.259e+00
+1054,9,3000,no-scalar constraint not satisfied at x=0: C0=2.464e+00
+1054,9,3000,no-scalar constraint not satisfied at x=0: C0=2.042e+00
+1054,9,3000,no-scalar constraint not satisfied at x=0: C0=2.149e+00
+1055,12,3000,no-scalar constraint not satisfied at x=0: C0=1.698e+00
+1055,10,3000,no-scalar constraint not satisfied at x=0: C0=2.420e+00
+1055,9,3000,no-scalar constraint not satisfied at x=0: C0=2.441e+00
+1055,9,3000,no-scalar constraint not satisfied at x=0: C0=2.497e+00
+1055,9,3000,no-scalar constraint not satisfied at x=0: C0=2.487e+00
+1055,9,3000,no-scalar constraint not satisfied at x=0: C0=1.894e+00
+1055,9,3000,no-scalar constraint not satisfied at x=0: C0=1.750e+00
+1055,8,3000,no-scalar constraint not satisfied at x=0: C0=2.245e+00
+1057,3000,3000,q1_x not determined by coupled scalar EOM
+1059,3000,3000,q2_x not determined by coupled scalar EOM
+1060,11,3000,no-scalar constraint not satisfied at x=0: C0=2.502e+00
+1060,10,3000,no-scalar constraint not satisfied at x=0: C0=1.801e+00
+1060,10,3000,no-scalar constraint not satisfied at x=0: C0=2.091e+00
+1060,10,3000,no-scalar constraint not satisfied at x=0: C0=2.034e+00
+1060,9,3000,no-scalar constraint not satisfied at x=0: C0=2.294e+00
+1060,9,3000,no-scalar constraint not satisfied at x=0: C0=2.116e+00
+1060,9,3000,no-scalar constraint not satisfied at x=0: C0=2.226e+00
+1060,9,3000,no-scalar constraint not satisfied at x=0: C0=2.112e+00
+1062,3,3000,EFT cutoff violated: max(h/lambda_H)=1.058e-01
+1062,3,3000,EFT cutoff violated: max(h/lambda_H)=1.077e-01
+1062,2,3000,constraint drift too large: max|C|=1.096e+160
+1062,2,3000,constraint drift too large: max|C|=1.607e+151
+1062,2,3000,constraint drift too large: max|C|=1.321e+158
+1062,2,3000,constraint drift too large: max|C|=1.094e+156
+1062,2,3000,constraint drift too large: max|C|=2.171e+169
+1062,2,3000,constraint drift too large: max|C|=2.694e+157
+1063,2,3000,constraint drift too large: max|C|=9.088e+158
+1063,2,3000,constraint drift too large: max|C|=6.208e+161
+1063,2,3000,constraint drift too large: max|C|=2.521e+161
+1063,2,3000,constraint drift too large: max|C|=1.295e+153
+1063,2,3000,constraint drift too large: max|C|=3.269e+151
+1063,2,3000,constraint drift too large: max|C|=1.430e+160
+1063,2,3000,constraint drift too large: max|C|=2.791e+164
+1063,2,3000,constraint drift too large: max|C|=1.639e+155
+1064,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1065,10,3000,no-scalar constraint not satisfied at x=0: C0=2.170e+00
+1065,9,3000,no-scalar constraint not satisfied at x=0: C0=1.875e+00
+1065,9,3000,no-scalar constraint not satisfied at x=0: C0=2.066e+00
+1065,8,3000,no-scalar constraint not satisfied at x=0: C0=2.060e+00
+1065,8,3000,no-scalar constraint not satisfied at x=0: C0=2.181e+00
+1065,8,3000,no-scalar constraint not satisfied at x=0: C0=2.403e+00
+1065,8,3000,no-scalar constraint not satisfied at x=0: C0=1.766e+00
+1065,8,3000,no-scalar constraint not satisfied at x=0: C0=2.113e+00
+1066,3000,3000,q2_x not determined by coupled scalar EOM
+1067,3000,3000,symbolic build timeout > 60s
+1068,3000,3000,symbolic build timeout > 60s
+1069,2561,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1069,439,3000,initial h_x is singular or absurd
+1070,2,3000,constraint drift too large: max|C|=2.598e+153
+1070,2,3000,constraint drift too large: max|C|=1.160e+168
+1070,2,3000,EFT cutoff violated: max(h/lambda_H)=1.088e-01
+1070,2,3000,EFT cutoff violated: max(h/lambda_H)=1.031e-01
+1070,2,3000,constraint drift too large: max|C|=1.172e+153
+1070,2,3000,constraint drift too large: max|C|=4.135e+161
+1070,2,3000,EFT cutoff violated: max(h/lambda_H)=1.028e-01
+1070,2,3000,constraint drift too large: max|C|=1.644e+161
+1071,374,1260,no acceptable real q2_0 root from E_N(x=0)=0
+1071,82,1260,solve_ivp failed: Required step size is less than spacing between numbers.
+1071,2,1260,constraint drift too large: max|C|=1.480e-03
+1071,2,1260,constraint drift too large: max|C|=2.945e-02
+1071,2,1260,constraint drift too large: max|C|=9.593e-04
+1071,2,1260,constraint drift too large: max|C|=2.221e-03
+1071,2,1260,EFT cutoff violated: max(h/lambda_H)=1.006e-01
+1071,2,1260,constraint drift too large: max|C|=3.183e-03
+1072,3000,3000,symbolic build timeout > 60s
+1073,10,3000,no-scalar constraint not satisfied at x=0: C0=1.652e+00
+1073,10,3000,no-scalar constraint not satisfied at x=0: C0=1.972e+00
+1073,9,3000,no-scalar constraint not satisfied at x=0: C0=2.001e+00
+1073,9,3000,no-scalar constraint not satisfied at x=0: C0=1.940e+00
+1073,9,3000,no-scalar constraint not satisfied at x=0: C0=2.086e+00
+1073,9,3000,no-scalar constraint not satisfied at x=0: C0=2.332e+00
+1073,9,3000,no-scalar constraint not satisfied at x=0: C0=1.730e+00
+1073,8,3000,no-scalar constraint not satisfied at x=0: C0=1.843e+00
+1074,2,3000,constraint drift too large: max|C|=3.074e+218
+1074,2,3000,EFT cutoff violated: max(h/lambda_H)=1.024e-01
+1074,2,3000,constraint drift too large: max|C|=2.802e+215
+1074,2,3000,constraint drift too large: max|C|=1.962e+225
+1074,2,3000,constraint drift too large: max|C|=8.183e+210
+1074,2,3000,EFT cutoff violated: max(h/lambda_H)=1.107e-01
+1074,2,3000,constraint drift too large: max|C|=3.448e+214
+1074,2,3000,constraint drift too large: max|C|=2.387e+209
+1075,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1076,3000,3000,q2_x not determined by coupled scalar EOM
+1077,9,3000,no-scalar constraint not satisfied at x=0: C0=2.247e+00
+1077,9,3000,no-scalar constraint not satisfied at x=0: C0=2.318e+00
+1077,8,3000,no-scalar constraint not satisfied at x=0: C0=2.540e+00
+1077,8,3000,no-scalar constraint not satisfied at x=0: C0=2.408e+00
+1077,8,3000,no-scalar constraint not satisfied at x=0: C0=2.102e+00
+1077,8,3000,no-scalar constraint not satisfied at x=0: C0=1.898e+00
+1077,8,3000,no-scalar constraint not satisfied at x=0: C0=1.737e+00
+1077,8,3000,no-scalar constraint not satisfied at x=0: C0=2.109e+00
+1079,415,1227,no acceptable real q2_0 root from E_N(x=0)=0
+1079,104,1227,solve_ivp failed: Required step size is less than spacing between numbers.
+1079,3,1227,EFT cutoff violated: max(h/lambda_H)=1.092e-01
+1079,2,1227,EFT cutoff violated: max(h/lambda_H)=1.091e-01
+1079,2,1227,constraint drift too large: max|C|=1.990e-04
+1079,2,1227,constraint drift too large: max|C|=1.228e-03
+1079,2,1227,EFT cutoff violated: max(h/lambda_H)=1.002e-01
+1079,2,1227,constraint drift too large: max|C|=1.901e-04
+1080,341,1214,no acceptable real q2_0 root from E_N(x=0)=0
+1080,100,1214,solve_ivp failed: Required step size is less than spacing between numbers.
+1080,3,1214,EFT cutoff violated: max(h/lambda_H)=1.049e-01
+1080,2,1214,constraint drift too large: max|C|=1.612e-04
+1080,2,1214,constraint drift too large: max|C|=3.567e-03
+1080,2,1214,constraint drift too large: max|C|=3.456e-04
+1080,2,1214,constraint drift too large: max|C|=4.132e-04
+1080,2,1214,EFT cutoff violated: max(h/lambda_H)=1.044e-01
+1081,2565,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1081,435,3000,initial h_x is singular or absurd
+1083,1105,1401,no acceptable real q2_0 root from E_N(x=0)=0
+1083,83,1401,solve_ivp failed: Required step size is less than spacing between numbers.
+1083,3,1401,EFT cutoff violated: max(h/lambda_H)=1.026e-01
+1083,2,1401,EFT cutoff violated: max(h/lambda_H)=1.093e-01
+1083,2,1401,EFT cutoff violated: max(h/lambda_H)=1.009e-01
+1083,2,1401,constraint drift too large: max|C|=2.059e-03
+1083,2,1401,EFT cutoff violated: max(h/lambda_H)=1.088e-01
+1083,1,1401,constraint drift too large: max|C|=1.634e-02
+1084,3000,3000,q2_x not determined by coupled scalar EOM
+1085,3,3000,constraint drift too large: max|C|=1.358e+157
+1085,2,3000,EFT cutoff violated: max(h/lambda_H)=1.082e-01
+1085,2,3000,constraint drift too large: max|C|=1.088e+159
+1085,2,3000,constraint drift too large: max|C|=1.125e+157
+1085,2,3000,constraint drift too large: max|C|=1.875e+163
+1085,2,3000,constraint drift too large: max|C|=8.212e+156
+1085,2,3000,constraint drift too large: max|C|=2.211e+166
+1085,2,3000,constraint drift too large: max|C|=1.483e+152
+1086,10,3000,no-scalar constraint not satisfied at x=0: C0=2.234e+00
+1086,9,3000,no-scalar constraint not satisfied at x=0: C0=1.884e+00
+1086,9,3000,no-scalar constraint not satisfied at x=0: C0=2.378e+00
+1086,9,3000,no-scalar constraint not satisfied at x=0: C0=2.463e+00
+1086,8,3000,no-scalar constraint not satisfied at x=0: C0=2.183e+00
+1086,8,3000,no-scalar constraint not satisfied at x=0: C0=1.728e+00
+1086,8,3000,no-scalar constraint not satisfied at x=0: C0=2.456e+00
+1086,8,3000,no-scalar constraint not satisfied at x=0: C0=1.981e+00
+1087,10,3000,no-scalar constraint not satisfied at x=0: C0=2.323e+00
+1087,9,3000,no-scalar constraint not satisfied at x=0: C0=2.346e+00
+1087,9,3000,no-scalar constraint not satisfied at x=0: C0=1.905e+00
+1087,9,3000,no-scalar constraint not satisfied at x=0: C0=2.406e+00
+1087,9,3000,no-scalar constraint not satisfied at x=0: C0=2.122e+00
+1087,9,3000,no-scalar constraint not satisfied at x=0: C0=2.232e+00
+1087,8,3000,no-scalar constraint not satisfied at x=0: C0=2.021e+00
+1087,8,3000,no-scalar constraint not satisfied at x=0: C0=1.733e+00
+1089,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1091,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1093,2184,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1093,83,3000,solve_ivp failed: Required step size is less than spacing between numbers.
+1093,40,3000,H(z) absurdly large
+1093,2,3000,EFT cutoff violated: max(h/lambda_H)=1.002e-01
+1093,2,3000,constraint drift too large: max|C|=1.284e+225
+1093,2,3000,constraint drift too large: max|C|=1.932e+224
+1093,2,3000,constraint drift too large: max|C|=2.721e+226
+1093,2,3000,EFT cutoff violated: max(h/lambda_H)=1.034e-01
+1094,3000,3000,symbolic build timeout > 60s
+1095,1267,1434,no acceptable real q2_0 root from E_N(x=0)=0
+1095,2,1434,constraint drift too large: max|C|=1.129e-04
+1095,2,1434,constraint drift too large: max|C|=1.871e-04
+1095,2,1434,EFT cutoff violated: max(h/lambda_H)=1.037e-01
+1095,1,1434,constraint drift too large: max|C|=3.417e-04
+1095,1,1434,constraint drift too large: max|C|=7.059e-04
+1095,1,1434,constraint drift too large: max|C|=1.679e-04
+1095,1,1434,constraint drift too large: max|C|=1.155e-04
+1096,2400,2975,no acceptable real q1_0 root from E_N(x=0)=0
+1096,237,2975,H(z) absurdly large
+1096,110,2975,solve_ivp failed: Required step size is less than spacing between numbers.
+1096,72,2975,initial h_x is singular or absurd
+1096,4,2975,initial q1_x is singular or absurd
+1096,2,2975,EFT cutoff violated: max(h/lambda_H)=2.317e-01
+1096,2,2975,EFT cutoff violated: max(h/lambda_H)=1.136e-01
+1096,2,2975,EFT cutoff violated: max(h/lambda_H)=1.142e-01
+1097,10,3000,no-scalar constraint not satisfied at x=0: C0=2.037e+00
+1097,9,3000,no-scalar constraint not satisfied at x=0: C0=2.507e+00
+1097,9,3000,no-scalar constraint not satisfied at x=0: C0=1.870e+00
+1097,9,3000,no-scalar constraint not satisfied at x=0: C0=1.893e+00
+1097,8,3000,no-scalar constraint not satisfied at x=0: C0=2.317e+00
+1097,8,3000,no-scalar constraint not satisfied at x=0: C0=1.910e+00
+1097,8,3000,no-scalar constraint not satisfied at x=0: C0=2.098e+00
+1097,8,3000,no-scalar constraint not satisfied at x=0: C0=2.020e+00
+1098,11,3000,no-scalar constraint not satisfied at x=0: C0=1.787e+00
+1098,10,3000,no-scalar constraint not satisfied at x=0: C0=2.227e+00
+1098,10,3000,no-scalar constraint not satisfied at x=0: C0=1.802e+00
+1098,10,3000,no-scalar constraint not satisfied at x=0: C0=2.293e+00
+1098,10,3000,no-scalar constraint not satisfied at x=0: C0=1.854e+00
+1098,9,3000,no-scalar constraint not satisfied at x=0: C0=2.276e+00
+1098,9,3000,no-scalar constraint not satisfied at x=0: C0=2.265e+00
+1098,9,3000,no-scalar constraint not satisfied at x=0: C0=1.855e+00
+1099,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0
+1100,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1101,3000,3000,q1_x not determined by coupled scalar EOM
+1102,1474,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1102,997,3000,initial h_x is singular or absurd
+1102,3,3000,constraint drift too large: max|C|=1.100e+00
+1102,3,3000,constraint drift too large: max|C|=1.209e+00
+1102,3,3000,constraint drift too large: max|C|=1.296e+00
+1102,2,3000,constraint drift too large: max|C|=8.026e-01
+1102,2,3000,constraint drift too large: max|C|=1.268e+00
+1102,2,3000,constraint drift too large: max|C|=1.054e+00
+1103,3000,3000,symbolic build timeout > 60s
+1104,1073,1375,no acceptable real q2_0 root from E_N(x=0)=0
+1104,72,1375,solve_ivp failed: Required step size is less than spacing between numbers.
+1104,3,1375,EFT cutoff violated: max(h/lambda_H)=1.043e-01
+1104,2,1375,constraint drift too large: max|C|=3.869e-04
+1104,2,1375,EFT cutoff violated: max(h/lambda_H)=1.063e-01
+1104,2,1375,EFT cutoff violated: max(h/lambda_H)=1.048e-01
+1104,1,1375,constraint drift too large: max|C|=6.011e-04
+1104,1,1375,constraint drift too large: max|C|=2.154e-04
+1105,3000,3000,q1_x not determined by coupled scalar EOM
+1106,3000,3000,q1_x not determined by coupled scalar EOM
+1107,1495,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1107,916,3000,initial h_x is singular or absurd
+1107,4,3000,constraint drift too large: max|C|=1.034e+00
+1107,3,3000,constraint drift too large: max|C|=1.072e+00
+1107,3,3000,constraint drift too large: max|C|=1.032e+00
+1107,3,3000,constraint drift too large: max|C|=1.178e+00
+1107,3,3000,constraint drift too large: max|C|=1.069e+00
+1107,3,3000,constraint drift too large: max|C|=1.254e+00
+1108,1167,1441,no acceptable real q2_0 root from E_N(x=0)=0
+1108,60,1441,solve_ivp failed: Required step size is less than spacing between numbers.
+1108,2,1441,EFT cutoff violated: max(h/lambda_H)=1.075e-01
+1108,2,1441,EFT cutoff violated: max(h/lambda_H)=1.008e-01
+1108,2,1441,EFT cutoff violated: max(h/lambda_H)=1.025e-01
+1108,2,1441,constraint drift too large: max|C|=1.049e-03
+1108,2,1441,constraint drift too large: max|C|=6.821e-04
+1108,2,1441,constraint drift too large: max|C|=1.211e-03
+1109,3000,3000,no acceptable real q1_0 root from E_N(x=0)=0
+1110,11,3000,no-scalar constraint not satisfied at x=0: C0=2.448e+00
+1110,11,3000,no-scalar constraint not satisfied at x=0: C0=2.371e+00
+1110,9,3000,no-scalar constraint not satisfied at x=0: C0=1.670e+00
+1110,9,3000,no-scalar constraint not satisfied at x=0: C0=2.308e+00
+1110,9,3000,no-scalar constraint not satisfied at x=0: C0=1.784e+00
+1110,9,3000,no-scalar constraint not satisfied at x=0: C0=2.527e+00
+1110,9,3000,no-scalar constraint not satisfied at x=0: C0=2.347e+00
+1110,9,3000,no-scalar constraint not satisfied at x=0: C0=2.082e+00
+1111,3000,3000,q2_x not determined by coupled scalar EOM
+1112,2,3000,constraint drift too large: max|C|=5.137e+204
+1112,2,3000,EFT cutoff violated: max(h/lambda_H)=1.048e-01
+1112,2,3000,constraint drift too large: max|C|=2.170e+225
+1112,2,3000,constraint drift too large: max|C|=1.615e+214
+1112,2,3000,constraint drift too large: max|C|=1.053e+204
+1112,2,3000,constraint drift too large: max|C|=6.609e+216
+1112,2,3000,constraint drift too large: max|C|=1.471e+205
+1112,2,3000,constraint drift too large: max|C|=4.272e+215
+1113,3,3000,EFT cutoff violated: max(h/lambda_H)=1.101e-01
+1113,2,3000,constraint drift too large: max|C|=1.045e+207
+1113,2,3000,constraint drift too large: max|C|=1.011e+211
+1113,2,3000,EFT cutoff violated: max(h/lambda_H)=1.018e-01
+1113,2,3000,constraint drift too large: max|C|=9.923e+212
+1113,2,3000,constraint drift too large: max|C|=1.045e+217
+1113,2,3000,constraint drift too large: max|C|=1.315e+217
+1113,2,3000,constraint drift too large: max|C|=5.889e+216
+1114,3000,3000,symbolic build timeout > 60s
+1115,11,3000,no-scalar constraint not satisfied at x=0: C0=1.997e+00
+1115,10,3000,no-scalar constraint not satisfied at x=0: C0=2.403e+00
+1115,10,3000,no-scalar constraint not satisfied at x=0: C0=2.091e+00
+1115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.305e+00
+1115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.093e+00
+1115,9,3000,no-scalar constraint not satisfied at x=0: C0=1.655e+00
+1115,9,3000,no-scalar constraint not satisfied at x=0: C0=2.163e+00
+1115,9,3000,no-scalar constraint not satisfied at x=0: C0=1.708e+00
+1116,11,3000,no-scalar constraint not satisfied at x=0: C0=2.325e+00
+1116,11,3000,no-scalar constraint not satisfied at x=0: C0=1.730e+00
+1116,9,3000,no-scalar constraint not satisfied at x=0: C0=2.209e+00
+1116,9,3000,no-scalar constraint not satisfied at x=0: C0=2.204e+00
+1116,9,3000,no-scalar constraint not satisfied at x=0: C0=2.462e+00
+1116,9,3000,no-scalar constraint not satisfied at x=0: C0=1.680e+00
+1116,9,3000,no-scalar constraint not satisfied at x=0: C0=2.509e+00
+1116,8,3000,no-scalar constraint not satisfied at x=0: C0=1.776e+00
+1120,3000,3000,no acceptable real q2_0 root from E_N(x=0)=0

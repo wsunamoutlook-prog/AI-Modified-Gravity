@@ -99,6 +99,14 @@ SN_PROCESSED_PATH = Path(os.environ.get(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "processed", "pantheonplus_no_shoes.npz")
 ))
 SN_INTEGRATION_GRID = int(os.environ.get("SN_INTEGRATION_GRID", "2000"))
+SN_DIR = Path(os.environ.get(
+    "SN_DIR",
+    "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/SN data",
+))
+BAO_DIR = Path(os.environ.get(
+    "BAO_DIR",
+    "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/BAO data",
+))
 
 N_SAMPLES_PER_MODEL = int(os.environ.get("N_SAMPLES_PER_MODEL", "3000"))#Sampling models per model
 RANDOM_SEED = int(os.environ.get("RANDOM_SEED", "0"))
@@ -384,6 +392,315 @@ def maybe_load_sn_data() -> Optional[dict]:
 
 
 # =============================================================================
+# DES-SN + DESI-DR2 data loaders (not yet connected to the main scanner)
+# =============================================================================
+
+def _read_snana_like_table(path: Path) -> Dict[str, np.ndarray]:
+    varnames = None
+    rows = []
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            s = line.strip()
+            if not s or s.startswith("#"):
+                continue
+            if s.startswith("VARNAMES:"):
+                varnames = s.split(":", 1)[1].split()
+                continue
+            if s.startswith("SN:"):
+                if varnames is None:
+                    raise ValueError(f"Found SN row before VARNAMES in {path}")
+                vals = s.split(":", 1)[1].split()
+                if len(vals) != len(varnames):
+                    raise ValueError(
+                        f"SN row has {len(vals)} values but {len(varnames)} columns in {path}: {s}"
+                    )
+                rows.append(vals)
+    if varnames is None:
+        raise ValueError(f"Missing VARNAMES line in {path}")
+    if not rows:
+        raise ValueError(f"No SN rows found in {path}")
+    cols: Dict[str, List[str]] = {name: [] for name in varnames}
+    for row in rows:
+        for name, val in zip(varnames, row):
+            cols[name].append(val)
+    out: Dict[str, np.ndarray] = {}
+    for name, vals in cols.items():
+        try:
+            out[name] = np.asarray(vals, dtype=float)
+        except ValueError:
+            out[name] = np.asarray(vals, dtype=str)
+    return out
+
+
+def _unpack_upper_triangle(vals: np.ndarray, n: int) -> np.ndarray:
+    vals = np.asarray(vals, dtype=float).reshape(-1)
+    expected = n * (n + 1) // 2
+    if vals.size != expected:
+        raise ValueError(f"Packed upper triangle has {vals.size} values; expected {expected} for n={n}.")
+    mat = np.zeros((n, n), dtype=float)
+    mat[np.triu_indices(n)] = vals
+    lower = np.tril_indices(n, -1)
+    mat[lower] = mat.T[lower]
+    return mat
+
+
+def load_des_sn(sn_dir: Path) -> dict:
+    sn_dir = Path(sn_dir)
+    data_path = sn_dir / "DES-Dovekie_HD.csv"
+    cov_path = sn_dir / "STAT+SYS.npz"
+    tab = _read_snana_like_table(data_path)
+    required = {"zHD", "zHEL", "MU"}
+    missing = sorted(required - set(tab.keys()))
+    if missing:
+        raise ValueError(f"Missing DES SN columns {missing}; available columns: {sorted(tab.keys())}")
+    if "zHEL" not in tab:
+        raise ValueError("DES SN zHEL column is required.")
+
+    zHD = np.asarray(tab["zHD"], dtype=float)
+    zHEL = np.asarray(tab["zHEL"], dtype=float)
+    mu = np.asarray(tab["MU"], dtype=float)
+    muerr = np.asarray(tab["MUERR"], dtype=float) if "MUERR" in tab else None
+    if np.any(zHD <= 0.0):
+        raise ValueError("DES SN contains non-positive zHD values; refusing to drop or reorder rows.")
+
+    obj = np.load(cov_path, allow_pickle=False)
+    print(f"[DES SN] npz files: {obj.files}", flush=True)
+    for key in obj.files:
+        print(f"[DES SN] npz key={key}, shape={np.shape(obj[key])}", flush=True)
+
+    cov = None
+    invcov = None
+    cov_mode = None
+    if "nsn" in obj.files and "cov" in obj.files:
+        n_cov = int(np.asarray(obj["nsn"]).reshape(-1)[0])
+        invcov = _unpack_upper_triangle(obj["cov"], n_cov)
+        cov_mode = "invcov"
+    elif "invcov" in obj.files:
+        invcov = np.asarray(obj["invcov"], dtype=float)
+        cov_mode = "invcov"
+    elif "cov" in obj.files:
+        cov = np.asarray(obj["cov"], dtype=float)
+        cov_mode = "cov"
+    else:
+        raise ValueError(f"Could not identify DES SN covariance/invcov in {cov_path}; keys={obj.files}")
+
+    n = len(mu)
+    mat = invcov if invcov is not None else cov
+    if mat.shape != (n, n):
+        raise ValueError(f"DES SN {cov_mode} shape {mat.shape} does not match N_SN={n}")
+    if not np.all(np.isfinite(mat)):
+        raise ValueError(f"DES SN {cov_mode} contains non-finite values.")
+    if not np.allclose(mat, mat.T, rtol=1e-8, atol=1e-10):
+        raise ValueError(f"DES SN {cov_mode} is not symmetric.")
+
+    one = np.ones(n, dtype=float)
+    sn = {
+        "zHD": zHD,
+        "zHEL": zHEL,
+        "mu": mu,
+        "muerr": muerr,
+        "cov": cov,
+        "invcov": invcov,
+        "cov_mode": cov_mode,
+        "one": one,
+    }
+    if invcov is not None:
+        Cinv_one = invcov @ one
+        sn["Cinv_one"] = Cinv_one
+        sn["one_Cinv_one"] = float(one @ Cinv_one)
+    else:
+        cho = cho_factor(cov, lower=True, check_finite=False)
+        Cinv_one = cho_solve(cho, one, check_finite=False)
+        sn["cho"] = cho
+        sn["Cinv_one"] = Cinv_one
+        sn["one_Cinv_one"] = float(one @ Cinv_one)
+
+    print(
+        f"[DES SN] N_SN={n}, zHD=[{float(np.min(zHD)):.6g}, {float(np.max(zHD)):.6g}], "
+        f"zHEL=[{float(np.min(zHEL)):.6g}, {float(np.max(zHEL)):.6g}], "
+        f"MU=[{float(np.min(mu)):.6g}, {float(np.max(mu)):.6g}]",
+        flush=True,
+    )
+    if muerr is not None:
+        print(
+            f"[DES SN] MUERR sanity range=[{float(np.min(muerr)):.6g}, {float(np.max(muerr)):.6g}] "
+            "(not used in chi2)",
+            flush=True,
+        )
+    print(f"[DES SN] cov_mode={cov_mode}, matrix_shape={mat.shape}", flush=True)
+    return sn
+
+
+def load_desi_dr2_bao(bao_dir: Path) -> dict:
+    bao_dir = Path(bao_dir)
+    mean_path = bao_dir / "desi_gaussian_bao_ALL_GCcomb_mean.txt"
+    cov_path = bao_dir / "desi_gaussian_bao_ALL_GCcomb_cov.txt"
+    raw = np.loadtxt(mean_path, comments="#", dtype=str)
+    z = raw[:, 0].astype(float)
+    value = raw[:, 1].astype(float)
+    quantity = raw[:, 2].astype(str)
+    allowed = {"DV_over_rs", "DM_over_rs", "DH_over_rs"}
+    bad = sorted(set(quantity) - allowed)
+    if bad:
+        raise ValueError(f"Unsupported DESI BAO quantities {bad}")
+    cov = np.loadtxt(cov_path, dtype=float)
+    if cov.shape != (13, 13):
+        raise ValueError(f"DESI BAO covariance must be 13x13; got {cov.shape}")
+    if cov.shape != (len(z), len(z)):
+        raise ValueError(f"DESI BAO covariance shape {cov.shape} does not match N_BAO={len(z)}")
+    if not np.all(np.isfinite(cov)):
+        raise ValueError("DESI BAO covariance contains non-finite values.")
+    if not np.allclose(cov, cov.T, rtol=1e-10, atol=1e-12):
+        raise ValueError("DESI BAO covariance is not symmetric.")
+    cho = cho_factor(cov, lower=True, check_finite=False)
+    counts = Counter(quantity.tolist())
+    print(
+        f"[DESI BAO] N_BAO={len(z)}, z=[{float(np.min(z)):.6g}, {float(np.max(z)):.6g}], "
+        f"quantity_counts={dict(counts)}, cov_shape={cov.shape}",
+        flush=True,
+    )
+    return {
+        "z": z,
+        "value": value,
+        "quantity": quantity,
+        "cov": cov,
+        "cho": cho,
+        "one": np.ones(len(z), dtype=float),
+    }
+
+
+def sanity_check_data_loaders():
+    sn = load_des_sn(SN_DIR)
+    bao = load_desi_dr2_bao(BAO_DIR)
+    sn_mat = sn["invcov"] if sn["invcov"] is not None else sn["cov"]
+    print("[DATA CHECK] DES SN loaded successfully.", flush=True)
+    print("[DATA CHECK] DESI DR2 BAO loaded successfully.", flush=True)
+    print(f"[DATA CHECK] SN cov_mode={sn['cov_mode']}, matrix_shape={sn_mat.shape}", flush=True)
+    print(f"[DATA CHECK] BAO covariance shape={bao['cov'].shape}", flush=True)
+    print(f"[DATA CHECK] BAO quantity counts={dict(Counter(bao['quantity'].tolist()))}", flush=True)
+    return sn, bao
+
+
+def _apply_precision(obj: dict, vec: np.ndarray) -> np.ndarray:
+    vec = np.asarray(vec, dtype=float)
+    if obj.get("invcov") is not None:
+        return obj["invcov"] @ vec
+    return cho_solve(obj["cho"], vec, check_finite=False)
+
+
+def chi2_des_sn_from_grid(sn, z_grid, h_grid, H0_km_s_Mpc):
+    mu_th = mu_model_from_h_grid(
+        sn["zHD"], sn["zHEL"], z_grid, h_grid, H0_km_s_Mpc
+    )
+    r = sn["mu"] - mu_th
+    Cinv_r = _apply_precision(sn, r)
+    chi0 = float(r @ Cinv_r)
+    B = float(sn["one"] @ Cinv_r)
+    A = float(sn["one_Cinv_one"])
+    M_SN_hat = B / A
+    chi2_sn = chi0 - (B * B) / A
+    return float(chi2_sn), float(M_SN_hat)
+
+
+def chi2_desi_bao_from_grid(bao, z_grid, h_grid):
+    z_grid = np.asarray(z_grid, dtype=float)
+    h_grid = np.asarray(h_grid, dtype=float)
+    if z_grid.shape != h_grid.shape:
+        raise ValueError("BAO z_grid and h_grid must have matching shapes.")
+    if not (np.all(np.isfinite(z_grid)) and np.all(np.isfinite(h_grid))):
+        raise ValueError("BAO z_grid or h_grid contains non-finite values.")
+    if np.any(h_grid <= 0):
+        raise ValueError("BAO h_grid must be positive.")
+
+    order = np.argsort(z_grid)
+    z_sorted = z_grid[order]
+    h_sorted = h_grid[order]
+    unique_z, unique_idx = np.unique(z_sorted, return_index=True)
+    z_sorted = unique_z
+    h_sorted = h_sorted[unique_idx]
+    if z_sorted[0] > 0.0:
+        z_sorted = np.concatenate(([0.0], z_sorted))
+        h_sorted = np.concatenate(([1.0], h_sorted))
+    elif abs(z_sorted[0]) > 1e-12:
+        raise ValueError("BAO z_grid must not start above z=0.")
+    else:
+        z_sorted[0] = 0.0
+
+    z_bao = np.asarray(bao["z"], dtype=float)
+    if float(np.max(z_bao)) > float(z_sorted[-1]) + 1e-10:
+        raise ValueError(
+            f"BAO z max {float(np.max(z_bao)):.12g} exceeds trajectory z max {float(z_sorted[-1]):.12g}."
+        )
+    integral_grid = cumulative_trapezoid(1.0 / h_sorted, z_sorted, initial=0.0)
+    I = np.interp(z_bao, z_sorted, integral_grid)
+    h_at_bao = np.interp(z_bao, z_sorted, h_sorted)
+
+    p = np.empty_like(z_bao, dtype=float)
+    q = np.asarray(bao["quantity"], dtype=str)
+    p[q == "DM_over_rs"] = I[q == "DM_over_rs"]
+    p[q == "DH_over_rs"] = 1.0 / h_at_bao[q == "DH_over_rs"]
+    dv_mask = q == "DV_over_rs"
+    p[dv_mask] = (z_bao[dv_mask] * I[dv_mask] ** 2 / h_at_bao[dv_mask]) ** (1.0 / 3.0)
+    if not np.all(np.isfinite(p)) or np.any(p <= 0):
+        raise ValueError("BAO shape prediction contains non-finite or non-positive values.")
+
+    d = np.asarray(bao["value"], dtype=float)
+    Cinv_p = cho_solve(bao["cho"], p, check_finite=False)
+    Cinv_d = cho_solve(bao["cho"], d, check_finite=False)
+    denom = float(p @ Cinv_p)
+    if not np.isfinite(denom) or denom <= 0:
+        raise ValueError("Invalid p^T C^{-1} p for DESI BAO.")
+    alpha_hat = float((p @ Cinv_d) / denom)
+    if not np.isfinite(alpha_hat) or alpha_hat <= 0:
+        raise ValueError(f"Invalid DESI BAO alpha_hat={alpha_hat}.")
+    r = d - alpha_hat * p
+    Cinv_r = cho_solve(bao["cho"], r, check_finite=False)
+    chi2_bao = float(r @ Cinv_r)
+    return float(chi2_bao), float(alpha_hat)
+
+
+def sanity_check_lcdm_new_data(sn_data, bao_data):
+    H0 = 70.0
+    Omega_m0 = 0.3
+    zmax = max(float(np.max(sn_data["zHD"])), float(np.max(bao_data["z"])))
+    z_grid = np.linspace(0.0, zmax * 1.001, 3000)
+    h_grid = np.sqrt(Omega_m0 * (1.0 + z_grid) ** 3 + 1.0 - Omega_m0)
+    chi2_sn, M_SN_hat = chi2_des_sn_from_grid(sn_data, z_grid, h_grid, H0)
+    chi2_bao, alpha_BAO_hat = chi2_desi_bao_from_grid(bao_data, z_grid, h_grid)
+    print(
+        f"[LCDM sanity] chi2_DES_SN={chi2_sn:.6g}, "
+        f"chi2_DES_SN/N_SN={chi2_sn/len(sn_data['mu']):.6g}, M_SN_hat={M_SN_hat:.6g}",
+        flush=True,
+    )
+    print(
+        f"[LCDM sanity] chi2_DESI_BAO={chi2_bao:.6g}, "
+        f"chi2_DESI_BAO/N_BAO={chi2_bao/len(bao_data['value']):.6g}, "
+        f"alpha_BAO_hat={alpha_BAO_hat:.6g}",
+        flush=True,
+    )
+    if not (5.0 < alpha_BAO_hat < 100.0):
+        raise ValueError(
+            f"DESI BAO alpha_BAO_hat={alpha_BAO_hat:.6g} is outside expected order-of-magnitude."
+        )
+    if abs(M_SN_hat) > 5.0:
+        raise ValueError(
+            f"DES SN M_SN_hat={M_SN_hat:.6g} is unexpectedly large for distance-modulus data."
+        )
+    return {
+        "chi2_sn": chi2_sn,
+        "M_SN_hat": M_SN_hat,
+        "chi2_bao": chi2_bao,
+        "alpha_BAO_hat": alpha_BAO_hat,
+    }
+
+
+def load_current_likelihood_data():
+    sn_data, bao_data = sanity_check_data_loaders()
+    sanity_check_lcdm_new_data(sn_data, bao_data)
+    return sn_data, bao_data
+
+
+# =============================================================================
 # Symbolic setup — two scalar fields
 # =============================================================================
 
@@ -467,7 +784,11 @@ class SampleResult:
     chi2: float = math.inf
     chi2_hz: float = math.inf
     chi2_sn: float = 0.0
+    chi2_bao: float = 0.0
     sn_offset_hat: Optional[float] = None
+    bao_alpha_hat: Optional[float] = None
+    n_sn: int = 0
+    n_bao: int = 0
     chi2_per_point: float = math.inf
     aic: float = math.inf
     bic: float = math.inf
@@ -1075,9 +1396,10 @@ def find_q0_root(C_func, base_args_without_q, q_range=(-MAX_ABS_Q0, MAX_ABS_Q0),
     return float((preferred or roots_sorted)[0])
 
 
-def evaluate_sample(model: Model, data: np.ndarray, rng: np.random.Generator, mode: str,
+def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
                     compiled: Optional[Tuple[Any, Any, Any, Any, List[sp.Symbol]]] = None,
-                    sn_data: Optional[dict] = None) -> SampleResult:
+                    sn_data: Optional[dict] = None,
+                    bao_data: Optional[dict] = None) -> SampleResult:
     mode = "eft" if mode.lower().strip() in {"eft", "physical"} else "phenomenological"
     if model.reject_reason:
         return SampleResult(model.lag_id, False, model.reject_reason)
@@ -1159,12 +1481,9 @@ def evaluate_sample(model: Model, data: np.ndarray, rng: np.random.Generator, mo
         return SampleResult(model.lag_id, False, f"initial RHS failed: {type(exc).__name__}")
 
     # ── Integration ──
-    z_data = data[:, 0]
-    H_obs = data[:, 1]
-    sig = data[:, 2]
-    z_max_hz = float(np.max(z_data))
-    z_max_sn = float(np.max(sn_data["zHD"])) if sn_data is not None else 0.0
-    z_max_required = max(z_max_hz, z_max_sn)
+    if sn_data is None or bao_data is None:
+        return SampleResult(model.lag_id, False, "DES SN and DESI BAO data are required")
+    z_max_required = max(float(np.max(sn_data["zHD"])), float(np.max(bao_data["z"])))
     xmin = -math.log1p(z_max_required)
     x_eval = np.linspace(0.0, xmin, N_GRID)
 
@@ -1262,42 +1581,38 @@ def evaluate_sample(model: Model, data: np.ndarray, rng: np.random.Generator, mo
     if maxC > MAX_ABS_CONSTRAINT:
         return SampleResult(model.lag_id, False, f"constraint drift too large: max|C|={maxC:.3e}")
 
-    # ── chi2 at data points ──
+    # ── DES-SN + DESI-DR2 BAO likelihood ──
     try:
-        x_data = -np.log1p(z_data)
-        y_data = sol.sol(x_data)
-        h_data = y_data[idx_h]
-        H_model = H0_km * h_data
+        z_like_grid = np.linspace(0.0, z_max_required, SN_INTEGRATION_GRID)
+        x_like_grid = -np.log1p(z_like_grid)
+        y_like_grid = sol.sol(x_like_grid)
+        h_like_grid = np.asarray(y_like_grid[idx_h], dtype=float)
     except Exception as exc:
-        return SampleResult(model.lag_id, False, f"dense output failed: {type(exc).__name__}")
-    if not np.all(np.isfinite(H_model)):
-        return SampleResult(model.lag_id, False, "H_model at data not finite")
-    chi2_hz = float(np.sum(((H_model - H_obs) / sig) ** 2))
-    chi2_sn = 0.0
-    sn_offset_hat = None
-    if sn_data is not None:
-        try:
-            z_sn_max = float(np.max(sn_data["zHD"]))
-            z_sn_grid = np.linspace(0.0, z_max_required, SN_INTEGRATION_GRID)
-            if z_sn_grid[-1] < z_sn_max:
-                return SampleResult(model.lag_id, False, "SN integration grid does not cover max zHD")
-            x_sn_grid = -np.log1p(z_sn_grid)
-            y_sn_grid = sol.sol(x_sn_grid)
-            h_sn_grid = np.asarray(y_sn_grid[idx_h], dtype=float)
-            if not np.all(np.isfinite(h_sn_grid)):
-                return SampleResult(model.lag_id, False, "SN integration h_grid not finite")
-            if np.any(h_sn_grid <= MIN_H):
-                return SampleResult(model.lag_id, False, "SN integration h_grid <= MIN_H")
-            chi2_sn, sn_offset_hat = chi2_sn_from_grid(
-                sn_data,
-                z_grid=z_sn_grid,
-                h_grid=h_sn_grid,
-                H0_km_s_Mpc=H0_km,
-            )
-        except Exception as exc:
-            return SampleResult(model.lag_id, False, f"SN chi2 failed: {type(exc).__name__}: {exc}")
-    chi2 = chi2_hz + chi2_sn
-    n = len(z_data) + (len(sn_data["mb"]) if sn_data is not None else 0)
+        return SampleResult(model.lag_id, False, f"likelihood dense output failed: {type(exc).__name__}")
+    if z_like_grid[-1] < float(np.max(sn_data["zHD"])) or z_like_grid[-1] < float(np.max(bao_data["z"])):
+        return SampleResult(model.lag_id, False, "likelihood integration grid does not cover data")
+    if not np.all(np.isfinite(h_like_grid)):
+        return SampleResult(model.lag_id, False, "likelihood h_grid not finite")
+    if np.any(h_like_grid <= MIN_H):
+        return SampleResult(model.lag_id, False, "likelihood h_grid <= MIN_H")
+
+    try:
+        chi2_sn, sn_offset_hat = chi2_des_sn_from_grid(
+            sn_data,
+            z_grid=z_like_grid,
+            h_grid=h_like_grid,
+            H0_km_s_Mpc=H0_km,
+        )
+        chi2_bao, bao_alpha_hat = chi2_desi_bao_from_grid(
+            bao_data,
+            z_grid=z_like_grid,
+            h_grid=h_like_grid,
+        )
+    except Exception as exc:
+        return SampleResult(model.lag_id, False, f"DES-SN/DESI-BAO chi2 failed: {type(exc).__name__}: {exc}")
+    chi2_hz = 0.0
+    chi2 = chi2_sn + chi2_bao
+    n = len(sn_data["mu"]) + len(bao_data["value"])
 
     # Count free sampled parameters
     uses_lambda = any(expr.has(lambda_H_sym) for expr in model.dimless_exprs.values())
@@ -1319,8 +1634,7 @@ def evaluate_sample(model: Model, data: np.ndarray, rng: np.random.Generator, mo
         n_scalar_params += 1
 
     k = 2 + (1 if uses_lambda else 0) + len(param_syms) + n_scalar_params
-    if sn_data is not None:
-        k += 1  # Pantheon+ nuisance offset / M_B analytically minimized
+    k += 2  # DES-SN M_SN and DESI BAO alpha_BAO analytically profiled
     aic = chi2 + 2.0 * k
     bic = chi2 + k * math.log(n)
 
@@ -1339,19 +1653,23 @@ def evaluate_sample(model: Model, data: np.ndarray, rng: np.random.Generator, mo
         "eps_HM_H0_over_Mp": eps_HM,
         "lambda_H_Lambda_over_H0": lambda_H,
         "Lambda_eV": lambda_H * H0_km * KM_S_MPC_TO_EV,
+        "sn_offset_hat": sn_offset_hat,
+        "bao_alpha_hat": bao_alpha_hat,
     }
     for s, v in pvals.items():
         params[str(s)] = float(v)
 
     return SampleResult(
         lag_id=model.lag_id, success=True, reason="ok", chi2=chi2,
-        chi2_hz=chi2_hz, chi2_sn=chi2_sn, sn_offset_hat=sn_offset_hat,
+        chi2_hz=chi2_hz, chi2_sn=chi2_sn, chi2_bao=chi2_bao,
+        sn_offset_hat=sn_offset_hat, bao_alpha_hat=bao_alpha_hat,
+        n_sn=len(sn_data["mu"]), n_bao=len(bao_data["value"]),
         chi2_per_point=chi2 / n, aic=aic, bic=bic, k_params=k,
         params=params, max_abs_constraint=maxC,
         x_grid=x_eval, z_grid=z_grid, h_grid=h_grid, H_grid=H_grid_phys,
         varphi1_grid=varphi1_grid, q1_grid=q1_grid,
         varphi2_grid=varphi2_grid, q2_grid=q2_grid,
-        constraint_grid=C_vals, H_at_data=H_model,
+        constraint_grid=C_vals, H_at_data=None,
     )
 
 
@@ -1359,54 +1677,33 @@ def evaluate_sample(model: Model, data: np.ndarray, rng: np.random.Generator, mo
 # LCDM reference
 # =============================================================================
 
-def lcdm_fit_reference(data: np.ndarray, sn_data: Optional[dict] = None) -> Dict[str, float]:
-    z, Hobs, sig = data[:, 0], data[:, 1], data[:, 2]
+def lcdm_fit_reference(sn_data: dict, bao_data: dict) -> Dict[str, float]:
     best = {"chi2": math.inf}
-    n_sn = len(sn_data["mb"]) if sn_data is not None else 0
-    zmax_required = max(float(np.max(z)), float(np.max(sn_data["zHD"])) if sn_data is not None else 0.0)
-    z_grid_sn = np.linspace(0.0, zmax_required * 1.001, 2000) if sn_data is not None else None
-    H0_grid = np.linspace(55, 80, 501)
+    zmax_required = max(float(np.max(sn_data["zHD"])), float(np.max(bao_data["z"])))
+    z_grid = np.linspace(0.0, zmax_required * 1.001, 3000)
     Om_grid = np.linspace(0.05, 0.6, 551)
-    sn_chi2_by_om: Dict[float, float] = {}
-    if sn_data is not None:
-        # After analytic minimization over an additive magnitude offset, the SN
-        # chi-square is independent of the pure H0 distance-scale shift.
-        for Om in Om_grid:
-            h_grid_sn = np.sqrt(Om * (1.0 + z_grid_sn) ** 3 + (1.0 - Om))
-            chi2_sn_ref, _ = chi2_sn_from_grid(sn_data, z_grid_sn, h_grid_sn, 70.0)
-            sn_chi2_by_om[float(Om)] = chi2_sn_ref
-    for H0 in H0_grid:
-        for Om in Om_grid:
-            Om_f = float(Om)
-            h_l = np.sqrt(Om_f * (1 + z) ** 3 + (1 - Om_f))
-            Hm = H0 * h_l
-            chi2_hz = float(np.sum(((Hm - Hobs) / sig) ** 2))
-            chi2_sn = sn_chi2_by_om.get(Om_f, 0.0)
-            if sn_data is not None:
-                offset_hat = None
-            else:
-                offset_hat = None
-            c2 = chi2_hz + chi2_sn
-            if c2 < best["chi2"]:
-                n_total = len(z) + n_sn
-                best = {
-                    "H0": float(H0),
-                    "Omega_m0": Om_f,
-                    "chi2": c2,
-                    "chi2_hz": chi2_hz,
-                    "chi2_sn": chi2_sn,
-                    "sn_offset_hat": offset_hat,
-                    "chi2_per_point": c2 / n_total,
-                }
-    if sn_data is not None:
-        h_grid_sn = np.sqrt(best["Omega_m0"] * (1.0 + z_grid_sn) ** 3 + (1.0 - best["Omega_m0"]))
-        chi2_sn, offset_hat = chi2_sn_from_grid(sn_data, z_grid_sn, h_grid_sn, best["H0"])
-        best["chi2_sn"] = chi2_sn
-        best["sn_offset_hat"] = offset_hat
-        best["chi2"] = best["chi2_hz"] + chi2_sn
-        best["chi2_per_point"] = best["chi2"] / (len(z) + n_sn)
-    k = 2 + (1 if sn_data is not None else 0)
-    n = len(z) + n_sn
+    n = len(sn_data["mu"]) + len(bao_data["value"])
+    H0 = 70.0
+    for Om in Om_grid:
+        Om_f = float(Om)
+        h_grid = np.sqrt(Om_f * (1.0 + z_grid) ** 3 + (1.0 - Om_f))
+        chi2_bao, alpha_hat = chi2_desi_bao_from_grid(bao_data, z_grid, h_grid)
+        # DES SN chi2 after additive-offset profiling is independent of the pure H0 shift.
+        chi2_sn, M_hat = chi2_des_sn_from_grid(sn_data, z_grid, h_grid, H0)
+        c2 = chi2_sn + chi2_bao
+        if c2 < best["chi2"]:
+            best = {
+                "H0": H0,
+                "Omega_m0": Om_f,
+                "chi2": c2,
+                "chi2_hz": 0.0,
+                "chi2_sn": chi2_sn,
+                "chi2_bao": chi2_bao,
+                "sn_offset_hat": M_hat,
+                "bao_alpha_hat": alpha_hat,
+                "chi2_per_point": c2 / n,
+            }
+    k = 4  # H0, Omega_m0, DES-SN M_SN, DESI BAO alpha_BAO
     best["AIC"] = best["chi2"] + 2 * k
     best["BIC"] = best["chi2"] + k * math.log(n)
     return best
@@ -1420,8 +1717,9 @@ def result_row(r: SampleResult) -> Dict[str, Any]:
     row = {
         "lag_id": r.lag_id, "success": r.success, "reason": r.reason,
         "chi2": r.chi2, "chi2_per_point": r.chi2_per_point,
-        "chi2_hz": r.chi2_hz, "chi2_sn": r.chi2_sn,
-        "sn_offset_hat": r.sn_offset_hat,
+        "chi2_hz": r.chi2_hz, "chi2_sn": r.chi2_sn, "chi2_bao": r.chi2_bao,
+        "sn_offset_hat": r.sn_offset_hat, "bao_alpha_hat": r.bao_alpha_hat,
+        "N_SN": r.n_sn, "N_BAO": r.n_bao,
         "AIC": r.aic, "BIC": r.bic, "k_params": r.k_params,
         "max_abs_constraint": r.max_abs_constraint,
     }
@@ -1430,8 +1728,19 @@ def result_row(r: SampleResult) -> Dict[str, Any]:
     return row
 
 
+RESULT_SUMMARY_COLUMNS = [
+    "lag_id", "success", "reason", "chi2", "chi2_per_point",
+    "chi2_hz", "chi2_sn", "chi2_bao", "sn_offset_hat", "bao_alpha_hat",
+    "N_SN", "N_BAO", "AIC", "BIC", "k_params", "max_abs_constraint",
+]
+
+
 def write_csv(path: Path, rows: List[Dict[str, Any]]):
     if not rows:
+        if path.name.startswith("accepted_samples_summary") or path.name.startswith("model_ranking"):
+            with path.open("w", newline="", encoding="utf-8") as f:
+                csv.DictWriter(f, fieldnames=RESULT_SUMMARY_COLUMNS).writeheader()
+            return
         path.write_text("", encoding="utf-8")
         return
     keys = []
@@ -1446,15 +1755,14 @@ def write_csv(path: Path, rows: List[Dict[str, Any]]):
             w.writerow(row)
 
 
-def plot_best(data: np.ndarray, best: Optional[SampleResult], path: Path):
+def plot_best(best: Optional[SampleResult], path: Path):
     if best is None or plt is None:
         return
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.errorbar(data[:, 0], data[:, 1], yerr=data[:, 2], fmt="o", capsize=3, label=f"{DATA_CHOICE} H(z) data")
     order = np.argsort(best.z_grid)
-    ax.plot(best.z_grid[order], best.H_grid[order], lw=2, label=f"Best L#{best.lag_id}")
+    ax.plot(best.z_grid[order], best.h_grid[order], lw=2, label=f"Best L#{best.lag_id}")
     ax.set_xlabel("z")
-    ax.set_ylabel("H(z) [km/s/Mpc]")
+    ax.set_ylabel("h(z)=H/H0")
     ax.grid(alpha=0.3)
     ax.legend()
     fig.tight_layout()
@@ -1509,9 +1817,9 @@ def _format_seconds(seconds: float) -> str:
     return f"{seconds/3600:.2f}h"
 
 
-def _scan_single_model_worker(args: Tuple[Model, np.ndarray, str, int, int, int, Optional[dict]]) -> Dict[str, Any]:
+def _scan_single_model_worker(args: Tuple[Model, str, int, int, int, dict, dict]) -> Dict[str, Any]:
     """Worker entry point: lambdify once, then evaluate many samples for one model."""
-    model, data, mode, n_samples, seed, worker_sample_progress, sn_data = args
+    model, mode, n_samples, seed, worker_sample_progress, sn_data, bao_data = args
     t_model = time.time()
     rejects = Counter()
     accepted: List[SampleResult] = []
@@ -1545,7 +1853,7 @@ def _scan_single_model_worker(args: Tuple[Model, np.ndarray, str, int, int, int,
 
     rng = np.random.default_rng(seed)
     for i in range(n_samples):
-        res = evaluate_sample(model, data, rng, mode, compiled=compiled, sn_data=sn_data)
+        res = evaluate_sample(model, rng, mode, compiled=compiled, sn_data=sn_data, bao_data=bao_data)
         if res.success:
             accepted.append(res)
             if best is None or res.aic < best.aic:
@@ -1614,10 +1922,10 @@ def _merge_worker_output(out: Dict[str, Any],
 def run_numerical_scan():
     t0 = time.time()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    data = select_data(DATA_CHOICE)
-    sn_data = maybe_load_sn_data()
-    n_sn = len(sn_data["mb"]) if sn_data is not None else 0
-    n_total_data = len(data) + n_sn
+    sn_data, bao_data = load_current_likelihood_data()
+    n_sn = len(sn_data["mu"])
+    n_bao = len(bao_data["value"])
+    n_total_data = n_sn + n_bao
     print(f"[START] Output directory: {OUTPUT_DIR}", flush=True)
     print(
         f"[START] N_SAMPLES_PER_MODEL={N_SAMPLES_PER_MODEL}, "
@@ -1733,8 +2041,8 @@ def run_numerical_scan():
         max_workers = min(N_WORKERS, len(active_models))
         print(f"[SCAN] Starting ProcessPoolExecutor with {max_workers} workers...", flush=True)
         worker_args = [
-            (m, data, MODE, N_SAMPLES_PER_MODEL,
-             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data)
+            (m, MODE, N_SAMPLES_PER_MODEL,
+             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data, bao_data)
             for m in active_models
         ]
         with ProcessPoolExecutor(max_workers=max_workers, mp_context=ctx) as ex:
@@ -1774,7 +2082,7 @@ def run_numerical_scan():
         print("[SCAN] Running serial scan with lambdify cached once per model...", flush=True)
         for m in active_models:
             seed = _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed)
-            out = _scan_single_model_worker((m, data, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data))
+            out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data))
             _merge_worker_output(out, all_results, best_by_model, reject_counts_by_model)
             completed += 1
             now = time.time()
@@ -1799,12 +2107,12 @@ def run_numerical_scan():
     accepted = sorted(all_results, key=lambda r: (r.aic, r.chi2))
     model_best_list = sorted(best_by_model.values(), key=lambda r: (r.aic, r.chi2))
     best = accepted[0] if accepted else None
-    lcdm = lcdm_fit_reference(data, sn_data=sn_data)
+    lcdm = lcdm_fit_reference(sn_data, bao_data)
 
     write_csv(OUTPUT_DIR / "accepted_samples_summary.csv", [result_row(r) for r in accepted])
     write_csv(OUTPUT_DIR / "model_ranking.csv", [result_row(r) for r in model_best_list])
     write_best_solution(best, OUTPUT_DIR / "best_solution.csv")
-    plot_best(data, best, OUTPUT_DIR / "best_fit_Hz.png")
+    plot_best(best, OUTPUT_DIR / "best_fit_Hz.png")
 
     for rank, r in enumerate(model_best_list[:10], 1):
         write_best_solution(r, OUTPUT_DIR / f"top_{rank:02d}_lagrangian_{r.lag_id}_solution.csv")
@@ -1817,23 +2125,21 @@ def run_numerical_scan():
     write_csv(OUTPUT_DIR / "reject_reasons_by_model.csv", rej_rows)
 
     lines = []
-    lines.append("AI Modified Gravity: automatic ghost-free Lagrangian H(z) scan (v5.0 — two scalars)")
+    lines.append("AI Modified Gravity: DES-SN + DESI-DR2 BAO scan (v5.0 — two scalars)")
     lines.append("=" * 78)
     lines.append(f"Base output directory: {BASE_OUTPUT_DIR}")
     lines.append(f"Run output directory: {OUTPUT_DIR}")
     lines.append(f"Run time: {time.time() - t0:.2f} s")
     lines.append(f"Mode: {MODE}")
-    lines.append(f"Data choice: {DATA_CHOICE}; N_Hz={len(data)}; z_max_Hz={float(np.max(data[:, 0])):.3f}")
-    lines.append(f"SN enabled: {sn_data is not None}")
-    lines.append(f"SN processed path: {SN_PROCESSED_PATH}")
-    if sn_data is not None:
-        lines.append(
-            f"SN data: Pantheon+ without SH0ES; N_SN={n_sn}; "
-            f"zHD range=[{float(np.min(sn_data['zHD'])):.6g}, {float(np.max(sn_data['zHD'])):.6g}]; "
-            "observable=m_b_corr; include_shoes=False"
-        )
-    else:
-        lines.append("SN data: disabled")
+    lines.append("Likelihood: chi2_total = chi2_DES_SN + chi2_DESI_DR2_BAO")
+    lines.append(
+        f"DES SN: N_SN={n_sn}; zHD range=[{float(np.min(sn_data['zHD'])):.6g}, {float(np.max(sn_data['zHD'])):.6g}]; "
+        f"cov_mode={sn_data['cov_mode']}; observable=MU"
+    )
+    lines.append(
+        f"DESI DR2 BAO: N_BAO={n_bao}; z range=[{float(np.min(bao_data['z'])):.6g}, {float(np.max(bao_data['z'])):.6g}]; "
+        f"quantity_counts={dict(Counter(bao_data['quantity'].tolist()))}"
+    )
     lines.append(f"Total N_data={n_total_data}")
     lines.append(f"Parsed Lagrangians: {len(models_raw)}")
     lines.append(f"Built nontrivial IVP models: {sum(1 for m in built_models if not m.reject_reason)}")
@@ -1864,11 +2170,11 @@ def run_numerical_scan():
     lines.append("")
     lines.append("Flat-LambdaCDM reference fit")
     lines.append(
-        f"  chi2_total={lcdm['chi2']:.6g}, chi2_Hz={lcdm['chi2_hz']:.6g}, "
-        f"chi2_SN={lcdm['chi2_sn']:.6g}, chi2/N={lcdm['chi2_per_point']:.6g}, "
+        f"  chi2_total={lcdm['chi2']:.6g}, chi2_DES_SN={lcdm['chi2_sn']:.6g}, "
+        f"chi2_DESI_BAO={lcdm['chi2_bao']:.6g}, chi2/N={lcdm['chi2_per_point']:.6g}, "
         f"AIC={lcdm['AIC']:.6g}, BIC={lcdm['BIC']:.6g}"
     )
-    lines.append(f"  sn_offset_hat={lcdm['sn_offset_hat']}")
+    lines.append(f"  M_SN_hat={lcdm['sn_offset_hat']}, alpha_BAO_hat={lcdm['bao_alpha_hat']}")
     lines.append(f"  H0={lcdm['H0']:.6g}, Omega_m0={lcdm['Omega_m0']:.6g}")
     lines.append("")
 
@@ -1879,8 +2185,9 @@ def run_numerical_scan():
         lines.append("Best sample by AIC")
         lines.append(f"  Lagrangian #{best.lag_id}")
         lines.append(
-            f"  chi2_total={best.chi2:.6g}, chi2_Hz={best.chi2_hz:.6g}, "
-            f"chi2_SN={best.chi2_sn:.6g}, sn_offset_hat={best.sn_offset_hat}, "
+            f"  chi2_total={best.chi2:.6g}, chi2_DES_SN={best.chi2_sn:.6g}, "
+            f"chi2_DESI_BAO={best.chi2_bao:.6g}, M_SN_hat={best.sn_offset_hat}, "
+            f"alpha_BAO_hat={best.bao_alpha_hat}, "
             f"chi2/N={best.chi2_per_point:.6g}, AIC={best.aic:.6g}, BIC={best.bic:.6g}, k={best.k_params}"
         )
         lines.append(f"  max |constraint|={best.max_abs_constraint:.3e}")
@@ -1892,11 +2199,6 @@ def run_numerical_scan():
         lines.append("  Parameters:")
         for kk, vv in sorted(best.params.items()):
             lines.append(f"    {kk} = {vv:.12g}")
-        lines.append("")
-        lines.append("H(z) residuals at data points")
-        for zi, Ho, sg, Hm in zip(data[:, 0], data[:, 1], data[:, 2], best.H_at_data):
-            lines.append(f"  z={zi:.4g}: H_obs={Ho:.6g}, sigma={sg:.6g}, H_model={Hm:.6g}, pull={(Hm - Ho) / sg:.4g}")
-
     lines.append("")
     lines.append("Top models by AIC")
     if not model_best_list:
@@ -1905,8 +2207,8 @@ def run_numerical_scan():
         for rank, r in enumerate(model_best_list[:20], 1):
             lines.append(
                 f"  {rank:02d}. L#{r.lag_id}: chi2_total={r.chi2:.6g}, "
-                f"chi2_Hz={r.chi2_hz:.6g}, chi2_SN={r.chi2_sn:.6g}, "
-                f"sn_offset_hat={r.sn_offset_hat}, AIC={r.aic:.6g}, BIC={r.bic:.6g}, "
+                f"chi2_DES_SN={r.chi2_sn:.6g}, chi2_DESI_BAO={r.chi2_bao:.6g}, "
+                f"M_SN_hat={r.sn_offset_hat}, alpha_BAO_hat={r.bao_alpha_hat}, AIC={r.aic:.6g}, BIC={r.bic:.6g}, "
                 f"k={r.k_params}, maxC={r.max_abs_constraint:.2e}"
             )
             m = next((mm for mm in built_models if mm.lag_id == r.lag_id), None)
@@ -2070,21 +2372,20 @@ def _read_solution_csv(path: Path) -> Dict[str, np.ndarray]:
     return arr
 
 
-def _plot_top_model(data: np.ndarray, rank: int, row: Dict[str, str], sol_path: Path, out_path: Path):
+def _plot_top_model(rank: int, row: Dict[str, str], sol_path: Path, out_path: Path):
     if plt is None:
         return
     sol = _read_solution_csv(sol_path)
-    if "z" not in sol or "H_km_s_Mpc" not in sol:
+    if "z" not in sol or "h_dimensionless" not in sol:
         return
     order = np.argsort(sol["z"])
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.errorbar(data[:, 0], data[:, 1], yerr=data[:, 2], fmt="o", capsize=3, label=f"{DATA_CHOICE} H(z) data")
-    ax.plot(sol["z"][order], sol["H_km_s_Mpc"][order], lw=2.2, label=f"L#{row.get('lag_id')} numerical H(z)")
+    ax.plot(sol["z"][order], sol["h_dimensionless"][order], lw=2.2, label=f"L#{row.get('lag_id')} numerical h(z)")
     ax.set_title(
         f"Top {rank}: Lagrangian #{row.get('lag_id')}\n"
         f"chi2={_float_from_row(row, 'chi2'):.4g}, AIC={_float_from_row(row, 'AIC'):.4g}")
     ax.set_xlabel("z")
-    ax.set_ylabel("H(z) [km/s/Mpc]")
+    ax.set_ylabel("h(z)=H/H0")
     ax.grid(alpha=0.3)
     ax.legend()
     fig.tight_layout()
@@ -2092,25 +2393,24 @@ def _plot_top_model(data: np.ndarray, rank: int, row: Dict[str, str], sol_path: 
     plt.close(fig)
 
 
-def _plot_top_overlay(data: np.ndarray, top_rows: List[Dict[str, str]], sol_paths: Dict[str, Path], out_path: Path):
+def _plot_top_overlay(top_rows: List[Dict[str, str]], sol_paths: Dict[str, Path], out_path: Path):
     if plt is None:
         return
     fig, ax = plt.subplots(figsize=(9, 6))
-    ax.errorbar(data[:, 0], data[:, 1], yerr=data[:, 2], fmt="o", capsize=3, label=f"{DATA_CHOICE} H(z) data", zorder=5)
     for i, row in enumerate(top_rows, 1):
         lag_id = str(row.get("lag_id"))
         sol_path = sol_paths.get(lag_id)
         if sol_path is None:
             continue
         sol = _read_solution_csv(sol_path)
-        if "z" not in sol or "H_km_s_Mpc" not in sol:
+        if "z" not in sol or "h_dimensionless" not in sol:
             continue
         order = np.argsort(sol["z"])
-        ax.plot(sol["z"][order], sol["H_km_s_Mpc"][order], lw=1.8,
+        ax.plot(sol["z"][order], sol["h_dimensionless"][order], lw=1.8,
                 label=f"#{i} L{lag_id}, chi2={_float_from_row(row, 'chi2'):.3g}")
-    ax.set_title("Top fitted Lagrangians: numerical H(z)")
+    ax.set_title("Top fitted Lagrangians: numerical h(z)")
     ax.set_xlabel("z")
-    ax.set_ylabel("H(z) [km/s/Mpc]")
+    ax.set_ylabel("h(z)=H/H0")
     ax.grid(alpha=0.3)
     ax.legend(fontsize=8)
     fig.tight_layout()
@@ -2139,8 +2439,6 @@ def run_top5_summary(top_n: int = 10):
             pkl_path = None
             lag_map = {}
 
-    data = select_data(DATA_CHOICE)
-
     generated_plots: List[Path] = []
     sol_paths: Dict[str, Path] = {}
     for i, row in enumerate(top_rows, 1):
@@ -2150,11 +2448,11 @@ def run_top5_summary(top_n: int = 10):
             continue
         sol_paths[lag_id] = sol_path
         plot_path = OUTPUT_DIR / f"top_{i:02d}_lagrangian_{lag_id}_Hz_fit.png"
-        _plot_top_model(data, i, row, sol_path, plot_path)
+        _plot_top_model(i, row, sol_path, plot_path)
         generated_plots.append(plot_path)
 
     overlay_path = OUTPUT_DIR / f"top{top_n}_overlay_Hz_fit.png"
-    _plot_top_overlay(data, top_rows, sol_paths, overlay_path)
+    _plot_top_overlay(top_rows, sol_paths, overlay_path)
     if overlay_path.exists():
         generated_plots.append(overlay_path)
 
@@ -2182,7 +2480,7 @@ def run_top5_summary(top_n: int = 10):
 
     standard_cols = {
         "lag_id", "success", "reason", "chi2", "chi2_per_point", "AIC", "BIC",
-        "chi2_hz", "chi2_sn", "sn_offset_hat",
+        "chi2_hz", "chi2_sn", "chi2_bao", "sn_offset_hat", "bao_alpha_hat", "N_SN", "N_BAO",
         "k_params", "max_abs_constraint", "H0_km_s_Mpc", "Omega_m0", "rho_bar",
         "mu1_m1_over_H0", "mu2_m2_over_Lambda",
         "fbar1_f1_over_Mp", "fbar2_f2_over_Lambda",
@@ -2368,10 +2666,10 @@ def _warn_if_cache_build_settings_differ(metadata: Dict[str, Any]):
 def run_solve_from_cache():
     t0 = time.time()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    data = select_data(DATA_CHOICE)
-    sn_data = maybe_load_sn_data()
-    n_sn = len(sn_data["mb"]) if sn_data is not None else 0
-    n_total_data = len(data) + n_sn
+    sn_data, bao_data = load_current_likelihood_data()
+    n_sn = len(sn_data["mu"])
+    n_bao = len(bao_data["value"])
+    n_total_data = n_sn + n_bao
     cache_path = _find_build_cache_path_for_solve()
     built_models, cache_metadata = _load_built_models_cache(cache_path)
     if MAX_MODELS_TO_BUILD > 0 and len(built_models) > MAX_MODELS_TO_BUILD:
@@ -2389,7 +2687,7 @@ def run_solve_from_cache():
     print(
         f"[START-SOLVE] N_SAMPLES_PER_MODEL={N_SAMPLES_PER_MODEL}, "
         f"parallel={SOLVER_PARALLEL}, workers={N_WORKERS}, "
-        f"parallel_threshold={PARALLEL_SAMPLE_THRESHOLD}, data_choice={DATA_CHOICE}, "
+        f"parallel_threshold={PARALLEL_SAMPLE_THRESHOLD}, likelihood=DES-SN+DESI-DR2-BAO, "
         f"N_GRID={N_GRID}, RTOL={RTOL:g}, ATOL={ATOL:g}",
         flush=True,
     )
@@ -2423,8 +2721,8 @@ def run_solve_from_cache():
         max_workers = min(N_WORKERS, len(active_models))
         print(f"[SCAN] Starting ProcessPoolExecutor with {max_workers} workers...", flush=True)
         worker_args = [
-            (m, data, MODE, N_SAMPLES_PER_MODEL,
-             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data)
+            (m, MODE, N_SAMPLES_PER_MODEL,
+             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data, bao_data)
             for m in active_models
         ]
         with ProcessPoolExecutor(max_workers=max_workers, mp_context=ctx) as ex:
@@ -2464,7 +2762,7 @@ def run_solve_from_cache():
         print("[SCAN] Running serial scan with lambdify cached once per model...", flush=True)
         for m in active_models:
             seed = _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed)
-            out = _scan_single_model_worker((m, data, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data))
+            out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data))
             _merge_worker_output(out, all_results, best_by_model, reject_counts_by_model)
             completed += 1
             now = time.time()
@@ -2489,12 +2787,12 @@ def run_solve_from_cache():
     accepted = sorted(all_results, key=lambda r: (r.aic, r.chi2))
     model_best_list = sorted(best_by_model.values(), key=lambda r: (r.aic, r.chi2))
     best = accepted[0] if accepted else None
-    lcdm = lcdm_fit_reference(data, sn_data=sn_data)
+    lcdm = lcdm_fit_reference(sn_data, bao_data)
 
     write_csv(OUTPUT_DIR / "accepted_samples_summary.csv", [result_row(r) for r in accepted])
     write_csv(OUTPUT_DIR / "model_ranking.csv", [result_row(r) for r in model_best_list])
     write_best_solution(best, OUTPUT_DIR / "best_solution.csv")
-    plot_best(data, best, OUTPUT_DIR / "best_fit_Hz.png")
+    plot_best(best, OUTPUT_DIR / "best_fit_Hz.png")
 
     for rank, r in enumerate(model_best_list[:10], 1):
         write_best_solution(r, OUTPUT_DIR / f"top_{rank:02d}_lagrangian_{r.lag_id}_solution.csv")
@@ -2507,23 +2805,21 @@ def run_solve_from_cache():
     write_csv(OUTPUT_DIR / "reject_reasons_by_model.csv", rej_rows)
 
     lines = []
-    lines.append("AI Modified Gravity: automatic ghost-free Lagrangian H(z) scan (v5.0 — two scalars)")
+    lines.append("AI Modified Gravity: DES-SN + DESI-DR2 BAO scan (v5.0 — two scalars)")
     lines.append("=" * 78)
     lines.append(f"Base output directory: {BASE_OUTPUT_DIR}")
     lines.append(f"Run output directory: {OUTPUT_DIR}")
     lines.append(f"Run time: {time.time() - t0:.2f} s")
     lines.append(f"Mode: {MODE}")
-    lines.append(f"Data choice: {DATA_CHOICE}; N_Hz={len(data)}; z_max_Hz={float(np.max(data[:, 0])):.3f}")
-    lines.append(f"SN enabled: {sn_data is not None}")
-    lines.append(f"SN processed path: {SN_PROCESSED_PATH}")
-    if sn_data is not None:
-        lines.append(
-            f"SN data: Pantheon+ without SH0ES; N_SN={n_sn}; "
-            f"zHD range=[{float(np.min(sn_data['zHD'])):.6g}, {float(np.max(sn_data['zHD'])):.6g}]; "
-            "observable=m_b_corr; include_shoes=False"
-        )
-    else:
-        lines.append("SN data: disabled")
+    lines.append("Likelihood: chi2_total = chi2_DES_SN + chi2_DESI_DR2_BAO")
+    lines.append(
+        f"DES SN: N_SN={n_sn}; zHD range=[{float(np.min(sn_data['zHD'])):.6g}, {float(np.max(sn_data['zHD'])):.6g}]; "
+        f"cov_mode={sn_data['cov_mode']}; observable=MU"
+    )
+    lines.append(
+        f"DESI DR2 BAO: N_BAO={n_bao}; z range=[{float(np.min(bao_data['z'])):.6g}, {float(np.max(bao_data['z'])):.6g}]; "
+        f"quantity_counts={dict(Counter(bao_data['quantity'].tolist()))}"
+    )
     lines.append(f"Total N_data={n_total_data}")
     lines.append(f"Parsed Lagrangians: {len(models_raw)}")
     lines.append(f"Built nontrivial IVP models: {sum(1 for m in built_models if not m.reject_reason)}")
@@ -2554,11 +2850,11 @@ def run_solve_from_cache():
     lines.append("")
     lines.append("Flat-LambdaCDM reference fit")
     lines.append(
-        f"  chi2_total={lcdm['chi2']:.6g}, chi2_Hz={lcdm['chi2_hz']:.6g}, "
-        f"chi2_SN={lcdm['chi2_sn']:.6g}, chi2/N={lcdm['chi2_per_point']:.6g}, "
+        f"  chi2_total={lcdm['chi2']:.6g}, chi2_DES_SN={lcdm['chi2_sn']:.6g}, "
+        f"chi2_DESI_BAO={lcdm['chi2_bao']:.6g}, chi2/N={lcdm['chi2_per_point']:.6g}, "
         f"AIC={lcdm['AIC']:.6g}, BIC={lcdm['BIC']:.6g}"
     )
-    lines.append(f"  sn_offset_hat={lcdm['sn_offset_hat']}")
+    lines.append(f"  M_SN_hat={lcdm['sn_offset_hat']}, alpha_BAO_hat={lcdm['bao_alpha_hat']}")
     lines.append(f"  H0={lcdm['H0']:.6g}, Omega_m0={lcdm['Omega_m0']:.6g}")
     lines.append("")
 
@@ -2569,8 +2865,9 @@ def run_solve_from_cache():
         lines.append("Best sample by AIC")
         lines.append(f"  Lagrangian #{best.lag_id}")
         lines.append(
-            f"  chi2_total={best.chi2:.6g}, chi2_Hz={best.chi2_hz:.6g}, "
-            f"chi2_SN={best.chi2_sn:.6g}, sn_offset_hat={best.sn_offset_hat}, "
+            f"  chi2_total={best.chi2:.6g}, chi2_DES_SN={best.chi2_sn:.6g}, "
+            f"chi2_DESI_BAO={best.chi2_bao:.6g}, M_SN_hat={best.sn_offset_hat}, "
+            f"alpha_BAO_hat={best.bao_alpha_hat}, "
             f"chi2/N={best.chi2_per_point:.6g}, AIC={best.aic:.6g}, BIC={best.bic:.6g}, k={best.k_params}"
         )
         lines.append(f"  max |constraint|={best.max_abs_constraint:.3e}")
@@ -2582,11 +2879,6 @@ def run_solve_from_cache():
         lines.append("  Parameters:")
         for kk, vv in sorted(best.params.items()):
             lines.append(f"    {kk} = {vv:.12g}")
-        lines.append("")
-        lines.append("H(z) residuals at data points")
-        for zi, Ho, sg, Hm in zip(data[:, 0], data[:, 1], data[:, 2], best.H_at_data):
-            lines.append(f"  z={zi:.4g}: H_obs={Ho:.6g}, sigma={sg:.6g}, H_model={Hm:.6g}, pull={(Hm - Ho) / sg:.4g}")
-
     lines.append("")
     lines.append("Top models by AIC")
     if not model_best_list:
@@ -2595,8 +2887,8 @@ def run_solve_from_cache():
         for rank, r in enumerate(model_best_list[:20], 1):
             lines.append(
                 f"  {rank:02d}. L#{r.lag_id}: chi2_total={r.chi2:.6g}, "
-                f"chi2_Hz={r.chi2_hz:.6g}, chi2_SN={r.chi2_sn:.6g}, "
-                f"sn_offset_hat={r.sn_offset_hat}, AIC={r.aic:.6g}, BIC={r.bic:.6g}, "
+                f"chi2_DES_SN={r.chi2_sn:.6g}, chi2_DESI_BAO={r.chi2_bao:.6g}, "
+                f"M_SN_hat={r.sn_offset_hat}, alpha_BAO_hat={r.bao_alpha_hat}, AIC={r.aic:.6g}, BIC={r.bic:.6g}, "
                 f"k={r.k_params}, maxC={r.max_abs_constraint:.2e}"
             )
             m = next((mm for mm in built_models if mm.lag_id == r.lag_id), None)
@@ -2625,6 +2917,9 @@ def run_solve_from_cache():
 
 
 def main():
+    if os.environ.get("CHECK_DATA_ONLY", "0").strip().lower() in {"1", "true", "yes", "y", "on"}:
+        load_current_likelihood_data()
+        return
     run_solve_from_cache()
     run_top5_summary(top_n=int(os.environ.get("TOP_N", "10")))
 
