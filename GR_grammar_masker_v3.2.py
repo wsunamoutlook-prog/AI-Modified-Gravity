@@ -27,7 +27,7 @@ RUN_SETTINGS = {
     # Lagrangian sampling
     "MASKER_N_TERMS_LIST": "1,2,3,4,5,6,7,8,9,10,11,12",
     "MASKER_N_SAMPLES": "100",
-    "MASKER_RANDOM_SEED": "42",
+    "MASKER_RANDOM_SEED": "42",#need to be changed
 
     # Output verbosity
     "MASKER_PRINT_GRAMMAR_SANITY": "1",

@@ -43,7 +43,7 @@ RUN_SETTINGS = {
     "BUILD_TIMEOUT_SECONDS": "60",
 
     # Normalization and EFT metadata carried into the cache
-    "FIX_EH_COEFFICIENT": "0",
+    "FIX_EH_COEFFICIENT": "1",
     "EH_COEFFICIENT_VALUE": "0.5",
     "ENFORCE_EFT_CUTOFF": "1",
     "EFT_MAX_H_OVER_LAMBDA": "0.1",

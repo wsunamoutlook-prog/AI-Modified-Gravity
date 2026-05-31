@@ -30,6 +30,15 @@ TOKEN_TO_BLOCK = {'PHI1': 'φ1', 'PHI2': 'φ2', 'R_SCALAR': 'R', 'RIC': 'Ric', '
 token2id = {tok: i for i, tok in enumerate(GRAMMAR_TOKENS)}
 id2token = {i: tok for i, tok in enumerate(GRAMMAR_TOKENS)}
 
+# ML-only coefficient-slot tokens. These are intentionally separate from the
+# low-level operator grammar vocabulary above.
+MAX_COEFF_SLOTS = 64
+COEFF_TOKENS = [f"COEFF_{i}" for i in range(MAX_COEFF_SLOTS)]
+FIXED_COEFF_TOKENS = ["COEFF_FIXED_1"]
+ML_COEFF_TOKENS = COEFF_TOKENS + FIXED_COEFF_TOKENS
+ml_coeff_token2id = {tok: i for i, tok in enumerate(ML_COEFF_TOKENS)}
+ml_coeff_id2token = {i: tok for i, tok in enumerate(ML_COEFF_TOKENS)}
+
 
 # ── State ──
 
@@ -680,6 +689,7 @@ class GravityMasker:
 
                     term_info.append({
                         'coeff_symbol': str(coeffs[i]),
+                        'coeff_token': f"COEFF_{i}",
                         'candidate': cand.contraction_label,
                         'mass_dim': cand.mass_dim,
                         'lambda_power': lam_power,
@@ -697,10 +707,12 @@ class GravityMasker:
 
                     term_info.append({
                         'coeff_symbol': '1',
+                        'coeff_token': 'COEFF_FIXED_1',
                         'candidate': kinetic1_general, 'mass_dim': 4, 'lambda_power': 0,
                         'fixed': True, 'sector': 'matter'})
                     term_info.append({
                         'coeff_symbol': '1',
+                        'coeff_token': 'COEFF_FIXED_1',
                         'candidate': pot1_gen, 'mass_dim': 4, 'lambda_power': 0,
                         'fixed': True, 'sector': 'matter', 'potential_type': pot1_type})
 
@@ -714,10 +726,12 @@ class GravityMasker:
 
                     term_info.append({
                         'coeff_symbol': '1',
+                        'coeff_token': 'COEFF_FIXED_1',
                         'candidate': kinetic2_general, 'mass_dim': 4, 'lambda_power': 0,
                         'fixed': True, 'sector': 'matter'})
                     term_info.append({
                         'coeff_symbol': '1',
+                        'coeff_token': 'COEFF_FIXED_1',
                         'candidate': pot2_gen, 'mass_dim': 4, 'lambda_power': 0,
                         'fixed': True, 'sector': 'matter', 'potential_type': pot2_type})
 

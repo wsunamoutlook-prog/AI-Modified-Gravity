@@ -1,0 +1,89 @@
+Modified-GR numerical background fit report
+========================================================================
+
+Data choice: bao
+Number of H(z) points: 6
+Random seed: 123
+Samples attempted: 10000
+Accepted samples: 171
+Rejected samples: 9829
+Runtime: 35.17 s
+
+Model and variables
+------------------------------------------------------------------------
+Model: ghost-free final EOM of Lagrangian #523 from the EOM summary.
+Independent variable: x = ln(a) = -ln(1+z).
+State variables: h=H/H0, varphi=phi/Mpred, q=dvarphi/dln(a).
+Matter density parameter: rho_m0_bar = rho_m0/(Mpred^2 H0^2) = 3 Omega_m0.
+No Omega_Lambda is used in the MG/scalar solver.
+Reduced Planck mass used for unit explanation: 2.435000e+27 eV.
+1 km/s/Mpc = 2.133119e-35 eV.
+
+Priors used
+------------------------------------------------------------------------
+H0_km_s_Mpc: (60.0, 75.0)
+Omega_m0: (0.15, 0.45)
+gamma: (0.45, 0.55)
+varphi0: (-5.0, 5.0)
+log10_mu: (-3.0, 1.0)
+log10_abs_epsilon: (-6.0, 0.0)
+q0 is not sampled directly; it is solved from E_N(x=0)=0.
+epsilon is sampled as sign * 10^u using log10_abs_epsilon.
+
+Reference only: flat LambdaCDM fit to the same H(z) table
+------------------------------------------------------------------------
+This is only a benchmark. It is not used by the MG/scalar solver.
+Best reference H0 = 70.475537 km/s/Mpc
+Best reference Omega_m0 = 0.255170
+Reference chi2 = 3.589427
+Reference chi2 per point = 0.598238
+
+Best accepted modified-gravity/scalar sample
+------------------------------------------------------------------------
+chi2 = 12.426141
+chi2 per point = 2.071023
+max |constraint C| along trajectory = 1.161e-06
+H0 = 70.671258 km/s/Mpc
+H0 = 1.507502e-33 eV
+eps_HM = H0/Mpred = 6.190973e-61
+Omega_m0 = 0.187519
+rho_m0_bar = 0.562558
+gamma = 0.456285   (standard EH normalization is 0.5)
+epsilon = 3.647429e-05
+mu = m/H0 = 0.843982
+m = 1.272305e-33 eV
+varphi0 = phi0/Mpred = -2.374056
+phi0 = -5.780827e+27 eV
+q0 = dvarphi/dln(a)|0 = 0.579461
+phidot0/(Mpred H0) = q0 because h0=1.
+
+Predictions at data redshifts
+------------------------------------------------------------------------
+ z        H_obs      sigma      H_model    pull
+ 0.380     81.500     1.900     85.456     2.082
+ 0.510     90.400     1.900     91.417     0.535
+ 0.610     97.300     2.100     96.358    -0.449
+ 1.480    153.810     6.390    153.363    -0.070
+ 2.330    224.000     8.000    236.173     1.522
+ 2.400    226.000     8.000    244.386     2.298
+
+Conclusion
+------------------------------------------------------------------------
+The sampled MG/scalar model can produce an H(z) curve in the broad vicinity of the supplied data.
+This conclusion is only for the embedded H(z)-style data and the selected Lagrangian #523 final EOM.
+For actual DESI BAO, replace this H(z) likelihood with D_M/r_d, D_H/r_d or D_V/r_d and the published covariance matrix.
+The CSV outputs contain the best trajectory and accepted sample summaries.
+A plot was written to best_fit_Hz.png.
+
+Most common rejection reasons
+------------------------------------------------------------------------
+    6397  bad H_model
+    2831  no real/acceptable q0 from constraint
+     594  ODE failed: Required step size is less than spacing between numbers.
+       1  constraint drift 1.929e-04
+       1  constraint drift 1.208e-04
+       1  constraint drift 1.056e-04
+       1  constraint drift 1.173e-04
+       1  constraint drift 1.653e-04
+       1  constraint drift 2.853e-04
+       1  constraint drift 1.160e-04

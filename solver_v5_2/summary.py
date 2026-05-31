@@ -27,6 +27,20 @@ def _find_lagrangian_pkl_for_summary() -> Optional[Path]:
 
 def _load_lagrangian_map_from_pkl(pkl_path: Path) -> Dict[str, Dict[str, Any]]:
     import pickle
+    import sympy as sp
+    import sympy.core.function as _sympy_function
+
+    if not hasattr(_sympy_function, "_rebuild_undef"):
+        def _rebuild_undef(name, assumptions):
+            return sp.Function(name, **assumptions)
+
+        _sympy_function._rebuild_undef = _rebuild_undef
+
+    main_module = sys.modules.get("__main__")
+    if main_module is not None:
+        for name in ("N", "a", "phi1", "phi2"):
+            setattr(main_module, name, sp.Function(name, positive=True) if name in {"N", "a"} else sp.Function(name))
+
     with open(pkl_path, "rb") as f:
         data = pickle.load(f)
     lag_map: Dict[str, Dict[str, Any]] = {}
@@ -361,4 +375,3 @@ def run_top10_summary(top_n: int = 10):
     print(f"Top-{top_n} table written to:   {selected_csv}")
     for p in generated_plots:
         print(f"Top-{top_n} plot written to:    {p}")
-

@@ -1,5 +1,5 @@
-EOM Ghost-Free Analysis Results (v5.0 — two scalar fields)
-Date: 2026-05-28T01:59:04.749190
+EOM Ghost-Free Analysis Results (v5.2 — two scalar fields)
+Date: 2026-05-30T02:08:55.611050
 
 ════════════════════════════════════════════════════════════
 Lagrangian #1

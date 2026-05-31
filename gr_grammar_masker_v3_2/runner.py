@@ -144,6 +144,7 @@ def _print_sample_lagrangians(lagrangian_results: Dict[int, list], sample_count:
                 sector_tag = f"  [{tt.get('sector', 'gravity')}]"
                 pot_tag = f"  pot={tt['potential_type']}" if "potential_type" in tt else ""
                 print(f"    [{ti+1}] {tt['coeff_symbol']}, "
+                      f"coeff_token={tt.get('coeff_token', '')}, "
                       f"dim={tt['mass_dim']}, Λ^{tt['lambda_power']}, "
                       f"{tt['candidate']}{tag}{sector_tag}{pot_tag}")
 
@@ -169,6 +170,7 @@ def _write_lagrangian_text_files(output_dir: Path, lagrangian_results: Dict[int,
                     sector_tag = f"  [{tt.get('sector', 'gravity')}]"
                     pot_tag = f"  pot={tt['potential_type']}" if "potential_type" in tt else ""
                     f.write(f"  term[{ti+1}]: coeff={tt['coeff_symbol']}, "
+                            f"coeff_token={tt.get('coeff_token', '')}, "
                             f"dim={tt['mass_dim']}, Λ^{tt['lambda_power']}, "
                             f"{tt['candidate']}{tag}{sector_tag}{pot_tag}\n")
                 f.write("\n")
