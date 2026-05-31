@@ -13,6 +13,8 @@ from __future__ import annotations
 
 import os
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 # =============================================================================
 # Run settings edited from this file
 # =============================================================================
@@ -27,13 +29,13 @@ RUN_SETTINGS = {
     "SOLVER_OUTPUT_DIR": "solver_result",
     "SOLVER_RUN_NAME": "",
     "BUILD_CACHE_PATH": "",
-    "SN_DIR": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/SN data",
-    "BAO_DIR": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/BAO data",
+    "SN_DIR": os.path.join(PROJECT_ROOT, "data", "SN data"),
+    "BAO_DIR": os.path.join(PROJECT_ROOT, "data", "BAO data"),
     "CHECK_DATA_ONLY": "0",
     "TOP_N": "10",
 
     # Sampling and parallelism
-    "N_SAMPLES_PER_MODEL": "1000", # samples per cached model
+    "N_SAMPLES_PER_MODEL": "1000", # samples per cached model #need to be optimized #Differential Evolution
     "RANDOM_SEED": "0",
     "SOLVER_PARALLEL": "auto",
     "PARALLEL_SAMPLE_THRESHOLD": "100",

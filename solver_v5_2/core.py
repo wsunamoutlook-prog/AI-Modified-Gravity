@@ -72,6 +72,8 @@ except Exception:
 # Runtime configuration
 # =============================================================================
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
 BASE_OUTPUT_DIR = Path(os.environ.get(
     "SOLVER_OUTPUT_DIR",
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "solver_result"),
@@ -96,11 +98,11 @@ OUTPUT_DIR = make_timestamped_output_dir(BASE_OUTPUT_DIR)
 SN_INTEGRATION_GRID = int(os.environ.get("SN_INTEGRATION_GRID", "2000"))
 SN_DIR = Path(os.environ.get(
     "SN_DIR",
-    "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/SN data",
+    str(REPO_ROOT / "data" / "SN data"),
 ))
 BAO_DIR = Path(os.environ.get(
     "BAO_DIR",
-    "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/BAO data",
+    str(REPO_ROOT / "data" / "BAO data"),
 ))
 
 N_SAMPLES_PER_MODEL = int(os.environ.get("N_SAMPLES_PER_MODEL", "3000"))  # samples per cached model
