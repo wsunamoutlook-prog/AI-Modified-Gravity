@@ -1,0 +1,43 @@
+{
+  "proposal_id": "cold_start_20_loop_01",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": null,
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 68.87771089615914,
+      "Omega_m0": 0.3446676021995295,
+      "lambda_H_Lambda_over_H0": 35957.0524668551,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 65.41860975626687,
+      "Omega_m0": 0.27729536535368976,
+      "lambda_H_Lambda_over_H0": 2220.4464211983395,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 63.795597504018474,
+      "Omega_m0": 0.3211055431160899,
+      "lambda_H_Lambda_over_H0": 24871.83120223189,
+      "\\alpha": 0.5
+    }
+  ],
+  "rationale": "Cold-start proposal generated from grammar-legal catalog and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 1,
+    "source_local_number": 6
+  }
+}

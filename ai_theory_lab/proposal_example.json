@@ -1,0 +1,28 @@
+{
+  "proposal_id": "example_phi1_eh_quadratic",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 61.40674503774331,
+      "Omega_m0": 0.3670333534244479,
+      "mu1_m1_over_H0": 0.46756321907029924,
+      "fbar1_f1_over_Mp": 0.05919681950540896,
+      "varphi1_0_phi1_over_Mp": 3.988654627123016,
+      "lambda_H_Lambda_over_H0": 4169.629668977256,
+      "\\alpha": 0.5
+    }
+  ],
+  "rationale": "Minimal Einstein-Hilbert plus one quadratic scalar; parameter sample copied from a previously accepted run to test proposal compilation."
+}

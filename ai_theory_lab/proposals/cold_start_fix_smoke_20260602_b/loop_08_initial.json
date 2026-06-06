@@ -1,0 +1,85 @@
+{
+  "proposal_id": "cold_start_token_loop_08_initial",
+  "theory": {
+    "scalar_config": "both",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": "quadratic"
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "φ1 · φ2 · φ2 · φ2 · φ2"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 66.21204125623302,
+      "Omega_m0": 0.22700406018205505,
+      "lambda_H_Lambda_over_H0": 2128.537697645306,
+      "\\alpha": -3.593508069880149e-06,
+      "varphi1_0_phi1_over_Mp": 2.5803176903537084,
+      "mu1_m1_over_H0": 0.9777201075843545,
+      "fbar1_f1_over_Mp": 2.876342764225907,
+      "varphi2_0_phi2_over_Lambda": 0.62388191216184,
+      "mu2_m2_over_Lambda": 0.25774282505275703,
+      "fbar2_f2_over_Lambda": 6.08065056511501
+    },
+    {
+      "H0_km_s_Mpc": 62.37039852297536,
+      "Omega_m0": 0.34878226961709613,
+      "lambda_H_Lambda_over_H0": 63109.011398375194,
+      "\\alpha": 7.667974723442788e-09,
+      "varphi1_0_phi1_over_Mp": 1.291072230449572,
+      "mu1_m1_over_H0": 0.3924933125336457,
+      "fbar1_f1_over_Mp": 1.8336036087778174,
+      "varphi2_0_phi2_over_Lambda": 2.22147677185172,
+      "mu2_m2_over_Lambda": 0.00023695515458432333,
+      "fbar2_f2_over_Lambda": 15.926477053116193
+    },
+    {
+      "H0_km_s_Mpc": 61.383828338625506,
+      "Omega_m0": 0.26358910035556665,
+      "lambda_H_Lambda_over_H0": 12419.67010649324,
+      "\\alpha": -3.2031315689910277e-10,
+      "varphi1_0_phi1_over_Mp": 1.0375884794360262,
+      "mu1_m1_over_H0": 3.814038928990749,
+      "fbar1_f1_over_Mp": 18.421862020370696,
+      "varphi2_0_phi2_over_Lambda": 0.157619512569729,
+      "mu2_m2_over_Lambda": 0.5147859795301039,
+      "fbar2_f2_over_Lambda": 0.2826483147091081
+    },
+    {
+      "H0_km_s_Mpc": 62.8030328299876,
+      "Omega_m0": 0.30566902740532403,
+      "lambda_H_Lambda_over_H0": 21182.831863401505,
+      "\\alpha": 3.383883094797069e-07,
+      "varphi1_0_phi1_over_Mp": 2.2199088741644895,
+      "mu1_m1_over_H0": 0.3777842687328394,
+      "fbar1_f1_over_Mp": 6.485467682388731,
+      "varphi2_0_phi2_over_Lambda": 2.759874251957426,
+      "mu2_m2_over_Lambda": 0.006244693560293616,
+      "fbar2_f2_over_Lambda": 0.09599307372854833
+    },
+    {
+      "H0_km_s_Mpc": 66.75663498120082,
+      "Omega_m0": 0.23845795881091034,
+      "lambda_H_Lambda_over_H0": 3563.2031844718263,
+      "\\alpha": 5.137552198156573e-06,
+      "varphi1_0_phi1_over_Mp": 3.05595342083492,
+      "mu1_m1_over_H0": 0.04488766759658834,
+      "fbar1_f1_over_Mp": 0.09035806353721855,
+      "varphi2_0_phi2_over_Lambda": 0.397739857090527,
+      "mu2_m2_over_Lambda": 0.012462122199385438,
+      "fbar2_f2_over_Lambda": 0.4852545538569215
+    }
+  ],
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "catalog_location": {
+    "source_n_terms": 5,
+    "source_local_number": 7
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "proposal_id": "cold_start_07",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 63.5,
+      "Omega_m0": 0.34,
+      "lambda_H_Lambda_over_H0": 5000.0,
+      "\\alpha": 1e-08,
+      "\\beta": 0.5
+    }
+  ],
+  "rationale": "Previous proposal failed. Move to a simpler/different legal Grammar Masker structure based on the failure feedback.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 2,
+    "source_local_number": 71
+  }
+}

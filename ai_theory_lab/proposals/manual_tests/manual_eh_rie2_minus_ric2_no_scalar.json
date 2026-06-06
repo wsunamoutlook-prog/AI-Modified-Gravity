@@ -1,0 +1,679 @@
+{
+  "proposal_id": "manual_eh_rie2_minus_ric2_no_scalar_zero_extra",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\delta",
+        "candidate": "R^{bcd}_{a} · R^{a}_{bcd}"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 62.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 66.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.27,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 4000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.5,
+      "\\delta": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.1,
+      "\\delta": 0.1
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.01,
+      "\\delta": 0.01
+    },
+    {
+      "H0_km_s_Mpc": 70.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 30000.0,
+      "\\alpha": 0.5,
+      "\\beta": 0.0,
+      "\\gamma": -0.0001,
+      "\\delta": 0.0001
+    }
+  ],
+  "rationale": "Manual test of EH plus Riemann^2 - Ricci^2; extra catalog term is set to zero."
+}

@@ -1,0 +1,367 @@
+Top fitted Lagrangians: forms, initial conditions, and numerical-fit parameters (v5.0)
+============================================================================================
+
+Base output directory: solver_result
+Run output directory: solver_result/20260531_201142
+Lagrangian pkl: [not found]
+Ranking source: solver_result/20260531_201142/model_ranking.csv
+
+Numerical convention
+- Independent variable: x = ln(a) = -ln(1+z).
+- Dimensionless Hubble: h(x) = H(x) / H0.
+- Scalar 1: varphi1(x) = phi1(x) / Mp;  q1 = d varphi1 / dx.
+- Scalar 2: varphi2(x) = phi2(x) / Lambda;  q2 = d varphi2 / dx.
+- Masses: mu1 = m1/H0, mu2 = m2/Lambda.
+- Decay constants: fbar1 = f1/Mp, fbar2 = f2/Lambda.
+- EFT cutoff ratio: lambda_H = Lambda / H0.
+- a0 = 1, h0 = 1.  q1_0 solved from E_N(x=0)=0 (or q2_0 for phi2-only models).
+- Mp = 2.435e27 eV (physical reduced Planck mass).
+- Physical Lambda [eV] = lambda_H * H0 [eV].
+
+
+============================================================================================
+Rank 1: Lagrangian #682
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1641.3528
+  chi2 per point  = 0.89544617
+  AIC             = 1653.3528
+  BIC             = 1686.4351
+  k_params        = 6
+  max |E_N|       = 7.33007739e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 68.25594
+  H0 [eV]                  = 1.45598042e-33
+  eps_HM = H0/Mp            = 5.97938569e-61
+  lambda_H = Lambda/H0      = 7392.9498
+  Lambda [eV]               = 1.07639902e-29
+  Omega_m0                  = 0.3029186
+  rho_bar                   = 0.9087558
+  varphi1_0 = phi1_0/Mp     = -3.3171117
+  q1_0 = dvarphi1/dx|0      = 0.31791051
+  mu1 = m1/H0               = 0.60903973
+  fbar1 = f1/Mp              = 4.8123064
+
+Numerical solution file
+  solver_result/20260531_201142/top_01_lagrangian_682_solution.csv
+
+============================================================================================
+Rank 2: Lagrangian #140
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1648.1221
+  chi2 per point  = 0.8991392
+  AIC             = 1660.1221
+  BIC             = 1693.2044
+  k_params        = 6
+  max |E_N|       = 3.62741910e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 63.693925
+  H0 [eV]                  = 1.35866723e-33
+  eps_HM = H0/Mp            = 5.57974220e-61
+  lambda_H = Lambda/H0      = 60511.47
+  Lambda [eV]               = 8.22149510e-29
+  Omega_m0                  = 0.32386909
+  rho_bar                   = 0.97160726
+  varphi1_0 = phi1_0/Mp     = 4.4793816
+  q1_0 = dvarphi1/dx|0      = -0.23931479
+  mu1 = m1/H0               = 0.44646307
+  fbar1 = f1/Mp              = 18.932811
+
+Numerical solution file
+  solver_result/20260531_201142/top_02_lagrangian_140_solution.csv
+
+============================================================================================
+Rank 3: Lagrangian #494
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1657.5767
+  chi2 per point  = 0.90429715
+  AIC             = 1669.5767
+  BIC             = 1702.6589
+  k_params        = 6
+  max |E_N|       = 7.10708823e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 62.263861
+  H0 [eV]                  = 1.32816224e-33
+  eps_HM = H0/Mp            = 5.45446505e-61
+  lambda_H = Lambda/H0      = 14756.331
+  Lambda [eV]               = 1.95988019e-29
+  Omega_m0                  = 0.2719412
+  rho_bar                   = 0.81582361
+  varphi1_0 = phi1_0/Mp     = 2.2697759
+  q1_0 = dvarphi1/dx|0      = -0.4816149
+  mu1 = m1/H0               = 0.89604183
+  fbar1 = f1/Mp              = 65.286988
+
+Numerical solution file
+  solver_result/20260531_201142/top_03_lagrangian_494_solution.csv
+
+============================================================================================
+Rank 4: Lagrangian #1038
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1678.0406
+  chi2 per point  = 0.91546132
+  AIC             = 1690.0406
+  BIC             = 1723.1229
+  k_params        = 6
+  max |E_N|       = 7.03864705e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 68.286288
+  H0 [eV]                  = 1.45662778e-33
+  eps_HM = H0/Mp            = 5.98204429e-61
+  lambda_H = Lambda/H0      = 302.36585
+  Lambda [eV]               = 4.40434502e-31
+  Omega_m0                  = 0.3079608
+  rho_bar                   = 0.92388239
+  varphi1_0 = phi1_0/Mp     = 1.5054587
+  q1_0 = dvarphi1/dx|0      = -0.59964592
+  mu1 = m1/H0               = 1.2936093
+  fbar1 = f1/Mp              = 0.74038333
+
+Numerical solution file
+  solver_result/20260531_201142/top_04_lagrangian_1038_solution.csv
+
+============================================================================================
+Rank 5: Lagrangian #944
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1715.1136
+  chi2 per point  = 0.93568661
+  AIC             = 1737.1136
+  BIC             = 1797.7644
+  k_params        = 1e+01
+  max |E_N|       = 7.73158498e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 66.595625
+  H0 [eV]                  = 1.42056392e-33
+  eps_HM = H0/Mp            = 5.83393808e-61
+  lambda_H = Lambda/H0      = 6435.1728
+  Lambda [eV]               = 9.14157433e-30
+  Omega_m0                  = 0.16824484
+  rho_bar                   = 0.50473453
+  varphi1_0 = phi1_0/Mp     = -1.5673431
+  q1_0 = dvarphi1/dx|0      = 0.71754251
+  mu1 = m1/H0               = 1.3223355
+  fbar1 = f1/Mp              = 97.815316
+
+Free coupling values
+  beta             = 3.52614592e-05
+  epsilon          = -1.26118801e-10
+  iota             = -0.15011795
+
+Numerical solution file
+  solver_result/20260531_201142/top_05_lagrangian_944_solution.csv
+
+============================================================================================
+Rank 6: Lagrangian #791
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1749.0098
+  chi2 per point  = 0.95417884
+  AIC             = 1765.0098
+  BIC             = 1809.1195
+  k_params        = 8
+  max |E_N|       = 2.53810615e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 72.868493
+  H0 [eV]                  = 1.55437167e-33
+  eps_HM = H0/Mp            = 6.38345653e-61
+  lambda_H = Lambda/H0      = 284.7129
+  Lambda [eV]               = 4.42549662e-31
+  Omega_m0                  = 0.36712294
+  rho_bar                   = 1.1013688
+  varphi1_0 = phi1_0/Mp     = 2.8308098
+  q1_0 = dvarphi1/dx|0      = -0.26897799
+  mu1 = m1/H0               = 0.13062711
+  fbar1 = f1/Mp              = 0.014608056
+
+Free coupling values
+  delta            = -2.76190045e-06
+
+Numerical solution file
+  solver_result/20260531_201142/top_06_lagrangian_791_solution.csv
+
+============================================================================================
+Rank 7: Lagrangian #738
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1784.6502
+  chi2 per point  = 0.97362257
+  AIC             = 1808.6502
+  BIC             = 1874.8147
+  k_params        = 1e+01
+  max |E_N|       = 1.75929586e-06
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 72.147961
+  H0 [eV]                  = 1.53900186e-33
+  eps_HM = H0/Mp            = 6.32033620e-61
+  lambda_H = Lambda/H0      = 4636.1675
+  Lambda [eV]               = 7.13507037e-30
+  Omega_m0                  = 0.19879236
+  rho_bar                   = 0.59637708
+  varphi1_0 = phi1_0/Mp     = -1.4297314
+  q1_0 = dvarphi1/dx|0      = 0.73032667
+  mu1 = m1/H0               = 1.4459979
+  fbar1 = f1/Mp              = 56.648022
+  varphi2_0 = phi2_0/Lambda = -4.8208492
+  q2_0 = dvarphi2/dx|0      = 0.11001183
+  mu2 = m2/Lambda           = 0.0036580792
+  fbar2 = f2/Lambda          = 0.023152673
+
+Free coupling values
+  beta             = -1068.172
+
+Numerical solution file
+  solver_result/20260531_201142/top_07_lagrangian_738_solution.csv
+
+============================================================================================
+Rank 8: Lagrangian #420
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1797.8177
+  chi2 per point  = 0.98080617
+  AIC             = 1811.8177
+  BIC             = 1850.4137
+  k_params        = 7
+  max |E_N|       = 9.87410272e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 68.65619
+  H0 [eV]                  = 1.46451823e-33
+  eps_HM = H0/Mp            = 6.01444857e-61
+  lambda_H = Lambda/H0      = 13366.688
+  Lambda [eV]               = 1.95757585e-29
+  Omega_m0                  = 0.382607
+  rho_bar                   = 1.147821
+  varphi1_0 = phi1_0/Mp     = 3.9545853
+  q1_0 = dvarphi1/dx|0      = -0.15895455
+  mu1 = m1/H0               = 0.48523743
+  fbar1 = f1/Mp              = 39.118231
+
+Numerical solution file
+  solver_result/20260531_201142/top_08_lagrangian_420_solution.csv
+
+============================================================================================
+Rank 9: Lagrangian #961
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1934.5924
+  chi2 per point  = 1.0554241
+  AIC             = 1952.5924
+  BIC             = 2002.2158
+  k_params        = 9
+  max |E_N|       = 9.47393229e-08
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 72.442319
+  H0 [eV]                  = 1.54528087e-33
+  eps_HM = H0/Mp            = 6.34612266e-61
+  lambda_H = Lambda/H0      = 109.99585
+  Lambda [eV]               = 1.69974484e-31
+  Omega_m0                  = 0.29013007
+  rho_bar                   = 0.87039021
+  varphi2_0 = phi2_0/Lambda = 4.5606643
+  q2_0 = dvarphi2/dx|0      = -5.565156
+  mu2 = m2/Lambda           = 0.0090920157
+  fbar2 = f2/Lambda          = 0.99852944
+
+Free coupling values
+  iota             = -17.60974
+  zeta             = 0.0026859283
+
+Numerical solution file
+  solver_result/20260531_201142/top_09_lagrangian_961_solution.csv
+
+============================================================================================
+Rank 10: Lagrangian #823
+============================================================================================
+
+Raw Lagrangian from pkl
+[pkl not found]
+
+Fit metrics
+  chi2            = 1946.8709
+  chi2 per point  = 1.0621227
+  AIC             = 1964.8709
+  BIC             = 2014.4942
+  k_params        = 9
+  max |E_N|       = 2.87928941e-07
+
+Initial conditions and sampled values
+  H0 [km/s/Mpc]            = 67.528279
+  H0 [eV]                  = 1.44045856e-33
+  eps_HM = H0/Mp            = 5.91564089e-61
+  lambda_H = Lambda/H0      = 7425.5056
+  Lambda [eV]               = 1.06961331e-29
+  Omega_m0                  = 0.39766172
+  rho_bar                   = 1.1929852
+  varphi2_0 = phi2_0/Lambda = -0.83711979
+  q2_0 = dvarphi2/dx|0      = -5.2168379
+  mu2 = m2/Lambda           = 0.28166958
+  fbar2 = f2/Lambda          = 0.078111198
+
+Free coupling values
+  eta              = -1.59156797e+06
+
+Numerical solution file
+  solver_result/20260531_201142/top_10_lagrangian_823_solution.csv
+
+============================================================================================
+Generated plots
+============================================================================================
+  solver_result/20260531_201142/top_01_lagrangian_682_Hz_fit.png
+  solver_result/20260531_201142/top_02_lagrangian_140_Hz_fit.png
+  solver_result/20260531_201142/top_03_lagrangian_494_Hz_fit.png
+  solver_result/20260531_201142/top_04_lagrangian_1038_Hz_fit.png
+  solver_result/20260531_201142/top_05_lagrangian_944_Hz_fit.png
+  solver_result/20260531_201142/top_06_lagrangian_791_Hz_fit.png
+  solver_result/20260531_201142/top_07_lagrangian_738_Hz_fit.png
+  solver_result/20260531_201142/top_08_lagrangian_420_Hz_fit.png
+  solver_result/20260531_201142/top_09_lagrangian_961_Hz_fit.png
+  solver_result/20260531_201142/top_10_lagrangian_823_Hz_fit.png
+  solver_result/20260531_201142/top10_overlay_Hz_fit.png

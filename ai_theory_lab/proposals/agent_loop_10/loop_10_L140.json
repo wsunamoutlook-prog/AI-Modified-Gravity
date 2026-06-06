@@ -1,0 +1,38 @@
+{
+  "proposal_id": "agent_loop_10_L140",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 74.68737428688684,
+      "Omega_m0": 0.20188653316388994,
+      "mu1_m1_over_H0": 0.6847543272626764,
+      "mu2_m2_over_Lambda": 0.0,
+      "fbar1_f1_over_Mp": 0.10680329373053526,
+      "fbar2_f2_over_Lambda": 1.0,
+      "varphi1_0_phi1_over_Mp": -3.0867708794519233,
+      "varphi2_0_phi2_over_Lambda": 0.0,
+      "lambda_H_Lambda_over_H0": 15335.448019126583
+    }
+  ],
+  "rationale": "Previous best chi2=1641.35. Try the next remembered low-chi2 candidate to improve or diversify while keeping explicit agent parameters.",
+  "memory_source": "solver_result/20260531_185431",
+  "original_lag_id": 140,
+  "original_chi2": 1763.7855956645092,
+  "catalog_location": {
+    "source_n_terms": 3,
+    "source_local_number": 20
+  }
+}

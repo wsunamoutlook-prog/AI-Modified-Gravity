@@ -1,0 +1,11 @@
+{
+  "run_name": "graph_agent_cache_smoke_20260602",
+  "proposal_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/graph_agent_cache_smoke_20260602",
+  "memory_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/graph_agent_cache_smoke_20260602",
+  "results": [],
+  "summary": {},
+  "messages": [
+    "Initialized LangGraph agent run graph_agent_cache_smoke_20260602."
+  ],
+  "orchestrator": "langgraph"
+}

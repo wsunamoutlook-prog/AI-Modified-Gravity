@@ -1,0 +1,248 @@
+[
+  {
+    "rank": 1,
+    "loop_id": "loop_19_expanded",
+    "chi2": 1638.1031261466285,
+    "chi2_sn": "1629.9115775359915",
+    "chi2_bao": "8.19154861063709",
+    "aic": 1652.1031261466285,
+    "bic": 1690.6990908815064,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      "R^{ab} · R_{ab}",
+      "R · R^{ab} · R_{ab}",
+      "R"
+    ],
+    "sample_count": 3000,
+    "agent_parameter_sample_index": "333",
+    "H0": "69.3438162070601",
+    "Omega_m0": "0.2807442900250636",
+    "lambda_H": "10819.082568220232",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_000951_88c3668b/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 2,
+    "loop_id": "loop_38",
+    "chi2": 1644.2982131579352,
+    "chi2_sn": "1629.8490117080307",
+    "chi2_bao": "14.449201449904455",
+    "aic": 1656.2982131579352,
+    "bic": 1689.3804686449735,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      "R",
+      "∇^{a}∇_{a}R · R^{c}_{c}",
+      "∇^{a}φ1 · ∇_{a}φ1 · R",
+      "∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "545",
+    "H0": "74.08113879056914",
+    "Omega_m0": "0.2883591553241242",
+    "lambda_H": "2414.784096359229",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_001900_0263fc67/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 3,
+    "loop_id": "loop_100",
+    "chi2": 1647.8495273366773,
+    "chi2_sn": "1636.6200374584434",
+    "chi2_bao": "11.22948987823386",
+    "aic": 1661.8495273366773,
+    "bic": 1700.4454920715552,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      "R"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "422",
+    "H0": "75.66079181471797",
+    "Omega_m0": "0.28140500432288523",
+    "lambda_H": "17576.100396372432",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_004625_7202c551/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 4,
+    "loop_id": "loop_25",
+    "chi2": 1691.0357721031182,
+    "chi2_sn": "1667.9687191093972",
+    "chi2_bao": "23.067052993721134",
+    "aic": 1703.0357721031182,
+    "bic": 1736.1180275901565,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      "R",
+      "R · R · R",
+      "∇^{c}R^{ab} · ∇_{c}R_{ab}"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "392",
+    "H0": "59.75554621607628",
+    "Omega_m0": "0.2663766151270355",
+    "lambda_H": "18866.152490403187",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_001227_3dff8812/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 5,
+    "loop_id": "loop_18",
+    "chi2": 1698.2706143999483,
+    "chi2_sn": "1660.2457584493213",
+    "chi2_bao": "38.02485595062704",
+    "aic": 1710.2706143999483,
+    "bic": 1743.3528698869866,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      "R",
+      "∇^{a}φ1 · ∇^{b}φ1 · R_{ab}"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "37",
+    "H0": "70.75961038018576",
+    "Omega_m0": "0.2379450895900517",
+    "lambda_H": "12065.685233351049",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_000903_55601610/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 6,
+    "loop_id": "loop_30",
+    "chi2": 1698.5560947551578,
+    "chi2_sn": "1635.0723872303843",
+    "chi2_bao": "63.48370752477352",
+    "aic": 1712.5560947551578,
+    "bic": 1751.1520594900358,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      "∇^{a}φ1 · ∇^{b}φ1 · R_{ab}",
+      "R",
+      "φ1 · ∇^{a}∇^{b}φ1 · R_{ab}"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "900",
+    "H0": "59.368770786948396",
+    "Omega_m0": "0.23266161039080188",
+    "lambda_H": "22559.16033781227",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_001425_54bc9fc3/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 7,
+    "loop_id": "loop_41",
+    "chi2": 1711.02536737689,
+    "chi2_sn": "1684.987965681322",
+    "chi2_bao": "26.037401695568022",
+    "aic": 1723.02536737689,
+    "bic": 1756.1076228639283,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      "∇^{a}∇_{a}φ1",
+      "R"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "886",
+    "H0": "63.55988480135308",
+    "Omega_m0": "0.31331010533456183",
+    "lambda_H": "9072.85607969554",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_002051_934609e8/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 8,
+    "loop_id": "loop_120",
+    "chi2": 1778.010842500505,
+    "chi2_sn": "1655.419806655418",
+    "chi2_bao": "122.59103584508716",
+    "aic": 1792.010842500505,
+    "bic": 1830.606807235383,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      "∇^{a}R · ∇_{a}R",
+      "φ1 · ∇^{a}φ1 · ∇_{a}R",
+      "R^{ab} · R^{d}_{a} · R_{bd}",
+      "R"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "930",
+    "H0": "68.74871053780521",
+    "Omega_m0": "0.22396560625067016",
+    "lambda_H": "13847.466261741052",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_114319_a5805251/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 9,
+    "loop_id": "loop_102",
+    "chi2": 1786.0023012978706,
+    "chi2_sn": "1779.1030752970023",
+    "chi2_bao": "6.8992260008683095",
+    "aic": 1800.0023012978706,
+    "bic": 1838.5982660327486,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      "R"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "994",
+    "H0": "63.92467836252941",
+    "Omega_m0": "0.32761694019168913",
+    "lambda_H": "5297.0007574357305",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_004733_139d04a0/agent_solver_result/agent_solve"
+  },
+  {
+    "rank": 10,
+    "loop_id": "loop_19",
+    "chi2": 2482.38520203493,
+    "chi2_sn": "1641.403901483673",
+    "chi2_bao": "840.9813005512568",
+    "aic": 2496.38520203493,
+    "bic": 2534.9811667698077,
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      "R^{ab} · R_{ab}",
+      "R · R^{ab} · R_{ab}",
+      "R"
+    ],
+    "sample_count": 1000,
+    "agent_parameter_sample_index": "90",
+    "H0": "63.57313257757175",
+    "Omega_m0": "0.2688472082095972",
+    "lambda_H": "18229.02985224889",
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260603_000940_107d608e/agent_solver_result/agent_solve"
+  }
+]

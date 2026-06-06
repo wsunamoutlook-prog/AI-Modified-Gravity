@@ -7,7 +7,11 @@ __pycache__/
 .venv/
 venv/
 .env
+.matplotlib-cache/
 .idea/
 .vscode/
 # 运行生成的日志
 log/
+ai_theory_lab/runs/
+ai_theory_lab/memory/
+ai_theory_lab/cache/

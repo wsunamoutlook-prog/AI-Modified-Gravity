@@ -1,0 +1,44 @@
+{
+  "proposal_id": "cold_start_20_loop_14",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi2_only",
+    "potential_types": {
+      "phi1": null,
+      "phi2": "quadratic"
+    },
+    "operators": []
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 61.199785011325744,
+      "Omega_m0": 0.339599072512515,
+      "lambda_H_Lambda_over_H0": 17218.544028137414,
+      "varphi2_0_phi2_over_Lambda": 2.3248517310225556,
+      "mu2_m2_over_Lambda": 0.007668719278064576,
+      "fbar2_f2_over_Lambda": 0.08456013537954096
+    },
+    {
+      "H0_km_s_Mpc": 61.16025528401705,
+      "Omega_m0": 0.24489762693223172,
+      "lambda_H_Lambda_over_H0": 2416.769713901064,
+      "varphi2_0_phi2_over_Lambda": 0.4623944967783812,
+      "mu2_m2_over_Lambda": 0.018908252564784987,
+      "fbar2_f2_over_Lambda": 8.865289553368116
+    },
+    {
+      "H0_km_s_Mpc": 66.31238190610458,
+      "Omega_m0": 0.2895660332635599,
+      "lambda_H_Lambda_over_H0": 4071.9742805668416,
+      "varphi2_0_phi2_over_Lambda": 1.2713679522386743,
+      "mu2_m2_over_Lambda": 0.11402066488208248,
+      "fbar2_f2_over_Lambda": 0.052298035939821956
+    }
+  ],
+  "rationale": "Cold-start proposal generated from grammar-legal catalog and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 2,
+    "source_local_number": 2
+  }
+}

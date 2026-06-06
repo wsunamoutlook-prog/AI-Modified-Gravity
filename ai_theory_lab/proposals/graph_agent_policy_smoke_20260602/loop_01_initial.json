@@ -1,0 +1,145 @@
+{
+  "proposal_id": "cold_start_token_loop_01_initial",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 63.69523736262709,
+      "Omega_m0": 0.3050044131839248,
+      "lambda_H_Lambda_over_H0": 2491.269427409734,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.6551450599369,
+      "Omega_m0": 0.2724256497301754,
+      "lambda_H_Lambda_over_H0": 76468.7469086853,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 69.37743519285209,
+      "Omega_m0": 0.217902308253465,
+      "lambda_H_Lambda_over_H0": 23581.82356539296,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.51466906655058,
+      "Omega_m0": 0.378626220877823,
+      "lambda_H_Lambda_over_H0": 72440.69284368408,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 68.88142975146349,
+      "Omega_m0": 0.2269243288579692,
+      "lambda_H_Lambda_over_H0": 2194.4683429304555,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 58.704558824366245,
+      "Omega_m0": 0.26404976370416144,
+      "lambda_H_Lambda_over_H0": 24478.20429237452,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 58.46062149513695,
+      "Omega_m0": 0.304709958198739,
+      "lambda_H_Lambda_over_H0": 34342.755490574535,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 58.287777247689064,
+      "Omega_m0": 0.4005560050973729,
+      "lambda_H_Lambda_over_H0": 2014.4425353033685,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 64.0695559647382,
+      "Omega_m0": 0.39646820943802313,
+      "lambda_H_Lambda_over_H0": 25222.549866378995,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.31159376702361,
+      "Omega_m0": 0.3430412795796639,
+      "lambda_H_Lambda_over_H0": 8583.537392926963,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 65.04114857987592,
+      "Omega_m0": 0.3636022843771719,
+      "lambda_H_Lambda_over_H0": 7021.182191462883,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 57.96796347163976,
+      "Omega_m0": 0.25748518672230875,
+      "lambda_H_Lambda_over_H0": 2067.185104323585,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 63.59954340262742,
+      "Omega_m0": 0.27577539253799577,
+      "lambda_H_Lambda_over_H0": 49946.14154379827,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 67.19986616444329,
+      "Omega_m0": 0.2349240356200089,
+      "lambda_H_Lambda_over_H0": 8538.15019708306,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 69.2478789645344,
+      "Omega_m0": 0.250596653559539,
+      "lambda_H_Lambda_over_H0": 24231.85951744621,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 69.29582794549505,
+      "Omega_m0": 0.3132528139662924,
+      "lambda_H_Lambda_over_H0": 6255.823118560905,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 57.61458497775527,
+      "Omega_m0": 0.4193803899337498,
+      "lambda_H_Lambda_over_H0": 22861.671344907034,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 58.53566669911449,
+      "Omega_m0": 0.2519214758138256,
+      "lambda_H_Lambda_over_H0": 34299.41327323214,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 69.17787688269387,
+      "Omega_m0": 0.29335639372816213,
+      "lambda_H_Lambda_over_H0": 41657.92259497796,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 63.43988867092275,
+      "Omega_m0": 0.24215897463009267,
+      "lambda_H_Lambda_over_H0": 2686.273627009528,
+      "\\alpha": 0.5
+    }
+  ],
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "catalog_location": {
+    "source_n_terms": 1,
+    "source_local_number": 7
+  }
+}

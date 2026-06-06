@@ -1,0 +1,95 @@
+{
+  "proposal_id": "replay_solver_result_lag823_phi2_rie2_ric2_R_anchor",
+  "theory": {
+    "scalar_config": "phi2_only",
+    "potential_types": {
+      "phi1": null,
+      "phi2": "axion"
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "φ2 · φ2 · ∇^{a}∇_{a}R"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "∇^{a}φ2 · ∇^{b}φ2 · R_{ab}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "φ2 · φ2 · R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\delta",
+        "candidate": "φ2 · R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\epsilon",
+        "candidate": "R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\zeta",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\eta",
+        "candidate": "φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+      },
+      {
+        "coefficient": "\\theta",
+        "candidate": "∇^{c}R^{ab} · ∇_{c}R_{ab}"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 61.29573019637514,
+      "Omega_m0": 0.18035297904670974,
+      "lambda_H_Lambda_over_H0": 790.8265854036971,
+      "varphi2_0_phi2_over_Lambda": 4.3990440856005275,
+      "mu2_m2_over_Lambda": 0.0033552519358499137,
+      "fbar2_f2_over_Lambda": 0.011368551895363337,
+      "\\alpha": 0.0,
+      "\\beta": 0.0,
+      "\\gamma": 0.0,
+      "\\delta": 0.0,
+      "\\epsilon": 0.0,
+      "\\zeta": 0.5,
+      "\\eta": -10710274.52348044,
+      "\\theta": 0.0
+    },
+    {
+      "H0_km_s_Mpc": 61.291046515546974,
+      "Omega_m0": 0.2510188326523804,
+      "lambda_H_Lambda_over_H0": 232.6153362099519,
+      "varphi2_0_phi2_over_Lambda": -1.2404584210652447,
+      "mu2_m2_over_Lambda": 0.0026668678209379407,
+      "fbar2_f2_over_Lambda": 0.11127652445922828,
+      "\\alpha": 0.0,
+      "\\beta": 0.0,
+      "\\gamma": 0.0,
+      "\\delta": 0.0,
+      "\\epsilon": 0.0,
+      "\\zeta": 0.5,
+      "\\eta": 943769.3259627706,
+      "\\theta": 0.0
+    },
+    {
+      "H0_km_s_Mpc": 61.28583860339624,
+      "Omega_m0": 0.3074689806462543,
+      "lambda_H_Lambda_over_H0": 1073.6273469208074,
+      "varphi2_0_phi2_over_Lambda": 4.676053312446573,
+      "mu2_m2_over_Lambda": 0.031004960842591914,
+      "fbar2_f2_over_Lambda": 5.6908311045200435,
+      "\\alpha": 0.0,
+      "\\beta": 0.0,
+      "\\gamma": 0.0,
+      "\\delta": 0.0,
+      "\\epsilon": 0.0,
+      "\\zeta": 0.5,
+      "\\eta": 29690167.342318524,
+      "\\theta": 0.0
+    }
+  ],
+  "rationale": "Replay/debug from historical solver_result accepted rows for a similar phi2 curvature structure: R anchor plus phi2*Riemann^2/Ricci^2 operators. Missing historical zero/fixed coefficients are supplied as zero or EH 0.5."
+}

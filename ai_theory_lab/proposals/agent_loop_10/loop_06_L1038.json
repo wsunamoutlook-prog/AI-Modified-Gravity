@@ -1,0 +1,74 @@
+{
+  "proposal_id": "agent_loop_06_L1038",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R · R"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "∇^{a}∇_{a}R · R^{c}_{c}"
+      },
+      {
+        "coefficient": "\\delta",
+        "candidate": "φ1 · ∇^{a}∇^{b}φ1 · R_{ab}"
+      },
+      {
+        "coefficient": "\\epsilon",
+        "candidate": "∇^{a}φ1 · ∇^{b}φ1 · R_{ab}"
+      },
+      {
+        "coefficient": "\\zeta",
+        "candidate": "R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\eta",
+        "candidate": "∇^{a}R · ∇_{a}R"
+      },
+      {
+        "coefficient": "\\theta",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\iota",
+        "candidate": "∇^{a}∇_{a}φ1 · R"
+      },
+      {
+        "coefficient": "\\kappa",
+        "candidate": "R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 68.28628804159631,
+      "Omega_m0": 0.3079607966281687,
+      "mu1_m1_over_H0": 1.2936092556872734,
+      "mu2_m2_over_Lambda": 0.0,
+      "fbar1_f1_over_Mp": 0.740383330995555,
+      "fbar2_f2_over_Lambda": 1.0,
+      "varphi1_0_phi1_over_Mp": 1.5054586825005378,
+      "varphi2_0_phi2_over_Lambda": 0.0,
+      "lambda_H_Lambda_over_H0": 302.36585260136593
+    }
+  ],
+  "rationale": "Previous best chi2=1641.35. Try the next remembered low-chi2 candidate to improve or diversify while keeping explicit agent parameters.",
+  "memory_source": "solver_result/v5.2",
+  "original_lag_id": 1038,
+  "original_chi2": 1678.040603691415,
+  "catalog_location": {
+    "source_n_terms": 12,
+    "source_local_number": 18
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "proposal_id": "cold_start_01",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 67.0,
+      "Omega_m0": 0.3,
+      "lambda_H_Lambda_over_H0": 10000.0,
+      "\\alpha": 0.5
+    }
+  ],
+  "rationale": "Cold-start proposal from Grammar Masker legal catalog, preferring low-complexity EH-anchored structures.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 1,
+    "source_local_number": 6
+  }
+}

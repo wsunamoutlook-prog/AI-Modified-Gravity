@@ -109,6 +109,8 @@ def run_solve_from_cache():
     n_sn = len(sn_data["mu"])
     n_bao = len(bao_data["value"])
     n_total_data = n_sn + n_bao
+    agent_parameter_samples = load_parameter_samples()
+    samples_per_model = len(agent_parameter_samples) if agent_parameter_samples is not None else N_SAMPLES_PER_MODEL
     cache_path = _find_build_cache_path_for_solve()
     built_models, cache_metadata = _load_built_models_cache(cache_path)
     if MAX_MODELS_TO_BUILD > 0 and len(built_models) > MAX_MODELS_TO_BUILD:
@@ -125,19 +127,21 @@ def run_solve_from_cache():
     print(f"[START-SOLVE] Loading built model cache: {cache_path}", flush=True)
     print(
         f"[START-SOLVE] N_SAMPLES_PER_MODEL={N_SAMPLES_PER_MODEL}, "
+        f"agent_parameter_samples={samples_per_model if agent_parameter_samples is not None else 0}, "
         f"parallel={SOLVER_PARALLEL}, workers={N_WORKERS}, "
         f"parallel_threshold={PARALLEL_SAMPLE_THRESHOLD}, likelihood=DES-SN+DESI-DR2-BAO, "
         f"N_GRID={N_GRID}, RTOL={RTOL:g}, ATOL={ATOL:g}",
         flush=True,
     )
     all_results: List[SampleResult] = []
+    all_evaluated: List[SampleResult] = []
     best_by_model: Dict[str, SampleResult] = {}
     reject_counts_by_model: Dict[str, Counter] = defaultdict(Counter)
 
     skipped = [m for m in built_models if m.reject_reason]
     active_models = [m for m in built_models if not m.reject_reason]
     for m in skipped:
-        reject_counts_by_model[m.lag_id][m.reject_reason] += N_SAMPLES_PER_MODEL
+        reject_counts_by_model[m.lag_id][m.reject_reason] += samples_per_model
 
     print(
         f"[INFO] Built models: total={len(built_models)}, active_IVP={len(active_models)}, "
@@ -145,7 +149,7 @@ def run_solve_from_cache():
         flush=True,
     )
     print(
-        f"[INFO] Total numerical samples scheduled: {len(active_models) * N_SAMPLES_PER_MODEL:,}",
+        f"[INFO] Total numerical samples scheduled: {len(active_models) * samples_per_model:,}",
         flush=True,
     )
 
@@ -161,7 +165,8 @@ def run_solve_from_cache():
         print(f"[SCAN] Starting ProcessPoolExecutor with {max_workers} workers...", flush=True)
         worker_args = [
             (m, MODE, N_SAMPLES_PER_MODEL,
-             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data, bao_data)
+             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data, bao_data,
+             agent_parameter_samples)
             for m in active_models
         ]
         with ProcessPoolExecutor(max_workers=max_workers, mp_context=ctx) as ex:
@@ -172,9 +177,9 @@ def run_solve_from_cache():
                     out = fut.result()
                 except Exception as exc:
                     # Worker crashed. Count all samples as rejected for that model.
-                    reject_counts_by_model[str(lag_id)][f"worker crashed: {type(exc).__name__}: {exc}"] += N_SAMPLES_PER_MODEL
-                    out = {"lag_id": lag_id, "accepted": [], "best": None, "rejects": {}, "elapsed": 0.0, "samples": N_SAMPLES_PER_MODEL, "status": "crashed"}
-                _merge_worker_output(out, all_results, best_by_model, reject_counts_by_model)
+                    reject_counts_by_model[str(lag_id)][f"worker crashed: {type(exc).__name__}: {exc}"] += samples_per_model
+                    out = {"lag_id": lag_id, "accepted": [], "best": None, "rejects": {}, "elapsed": 0.0, "samples": samples_per_model, "status": "crashed"}
+                _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
                 completed += 1
 
                 now = time.time()
@@ -184,54 +189,56 @@ def run_solve_from_cache():
                     rate = completed / max(elapsed, 1e-9)
                     eta = (len(active_models) - completed) / rate if rate > 0 else float("nan")
                     accepted_count = len(all_results)
-                    best_aic = min((r.aic for r in best_by_model.values()), default=math.inf)
+                    best_chi2 = min((r.chi2 for r in best_by_model.values()), default=math.inf)
                     print(
                         f"[PROGRESS] completed_models={completed}/{len(active_models)} "
                         f"({100*completed/max(len(active_models),1):.1f}%), "
-                        f"accepted_samples={accepted_count}, best_AIC={best_aic:.6g}, "
+                        f"accepted_samples={accepted_count}, best_chi2={best_chi2:.6g}, "
                         f"elapsed={_format_seconds(elapsed)}, ETA={_format_seconds(eta)}",
                         flush=True,
                     )
                     last_progress_print = now
 
                 if PROGRESS_SAVE_EVERY_MODELS > 0 and (completed % PROGRESS_SAVE_EVERY_MODELS == 0):
-                    _write_partial_progress(OUTPUT_DIR, all_results, best_by_model, reject_counts_by_model, label="partial")
+                    _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
                     print(f"[CHECKPOINT] Partial CSVs written in {OUTPUT_DIR}", flush=True)
     else:
         print("[SCAN] Running serial scan with lambdify cached once per model...", flush=True)
         for m in active_models:
             seed = _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed)
-            out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data))
-            _merge_worker_output(out, all_results, best_by_model, reject_counts_by_model)
+            out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data, agent_parameter_samples))
+            _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
             completed += 1
             now = time.time()
             elapsed = now - scan_t0
             rate = completed / max(elapsed, 1e-9)
             eta = (len(active_models) - completed) / rate if rate > 0 else float("nan")
-            best_aic = min((r.aic for r in best_by_model.values()), default=math.inf)
+            best_chi2 = min((r.chi2 for r in best_by_model.values()), default=math.inf)
             print(
                 f"[PROGRESS] completed_models={completed}/{len(active_models)} "
                 f"({100*completed/max(len(active_models),1):.1f}%), "
                 f"L#{m.lag_id} accepted={len(out.get('accepted', []))}, "
-                f"best_AIC={best_aic:.6g}, elapsed={_format_seconds(elapsed)}, ETA={_format_seconds(eta)}",
+                f"best_chi2={best_chi2:.6g}, elapsed={_format_seconds(elapsed)}, ETA={_format_seconds(eta)}",
                 flush=True,
             )
             if PROGRESS_SAVE_EVERY_MODELS > 0 and (completed % PROGRESS_SAVE_EVERY_MODELS == 0):
-                _write_partial_progress(OUTPUT_DIR, all_results, best_by_model, reject_counts_by_model, label="partial")
+                _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
                 print(f"[CHECKPOINT] Partial CSVs written in {OUTPUT_DIR}", flush=True)
 
     # Final checkpoint before report/plots.
-    _write_partial_progress(OUTPUT_DIR, all_results, best_by_model, reject_counts_by_model, label="partial")
+    _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
 
-    accepted = sorted(all_results, key=lambda r: (r.aic, r.chi2))
-    model_best_list = sorted(best_by_model.values(), key=lambda r: (r.aic, r.chi2))
+    accepted = sorted(all_results, key=lambda r: (r.chi2, r.aic))
+    model_best_list = sorted(best_by_model.values(), key=lambda r: (r.chi2, r.aic))
     best = accepted[0] if accepted else None
     lcdm = lcdm_fit_reference(sn_data, bao_data)
 
     write_csv(OUTPUT_DIR / "accepted_samples_summary.csv", [result_row(r) for r in accepted])
+    write_csv(OUTPUT_DIR / "all_samples_summary.csv", [result_row(r) for r in all_evaluated])
     write_csv(OUTPUT_DIR / "model_ranking.csv", [result_row(r) for r in model_best_list])
     write_best_solution(best, OUTPUT_DIR / "best_solution.csv")
-    plot_best(best, OUTPUT_DIR / "best_fit_Hz.png")
+    if SOLVER_MAKE_PLOTS:
+        plot_best(best, OUTPUT_DIR / "best_fit_Hz.png")
 
     for rank, r in enumerate(model_best_list[:10], 1):
         write_best_solution(r, OUTPUT_DIR / f"top_{rank:02d}_lagrangian_{r.lag_id}_solution.csv")
@@ -262,7 +269,8 @@ def run_solve_from_cache():
     lines.append(f"Total N_data={n_total_data}")
     lines.append(f"Cached models loaded: {len(models_raw)}")
     lines.append(f"Active nontrivial IVP models: {sum(1 for m in built_models if not m.reject_reason)}")
-    lines.append(f"Samples per model: {N_SAMPLES_PER_MODEL}")
+    lines.append(f"Samples per model: {samples_per_model}")
+    lines.append(f"Agent parameter samples path: {PARAMETER_SAMPLES_PATH or 'none'}")
     lines.append(f"Parallel enabled: {SOLVER_PARALLEL}; workers={N_WORKERS if SOLVER_PARALLEL else 1}")
     lines.append(f"Parallel auto threshold: N_SAMPLES_PER_MODEL > {PARALLEL_SAMPLE_THRESHOLD}")
     lines.append(f"Cache build simplify mode expected by this run: {BUILD_SIMPLIFY_MODE}")
@@ -299,7 +307,7 @@ def run_solve_from_cache():
         lines.append("No accepted model sample was found.  Check reject_reasons_by_model.csv.")
     else:
         bm = next((m for m in built_models if m.lag_id == best.lag_id), None)
-        lines.append("Best sample by AIC")
+        lines.append("Best sample by chi2")
         lines.append(f"  Lagrangian #{best.lag_id}")
         lines.append(
             f"  chi2_total={best.chi2:.6g}, chi2_DES_SN={best.chi2_sn:.6g}, "
@@ -315,9 +323,11 @@ def run_solve_from_cache():
             lines.append("  Free symbols: " + ", ".join(str(s) for s in bm.free_symbols))
         lines.append("  Parameters:")
         for kk, vv in sorted(best.params.items()):
+            if vv is None:
+                continue
             lines.append(f"    {kk} = {vv:.12g}")
     lines.append("")
-    lines.append("Top models by AIC")
+    lines.append("Top models by chi2")
     if not model_best_list:
         lines.append("  None")
     else:
@@ -342,9 +352,20 @@ def run_solve_from_cache():
 
     lines.append("")
     lines.append("Files written")
-    for fn in ["scan_report.txt", "model_ranking.csv", "accepted_samples_summary.csv",
-               "best_solution.csv", "best_fit_Hz.png", "reject_reasons_by_model.csv",
-               "accepted_samples_summary_partial.csv", "model_ranking_partial.csv", "reject_reasons_by_model_partial.csv"]:
+    files_written = [
+        "scan_report.txt",
+        "model_ranking.csv",
+        "accepted_samples_summary.csv",
+        "all_samples_summary.csv",
+        "best_solution.csv",
+        "reject_reasons_by_model.csv",
+        "accepted_samples_summary_partial.csv",
+        "model_ranking_partial.csv",
+        "reject_reasons_by_model_partial.csv",
+    ]
+    if SOLVER_MAKE_PLOTS:
+        files_written.insert(4, "best_fit_Hz.png")
+    for fn in files_written:
         lines.append(f"  {OUTPUT_DIR / fn}")
     (OUTPUT_DIR / "scan_report.txt").write_text("\n".join(lines), encoding="utf-8")
 

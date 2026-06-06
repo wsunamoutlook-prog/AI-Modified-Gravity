@@ -48,9 +48,12 @@ Nondimensionalization substitutions:
 from __future__ import annotations
 
 import csv
+import json
 import math
 import os
+import signal
 import time
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
@@ -107,6 +110,9 @@ BAO_DIR = Path(os.environ.get(
 
 N_SAMPLES_PER_MODEL = int(os.environ.get("N_SAMPLES_PER_MODEL", "3000"))  # samples per cached model
 RANDOM_SEED = int(os.environ.get("RANDOM_SEED", "0"))
+PARAMETER_SAMPLES_PATH = os.environ.get("PARAMETER_SAMPLES_PATH", "").strip()
+AGENT_EARLY_STOP_CHI2 = float(os.environ.get("AGENT_EARLY_STOP_CHI2", "0") or "0")
+SOLVER_SETUP_TIMEOUT_SECONDS = int(os.environ.get("SOLVER_SETUP_TIMEOUT_SECONDS", "0") or "0")
 
 # Parallel / progress controls
 # Auto policy:
@@ -133,6 +139,25 @@ WORKER_SAMPLE_PROGRESS = int(os.environ.get("WORKER_SAMPLE_PROGRESS", "0"))
 # Optional cap for quick solve-stage smoke tests.  The historical env name is
 # kept so existing scripts do not break, but this slices cached models only.
 MAX_MODELS_TO_BUILD = int(os.environ.get("MAX_MODELS_TO_BUILD", "0"))
+
+
+@contextmanager
+def _setup_wall_timeout(seconds: int, label: str):
+    if seconds <= 0:
+        yield
+        return
+
+    def _raise_timeout(signum, frame):
+        raise TimeoutError(f"{label} exceeded {seconds}s wall time")
+
+    old_handler = signal.getsignal(signal.SIGALRM)
+    old_timer = signal.setitimer(signal.ITIMER_REAL, float(seconds))
+    signal.signal(signal.SIGALRM, _raise_timeout)
+    try:
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, old_timer[0], old_timer[1])
+        signal.signal(signal.SIGALRM, old_handler)
 
 # Builder-setting echoes used only to warn when the loaded cache was created
 # with different symbolic-build settings.  Solver does not rebuild equations.
@@ -200,6 +225,7 @@ MAX_ABS_VARPHI_TRAJ = float(os.environ.get("MAX_ABS_VARPHI_TRAJ", "200.0"))
 MAX_ABS_Q_TRAJ = float(os.environ.get("MAX_ABS_Q_TRAJ", "80.0"))
 MAX_H_KM_S_MPC = float(os.environ.get("MAX_H_KM_S_MPC", "1500.0"))
 MIN_H = float(os.environ.get("MIN_H", "1e-8"))
+SOLVER_MAKE_PLOTS = os.environ.get("SOLVER_MAKE_PLOTS", "1").strip().lower() not in {"0", "false", "no", "n", "off"}
 DENOM_EPS = 1e-12
 
 MODE = os.environ.get("SOLVER_MODE", "eft").lower().strip()
@@ -303,13 +329,93 @@ def get_param_symbols(model: Model) -> List[sp.Symbol]:
     return syms
 
 
-def sample_parameter_values(model: Model, rng: np.random.Generator, mode: str) -> Dict[sp.Symbol, float]:
+def load_parameter_samples(path: str = PARAMETER_SAMPLES_PATH) -> Optional[List[Dict[str, float]]]:
+    """Load agent-proposed numerical samples.
+
+    The default Solver behavior is random sampling. If PARAMETER_SAMPLES_PATH is
+    provided, each JSON object is treated as one complete agent-proposed sample.
+    Missing required keys are reported by evaluate_sample instead of falling
+    back to random values.
+    """
+
+    if not path:
+        return None
+    p = Path(path).expanduser().resolve()
+    with p.open(encoding="utf-8") as f:
+        payload = json.load(f)
+    if isinstance(payload, dict):
+        payload = payload.get("samples")
+    if not isinstance(payload, list):
+        raise TypeError(f"PARAMETER_SAMPLES_PATH must contain a JSON list or an object with 'samples': {p}")
+    samples: List[Dict[str, float]] = []
+    for idx, item in enumerate(payload, 1):
+        if not isinstance(item, dict):
+            raise TypeError(f"Parameter sample #{idx} must be an object, got {type(item).__name__}")
+        sample: Dict[str, float] = {}
+        for key, value in item.items():
+            if value is None:
+                continue
+            sample[str(key)] = float(value)
+        samples.append(sample)
+    if not samples:
+        raise ValueError(f"PARAMETER_SAMPLES_PATH contains no samples: {p}")
+    return samples
+
+
+def _require_agent_value(sample: Dict[str, float], names: List[str]) -> float:
+    for name in names:
+        if name in sample:
+            return float(sample[name])
+    raise KeyError(" or ".join(names))
+
+
+def _agent_or_random_linear(
+    sample: Optional[Dict[str, float]],
+    names: List[str],
+    rng: np.random.Generator,
+    prior_name: str,
+) -> float:
+    if sample is not None:
+        return _require_agent_value(sample, names)
+    return float(rng.uniform(*PRIORS[prior_name]))
+
+
+def _agent_or_random_log10(
+    sample: Optional[Dict[str, float]],
+    value_names: List[str],
+    log_names: List[str],
+    rng: np.random.Generator,
+    prior_name: str,
+) -> float:
+    if sample is not None:
+        for name in value_names:
+            if name in sample:
+                return float(sample[name])
+        for name in log_names:
+            if name in sample:
+                return 10.0 ** float(sample[name])
+        raise KeyError(" or ".join(value_names + log_names))
+    return 10.0 ** float(rng.uniform(*PRIORS[prior_name]))
+
+
+def sample_parameter_values(
+    model: Model,
+    rng: np.random.Generator,
+    mode: str,
+    agent_sample: Optional[Dict[str, float]] = None,
+) -> Dict[sp.Symbol, float]:
     vals: Dict[sp.Symbol, float] = {}
     for sym in get_param_symbols(model):
-        lo, hi = PRIORS["log10_abs_c"]
-        mag = 10.0 ** float(rng.uniform(lo, hi))
-        sign = float(rng.choice([-1.0, 1.0]))
-        vals[sym] = sign * mag
+        if agent_sample is not None:
+            vals[sym] = _require_agent_value(
+                agent_sample,
+                [str(sym), sym.name, f"coef:{sym}", f"coefficient:{sym}"],
+            )
+        else:
+            lo, hi = PRIORS["log10_abs_c"]
+            mag = 10.0 ** float(rng.uniform(lo, hi))
+            sign = float(rng.choice([-1.0, 1.0]))
+            vals[sym] = sign * mag
     return vals
 
 
@@ -389,7 +495,9 @@ def find_q0_root(C_func, base_args_without_q, q_range=(-MAX_ABS_Q0, MAX_ABS_Q0),
 def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
                     compiled: Optional[Tuple[Any, Any, Any, Any, List[sp.Symbol]]] = None,
                     sn_data: Optional[dict] = None,
-                    bao_data: Optional[dict] = None) -> SampleResult:
+                    bao_data: Optional[dict] = None,
+                    agent_sample: Optional[Dict[str, float]] = None,
+                    agent_sample_index: Optional[int] = None) -> SampleResult:
     mode = "eft" if mode.lower().strip() in {"eft", "physical"} else "phenomenological"
     if model.reject_reason:
         return SampleResult(model.lag_id, False, model.reject_reason)
@@ -401,18 +509,79 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     else:
         C_func, hx_func, q1x_func, q2x_func, param_syms = compiled
 
-    H0_km = float(rng.uniform(*PRIORS["H0_km_s_Mpc"]))
-    Omega_m0 = float(rng.uniform(*PRIORS["Omega_m0"]))
-    rho_bar = 3.0 * Omega_m0
-    mu1 = 10.0 ** float(rng.uniform(*PRIORS["log10_mu1"])) if model.has_phi1 else 0.0
-    mu2 = 10.0 ** float(rng.uniform(*PRIORS["log10_mu2"])) if model.has_phi2 else 0.0
-    fbar1 = 10.0 ** float(rng.uniform(*PRIORS["log10_fbar1"])) if model.has_phi1 else 1.0
-    fbar2 = 10.0 ** float(rng.uniform(*PRIORS["log10_fbar2"])) if model.has_phi2 else 1.0
-    varphi1_0 = float(rng.uniform(*PRIORS["varphi1_0"])) if model.has_phi1 else 0.0
-    varphi2_0 = float(rng.uniform(*PRIORS["varphi2_0"])) if model.has_phi2 else 0.0
-    lambda_H = 10.0 ** float(rng.uniform(*PRIORS["log10_lambda_H"]))
+    try:
+        H0_km = _agent_or_random_linear(agent_sample, ["H0_km_s_Mpc", "H0"], rng, "H0_km_s_Mpc")
+        Omega_m0 = _agent_or_random_linear(agent_sample, ["Omega_m0", "omega_m0"], rng, "Omega_m0")
+        rho_bar = 3.0 * Omega_m0
+        mu1 = (
+            _agent_or_random_log10(
+                agent_sample,
+                ["mu1_m1_over_H0", "mu1"],
+                ["log10_mu1"],
+                rng,
+                "log10_mu1",
+            )
+            if model.has_phi1 else 0.0
+        )
+        mu2 = (
+            _agent_or_random_log10(
+                agent_sample,
+                ["mu2_m2_over_Lambda", "mu2"],
+                ["log10_mu2"],
+                rng,
+                "log10_mu2",
+            )
+            if model.has_phi2 else 0.0
+        )
+        fbar1 = (
+            _agent_or_random_log10(
+                agent_sample,
+                ["fbar1_f1_over_Mp", "fbar1"],
+                ["log10_fbar1"],
+                rng,
+                "log10_fbar1",
+            )
+            if model.has_phi1 else 1.0
+        )
+        fbar2 = (
+            _agent_or_random_log10(
+                agent_sample,
+                ["fbar2_f2_over_Lambda", "fbar2"],
+                ["log10_fbar2"],
+                rng,
+                "log10_fbar2",
+            )
+            if model.has_phi2 else 1.0
+        )
+        varphi1_0 = (
+            _agent_or_random_linear(
+                agent_sample,
+                ["varphi1_0_phi1_over_Mp", "varphi1_0"],
+                rng,
+                "varphi1_0",
+            )
+            if model.has_phi1 else 0.0
+        )
+        varphi2_0 = (
+            _agent_or_random_linear(
+                agent_sample,
+                ["varphi2_0_phi2_over_Lambda", "varphi2_0"],
+                rng,
+                "varphi2_0",
+            )
+            if model.has_phi2 else 0.0
+        )
+        lambda_H = _agent_or_random_log10(
+            agent_sample,
+            ["lambda_H_Lambda_over_H0", "lambda_H"],
+            ["log10_lambda_H"],
+            rng,
+            "log10_lambda_H",
+        )
+        pvals = sample_parameter_values(model, rng, mode, agent_sample=agent_sample)
+    except KeyError as exc:
+        return SampleResult(model.lag_id, False, f"agent parameter sample missing: {exc}")
     eps_HM = (H0_km * KM_S_MPC_TO_EV) / M_P_REDUCED_EV
-    pvals = sample_parameter_values(model, rng, mode)
     pval_list = [pvals[s] for s in param_syms]
 
     def make_args(xx, hh, v1, qq1, v2, qq2):
@@ -428,7 +597,17 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         # If model has only phi2, solve for q2_0 at q1_0=0
         if model.has_phi1:
             # Sample q2_0 randomly if phi2 is present, then solve for q1_0
-            q2_0 = float(rng.uniform(-PREFERRED_ABS_Q0, PREFERRED_ABS_Q0)) if model.has_phi2 else 0.0
+            if model.has_phi2:
+                try:
+                    q2_0 = (
+                        _require_agent_value(agent_sample, ["q2_0_dvarphi2_dln_a", "q2_0"])
+                        if agent_sample is not None
+                        else float(rng.uniform(-PREFERRED_ABS_Q0, PREFERRED_ABS_Q0))
+                    )
+                except KeyError as exc:
+                    return SampleResult(model.lag_id, False, f"agent parameter sample missing: {exc}")
+            else:
+                q2_0 = 0.0
             def base_args(qtrial):
                 return make_args(0.0, 1.0, varphi1_0, qtrial, varphi2_0, q2_0)
             q1_0 = find_q0_root(C_func, base_args)
@@ -629,6 +808,7 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     bic = chi2 + k * math.log(n)
 
     params = {
+        "agent_parameter_sample_index": agent_sample_index,
         "H0_km_s_Mpc": H0_km,
         "Omega_m0": Omega_m0,
         "rho_bar": rho_bar,
@@ -725,6 +905,21 @@ RESULT_SUMMARY_COLUMNS = [
 ]
 
 
+def _attach_agent_sample_params(
+    res: SampleResult,
+    agent_sample: Optional[Dict[str, float]],
+    agent_sample_index: Optional[int],
+) -> SampleResult:
+    if agent_sample is None:
+        return res
+    params = dict(res.params or {})
+    params.setdefault("agent_parameter_sample_index", agent_sample_index)
+    for key, value in agent_sample.items():
+        params.setdefault(str(key), float(value))
+    res.params = params
+    return res
+
+
 def write_csv(path: Path, rows: List[Dict[str, Any]]):
     if not rows:
         if path.name.startswith("accepted_samples_summary") or path.name.startswith("model_ranking"):
@@ -807,53 +1002,94 @@ def _format_seconds(seconds: float) -> str:
     return f"{seconds/3600:.2f}h"
 
 
-def _scan_single_model_worker(args: Tuple[Model, str, int, int, int, dict, dict]) -> Dict[str, Any]:
+def _scan_single_model_worker(args: Tuple[Model, str, int, int, int, dict, dict, Optional[List[Dict[str, float]]]]) -> Dict[str, Any]:
     """Worker entry point: lambdify once, then evaluate many samples for one model."""
-    model, mode, n_samples, seed, worker_sample_progress, sn_data, bao_data = args
+    model, mode, n_samples, seed, worker_sample_progress, sn_data, bao_data, agent_parameter_samples = args
     t_model = time.time()
     rejects = Counter()
     accepted: List[SampleResult] = []
+    evaluated: List[SampleResult] = []
     best: Optional[SampleResult] = None
+    samples_to_evaluate = agent_parameter_samples if agent_parameter_samples is not None else [None] * n_samples
+    n_samples_actual = len(samples_to_evaluate)
 
     if model.reject_reason:
-        rejects[model.reject_reason] += n_samples
+        rejects[model.reject_reason] += n_samples_actual
         return {
             "lag_id": model.lag_id,
             "accepted": accepted,
+            "evaluated": evaluated,
             "best": best,
             "rejects": dict(rejects),
             "elapsed": time.time() - t_model,
-            "samples": n_samples,
+            "samples": n_samples_actual,
             "status": "skipped",
         }
 
     try:
-        compiled = lambdify_model(model, mode)
-    except Exception as exc:
-        rejects[f"lambdify failed: {type(exc).__name__}: {exc}"] += n_samples
+        with _setup_wall_timeout(SOLVER_SETUP_TIMEOUT_SECONDS, "Solver setup/lambdify"):
+            compiled = lambdify_model(model, mode)
+    except TimeoutError as exc:
+        rejects[f"solver setup timeout before sampling: {exc}"] += n_samples_actual
         return {
             "lag_id": model.lag_id,
             "accepted": accepted,
+            "evaluated": evaluated,
             "best": best,
             "rejects": dict(rejects),
             "elapsed": time.time() - t_model,
-            "samples": n_samples,
+            "samples": n_samples_actual,
+            "status": "setup_timeout",
+        }
+    except Exception as exc:
+        rejects[f"lambdify failed: {type(exc).__name__}: {exc}"] += n_samples_actual
+        return {
+            "lag_id": model.lag_id,
+            "accepted": accepted,
+            "evaluated": evaluated,
+            "best": best,
+            "rejects": dict(rejects),
+            "elapsed": time.time() - t_model,
+            "samples": n_samples_actual,
             "status": "lambdify_failed",
         }
 
     rng = np.random.default_rng(seed)
-    for i in range(n_samples):
-        res = evaluate_sample(model, rng, mode, compiled=compiled, sn_data=sn_data, bao_data=bao_data)
+    for i, agent_sample in enumerate(samples_to_evaluate):
+        res = evaluate_sample(
+            model,
+            rng,
+            mode,
+            compiled=compiled,
+            sn_data=sn_data,
+            bao_data=bao_data,
+            agent_sample=agent_sample,
+            agent_sample_index=i + 1 if agent_sample is not None else None,
+        )
+        res = _attach_agent_sample_params(
+            res,
+            agent_sample,
+            i + 1 if agent_sample is not None else None,
+        )
+        evaluated.append(res)
         if res.success:
             accepted.append(res)
-            if best is None or res.aic < best.aic:
+            if best is None or (res.chi2, res.aic) < (best.chi2, best.aic):
                 best = res
         else:
             rejects[res.reason] += 1
 
+        if AGENT_EARLY_STOP_CHI2 > 0 and res.success and res.chi2 <= AGENT_EARLY_STOP_CHI2:
+            print(
+                f"[worker] L#{model.lag_id}: early stop at sample {i+1}/{n_samples_actual}, "
+                f"chi2={res.chi2:.6g} <= {AGENT_EARLY_STOP_CHI2:.6g}",
+                flush=True,
+            )
+            break
+
         if worker_sample_progress > 0 and (i + 1) % worker_sample_progress == 0:
             print(
-                f"[worker] L#{model.lag_id}: {i+1}/{n_samples} samples, "
+                f"[worker] L#{model.lag_id}: {i+1}/{n_samples_actual} samples, "
                 f"accepted={len(accepted)}, elapsed={_format_seconds(time.time() - t_model)}",
                 flush=True,
             )
@@ -861,24 +1097,27 @@ def _scan_single_model_worker(args: Tuple[Model, str, int, int, int, dict, dict]
     return {
         "lag_id": model.lag_id,
         "accepted": accepted,
+        "evaluated": evaluated,
         "best": best,
         "rejects": dict(rejects),
         "elapsed": time.time() - t_model,
-        "samples": n_samples,
+        "samples": n_samples_actual,
         "status": "done",
     }
 
 
 def _write_partial_progress(output_dir: Path,
                             all_results: List[SampleResult],
+                            all_evaluated: List[SampleResult],
                             best_by_model: Dict[str, SampleResult],
                             reject_counts_by_model: Dict[str, Counter],
                             label: str = "partial"):
     """Write lightweight CSV snapshots during a long scan."""
     try:
-        accepted = sorted(all_results, key=lambda r: (r.aic, r.chi2))
-        model_best_list = sorted(best_by_model.values(), key=lambda r: (r.aic, r.chi2))
+        accepted = sorted(all_results, key=lambda r: (r.chi2, r.aic))
+        model_best_list = sorted(best_by_model.values(), key=lambda r: (r.chi2, r.aic))
         write_csv(output_dir / f"accepted_samples_summary_{label}.csv", [result_row(r) for r in accepted])
+        write_csv(output_dir / f"all_samples_summary_{label}.csv", [result_row(r) for r in all_evaluated])
         write_csv(output_dir / f"model_ranking_{label}.csv", [result_row(r) for r in model_best_list])
         rej_rows = []
         for lid, cnt in sorted(reject_counts_by_model.items(), key=lambda kv: int(kv[0])):
@@ -892,15 +1131,18 @@ def _write_partial_progress(output_dir: Path,
 
 def _merge_worker_output(out: Dict[str, Any],
                          all_results: List[SampleResult],
+                         all_evaluated: List[SampleResult],
                          best_by_model: Dict[str, SampleResult],
                          reject_counts_by_model: Dict[str, Counter]):
     lag_id = str(out["lag_id"])
     for res in out.get("accepted", []):
         all_results.append(res)
+    for res in out.get("evaluated", []):
+        all_evaluated.append(res)
     best = out.get("best")
     if best is not None:
         current = best_by_model.get(lag_id)
-        if current is None or best.aic < current.aic:
+        if current is None or (best.chi2, best.aic) < (current.chi2, current.aic):
             best_by_model[lag_id] = best
     for reason, n in out.get("rejects", {}).items():
         reject_counts_by_model[lag_id][reason] += int(n)

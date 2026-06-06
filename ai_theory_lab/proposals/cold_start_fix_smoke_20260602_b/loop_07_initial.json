@@ -1,0 +1,70 @@
+{
+  "proposal_id": "cold_start_token_loop_07_initial",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R^{ab} · R_{ab}"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 73.29084585715356,
+      "Omega_m0": 0.3915600254236662,
+      "lambda_H_Lambda_over_H0": 21002.391202294973,
+      "\\alpha": 3.9463315967052454e-05,
+      "varphi1_0_phi1_over_Mp": 1.7452797875284656,
+      "mu1_m1_over_H0": 0.14408659994667455,
+      "fbar1_f1_over_Mp": 1.7048224983256262
+    },
+    {
+      "H0_km_s_Mpc": 63.36607450301536,
+      "Omega_m0": 0.3375237320312879,
+      "lambda_H_Lambda_over_H0": 13683.464801513752,
+      "\\alpha": 1.158242416904272e-06,
+      "varphi1_0_phi1_over_Mp": 2.450411999062795,
+      "mu1_m1_over_H0": 0.22993129580258312,
+      "fbar1_f1_over_Mp": 0.18298379097003728
+    },
+    {
+      "H0_km_s_Mpc": 59.33942067095222,
+      "Omega_m0": 0.3714914703603613,
+      "lambda_H_Lambda_over_H0": 23151.348127481244,
+      "\\alpha": -1.1251577513520551e-05,
+      "varphi1_0_phi1_over_Mp": 1.678176013793927,
+      "mu1_m1_over_H0": 3.244859080273644,
+      "fbar1_f1_over_Mp": 0.3585496601046026
+    },
+    {
+      "H0_km_s_Mpc": 58.426456995105596,
+      "Omega_m0": 0.2447271740635513,
+      "lambda_H_Lambda_over_H0": 10522.897950400862,
+      "\\alpha": -7.502982187005506e-07,
+      "varphi1_0_phi1_over_Mp": 2.638137892976397,
+      "mu1_m1_over_H0": 0.10828139176395274,
+      "fbar1_f1_over_Mp": 7.646082503214059
+    },
+    {
+      "H0_km_s_Mpc": 68.73164028596182,
+      "Omega_m0": 0.30606765154400967,
+      "lambda_H_Lambda_over_H0": 3892.5277515117914,
+      "\\alpha": 4.631313535400669e-09,
+      "varphi1_0_phi1_over_Mp": 0.2331101442768243,
+      "mu1_m1_over_H0": 0.09591934886189675,
+      "fbar1_f1_over_Mp": 0.13684811474294645
+    }
+  ],
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "catalog_location": {
+    "source_n_terms": 3,
+    "source_local_number": 5
+  }
+}

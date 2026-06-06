@@ -35,7 +35,7 @@ RUN_SETTINGS = {
     "TOP_N": "10",
 
     # Sampling and parallelism
-    "N_SAMPLES_PER_MODEL": "1000", # samples per cached model #need to be optimized #Differential Evolution
+    "N_SAMPLES_PER_MODEL": "3000", # samples per cached model #need to be optimized #Differential Evolution
     "RANDOM_SEED": "0",
     "SOLVER_PARALLEL": "auto",
     "PARALLEL_SAMPLE_THRESHOLD": "100",
@@ -120,7 +120,9 @@ def main():
         load_current_likelihood_data()
         return
     run_solve_from_cache()
-    run_top10_summary(top_n=int(os.environ.get("TOP_N", "10")))
+    top_n = int(os.environ.get("TOP_N", "10"))
+    if top_n > 0:
+        run_top10_summary(top_n=top_n)
 
 
 if __name__ == "__main__":

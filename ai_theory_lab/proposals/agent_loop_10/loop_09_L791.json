@@ -1,0 +1,63 @@
+{
+  "proposal_id": "agent_loop_09_L791",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "φ1 · φ1 · ∇^{a}∇_{a}R"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "R^{ab} · R^{d}_{a} · R_{bd}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "∇^{a}φ1 · ∇_{a}R"
+      },
+      {
+        "coefficient": "\\delta",
+        "candidate": "φ1 · φ1"
+      },
+      {
+        "coefficient": "\\epsilon",
+        "candidate": "∇^{a}∇_{a}φ1"
+      },
+      {
+        "coefficient": "\\zeta",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\eta",
+        "candidate": "φ1 · ∇^{a}∇^{b}φ1 · R_{ab}"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 72.86849286261375,
+      "Omega_m0": 0.3671229398083928,
+      "mu1_m1_over_H0": 0.13062710657666965,
+      "mu2_m2_over_Lambda": 0.0,
+      "fbar1_f1_over_Mp": 0.014608055787653607,
+      "fbar2_f2_over_Lambda": 1.0,
+      "varphi1_0_phi1_over_Mp": 2.8308098184704154,
+      "varphi2_0_phi2_over_Lambda": 0.0,
+      "lambda_H_Lambda_over_H0": 284.7128979303081,
+      "delta": -2.7619004544768045e-06
+    }
+  ],
+  "rationale": "Previous best chi2=1641.35. Try the next remembered low-chi2 candidate to improve or diversify while keeping explicit agent parameters.",
+  "memory_source": "solver_result/v5.2",
+  "original_lag_id": 791,
+  "original_chi2": 1749.009806618473,
+  "catalog_location": {
+    "source_n_terms": 9,
+    "source_local_number": 71
+  }
+}

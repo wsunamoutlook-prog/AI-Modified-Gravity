@@ -1,0 +1,66 @@
+{
+  "proposal_id": "cold_start_20_loop_06",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R · R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "∇^{a}∇^{b}R · R_{ab}"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 60.52422921151729,
+      "Omega_m0": 0.2354765245943207,
+      "lambda_H_Lambda_over_H0": 35514.93838646763,
+      "\\alpha": 1.5933349444542448e-07,
+      "\\beta": 0.5,
+      "\\gamma": 1.6345180703863547e-08,
+      "varphi1_0_phi1_over_Mp": 3.251632311760132,
+      "mu1_m1_over_H0": 0.04840157586074491,
+      "fbar1_f1_over_Mp": 1.2279390593347261
+    },
+    {
+      "H0_km_s_Mpc": 64.00418334363074,
+      "Omega_m0": 0.2242663148441803,
+      "lambda_H_Lambda_over_H0": 2709.509080662981,
+      "\\alpha": -3.2919508107896883e-09,
+      "\\beta": 0.5,
+      "\\gamma": -1.901356702485248e-08,
+      "varphi1_0_phi1_over_Mp": 1.2548544487143383,
+      "mu1_m1_over_H0": 0.17783132853045278,
+      "fbar1_f1_over_Mp": 0.15603480303842035
+    },
+    {
+      "H0_km_s_Mpc": 72.77225370842511,
+      "Omega_m0": 0.2661823381622241,
+      "lambda_H_Lambda_over_H0": 2727.1144908867986,
+      "\\alpha": -3.810771702872122e-06,
+      "\\beta": 0.5,
+      "\\gamma": 2.8941856397308093e-09,
+      "varphi1_0_phi1_over_Mp": 4.3046643259199024,
+      "mu1_m1_over_H0": 0.5967604880219267,
+      "fbar1_f1_over_Mp": 0.2229377270212723
+    }
+  ],
+  "rationale": "Cold-start proposal generated from grammar-legal catalog and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 5,
+    "source_local_number": 100
+  }
+}

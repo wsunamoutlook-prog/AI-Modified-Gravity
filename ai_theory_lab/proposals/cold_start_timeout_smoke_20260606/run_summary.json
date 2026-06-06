@@ -1,0 +1,54 @@
+{
+  "run_name": "cold_start_timeout_smoke_20260606",
+  "proposal_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_timeout_smoke_20260606",
+  "memory_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/cold_start_timeout_smoke_20260606",
+  "results": [
+    {
+      "loop": 1,
+      "stage": "grammar_generation",
+      "validated": false,
+      "failed_stage": "GrammarGeneration",
+      "chi2": null,
+      "family_key": "scalar=None|potential=None|operators=None",
+      "failure_tags": [
+        "pre_sampling_timeout",
+        "symbolic_timeout"
+      ],
+      "diagnostic_message": "Token-level Grammar Masker generation failed before sampling: TimeoutError: Token-level Grammar Masker generation exceeded 1s wall time"
+    }
+  ],
+  "summary": {
+    "total_attempts": 1,
+    "validated_count": 0,
+    "entered_solver_count": 0,
+    "failed_stage_counts": {
+      "GrammarGeneration": 1
+    },
+    "failure_tag_counts": {
+      "pre_sampling_timeout": 1,
+      "symbolic_timeout": 1
+    },
+    "scalar_config_counts": {
+      "None": 1
+    },
+    "best_chi2": null,
+    "best_attempt": null,
+    "top_chi2_attempts": [],
+    "by_family": [
+      {
+        "family_key": "scalar=None|potential=None|operators=None",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "GrammarGeneration": 1
+        },
+        "failure_tag_counts": {
+          "pre_sampling_timeout": 1,
+          "symbolic_timeout": 1
+        },
+        "best_chi2": null
+      }
+    ]
+  }
+}

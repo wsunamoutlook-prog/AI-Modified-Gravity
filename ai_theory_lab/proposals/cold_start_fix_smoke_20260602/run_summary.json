@@ -1,0 +1,341 @@
+{
+  "run_name": "cold_start_fix_smoke_20260602",
+  "proposal_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602",
+  "memory_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/cold_start_fix_smoke_20260602",
+  "results": [
+    {
+      "loop": 1,
+      "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602/loop_01.json",
+      "validated": false,
+      "failed_stage": "Solver",
+      "chi2": null,
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R",
+      "failure_tags": [
+        "no_scalar_constraint",
+        "missing_ranking",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "3",
+          "reason": "no-scalar constraint not satisfied at x=0: C0=1.988e+00"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "3",
+          "reason": "no-scalar constraint not satisfied at x=0: C0=1.979e+00"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "3",
+          "reason": "no-scalar constraint not satisfied at x=0: C0=2.223e+00"
+        }
+      ],
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_190958_bdd972eb/agent_solver_result/agent_solve"
+    },
+    {
+      "loop": 2,
+      "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602/loop_02.json",
+      "validated": true,
+      "failed_stage": null,
+      "chi2": 9199.806172422623,
+      "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R",
+      "failure_tags": [],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "2",
+          "total_rejected_or_skipped": "2",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        }
+      ],
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve"
+    },
+    {
+      "loop": 3,
+      "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602/loop_03.json",
+      "validated": false,
+      "failed_stage": "Solver",
+      "chi2": null,
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{c}R^{ab} · ∇_{b}R_{ac}+R",
+      "failure_tags": [
+        "missing_ranking",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "3",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        }
+      ],
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191006_50615c61/agent_solver_result/agent_solve"
+    },
+    {
+      "loop": 4,
+      "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602/loop_04.json",
+      "validated": false,
+      "failed_stage": "Solver",
+      "chi2": null,
+      "family_key": "scalar=both|potential={'phi1': 'axion', 'phi2': 'quadratic'}|operators=φ1 · φ2 · R+R+∇^{a}φ1 · ∇_{a}φ1 · φ2",
+      "failure_tags": [
+        "symbolic_timeout",
+        "missing_ranking",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "3",
+          "reason": "symbolic build timeout > 60s"
+        }
+      ],
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191017_fb34f0d5/agent_solver_result/agent_solve"
+    },
+    {
+      "loop": 5,
+      "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602/loop_05.json",
+      "validated": false,
+      "failed_stage": "Solver",
+      "chi2": null,
+      "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1",
+      "failure_tags": [
+        "missing_ranking",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "3",
+          "reason": "agent parameter sample missing: 'beta or beta or coef:beta or coefficient:beta'"
+        }
+      ],
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191122_f66bea88/agent_solver_result/agent_solve"
+    },
+    {
+      "loop": 6,
+      "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/cold_start_fix_smoke_20260602/loop_06.json",
+      "validated": false,
+      "failed_stage": "Solver",
+      "chi2": null,
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R · R^{ab} · R_{ab}+R+∇^{a}∇^{b}R · R_{ab}",
+      "failure_tags": [
+        "h_absurdly_large",
+        "missing_ranking",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "3",
+          "reason": "H(z) absurdly large"
+        }
+      ],
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191126_b844806a/agent_solver_result/agent_solve"
+    }
+  ],
+  "summary": {
+    "total_attempts": 6,
+    "validated_count": 1,
+    "entered_solver_count": 6,
+    "failed_stage_counts": {
+      "Solver": 5
+    },
+    "failure_tag_counts": {
+      "missing_ranking": 5,
+      "no_accepted_samples": 5,
+      "no_scalar_constraint": 1,
+      "symbolic_timeout": 1,
+      "h_absurdly_large": 1
+    },
+    "scalar_config_counts": {
+      "phi1_only": 3,
+      "none": 1,
+      "phi2_only": 1,
+      "both": 1
+    },
+    "best_chi2": 9199.806172422623,
+    "best_attempt": {
+      "timestamp": "2026-06-01T19:10:06-0400",
+      "loop_id": "loop_02",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "1",
+      "chi2": 9199.806172422623,
+      "aic": 9211.806172422623,
+      "bic": 9244.88842790966,
+      "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve",
+      "model_ranking_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_20_loop_02",
+        "source_n_terms": 3,
+        "source_local_number": 20,
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "quadratic",
+          "phi2": null
+        },
+        "operators": [
+          "R"
+        ],
+        "parameter_sample_count": 3
+      },
+      "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R",
+      "failure_tags": [],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "2",
+          "total_rejected_or_skipped": "2",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        }
+      ],
+      "diagnostic_message": null
+    },
+    "top_chi2_attempts": [
+      {
+        "timestamp": "2026-06-01T19:10:06-0400",
+        "loop_id": "loop_02",
+        "validated": true,
+        "failed_stage": null,
+        "entered_stages": [
+          "EOM",
+          "Builder",
+          "Solver"
+        ],
+        "entered_solver": true,
+        "best_lag_id": "1",
+        "chi2": 9199.806172422623,
+        "aic": 9211.806172422623,
+        "bic": 9244.88842790966,
+        "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve",
+        "model_ranking_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve/model_ranking.csv",
+        "scan_report_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260601_191002_2ee3af7c/agent_solver_result/agent_solve/scan_report.txt",
+        "theory": {
+          "proposal_id": "cold_start_20_loop_02",
+          "source_n_terms": 3,
+          "source_local_number": 20,
+          "scalar_config": "phi1_only",
+          "potential_types": {
+            "phi1": "quadratic",
+            "phi2": null
+          },
+          "operators": [
+            "R"
+          ],
+          "parameter_sample_count": 3
+        },
+        "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R",
+        "failure_tags": [],
+        "top_reject_reasons": [
+          {
+            "lag_id": "1",
+            "count": "2",
+            "total_rejected_or_skipped": "2",
+            "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+          }
+        ],
+        "diagnostic_message": null
+      }
+    ],
+    "by_family": [
+      {
+        "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R",
+        "attempts": 1,
+        "validated": 1,
+        "entered_solver": 1,
+        "failed_stage_counts": {},
+        "failure_tag_counts": {},
+        "best_chi2": 9199.806172422623
+      },
+      {
+        "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 1,
+        "failed_stage_counts": {
+          "Solver": 1
+        },
+        "failure_tag_counts": {
+          "no_scalar_constraint": 1,
+          "missing_ranking": 1,
+          "no_accepted_samples": 1
+        },
+        "best_chi2": null
+      },
+      {
+        "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{c}R^{ab} · ∇_{b}R_{ac}+R",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 1,
+        "failed_stage_counts": {
+          "Solver": 1
+        },
+        "failure_tag_counts": {
+          "missing_ranking": 1,
+          "no_accepted_samples": 1
+        },
+        "best_chi2": null
+      },
+      {
+        "family_key": "scalar=both|potential={'phi1': 'axion', 'phi2': 'quadratic'}|operators=φ1 · φ2 · R+R+∇^{a}φ1 · ∇_{a}φ1 · φ2",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 1,
+        "failed_stage_counts": {
+          "Solver": 1
+        },
+        "failure_tag_counts": {
+          "symbolic_timeout": 1,
+          "missing_ranking": 1,
+          "no_accepted_samples": 1
+        },
+        "best_chi2": null
+      },
+      {
+        "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 1,
+        "failed_stage_counts": {
+          "Solver": 1
+        },
+        "failure_tag_counts": {
+          "missing_ranking": 1,
+          "no_accepted_samples": 1
+        },
+        "best_chi2": null
+      },
+      {
+        "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R · R^{ab} · R_{ab}+R+∇^{a}∇^{b}R · R_{ab}",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 1,
+        "failed_stage_counts": {
+          "Solver": 1
+        },
+        "failure_tag_counts": {
+          "h_absurdly_large": 1,
+          "missing_ranking": 1,
+          "no_accepted_samples": 1
+        },
+        "best_chi2": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "proposal_id": "agent_loop_04_L494",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "φ1 · ∇^{a}∇^{b}φ1 · R_{ab}"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "φ1 · ∇^{a}∇_{a}φ1 · R"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}"
+      },
+      {
+        "coefficient": "\\delta",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 62.26386054106341,
+      "Omega_m0": 0.2719412018046859,
+      "mu1_m1_over_H0": 0.8960418280456446,
+      "mu2_m2_over_Lambda": 0.0,
+      "fbar1_f1_over_Mp": 65.2869878593031,
+      "fbar2_f2_over_Lambda": 1.0,
+      "varphi1_0_phi1_over_Mp": 2.2697758718761065,
+      "varphi2_0_phi2_over_Lambda": 0.0,
+      "lambda_H_Lambda_over_H0": 14756.331200343957
+    }
+  ],
+  "rationale": "Previous best chi2=1641.35. Try the next remembered low-chi2 candidate to improve or diversify while keeping explicit agent parameters.",
+  "memory_source": "solver_result/v5.2",
+  "original_lag_id": 494,
+  "original_chi2": 1657.5766848070903,
+  "catalog_location": {
+    "source_n_terms": 6,
+    "source_local_number": 74
+  }
+}

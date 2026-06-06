@@ -1,0 +1,585 @@
+AI Modified Gravity: DES-SN + DESI-DR2 BAO solve stage (v5.2 — two scalars)
+==============================================================================
+Base output directory: solver_result
+Run output directory: solver_result/20260531_201142
+Run time: 3380.93 s
+Mode: eft
+Likelihood: chi2_total = chi2_DES_SN + chi2_DESI_DR2_BAO
+DES SN: N_SN=1820; zHD range=[0.02509, 1.14418]; cov_mode=invcov; observable=MU
+DESI DR2 BAO: N_BAO=13; z range=[0.295, 2.33]; quantity_counts={'DV_over_rs': 1, 'DM_over_rs': 6, 'DH_over_rs': 6}
+Total N_data=1833
+Cached models loaded: 778
+Active nontrivial IVP models: 353
+Samples per model: 3000
+Parallel enabled: True; workers=7
+Parallel auto threshold: N_SAMPLES_PER_MODEL > 100
+Cache build simplify mode expected by this run: fast
+Cache RHS extraction settings expected by this run: linear=True; general=True
+Accepted samples: 141108
+
+Physics conventions
+- Uses x=ln(a)=-ln(1+z), h=H/H0.
+- Scalar field 1: varphi1=phi1/Mp, q1=dvarphi1/dx.  phi1 is Planck-scale.
+- Scalar field 2: varphi2=phi2/Lambda, q2=dvarphi2/dx.  phi2 is EFT-cutoff-scale.
+- Masses: mu1=m1/H0, mu2=m2/Lambda.
+- Decay constants: fbar1=f1/Mp, fbar2=f2/Lambda.
+- EFT cutoff: lambda_H=Lambda/H0.
+- Default physical EFT mode keeps eps_HM=H0/Mp in the dimensionless equations.
+- EOMs are normalized by Mp^2 H0^2 after substitution.
+- EFT validity cut: max_x |h|/lambda_H < 0.1 (enabled=True).
+- EH coefficient fixed to 0.5 when detected (enabled=True).
+- a0 and h0 are fixed to 1.
+- q1_0 is solved from E_N(x=0)=0 for phi1 models; q2_0 for phi2-only models.
+- rho_m0 is sampled as rho_bar=3 Omega_m0.
+- Mp = 2.435e27 eV (physical reduced Planck mass).
+
+Flat-LambdaCDM reference fit
+  chi2_total=1645.28, chi2_DES_SN=1634.06, chi2_DESI_BAO=11.2222, chi2/N=0.897588, AIC=1653.28, BIC=1675.33
+  M_SN_hat=-0.007680205052708978, alpha_BAO_hat=29.719013550052324
+  H0=70, Omega_m0=0.306
+
+Best sample by chi2
+  Lagrangian #682
+  chi2_total=1641.35, chi2_DES_SN=1631.77, chi2_DESI_BAO=9.58263, M_SN_hat=-0.054035115615102686, alpha_BAO_hat=29.810264025868477, chi2/N=0.895446, AIC=1653.35, BIC=1686.44, k=6
+  max |constraint|=7.330e-07
+  General: √(-g) [ M_p² ( \beta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \gamma · R  +  \epsilon Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \zeta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \alpha Λ^{-4} · ∇^{a}φ1 · ∇_{a}φ1 · R  +  \delta Λ^{-4} · φ1 · φ1 · ∇^{a}∇_{a}R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+  Scalar config: phi1_only
+  Ghost-free relations: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = 0.0  (determined)
+  Free symbols: 
+  Parameters:
+    H0_km_s_Mpc = 68.2559395864
+    Lambda_eV = 1.07639901682e-29
+    Omega_m0 = 0.302918598788
+    bao_alpha_hat = 29.8102640259
+    eps_HM_H0_over_Mp = 5.97938569177e-61
+    fbar1_f1_over_Mp = 4.81230637618
+    fbar2_f2_over_Lambda = 1
+    lambda_H_Lambda_over_H0 = 7392.94982976
+    mu1_m1_over_H0 = 0.609039727647
+    mu2_m2_over_Lambda = 0
+    q1_0_dvarphi1_dln_a = 0.31791050734
+    q2_0_dvarphi2_dln_a = 0
+    rho_bar = 0.908755796365
+    sn_offset_hat = -0.0540351156151
+    varphi1_0_phi1_over_Mp = -3.31711166548
+    varphi2_0_phi2_over_Lambda = 0
+
+Top models by chi2
+  01. L#682: chi2_total=1641.35, chi2_DES_SN=1631.77, chi2_DESI_BAO=9.58263, M_SN_hat=-0.054035115615102686, alpha_BAO_hat=29.810264025868477, AIC=1653.35, BIC=1686.44, k=6, maxC=7.33e-07
+      General: √(-g) [ M_p² ( \beta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \gamma · R  +  \epsilon Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \zeta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \alpha Λ^{-4} · ∇^{a}φ1 · ∇_{a}φ1 · R  +  \delta Λ^{-4} · φ1 · φ1 · ∇^{a}∇_{a}R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = 0.0  (determined)
+  02. L#140: chi2_total=1648.12, chi2_DES_SN=1630.95, chi2_DESI_BAO=17.1753, M_SN_hat=-0.19539789218179307, alpha_BAO_hat=30.216900780266823, AIC=1660.12, BIC=1693.2, k=6, maxC=3.63e-07
+      General: √(-g) [ M_p² ( \alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = \alpha  (free)
+  03. L#494: chi2_total=1657.58, chi2_DES_SN=1634.72, chi2_DESI_BAO=22.8535, M_SN_hat=-0.25918171070431334, alpha_BAO_hat=29.30983836859794, AIC=1669.58, BIC=1702.66, k=6, maxC=7.11e-07
+      General: √(-g) [ M_p² ( \gamma Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \delta · R  +  \alpha Λ^{-4} · φ1 · ∇^{a}∇^{b}φ1 · R_{ab}  +  \beta Λ^{-4} · φ1 · ∇^{a}∇_{a}φ1 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = \delta  (free)
+  04. L#1038: chi2_total=1678.04, chi2_DES_SN=1629.5, chi2_DESI_BAO=48.5439, M_SN_hat=-0.02841391878048809, alpha_BAO_hat=30.44818587585242, AIC=1690.04, BIC=1723.12, k=6, maxC=7.04e-07
+      General: √(-g) [ M_p² ( \alpha Λ^{-2} · R · R  +  \gamma Λ^{-4} · ∇^{a}∇_{a}R · R^{c}_{c}  +  \zeta Λ^{-2} · R^{ab} · R_{ab}  +  \eta Λ^{-4} · ∇^{a}R · ∇_{a}R  +  \theta · R  +  \kappa Λ^{-4} · R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}  +  \beta Λ^{-4} · φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}  +  \delta Λ^{-4} · φ1 · ∇^{a}∇^{b}φ1 · R_{ab}  +  \epsilon Λ^{-4} · ∇^{a}φ1 · ∇^{b}φ1 · R_{ab}  +  \iota Λ^{-3} · ∇^{a}∇_{a}φ1 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \eta  (determined); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = 0.0  (determined); \eta = \eta  (free); \theta = \theta  (free); \iota = 0.0  (determined); \kappa = 0.0  (determined)
+  05. L#944: chi2_total=1715.11, chi2_DES_SN=1638.04, chi2_DESI_BAO=77.0723, M_SN_hat=-0.11000300182874603, alpha_BAO_hat=28.86128622723086, AIC=1737.11, BIC=1797.76, k=11, maxC=7.73e-06
+      General: √(-g) [ M_p² ( \gamma Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \delta · R  +  \zeta Λ^{-4} · ∇^{a}∇_{a}R · R^{c}_{c}  +  \theta Λ^{-4} · ∇^{a}∇^{b}R · R_{ab}  +  \alpha Λ^{-4} · φ1 · ∇^{a}∇_{a}φ1 · R  +  \eta Λ^{-4} · ∇^{a}φ1 · ∇_{a}φ1 · R )  +  \beta · φ1 · ∇^{a}∇_{a}φ1  +  \epsilon Λ^{2} · φ1 · φ1  +  \iota · ∇^{a}φ1 · ∇_{a}φ1  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]
+      Config: phi1_only
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = \epsilon  (free); \zeta = 0.0  (determined); \eta = 0.0  (determined); \theta = 0.0  (determined); \iota = \iota  (free)
+  06. L#791: chi2_total=1749.01, chi2_DES_SN=1637.57, chi2_DESI_BAO=111.436, M_SN_hat=0.1220693499532344, alpha_BAO_hat=31.245679945765325, AIC=1765.01, BIC=1809.12, k=8, maxC=2.54e-06
+      General: √(-g) [ M_p² ( \beta Λ^{-4} · R^{ab} · R^{d}_{a} · R_{bd}  +  \zeta · R  +  \alpha Λ^{-4} · φ1 · φ1 · ∇^{a}∇_{a}R  +  \gamma Λ^{-3} · ∇^{a}φ1 · ∇_{a}R  +  \eta Λ^{-4} · φ1 · ∇^{a}∇^{b}φ1 · R_{ab} )  +  \delta Λ^{2} · φ1 · φ1  +  \epsilon Λ^{1} · ∇^{a}∇_{a}φ1  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = \epsilon  (free); \zeta = \zeta  (free); \eta = 0.0  (determined)
+  07. L#738: chi2_total=1784.65, chi2_DES_SN=1667.09, chi2_DESI_BAO=117.563, M_SN_hat=0.037945044303205756, alpha_BAO_hat=28.41015467313673, AIC=1808.65, BIC=1874.81, k=12, maxC=1.76e-06
+      General: √(-g) [ M_p² ( \delta · R  +  \epsilon Λ^{-4} · ∇^{a}∇^{b}R · R_{ab}  +  \alpha Λ^{-4} · φ1 · φ2 · R^{ab} · R_{ab}  +  \gamma Λ^{-3} · ∇^{a}∇^{b}φ1 · R_{ab} )  +  \beta Λ^{-1} · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1))  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+      Config: both
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = 0.0  (determined)
+  08. L#420: chi2_total=1797.82, chi2_DES_SN=1642.63, chi2_DESI_BAO=155.188, M_SN_hat=-0.0018163997505579942, alpha_BAO_hat=31.54086127554916, AIC=1811.82, BIC=1850.41, k=7, maxC=9.87e-07
+      General: √(-g) [ M_p² ( \alpha Λ^{-4} · R · R^{ab} · R_{ab}  +  \beta · R  +  \gamma Λ^{-4} · ∇^{a}∇^{b}R · R_{ab} )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]
+      Config: phi1_only
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined)
+  09. L#961: chi2_total=1934.59, chi2_DES_SN=1707.59, chi2_DESI_BAO=227.002, M_SN_hat=0.1848577969908724, alpha_BAO_hat=31.52308011285113, AIC=1952.59, BIC=2002.22, k=9, maxC=9.47e-08
+      General: √(-g) [ M_p² ( \gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def}  +  \alpha Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \beta Λ^{-3} · φ2 · R · R  +  \delta Λ^{-4} · φ2 · ∇^{a}∇^{b}φ2 · R_{ab}  +  \epsilon Λ^{-3} · φ2 · ∇^{a}∇_{a}R  +  \zeta Λ^{-1} · φ2 · R  +  \eta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \theta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \iota Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+      Config: phi2_only
+      GF: \alpha = -\iota  (determined); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = \zeta  (free); \eta = 0.0  (determined); \theta = 0.0  (determined); \iota = \iota  (free)
+  10. L#823: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=0.061074752412779244, alpha_BAO_hat=32.35807363752685, AIC=1964.87, BIC=2014.49, k=9, maxC=2.88e-07
+      General: √(-g) [ M_p² ( \epsilon Λ^{-2} · R^{ab} · R_{ab}  +  \zeta · R  +  \theta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \alpha Λ^{-4} · φ2 · φ2 · ∇^{a}∇_{a}R  +  \beta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \eta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+      Config: phi2_only
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = -\eta  (determined); \epsilon = 0.0  (determined); \zeta = \zeta  (free); \eta = \eta  (free); \theta = 0.0  (determined)
+  11. L#434: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=0.19811068424899506, alpha_BAO_hat=32.358073638840594, AIC=1964.87, BIC=2014.49, k=9, maxC=1.24e-07
+      General: √(-g) [ M_p² ( \beta Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-4} · φ2 · ∇^{a}∇_{a}φ2 · R )  +  \alpha Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+      Config: phi2_only
+      GF: \alpha = \alpha  (free); \beta = -\gamma  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined)
+  12. L#860: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=0.25227267537342735, alpha_BAO_hat=32.358073638830156, AIC=1970.87, BIC=2037.04, k=12, maxC=5.90e-08
+      General: √(-g) [ M_p² ( \beta Λ^{-4} · ∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}  +  \epsilon Λ^{-4} · ∇^{a}∇^{b}R · R_{ab}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \zeta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab} )  +  \alpha Λ^{2} · φ2 · φ2  +  \eta Λ^{1} · φ2 · φ2 · φ2  +  \theta Λ^{-1} · φ2 · φ2 · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+      Config: phi2_only
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined); \gamma = -\delta  (determined); \delta = \delta  (free); \epsilon = 0.0  (determined); \zeta = 0.0  (determined); \eta = \eta  (free); \theta = \theta  (free)
+  13. L#622: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=0.23488892253573118, alpha_BAO_hat=32.358073656490696, AIC=1964.87, BIC=2014.49, k=9, maxC=1.30e-07
+      General: √(-g) [ M_p² ( \beta Λ^{-2} · R^{bcd}_{a} · R^{a}_{bcd}  +  \alpha Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \delta Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \epsilon Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \zeta Λ^{-4} · φ2 · φ2 · R · R )  +  \gamma Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+      Config: phi2_only
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = -\epsilon  (determined); \epsilon = \epsilon  (free); \zeta = 0.0  (determined)
+  14. L#663: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=-0.09011081851867471, alpha_BAO_hat=32.35807363266236, AIC=1968.87, BIC=2029.52, k=11, maxC=9.37e-08
+      General: √(-g) [ M_p² ( \gamma Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \alpha Λ^{-3} · φ2 · ∇^{a}∇_{a}R  +  \beta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \epsilon Λ^{-3} · φ2 · R^{ab} · R_{ab} )  +  \delta Λ^{2} · φ2 · φ2  +  \zeta Λ^{-1} · φ2 · φ2 · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+      Config: phi2_only
+      GF: \alpha = 0.0  (determined); \beta = -\epsilon  (determined); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = \epsilon  (free); \zeta = \zeta  (free)
+  15. L#1007: chi2_total=2044.51, chi2_DES_SN=1964.99, chi2_DESI_BAO=79.522, M_SN_hat=0.3523055609047797, alpha_BAO_hat=35.07894712424638, AIC=2068.51, BIC=2134.67, k=12, maxC=2.13e-06
+      General: √(-g) [ M_p² ( \alpha Λ^{-2} · R^{bcd}_{a} · R^{a}_{bcd}  +  \eta Λ^{-4} · R · R · R  +  \beta Λ^{-4} · ∇^{a}φ2 · ∇_{a}φ2 · R  +  \gamma Λ^{-4} · ∇^{a}φ1 · ∇^{b}φ1 · R_{ab}  +  \delta Λ^{-2} · φ2 · φ2 · R  +  \epsilon Λ^{-4} · φ1 · ∇^{a}∇^{b}φ2 · R_{ab} )  +  \zeta Λ^{-1} · φ1 · φ1 · ∇^{a}∇_{a}φ2  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1²  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+      Config: both
+      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = 0.0  (determined); \zeta = \zeta  (free); \eta = 0.0  (determined)
+  16. L#516: chi2_total=2402.28, chi2_DES_SN=1678.32, chi2_DESI_BAO=723.956, M_SN_hat=0.0750531226687852, alpha_BAO_hat=33.19814196378989, AIC=2420.28, BIC=2469.9, k=9, maxC=3.03e-06
+      General: √(-g) [ M_p² ( \alpha · R  +  \delta Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def} )  +  \beta · φ1 · ∇^{a}∇_{a}φ1  +  \gamma Λ^{2} · φ1 · φ1  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = \alpha  (free); \beta = \beta  (free); \gamma = \gamma  (free); \delta = 0.0  (determined)
+  17. L#1096: chi2_total=2429.46, chi2_DES_SN=1720.4, chi2_DESI_BAO=709.057, M_SN_hat=-0.28898218416085475, alpha_BAO_hat=26.431672264049922, AIC=2447.46, BIC=2497.08, k=9, maxC=4.81e-06
+      General: √(-g) [ M_p² ( \beta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \zeta Λ^{-4} · R · R · R  +  \eta · R  +  \theta Λ^{-4} · ∇^{c}R^{ab} · ∇_{b}R_{ac}  +  \iota Λ^{-2} · R^{ab} · R_{ab}  +  \alpha Λ^{-3} · φ1 · ∇^{a}∇_{a}R  +  \gamma Λ^{-3} · ∇^{a}∇_{a}φ1 · R  +  \epsilon Λ^{-4} · φ1 · φ1 · R · R )  +  \delta · φ1 · ∇^{a}∇_{a}φ1  +  \kappa Λ^{2} · φ1 · φ1  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1² ]
+      Config: phi1_only
+      GF: \alpha = -\gamma  (determined); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = \delta  (free); \epsilon = 0.0  (determined); \zeta = 0.0  (determined); \eta = \eta  (free); \theta = 0.0  (determined); \iota = 0.0  (determined); \kappa = \kappa  (free)
+  18. L#933: chi2_total=9434, chi2_DES_SN=3997.73, chi2_DESI_BAO=5436.27, M_SN_hat=0.34104857021245305, alpha_BAO_hat=48.6825489304622, AIC=9454, BIC=9509.14, k=10, maxC=3.22e-06
+      General: √(-g) [ M_p² ( \gamma Λ^{-4} · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \delta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \zeta Λ^{-2} · ∇^{a}∇_{a}R  +  \alpha Λ^{-4} · φ2 · φ2 · R · R  +  \beta Λ^{-1} · φ2 · R  +  \eta Λ^{-4} · φ2 · φ2 · ∇^{a}∇_{a}R  +  \iota Λ^{-4} · φ2 · ∇^{a}φ2 · ∇_{a}R )  +  \epsilon Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  \theta · φ2 · ∇^{a}∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
+      Config: phi2_only
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = 0.0  (determined); \epsilon = \epsilon  (free); \zeta = \zeta  (free); \eta = 0.0  (determined); \theta = \theta  (free); \iota = 0.0  (determined)
+  19. L#774: chi2_total=9434, chi2_DES_SN=3997.73, chi2_DESI_BAO=5436.27, M_SN_hat=0.6081910821753819, alpha_BAO_hat=48.682548908661424, AIC=9454, BIC=9509.14, k=10, maxC=3.90e-06
+      General: √(-g) [ M_p² ( \gamma Λ^{-2} · ∇^{a}∇_{a}R  +  \delta Λ^{-4} · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \zeta Λ^{-4} · R^{ab} · R^{d}_{a} · R_{bd}  +  \beta Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \epsilon Λ^{-3} · ∇^{a}∇^{b}φ2 · R_{ab}  +  \eta Λ^{-1} · φ2 · R )  +  \alpha · φ2 · ∇^{a}∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+      Config: phi2_only
+      GF: \alpha = \alpha  (free); \beta = 0.0  (determined); \gamma = \gamma  (free); \delta = 0.0  (determined); \epsilon = 0.0  (determined); \zeta = 0.0  (determined); \eta = \eta  (free)
+  20. L#654: chi2_total=9434, chi2_DES_SN=3997.73, chi2_DESI_BAO=5436.27, M_SN_hat=0.5988165577734084, alpha_BAO_hat=48.682549045402816, AIC=9456, BIC=9516.65, k=11, maxC=1.82e-06
+      General: √(-g) [ M_p² ( \alpha Λ^{-3} · ∇^{a}φ2 · ∇_{a}R  +  \beta Λ^{-1} · φ2 · R  +  \gamma Λ^{-4} · φ2 · ∇^{a}φ2 · ∇_{a}R  +  \zeta Λ^{-3} · ∇^{a}∇^{b}φ2 · R_{ab} )  +  \delta · ∇^{a}φ2 · ∇_{a}φ2  +  \epsilon Λ^{-1} · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
+      Config: phi2_only
+      GF: \alpha = 0.0  (determined); \beta = \beta  (free); \gamma = 0.0  (determined); \delta = \delta  (free); \epsilon = \epsilon  (free); \zeta = 0.0  (determined)
+
+Skipped / structurally rejected models
+  L#123: q2_x not determined by coupled scalar EOM
+  L#124: q1_x not determined by coupled scalar EOM
+  L#127: q1_x not determined by coupled scalar EOM
+  L#128: q2_x not determined by coupled scalar EOM
+  L#129: q1_x not determined by coupled scalar EOM
+  L#130: q2_x not determined by coupled scalar EOM
+  L#131: q2_x not determined by coupled scalar EOM
+  L#133: q1_x not determined by coupled scalar EOM
+  L#134: q1_x not determined by coupled scalar EOM
+  L#135: q2_x not determined by coupled scalar EOM
+  L#136: q2_x not determined by coupled scalar EOM
+  L#137: q2_x not determined by coupled scalar EOM
+  L#139: q1_x not determined by coupled scalar EOM
+  L#141: q2_x not determined by coupled scalar EOM
+  L#144: q2_x not determined by coupled scalar EOM
+  L#145: q1_x not determined by coupled scalar EOM
+  L#150: q2_x not determined by coupled scalar EOM
+  L#156: q1_x not determined by coupled scalar EOM
+  L#157: q1_x not determined by coupled scalar EOM
+  L#159: q1_x not determined by coupled scalar EOM
+  L#161: q1_x not determined by coupled scalar EOM
+  L#162: q1_x not determined by coupled scalar EOM
+  L#165: q1_x not determined by coupled scalar EOM
+  L#167: q1_x not determined by coupled scalar EOM
+  L#168: q2_x not determined by coupled scalar EOM
+  L#170: q2_x not determined by coupled scalar EOM
+  L#172: q1_x not determined by coupled scalar EOM
+  L#175: q2_x not determined by coupled scalar EOM
+  L#176: q2_x not determined by coupled scalar EOM
+  L#177: q1_x not determined by coupled scalar EOM
+  L#184: q2_x not determined by coupled scalar EOM
+  L#187: q2_x not determined by coupled scalar EOM
+  L#191: q1_x not determined by coupled scalar EOM
+  L#193: q1_x not determined by coupled scalar EOM
+  L#197: q2_x not determined by coupled scalar EOM
+  L#198: q1_x not determined by coupled scalar EOM
+  L#199: q2_x not determined by coupled scalar EOM
+  L#201: q1_x not determined by coupled scalar EOM
+  L#203: q2_x not determined by coupled scalar EOM
+  L#204: q1_x not determined by coupled scalar EOM
+  L#208: q1_x not determined by coupled scalar EOM
+  L#209: q2_x not determined by coupled scalar EOM
+  L#210: q1_x not determined by coupled scalar EOM
+  L#213: q1_x not determined by coupled scalar EOM
+  L#216: q2_x not determined by coupled scalar EOM
+  L#218: q1_x not determined by coupled scalar EOM
+  L#220: q1_x not determined by coupled scalar EOM
+  L#221: q2_x not determined by coupled scalar EOM
+  L#222: q1_x not determined by coupled scalar EOM
+  L#223: q2_x not determined by coupled scalar EOM
+  L#224: q2_x not determined by coupled scalar EOM
+  L#226: q2_x not determined by coupled scalar EOM
+  L#227: q2_x not determined by coupled scalar EOM
+  L#229: q1_x not determined by coupled scalar EOM
+  L#236: q2_x not determined by coupled scalar EOM
+  L#237: q1_x not determined by coupled scalar EOM
+  L#238: q2_x not determined by coupled scalar EOM
+  L#241: q2_x not determined by coupled scalar EOM
+  L#243: q2_x not determined by coupled scalar EOM
+  L#245: q1_x not determined by coupled scalar EOM
+  L#246: q1_x not determined by coupled scalar EOM
+  L#247: q2_x not determined by coupled scalar EOM
+  L#248: q2_x not determined by coupled scalar EOM
+  L#249: q2_x not determined by coupled scalar EOM
+  L#253: q1_x not determined by coupled scalar EOM
+  L#255: q1_x not determined by coupled scalar EOM
+  L#257: q1_x not determined by coupled scalar EOM
+  L#265: q2_x not determined by coupled scalar EOM
+  L#266: q2_x not determined by coupled scalar EOM
+  L#267: q1_x not determined by coupled scalar EOM
+  L#272: q2_x not determined by coupled scalar EOM
+  L#274: q1_x not determined by coupled scalar EOM
+  L#278: q1_x not determined by coupled scalar EOM
+  L#283: q2_x not determined by coupled scalar EOM
+  L#285: q2_x not determined by coupled scalar EOM
+  L#286: q1_x not determined by coupled scalar EOM
+  L#288: q2_x not determined by coupled scalar EOM
+  L#290: q1_x not determined by coupled scalar EOM
+  L#293: q1_x not determined by coupled scalar EOM
+  L#295: q1_x not determined by coupled scalar EOM
+  L#296: q1_x not determined by coupled scalar EOM
+  L#299: q2_x not determined by coupled scalar EOM
+  L#301: q2_x not determined by coupled scalar EOM
+  L#303: q2_x not determined by coupled scalar EOM
+  L#304: q1_x not determined by coupled scalar EOM
+  L#305: q2_x not determined by coupled scalar EOM
+  L#306: q2_x not determined by coupled scalar EOM
+  L#308: q1_x not determined by coupled scalar EOM
+  L#316: q1_x not determined by coupled scalar EOM
+  L#317: q1_x not determined by coupled scalar EOM
+  L#318: q1_x not determined by coupled scalar EOM
+  L#319: q1_x not determined by coupled scalar EOM
+  L#327: q1_x not determined by coupled scalar EOM
+  L#329: q2_x not determined by coupled scalar EOM
+  L#330: q2_x not determined by coupled scalar EOM
+  L#331: q1_x not determined by coupled scalar EOM
+  L#333: q2_x not determined by coupled scalar EOM
+  L#337: q1_x not determined by coupled scalar EOM
+  L#338: q2_x not determined by coupled scalar EOM
+  L#339: q1_x not determined by coupled scalar EOM
+  L#342: q2_x not determined by coupled scalar EOM
+  L#344: symbolic build timeout > 60s
+  L#346: q2_x not determined by coupled scalar EOM
+  L#348: q2_x not determined by coupled scalar EOM
+  L#349: q2_x not determined by coupled scalar EOM
+  L#350: q2_x not determined by coupled scalar EOM
+  L#351: q2_x not determined by coupled scalar EOM
+  L#353: q2_x not determined by coupled scalar EOM
+  L#355: q2_x not determined by coupled scalar EOM
+  L#356: q2_x not determined by coupled scalar EOM
+  L#363: q1_x not determined by coupled scalar EOM
+  L#364: q2_x not determined by coupled scalar EOM
+  L#365: q2_x not determined by coupled scalar EOM
+  L#367: q2_x not determined by coupled scalar EOM
+  L#369: q2_x not determined by coupled scalar EOM
+  L#370: q2_x not determined by coupled scalar EOM
+  L#371: q1_x not determined by coupled scalar EOM
+  L#373: q1_x not determined by coupled scalar EOM
+  L#375: q2_x not determined by coupled scalar EOM
+  L#376: q2_x not determined by coupled scalar EOM
+  L#377: q2_x not determined by coupled scalar EOM
+  L#378: q2_x not determined by coupled scalar EOM
+  L#381: q2_x not determined by coupled scalar EOM
+  L#384: q2_x not determined by coupled scalar EOM
+  L#386: symbolic build timeout > 60s
+  L#388: q1_x not determined by coupled scalar EOM
+  L#390: q1_x not determined by coupled scalar EOM
+  L#391: q2_x not determined by coupled scalar EOM
+  L#392: q1_x not determined by coupled scalar EOM
+  L#394: q2_x not determined by coupled scalar EOM
+  L#396: q2_x not determined by coupled scalar EOM
+  L#397: q1_x not determined by coupled scalar EOM
+  L#398: q2_x not determined by coupled scalar EOM
+  L#400: q2_x not determined by coupled scalar EOM
+  L#402: q1_x not determined by coupled scalar EOM
+  L#403: q1_x not determined by coupled scalar EOM
+  L#404: q2_x not determined by coupled scalar EOM
+  L#406: q2_x not determined by coupled scalar EOM
+  L#408: q1_x not determined by coupled scalar EOM
+  L#409: q1_x not determined by coupled scalar EOM
+  L#413: q2_x not determined by coupled scalar EOM
+  L#414: q2_x not determined by coupled scalar EOM
+  L#415: symbolic build timeout > 60s
+  L#416: q1_x not determined by coupled scalar EOM
+  L#418: q2_x not determined by coupled scalar EOM
+  L#422: symbolic build timeout > 60s
+  L#425: q2_x not determined by coupled scalar EOM
+  L#426: q1_x not determined by coupled scalar EOM
+  L#429: symbolic build timeout > 60s
+  L#431: q2_x not determined by coupled scalar EOM
+  L#433: q2_x not determined by coupled scalar EOM
+  L#438: q2_x not determined by coupled scalar EOM
+  L#440: q1_x not determined by coupled scalar EOM
+  L#441: q1_x not determined by coupled scalar EOM
+  L#445: q2_x not determined by coupled scalar EOM
+  L#446: q2_x not determined by coupled scalar EOM
+  L#448: q2_x not determined by coupled scalar EOM
+  L#452: q1_x not determined by coupled scalar EOM
+  L#454: q2_x not determined by coupled scalar EOM
+  L#455: q2_x not determined by coupled scalar EOM
+  L#456: q1_x not determined by coupled scalar EOM
+  L#457: q1_x not determined by coupled scalar EOM
+  L#458: q2_x not determined by coupled scalar EOM
+  L#465: q1_x not determined by coupled scalar EOM
+  L#467: q1_x not determined by coupled scalar EOM
+  L#469: q2_x not determined by coupled scalar EOM
+  L#470: q1_x not determined by coupled scalar EOM
+  L#471: q1_x not determined by coupled scalar EOM
+  L#474: q1_x not determined by coupled scalar EOM
+  L#477: q2_x not determined by coupled scalar EOM
+  L#480: symbolic build timeout > 60s
+  L#485: q2_x not determined by coupled scalar EOM
+  L#486: q1_x not determined by coupled scalar EOM
+  L#487: q1_x not determined by coupled scalar EOM
+  L#489: q2_x not determined by coupled scalar EOM
+  L#491: q1_x not determined by coupled scalar EOM
+  L#493: q1_x not determined by coupled scalar EOM
+  L#495: q2_x not determined by coupled scalar EOM
+  L#496: q2_x not determined by coupled scalar EOM
+  L#498: q2_x not determined by coupled scalar EOM
+  L#500: q2_x not determined by coupled scalar EOM
+  L#501: q2_x not determined by coupled scalar EOM
+  L#503: q2_x not determined by coupled scalar EOM
+  L#504: q1_x not determined by coupled scalar EOM
+  L#505: q1_x not determined by coupled scalar EOM
+  L#507: q2_x not determined by coupled scalar EOM
+  L#509: symbolic build timeout > 60s
+  L#515: q1_x not determined by coupled scalar EOM
+  L#519: q2_x not determined by coupled scalar EOM
+  L#522: symbolic build timeout > 60s
+  L#523: q1_x not determined by coupled scalar EOM
+  L#524: q1_x not determined by coupled scalar EOM
+  L#525: q2_x not determined by coupled scalar EOM
+  L#529: symbolic build timeout > 60s
+  L#531: q2_x not determined by coupled scalar EOM
+  L#533: symbolic build timeout > 60s
+  L#534: q1_x not determined by coupled scalar EOM
+  L#535: q1_x not determined by coupled scalar EOM
+  L#538: q2_x not determined by coupled scalar EOM
+  L#540: q2_x not determined by coupled scalar EOM
+  L#545: q2_x not determined by coupled scalar EOM
+  L#546: q2_x not determined by coupled scalar EOM
+  L#547: q2_x not determined by coupled scalar EOM
+  L#548: q2_x not determined by coupled scalar EOM
+  L#550: q1_x not determined by coupled scalar EOM
+  L#556: q1_x not determined by coupled scalar EOM
+  L#557: q1_x not determined by coupled scalar EOM
+  L#559: q1_x not determined by coupled scalar EOM
+  L#560: q2_x not determined by coupled scalar EOM
+  L#563: symbolic build timeout > 60s
+  L#568: q2_x not determined by coupled scalar EOM
+  L#571: q1_x not determined by coupled scalar EOM
+  L#575: symbolic build timeout > 60s
+  L#578: q1_x not determined by coupled scalar EOM
+  L#579: symbolic build timeout > 60s
+  L#581: q2_x not determined by coupled scalar EOM
+  L#584: q1_x not determined by coupled scalar EOM
+  L#585: q2_x not determined by coupled scalar EOM
+  L#586: q1_x not determined by coupled scalar EOM
+  L#587: q1_x not determined by coupled scalar EOM
+  L#589: q1_x not determined by coupled scalar EOM
+  L#590: symbolic build timeout > 60s
+  L#591: q1_x not determined by coupled scalar EOM
+  L#594: q1_x not determined by coupled scalar EOM
+  L#596: q2_x not determined by coupled scalar EOM
+  L#597: q2_x not determined by coupled scalar EOM
+  L#598: q1_x not determined by coupled scalar EOM
+  L#600: symbolic build timeout > 60s
+  L#601: symbolic build timeout > 60s
+  L#602: q2_x not determined by coupled scalar EOM
+  L#603: q2_x not determined by coupled scalar EOM
+  L#604: q2_x not determined by coupled scalar EOM
+  L#608: q2_x not determined by coupled scalar EOM
+  L#610: q1_x not determined by coupled scalar EOM
+  L#614: symbolic build timeout > 60s
+  L#617: q2_x not determined by coupled scalar EOM
+  L#618: q2_x not determined by coupled scalar EOM
+  L#619: q1_x not determined by coupled scalar EOM
+  L#620: q2_x not determined by coupled scalar EOM
+  L#623: q1_x not determined by coupled scalar EOM
+  L#628: symbolic build timeout > 60s
+  L#631: q2_x not determined by coupled scalar EOM
+  L#632: q2_x not determined by coupled scalar EOM
+  L#639: symbolic build timeout > 60s
+  L#640: q2_x not determined by coupled scalar EOM
+  L#643: symbolic build timeout > 60s
+  L#646: q2_x not determined by coupled scalar EOM
+  L#648: symbolic build timeout > 60s
+  L#653: q2_x not determined by coupled scalar EOM
+  L#655: q1_x not determined by coupled scalar EOM
+  L#657: symbolic build timeout > 60s
+  L#662: q1_x not determined by coupled scalar EOM
+  L#664: q2_x not determined by coupled scalar EOM
+  L#665: q2_x not determined by coupled scalar EOM
+  L#666: q2_x not determined by coupled scalar EOM
+  L#672: q1_x not determined by coupled scalar EOM
+  L#675: q2_x not determined by coupled scalar EOM
+  L#676: symbolic build timeout > 60s
+  L#678: q2_x not determined by coupled scalar EOM
+  L#679: q1_x not determined by coupled scalar EOM
+  L#680: q2_x not determined by coupled scalar EOM
+  L#681: q1_x not determined by coupled scalar EOM
+  L#684: q2_x not determined by coupled scalar EOM
+  L#685: q2_x not determined by coupled scalar EOM
+  L#690: q1_x not determined by coupled scalar EOM
+  L#692: q2_x not determined by coupled scalar EOM
+  L#693: symbolic build timeout > 60s
+  L#694: q1_x not determined by coupled scalar EOM
+  L#697: q2_x not determined by coupled scalar EOM
+  L#700: q1_x not determined by coupled scalar EOM
+  L#704: q1_x not determined by coupled scalar EOM
+  L#706: q2_x not determined by coupled scalar EOM
+  L#708: q2_x not determined by coupled scalar EOM
+  L#712: symbolic build timeout > 60s
+  L#717: q1_x not determined by coupled scalar EOM
+  L#718: q1_x not determined by coupled scalar EOM
+  L#720: q2_x not determined by coupled scalar EOM
+  L#721: q1_x not determined by coupled scalar EOM
+  L#722: symbolic build timeout > 60s
+  L#723: q1_x not determined by coupled scalar EOM
+  L#727: q2_x not determined by coupled scalar EOM
+  L#736: symbolic build timeout > 60s
+  L#737: q2_x not determined by coupled scalar EOM
+  L#741: q1_x not determined by coupled scalar EOM
+  L#742: symbolic build timeout > 60s
+  L#744: q2_x not determined by coupled scalar EOM
+  L#745: q2_x not determined by coupled scalar EOM
+  L#749: q2_x not determined by coupled scalar EOM
+  L#751: q2_x not determined by coupled scalar EOM
+  L#753: q1_x not determined by coupled scalar EOM
+  L#754: q1_x not determined by coupled scalar EOM
+  L#755: q1_x not determined by coupled scalar EOM
+  L#759: q2_x not determined by coupled scalar EOM
+  L#762: q1_x not determined by coupled scalar EOM
+  L#763: symbolic build timeout > 60s
+  L#766: symbolic build timeout > 60s
+  L#770: symbolic build timeout > 60s
+  L#773: q2_x not determined by coupled scalar EOM
+  L#777: q2_x not determined by coupled scalar EOM
+  L#778: q1_x not determined by coupled scalar EOM
+  L#779: q2_x not determined by coupled scalar EOM
+  L#781: symbolic build timeout > 60s
+  L#787: q1_x not determined by coupled scalar EOM
+  L#790: q2_x not determined by coupled scalar EOM
+  L#793: q2_x not determined by coupled scalar EOM
+  L#802: q1_x not determined by coupled scalar EOM
+  L#805: q2_x not determined by coupled scalar EOM
+  L#806: q1_x not determined by coupled scalar EOM
+  L#807: q1_x not determined by coupled scalar EOM
+  L#809: q2_x not determined by coupled scalar EOM
+  L#811: q1_x not determined by coupled scalar EOM
+  L#815: symbolic build timeout > 60s
+  L#816: q2_x not determined by coupled scalar EOM
+  L#818: symbolic build timeout > 60s
+  L#822: symbolic build timeout > 60s
+  L#825: q1_x not determined by coupled scalar EOM
+  L#826: q1_x not determined by coupled scalar EOM
+  L#829: q2_x not determined by coupled scalar EOM
+  L#831: symbolic build timeout > 60s
+  L#833: q2_x not determined by coupled scalar EOM
+  L#836: q1_x not determined by coupled scalar EOM
+  L#838: symbolic build timeout > 60s
+  L#839: q2_x not determined by coupled scalar EOM
+  L#840: symbolic build timeout > 60s
+  L#841: q1_x not determined by coupled scalar EOM
+  L#842: q1_x not determined by coupled scalar EOM
+  L#844: q2_x not determined by coupled scalar EOM
+  L#845: symbolic build timeout > 60s
+  L#846: q2_x not determined by coupled scalar EOM
+  L#847: q1_x not determined by coupled scalar EOM
+  L#848: q2_x not determined by coupled scalar EOM
+  L#851: q2_x not determined by coupled scalar EOM
+  L#852: q1_x not determined by coupled scalar EOM
+  L#853: symbolic build timeout > 60s
+  L#854: symbolic build timeout > 60s
+  L#855: symbolic build timeout > 60s
+  L#863: symbolic build timeout > 60s
+  L#866: q1_x not determined by coupled scalar EOM
+  L#868: symbolic build timeout > 60s
+  L#870: q1_x not determined by coupled scalar EOM
+  L#875: q2_x not determined by coupled scalar EOM
+  L#877: symbolic build timeout > 60s
+  L#878: q2_x not determined by coupled scalar EOM
+  L#881: q1_x not determined by coupled scalar EOM
+  L#882: symbolic build timeout > 60s
+  L#884: q1_x not determined by coupled scalar EOM
+  L#885: symbolic build timeout > 60s
+  L#886: q2_x not determined by coupled scalar EOM
+  L#888: q1_x not determined by coupled scalar EOM
+  L#889: q2_x not determined by coupled scalar EOM
+  L#891: symbolic build timeout > 60s
+  L#895: symbolic build timeout > 60s
+  L#898: q2_x not determined by coupled scalar EOM
+  L#900: symbolic build timeout > 60s
+  L#903: symbolic build timeout > 60s
+  L#904: q1_x not determined by coupled scalar EOM
+  L#906: q2_x not determined by coupled scalar EOM
+  L#910: symbolic build timeout > 60s
+  L#912: q1_x not determined by coupled scalar EOM
+  L#913: q2_x not determined by coupled scalar EOM
+  L#917: q2_x not determined by coupled scalar EOM
+  L#919: q2_x not determined by coupled scalar EOM
+  L#921: symbolic build timeout > 60s
+  L#922: q1_x not determined by coupled scalar EOM
+  L#923: symbolic build timeout > 60s
+  L#926: q2_x not determined by coupled scalar EOM
+  L#928: symbolic build timeout > 60s
+  L#932: q2_x not determined by coupled scalar EOM
+  L#941: symbolic build timeout > 60s
+  L#942: q1_x not determined by coupled scalar EOM
+  L#947: q1_x not determined by coupled scalar EOM
+  L#949: symbolic build timeout > 60s
+  L#951: q1_x not determined by coupled scalar EOM
+  L#960: q2_x not determined by coupled scalar EOM
+  L#962: symbolic build timeout > 60s
+  L#963: q2_x not determined by coupled scalar EOM
+  L#964: symbolic build timeout > 60s
+  L#965: q1_x not determined by coupled scalar EOM
+  L#966: symbolic build timeout > 60s
+  L#967: symbolic build timeout > 60s
+  L#973: q1_x not determined by coupled scalar EOM
+  L#975: q2_x not determined by coupled scalar EOM
+  L#977: q2_x not determined by coupled scalar EOM
+  L#978: q2_x not determined by coupled scalar EOM
+  L#979: q2_x not determined by coupled scalar EOM
+  L#984: symbolic build timeout > 60s
+  L#985: symbolic build timeout > 60s
+  L#988: q2_x not determined by coupled scalar EOM
+  L#991: symbolic build timeout > 60s
+  L#993: q1_x not determined by coupled scalar EOM
+  L#997: q2_x not determined by coupled scalar EOM
+  L#999: q2_x not determined by coupled scalar EOM
+  L#1001: q1_x not determined by coupled scalar EOM
+  L#1002: q1_x not determined by coupled scalar EOM
+  L#1005: symbolic build timeout > 60s
+  L#1010: q1_x not determined by coupled scalar EOM
+  L#1011: symbolic build timeout > 60s
+  L#1014: symbolic build timeout > 60s
+  L#1015: symbolic build timeout > 60s
+  L#1020: symbolic build timeout > 60s
+  L#1024: q1_x not determined by coupled scalar EOM
+  L#1030: q2_x not determined by coupled scalar EOM
+  L#1033: symbolic build timeout > 60s
+  L#1034: q1_x not determined by coupled scalar EOM
+  L#1043: symbolic build timeout > 60s
+  L#1044: symbolic build timeout > 60s
+  L#1046: symbolic build timeout > 60s
+  L#1047: symbolic build timeout > 60s
+  L#1049: q1_x not determined by coupled scalar EOM
+  L#1051: q1_x not determined by coupled scalar EOM
+  L#1057: q1_x not determined by coupled scalar EOM
+  L#1059: q2_x not determined by coupled scalar EOM
+  L#1066: q2_x not determined by coupled scalar EOM
+  L#1067: symbolic build timeout > 60s
+  L#1068: symbolic build timeout > 60s
+  L#1072: symbolic build timeout > 60s
+  L#1076: q2_x not determined by coupled scalar EOM
+  L#1084: q2_x not determined by coupled scalar EOM
+  L#1094: symbolic build timeout > 60s
+  L#1101: q1_x not determined by coupled scalar EOM
+  L#1103: symbolic build timeout > 60s
+  L#1105: q1_x not determined by coupled scalar EOM
+  L#1106: q1_x not determined by coupled scalar EOM
+  L#1111: q2_x not determined by coupled scalar EOM
+  L#1114: symbolic build timeout > 60s
+
+Files written
+  solver_result/20260531_201142/scan_report.txt
+  solver_result/20260531_201142/model_ranking.csv
+  solver_result/20260531_201142/accepted_samples_summary.csv
+  solver_result/20260531_201142/best_solution.csv
+  solver_result/20260531_201142/best_fit_Hz.png
+  solver_result/20260531_201142/reject_reasons_by_model.csv
+  solver_result/20260531_201142/accepted_samples_summary_partial.csv
+  solver_result/20260531_201142/model_ranking_partial.csv
+  solver_result/20260531_201142/reject_reasons_by_model_partial.csv

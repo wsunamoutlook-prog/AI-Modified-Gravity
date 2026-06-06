@@ -1,0 +1,66 @@
+{
+  "proposal_id": "cold_start_20_loop_03",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi2_only",
+    "potential_types": {
+      "phi1": null,
+      "phi2": "axion"
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "∇^{c}R^{ab} · ∇_{b}R_{ac}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 64.14799170511472,
+      "Omega_m0": 0.3045902066755124,
+      "lambda_H_Lambda_over_H0": 5973.641253647273,
+      "\\alpha": -1.0394701741437908e-05,
+      "\\beta": -2.348853899906557e-08,
+      "\\gamma": 0.5,
+      "varphi2_0_phi2_over_Lambda": 0.1860964958605248,
+      "mu2_m2_over_Lambda": 0.12973701595680073,
+      "fbar2_f2_over_Lambda": 6.487972980600938
+    },
+    {
+      "H0_km_s_Mpc": 71.79105948146427,
+      "Omega_m0": 0.26003441878895345,
+      "lambda_H_Lambda_over_H0": 24409.943074558814,
+      "\\alpha": 9.527740784316643e-10,
+      "\\beta": 9.587802135848165e-05,
+      "\\gamma": 0.5,
+      "varphi2_0_phi2_over_Lambda": 2.752409800087947,
+      "mu2_m2_over_Lambda": 0.00019882470410201463,
+      "fbar2_f2_over_Lambda": 3.255507081391901
+    },
+    {
+      "H0_km_s_Mpc": 61.97912113132811,
+      "Omega_m0": 0.364323418189726,
+      "lambda_H_Lambda_over_H0": 43638.365429228645,
+      "\\alpha": -3.901525489031813e-06,
+      "\\beta": 7.336705972272377e-07,
+      "\\gamma": 0.5,
+      "varphi2_0_phi2_over_Lambda": 2.1724600979860846,
+      "mu2_m2_over_Lambda": 0.03300575583321762,
+      "fbar2_f2_over_Lambda": 0.07762314211530125
+    }
+  ],
+  "rationale": "Cold-start proposal generated from grammar-legal catalog and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 5,
+    "source_local_number": 16
+  }
+}

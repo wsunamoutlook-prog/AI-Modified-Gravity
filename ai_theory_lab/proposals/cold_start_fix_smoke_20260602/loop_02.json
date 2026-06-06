@@ -1,0 +1,52 @@
+{
+  "proposal_id": "cold_start_20_loop_02",
+  "source_lagrangians_path": "lagrangians.pkl",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 72.58084017771634,
+      "Omega_m0": 0.29083721138254687,
+      "lambda_H_Lambda_over_H0": 18167.23061002166,
+      "\\alpha": 0.5,
+      "varphi1_0_phi1_over_Mp": 1.734456780853299,
+      "mu1_m1_over_H0": 0.9530977603249985,
+      "fbar1_f1_over_Mp": 1.8298256976290712
+    },
+    {
+      "H0_km_s_Mpc": 66.37206715027813,
+      "Omega_m0": 0.2553142789134506,
+      "lambda_H_Lambda_over_H0": 17157.738353603447,
+      "\\alpha": 0.5,
+      "varphi1_0_phi1_over_Mp": 2.48137344129847,
+      "mu1_m1_over_H0": 1.810436648640018,
+      "fbar1_f1_over_Mp": 1.4175648184338303
+    },
+    {
+      "H0_km_s_Mpc": 74.49300744501143,
+      "Omega_m0": 0.29874516691446257,
+      "lambda_H_Lambda_over_H0": 13490.35717328229,
+      "\\alpha": 0.5,
+      "varphi1_0_phi1_over_Mp": 4.0770095892132,
+      "mu1_m1_over_H0": 2.433076696649433,
+      "fbar1_f1_over_Mp": 2.9815253626348874
+    }
+  ],
+  "rationale": "Cold-start proposal generated from grammar-legal catalog and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "catalog_location": {
+    "source_n_terms": 3,
+    "source_local_number": 20
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "proposal_id": "cold_start_token_loop_02_initial",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 71.74834752675473,
+      "Omega_m0": 0.3743479704137881,
+      "lambda_H_Lambda_over_H0": 2072.3797606653275,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 60.28506915789289,
+      "Omega_m0": 0.2629291321135631,
+      "lambda_H_Lambda_over_H0": 3011.0145333306236,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 69.63290286773878,
+      "Omega_m0": 0.3065134607975355,
+      "lambda_H_Lambda_over_H0": 21794.153904387247,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 60.45612638989824,
+      "Omega_m0": 0.26295367523257374,
+      "lambda_H_Lambda_over_H0": 3284.661583311487,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 63.278473887034465,
+      "Omega_m0": 0.3903070697589014,
+      "lambda_H_Lambda_over_H0": 2642.9252830302066,
+      "\\alpha": 0.5
+    }
+  ],
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "catalog_location": {
+    "source_n_terms": 1,
+    "source_local_number": 1
+  }
+}
