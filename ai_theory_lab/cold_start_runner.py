@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import pickle
 import random
 import signal
@@ -52,6 +53,9 @@ TOKEN_CONTEXT_MAX_DERIVATIVES = 2
 DIRECT_CANDIDATE_TOP_POOL = 36
 DIRECT_CANDIDATE_PAIR_POOL = 26
 DIRECT_CANDIDATE_R_PAIR_POOL = 16
+DIRECT_MIN_OPERATOR_TERMS = int(os.environ.get("AGENT_MIN_OPERATOR_TERMS", "2"))
+DIRECT_MAX_OPERATOR_TERMS = int(os.environ.get("AGENT_MAX_OPERATOR_TERMS", "12"))
+DIRECT_RANDOM_CANDIDATES_PER_POTENTIAL = int(os.environ.get("AGENT_RANDOM_CANDIDATES_PER_POTENTIAL", "28"))
 
 
 @contextmanager
@@ -725,11 +729,23 @@ def _entry_skeleton(
     }
 
 
-def _direct_candidate_catalog(context: Dict[str, Any]) -> List[Dict[str, Any]]:
+def _sample_operator_count(rng: random.Random) -> int:
+    low = max(1, int(DIRECT_MIN_OPERATOR_TERMS))
+    high = max(low, int(DIRECT_MAX_OPERATOR_TERMS))
+    return rng.randint(low, high)
+
+
+def _direct_candidate_catalog(
+    context: Dict[str, Any],
+    *,
+    rng: Optional[random.Random] = None,
+    target_operator_count: Optional[int] = None,
+) -> List[Dict[str, Any]]:
     candidates = sorted(getattr(context["masker"], "all_candidates", []) or [], key=_candidate_sort_key)
     catalog: List[Dict[str, Any]] = []
     seen: set[tuple] = set()
     local_number = 0
+    local_rng = rng or random.Random(0)
 
     def add_entry(scalar_config: str, potential_types: Dict[str, Any], chosen: Sequence[Any]) -> None:
         nonlocal local_number
@@ -756,23 +772,19 @@ def _direct_candidate_catalog(context: Dict[str, Any]) -> List[Dict[str, Any]]:
             continue
         r_anchor = next((_candidate for _candidate in allowed if _candidate_label(_candidate) == "R"), None)
         non_r = [_candidate for _candidate in allowed if _candidate is not r_anchor]
-        top_all = allowed[:DIRECT_CANDIDATE_TOP_POOL]
-        top_non_r = non_r[:DIRECT_CANDIDATE_TOP_POOL]
-        pair_pool = non_r[:DIRECT_CANDIDATE_PAIR_POOL]
-        r_pair_pool = non_r[:DIRECT_CANDIDATE_R_PAIR_POOL]
+        sample_count = max(1, int(DIRECT_RANDOM_CANDIDATES_PER_POTENTIAL))
 
         for potential_types in _potential_options_for_scalar_config(scalar_config):
-            for candidate in top_all:
-                add_entry(scalar_config, potential_types, (candidate,))
-            if r_anchor is not None:
-                for candidate in top_non_r:
-                    add_entry(scalar_config, potential_types, (r_anchor, candidate))
-                for i, first in enumerate(r_pair_pool):
-                    for second in r_pair_pool[i + 1:]:
-                        add_entry(scalar_config, potential_types, (r_anchor, first, second))
-            for i, first in enumerate(pair_pool):
-                for second in pair_pool[i + 1:]:
-                    add_entry(scalar_config, potential_types, (first, second))
+            for _ in range(sample_count):
+                desired = int(target_operator_count) if target_operator_count is not None else _sample_operator_count(local_rng)
+                desired = max(1, min(desired, len(allowed)))
+                chosen: List[Any] = []
+                if r_anchor is not None and desired >= 2 and local_rng.random() < 0.85:
+                    chosen.append(r_anchor)
+                    chosen.extend(local_rng.sample(non_r, min(desired - 1, len(non_r))))
+                else:
+                    chosen.extend(local_rng.sample(allowed, desired))
+                add_entry(scalar_config, potential_types, tuple(chosen))
 
     return catalog
 
@@ -881,7 +893,12 @@ def _generate_token_level_entry(
     seed: int,
 ) -> Dict[str, Any]:
     tensors = context["tensors"]
-    skeletons = _direct_candidate_catalog(context)
+    target_operator_count = _sample_operator_count(random.Random(seed + 8191))
+    skeletons = _direct_candidate_catalog(
+        context,
+        rng=random.Random(seed + 131071),
+        target_operator_count=target_operator_count,
+    )
     if not skeletons:
         raise RuntimeError("Token-level Grammar Masker candidate pool is empty")
 
@@ -906,6 +923,7 @@ def _generate_token_level_entry(
         local_number=int(selected["local_number"]),
     )
     compiled["proposal_mode"] = "direct_candidate_policy"
+    compiled["target_operator_count"] = target_operator_count
     return compiled
 
 
@@ -1164,6 +1182,7 @@ def _proposal_for(
         "cold_start": True,
         "source": "token_level_grammar",
         "proposal_mode": entry.get("proposal_mode", "deterministic"),
+        "target_operator_count": entry.get("target_operator_count"),
         **(
             {
                 "llm_model": entry.get("llm_model"),
