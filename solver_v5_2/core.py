@@ -369,6 +369,13 @@ def _require_agent_value(sample: Dict[str, float], names: List[str]) -> float:
     raise KeyError(" or ".join(names))
 
 
+def _optional_agent_value(sample: Dict[str, float], names: List[str]) -> Optional[float]:
+    for name in names:
+        if name in sample:
+            return float(sample[name])
+    return None
+
+
 def _agent_or_random_linear(
     sample: Optional[Dict[str, float]],
     names: List[str],
@@ -452,42 +459,76 @@ def robust_float(val: Any) -> float:
     return float(arr.item())
 
 
-def find_q0_root(C_func, base_args_without_q, q_range=(-MAX_ABS_Q0, MAX_ABS_Q0), n_scan=401) -> Optional[float]:
+def find_q0_root(
+    C_func,
+    base_args_without_q,
+    q_range=(-MAX_ABS_Q0, MAX_ABS_Q0),
+    n_scan=401,
+    q_hint: Optional[float] = None,
+    hint_window: Optional[float] = None,
+) -> Optional[float]:
     q_min, q_max = q_range
-    grid = np.linspace(q_min, q_max, n_scan)
-    vals = []
     roots = []
-    for qq in grid:
-        try:
-            v = robust_float(C_func(*base_args_without_q(float(qq))))
-            if not np.isfinite(v):
-                v = np.nan
-        except Exception:
-            v = np.nan
-        vals.append(v)
-        if np.isfinite(v) and abs(v) < 1e-10:
-            roots.append(float(qq))
-    vals = np.array(vals)
-    for i in range(len(grid)-1):
-        f1, f2 = vals[i], vals[i+1]
-        if not (np.isfinite(f1) and np.isfinite(f2)):
-            continue
-        if f1 == 0:
-            roots.append(float(grid[i]))
-        if f1 * f2 < 0:
+
+    def scan_interval(a: float, b: float, scan_count: int) -> None:
+        if not (np.isfinite(a) and np.isfinite(b)) or b <= a:
+            return
+        grid = np.linspace(a, b, max(3, int(scan_count)))
+        vals = []
+        for qq in grid:
             try:
-                root = brentq(lambda qq: robust_float(C_func(*base_args_without_q(float(qq)))),
-                              grid[i], grid[i+1], maxiter=100)
-                if np.isfinite(root):
-                    roots.append(float(root))
+                v = robust_float(C_func(*base_args_without_q(float(qq))))
+                if not np.isfinite(v):
+                    v = np.nan
             except Exception:
-                pass
+                v = np.nan
+            vals.append(v)
+            if np.isfinite(v) and abs(v) < 1e-10:
+                roots.append(float(qq))
+        vals_arr = np.array(vals)
+        for i in range(len(grid) - 1):
+            f1, f2 = vals_arr[i], vals_arr[i + 1]
+            if not (np.isfinite(f1) and np.isfinite(f2)):
+                continue
+            if f1 == 0:
+                roots.append(float(grid[i]))
+            if f1 * f2 < 0:
+                try:
+                    root = brentq(
+                        lambda qq: robust_float(C_func(*base_args_without_q(float(qq)))),
+                        grid[i],
+                        grid[i + 1],
+                        maxiter=100,
+                    )
+                    if np.isfinite(root):
+                        roots.append(float(root))
+                except Exception:
+                    pass
+
+    finite_hint = q_hint is not None and np.isfinite(q_hint)
+    if finite_hint:
+        center = float(np.clip(float(q_hint), q_min, q_max))
+        window = float(hint_window if hint_window is not None else PREFERRED_ABS_Q0)
+        local_min = max(q_min, center - abs(window))
+        local_max = min(q_max, center + abs(window))
+        scan_interval(local_min, local_max, n_scan)
+        if roots:
+            roots_sorted = []
+            for r in sorted(roots, key=lambda rr: abs(rr - center)):
+                if not any(abs(r-r0) < 1e-6 for r0 in roots_sorted):
+                    roots_sorted.append(r)
+            return float(roots_sorted[0])
+
+    scan_interval(q_min, q_max, n_scan)
     if not roots:
         return None
     roots_sorted = []
-    for r in sorted(roots, key=lambda rr: abs(rr)):
+    sort_key = (lambda rr: abs(rr - float(q_hint))) if finite_hint else (lambda rr: abs(rr))
+    for r in sorted(roots, key=sort_key):
         if not any(abs(r-r0) < 1e-6 for r0 in roots_sorted):
             roots_sorted.append(r)
+    if finite_hint:
+        return float(roots_sorted[0])
     preferred = [r for r in roots_sorted if abs(r) <= PREFERRED_ABS_Q0]
     return float((preferred or roots_sorted)[0])
 
@@ -616,9 +657,12 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         else:
             # phi2_only: solve for q2_0
             q1_0 = 0.0
+            q2_hint = None
+            if agent_sample is not None:
+                q2_hint = _optional_agent_value(agent_sample, ["q2_0_dvarphi2_dln_a", "q2_0"])
             def base_args(qtrial):
                 return make_args(0.0, 1.0, 0.0, 0.0, varphi2_0, qtrial)
-            q2_0 = find_q0_root(C_func, base_args)
+            q2_0 = find_q0_root(C_func, base_args, q_hint=q2_hint)
             if q2_0 is None:
                 return SampleResult(model.lag_id, False, "no acceptable real q2_0 root from E_N(x=0)=0")
     else:

@@ -30,6 +30,7 @@ from .cold_start_runner import (
 )
 from .harness import ROOT, validate_agent_sample_pipeline
 from .memory import record_attempt
+from .report import generate_report
 from .validation_result import ValidationResult
 from .dataset import chi2_quality_tier
 
@@ -43,11 +44,16 @@ class GraphAgentState(TypedDict, total=False):
     seed: int
     initial_parameter_samples: int
     expanded_parameter_samples: int
-    target_chi2: float
     expansion_chi2: float
     pre_sampling_timeout: int
     grammar_generation_timeout: int
     use_token_context_cache: bool
+    proposal_mode: str
+    llm_model: str
+    llm_fallback: str
+    llm_proposal_timeout: int
+    llm_api_timeout: int
+    proposal_memory_enabled: bool
     rng: Any
     token_context: Any
     entry: Dict[str, Any]
@@ -58,7 +64,7 @@ class GraphAgentState(TypedDict, total=False):
     decision: Dict[str, Any]
     next_action: str
     skip_expansion_reason: Optional[str]
-    target_reached: bool
+    fatal_stop: bool
     results: List[Dict[str, Any]]
     loop_traces: List[Dict[str, Any]]
     summary: Dict[str, Any]
@@ -148,7 +154,7 @@ def initialize_run(state: GraphAgentState) -> Dict[str, Any]:
             }
         ]
         updates["summary"] = memory_info["summary"]
-        updates["target_reached"] = True
+        updates["fatal_stop"] = True
         updates["messages"] = [*updates["messages"], "Grammar generation failed; stopping graph run."]
     return updates
 
@@ -175,21 +181,64 @@ def propose_theory(state: GraphAgentState) -> Dict[str, Any]:
     proposal_dir = Path(str(state["proposal_dir"]))
     memory_dir = Path(str(state["memory_dir"]))
     rng = state["rng"]
+    summary = state.get("summary") or {}
+    proposal_summary = summary if bool(state.get("proposal_memory_enabled", True)) else {}
+    proposal_mode = str(state.get("proposal_mode") or "deterministic")
+    llm_fallback = str(state.get("llm_fallback") or "deterministic")
     try:
-        with _wall_timeout(int(state["pre_sampling_timeout"]), "Token-level proposal generation"):
-            entry = _generate_token_level_entry(
-                state["token_context"],
-                state.get("summary") or {},
-                rng,
-                seed + loop_index * 7919,
-            )
+        if proposal_mode == "llm":
+            with _wall_timeout(int(state.get("llm_proposal_timeout", 600)), "LLM proposal generation"):
+                try:
+                    from .llm_agent import propose_entry_with_llm
+
+                    entry = propose_entry_with_llm(
+                        state["token_context"],
+                        proposal_summary,
+                        rng,
+                        seed + loop_index * 7919,
+                        model=str(state.get("llm_model") or "") or None,
+                        api_timeout=float(state.get("llm_api_timeout", 120)),
+                        debug_dir=proposal_dir / "llm_proposal_debug",
+                        loop_id=f"loop_{loop_index:02d}",
+                    )
+                except Exception as llm_exc:
+                    if llm_fallback == "fail":
+                        raise RuntimeError(f"LLM proposal failed in strict mode: {type(llm_exc).__name__}: {llm_exc}") from llm_exc
+                    print(
+                        f"[{loop_index:02d}/{state['loop_count']}] "
+                        f"LLM proposal failed; falling back to deterministic proposal: "
+                        f"{type(llm_exc).__name__}: {llm_exc}",
+                        flush=True,
+                    )
+                    entry = _generate_token_level_entry(
+                        state["token_context"],
+                        proposal_summary,
+                        rng,
+                        seed + loop_index * 7919,
+                    )
+                    entry["proposal_mode"] = "deterministic_fallback"
+                    entry["llm_error"] = f"{type(llm_exc).__name__}: {llm_exc}"
+        else:
+            with _wall_timeout(int(state["pre_sampling_timeout"]), "Token-level proposal generation"):
+                entry = _generate_token_level_entry(
+                    state["token_context"],
+                    proposal_summary,
+                    rng,
+                    seed + loop_index * 7919,
+                )
+                entry["proposal_mode"] = entry.get("proposal_mode", "direct_candidate_policy")
     except Exception as exc:
+        strict_llm_failure = proposal_mode == "llm" and llm_fallback == "fail"
         result = ValidationResult(
             validated=False,
-            failed_stage="GrammarGeneration",
+            failed_stage="LLMProposal" if strict_llm_failure else "GrammarGeneration",
             diagnostics={
                 "message": f"Token-level proposal generation failed before validation: {type(exc).__name__}: {exc}",
-                "failure_kind": "pre_sampling_timeout" if isinstance(exc, TimeoutError) else "grammar_generation_failure",
+                "failure_kind": (
+                    "llm_proposal_failure"
+                    if strict_llm_failure
+                    else ("pre_sampling_timeout" if isinstance(exc, TimeoutError) else "grammar_generation_failure")
+                ),
             },
         )
         memory_info = record_attempt(result, memory_dir, loop_id=f"loop_{loop_index:02d}")
@@ -201,7 +250,7 @@ def propose_theory(state: GraphAgentState) -> Dict[str, Any]:
             "source_lagrangians_path": None,
             "parameter_samples_path": None,
             "validated": False,
-            "failed_stage": "GrammarGeneration",
+            "failed_stage": result.failed_stage,
             "chi2": None,
             "family_key": attempt["family_key"],
             "coarse_family_key": attempt.get("coarse_family_key"),
@@ -211,8 +260,8 @@ def propose_theory(state: GraphAgentState) -> Dict[str, Any]:
             "diagnostic_message": result.diagnostics["message"],
             "decision": {
                 "loop": loop_index,
-                "after_stage": "grammar_generation",
-                "action": "next_theory",
+                "after_stage": "llm_proposal" if strict_llm_failure else "grammar_generation",
+                "action": "stop" if strict_llm_failure else "next_theory",
                 "reason": "token-level proposal generation failed before validation",
                 "evidence": [result.diagnostics["message"]],
             },
@@ -221,15 +270,26 @@ def propose_theory(state: GraphAgentState) -> Dict[str, Any]:
             "results": [*state.get("results", []), row],
             "summary": memory_info["summary"],
             "decision": row["decision"],
-            "next_action": "skip_validation",
-            "messages": _append(state, f"Proposal generation failed for loop {loop_index}; skipping validation."),
+            "next_action": "stop" if strict_llm_failure else "skip_validation",
+            "fatal_stop": bool(strict_llm_failure),
+            "messages": _append(
+                state,
+                (
+                    f"Strict LLM proposal failed for loop {loop_index}; stopping graph run."
+                    if strict_llm_failure
+                    else f"Proposal generation failed for loop {loop_index}; skipping validation."
+                ),
+            ),
         }
     source_path = proposal_dir / f"loop_{loop_index:02d}_token_lagrangians.pkl"
     _write_token_level_source(entry, source_path)
     return {
         "entry": entry,
         "source_path": str(source_path),
-        "messages": _append(state, f"Proposed token-level legal theory for loop {loop_index}."),
+        "messages": _append(
+            state,
+            f"Proposed token-level legal theory for loop {loop_index} using {entry.get('proposal_mode', proposal_mode)} mode.",
+        ),
     }
 
 
@@ -241,8 +301,9 @@ def validate_initial(state: GraphAgentState) -> Dict[str, Any]:
     rng = state["rng"]
     entry = state["entry"]
     summary = state.get("summary") or {}
+    proposal_summary = summary if bool(state.get("proposal_memory_enabled", True)) else {}
 
-    samples = _parameter_samples(entry, rng, int(state["initial_parameter_samples"]), summary)
+    samples = _parameter_samples(entry, rng, int(state["initial_parameter_samples"]), proposal_summary)
     proposal = _proposal_for(entry, loop_index, samples, "initial")
     proposal_path = proposal_dir / f"loop_{loop_index:02d}_initial.json"
     parameter_path = proposal_dir / f"loop_{loop_index:02d}_initial_parameter_samples.json"
@@ -258,7 +319,6 @@ def validate_initial(state: GraphAgentState) -> Dict[str, Any]:
         timeout_builder=int(state["pre_sampling_timeout"]),
         timeout_solver=600,
         extra_env={
-            "AGENT_EARLY_STOP_CHI2": str(state["target_chi2"]),
             "SOLVER_SETUP_TIMEOUT_SECONDS": str(state["pre_sampling_timeout"]),
         },
     )
@@ -276,7 +336,6 @@ def validate_initial(state: GraphAgentState) -> Dict[str, Any]:
     results = [*state.get("results", []), row]
     best = _best_chi2(result)
     skip_reason = _structural_expansion_skip_reason(attempt, best)
-    target_reached = best is not None and best <= float(state["target_chi2"])
     status = "ok" if result.validated else f"fail:{result.failed_stage}"
     print(
         f"[{loop_index:02d}/{state['loop_count']}] initial {status} chi2={result.chi2} "
@@ -292,7 +351,6 @@ def validate_initial(state: GraphAgentState) -> Dict[str, Any]:
         "latest_record": row,
         "summary": memory_info["summary"],
         "skip_expansion_reason": skip_reason,
-        "target_reached": target_reached,
         "messages": _append(state, f"Initial validation completed for loop {loop_index}."),
     }
 
@@ -305,8 +363,9 @@ def validate_expanded(state: GraphAgentState) -> Dict[str, Any]:
     rng = state["rng"]
     entry = state["entry"]
     summary = state.get("summary") or {}
+    proposal_summary = summary if bool(state.get("proposal_memory_enabled", True)) else {}
 
-    samples = _parameter_samples(entry, rng, int(state["expanded_parameter_samples"]), summary)
+    samples = _parameter_samples(entry, rng, int(state["expanded_parameter_samples"]), proposal_summary)
     proposal = _proposal_for(entry, loop_index, samples, "expanded")
     proposal_path = proposal_dir / f"loop_{loop_index:02d}_expanded.json"
     parameter_path = proposal_dir / f"loop_{loop_index:02d}_expanded_parameter_samples.json"
@@ -322,7 +381,6 @@ def validate_expanded(state: GraphAgentState) -> Dict[str, Any]:
         timeout_builder=int(state["pre_sampling_timeout"]),
         timeout_solver=1200,
         extra_env={
-            "AGENT_EARLY_STOP_CHI2": str(state["target_chi2"]),
             "SOLVER_SETUP_TIMEOUT_SECONDS": str(state["pre_sampling_timeout"]),
         },
     )
@@ -338,8 +396,6 @@ def validate_expanded(state: GraphAgentState) -> Dict[str, Any]:
         attempt=attempt,
     )
     results = [*state.get("results", []), row]
-    best = _best_chi2(result)
-    target_reached = best is not None and best <= float(state["target_chi2"])
     status = "ok" if result.validated else f"fail:{result.failed_stage}"
     print(
         f"[{loop_index:02d}/{state['loop_count']}] expanded {status} chi2={result.chi2} "
@@ -350,7 +406,6 @@ def validate_expanded(state: GraphAgentState) -> Dict[str, Any]:
         "results": results,
         "latest_record": row,
         "summary": memory_info["summary"],
-        "target_reached": target_reached,
         "messages": _append(state, f"Expanded validation completed for loop {loop_index}."),
     }
 
@@ -425,11 +480,7 @@ def decide_after_initial(state: GraphAgentState) -> Dict[str, Any]:
     record = state.get("initial_record") or {}
     skip_reason = state.get("skip_expansion_reason")
     evidence: List[str] = []
-    if bool(state.get("target_reached")):
-        action = "stop"
-        reason = "target chi-square reached"
-        evidence.append(f"chi2={record.get('chi2')} <= target={state.get('target_chi2')}")
-    elif skip_reason:
+    if skip_reason:
         action = "skip_expand"
         reason = str(skip_reason)
         evidence.append(str(skip_reason))
@@ -468,12 +519,8 @@ def decide_after_initial(state: GraphAgentState) -> Dict[str, Any]:
 
 def decide_after_expanded(state: GraphAgentState) -> Dict[str, Any]:
     record = state.get("latest_record") or {}
-    if bool(state.get("target_reached")):
-        action = "stop"
-        reason = "target chi-square reached after expanded sampling"
-    else:
-        action = "next_theory"
-        reason = "expanded validation completed"
+    action = "next_theory"
+    reason = "expanded validation completed"
     decision = {
         "loop": record.get("loop"),
         "after_stage": "expanded",
@@ -530,31 +577,40 @@ def finalize_run(state: GraphAgentState) -> Dict[str, Any]:
     proposal_dir = Path(str(state["proposal_dir"]))
     memory_dir = Path(str(state["memory_dir"]))
     final_summary = _load_summary(memory_dir)
+    messages = list(state.get("messages", []))
+    report_dir = ROOT / "ai_theory_lab" / "reports" / str(state["run_name"])
+    try:
+        report_dir = generate_report(str(state["run_name"]), top_n=20, output_dir=report_dir)
+        messages.append(f"Generated result report at {report_dir}.")
+    except Exception as exc:
+        messages.append(f"Result report generation failed: {exc}")
     output = {
         "run_name": state["run_name"],
         "proposal_dir": str(proposal_dir),
         "memory_dir": str(memory_dir),
+        "report_dir": str(report_dir),
         "results": state.get("results", []),
         "loop_traces": state.get("loop_traces", []),
         "summary": final_summary,
-        "messages": state.get("messages", []),
+        "messages": messages,
         "orchestrator": "langgraph",
     }
     (proposal_dir / "run_summary.json").write_text(
         json.dumps(output, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
-    return {"summary": final_summary, "messages": _append(state, "Wrote graph run summary.")}
+    messages.append("Wrote graph run summary.")
+    return {"summary": final_summary, "messages": messages}
 
 
 def route_after_initialize(state: GraphAgentState) -> str:
-    if bool(state.get("target_reached")) or int(state.get("loop_count", 0)) <= 0:
+    if bool(state.get("fatal_stop")) or int(state.get("loop_count", 0)) <= 0:
         return "finalize_run"
     return "start_loop"
 
 
 def route_after_proposal(state: GraphAgentState) -> str:
-    if state.get("next_action") == "skip_validation":
+    if bool(state.get("fatal_stop")) or state.get("next_action") in {"skip_validation", "stop"}:
         return "write_loop_trace"
     return "validate_initial"
 
@@ -566,14 +622,12 @@ def route_after_initial_decision(state: GraphAgentState) -> str:
 
 
 def route_after_trace(state: GraphAgentState) -> str:
-    if state.get("next_action") == "stop" or bool(state.get("target_reached")):
+    if bool(state.get("fatal_stop")) or state.get("next_action") == "stop":
         return "finalize_run"
     return "advance_loop"
 
 
 def route_after_loop(state: GraphAgentState) -> str:
-    if bool(state.get("target_reached")):
-        return "finalize_run"
     if int(state.get("loop_index", 1)) > int(state.get("loop_count", 0)):
         return "finalize_run"
     return "start_loop"
@@ -617,11 +671,16 @@ def run_graph_agent(
     run_name: Optional[str] = None,
     initial_parameter_samples: int = 1000,
     expanded_parameter_samples: int = 3000,
-    target_chi2: float = 1650.0,
     expansion_chi2: float = 2000.0,
     pre_sampling_timeout: int = 120,
     grammar_generation_timeout: int = 0,
     use_token_context_cache: bool = True,
+    proposal_mode: str = "deterministic",
+    llm_model: str = "",
+    llm_fallback: str = "deterministic",
+    llm_proposal_timeout: int = 600,
+    llm_api_timeout: int = 120,
+    proposal_memory_enabled: bool = True,
 ) -> GraphAgentState:
     app = build_graph()
     initial: GraphAgentState = {
@@ -630,11 +689,16 @@ def run_graph_agent(
         "run_name": run_name or "",
         "initial_parameter_samples": initial_parameter_samples,
         "expanded_parameter_samples": expanded_parameter_samples,
-        "target_chi2": target_chi2,
         "expansion_chi2": expansion_chi2,
         "pre_sampling_timeout": pre_sampling_timeout,
         "grammar_generation_timeout": grammar_generation_timeout,
         "use_token_context_cache": use_token_context_cache,
+        "proposal_mode": proposal_mode,
+        "llm_model": llm_model,
+        "llm_fallback": llm_fallback,
+        "llm_proposal_timeout": llm_proposal_timeout,
+        "llm_api_timeout": llm_api_timeout,
+        "proposal_memory_enabled": proposal_memory_enabled,
         "messages": [],
     }
     return app.invoke(initial)
@@ -647,7 +711,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--run-name")
     parser.add_argument("--initial-parameter-samples", type=int, default=1000)
     parser.add_argument("--expanded-parameter-samples", type=int, default=3000)
-    parser.add_argument("--target-chi2", type=float, default=1650.0)
     parser.add_argument("--expansion-chi2", type=float, default=2000.0)
     parser.add_argument("--pre-sampling-timeout", type=int, default=120)
     parser.add_argument(
@@ -661,6 +724,40 @@ def main(argv: Optional[List[str]] = None) -> int:
         action="store_true",
         help="Rebuild token-level Grammar Masker candidate context instead of loading/saving the cache.",
     )
+    parser.add_argument(
+        "--proposal-mode",
+        choices=("deterministic", "llm"),
+        default="deterministic",
+        help="Select theories deterministically or via OpenAI API choice from grammar-generated candidates.",
+    )
+    parser.add_argument(
+        "--llm-model",
+        default="",
+        help="OpenAI model for --proposal-mode llm. Defaults to OPENAI_MODEL or gpt-5-mini.",
+    )
+    parser.add_argument(
+        "--llm-fallback",
+        choices=("deterministic", "fail"),
+        default="deterministic",
+        help="When LLM proposal fails, either fall back to deterministic proposal or stop the run.",
+    )
+    parser.add_argument(
+        "--llm-proposal-timeout",
+        type=int,
+        default=600,
+        help="Wall-time limit for LLM candidate generation plus API selection.",
+    )
+    parser.add_argument(
+        "--llm-api-timeout",
+        type=int,
+        default=120,
+        help="HTTP timeout for the OpenAI API candidate-selection call.",
+    )
+    parser.add_argument(
+        "--no-proposal-memory",
+        action="store_true",
+        help="Do not feed current-loop memory summaries into Lagrangian proposal or parameter sampling.",
+    )
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args(argv)
 
@@ -670,11 +767,16 @@ def main(argv: Optional[List[str]] = None) -> int:
         run_name=args.run_name,
         initial_parameter_samples=args.initial_parameter_samples,
         expanded_parameter_samples=args.expanded_parameter_samples,
-        target_chi2=args.target_chi2,
         expansion_chi2=args.expansion_chi2,
         pre_sampling_timeout=args.pre_sampling_timeout,
         grammar_generation_timeout=args.grammar_generation_timeout,
         use_token_context_cache=not args.no_token_context_cache,
+        proposal_mode=args.proposal_mode,
+        llm_model=args.llm_model,
+        llm_fallback=args.llm_fallback,
+        llm_proposal_timeout=args.llm_proposal_timeout,
+        llm_api_timeout=args.llm_api_timeout,
+        proposal_memory_enabled=not args.no_proposal_memory,
     )
     output = {
         "run_name": state.get("run_name"),
@@ -685,6 +787,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         "summary": state.get("summary", {}),
         "messages": state.get("messages", []),
         "orchestrator": "langgraph",
+        "proposal_mode": args.proposal_mode,
+        "llm_model": args.llm_model,
+        "llm_fallback": args.llm_fallback,
+        "proposal_memory_enabled": not args.no_proposal_memory,
     }
     print(json.dumps(output, indent=2 if args.pretty else None, ensure_ascii=False, default=str))
     return 0

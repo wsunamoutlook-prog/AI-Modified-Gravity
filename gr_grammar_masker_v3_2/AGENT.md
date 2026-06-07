@@ -12,9 +12,9 @@ python "Builder v5.2.py"
 python "Solver v5.2.py"
 ```
 
-For agent-style validation, do not reuse the full batch `lagrangians.pkl` directly as the proposal interface. The preferred interface is `proposal.json`, where the agent writes a structured theory and parameter samples. The harness compiles that proposal into an isolated `agent_lagrangians.pkl` and passes that file to EOM with `EOM_LAGRANGIANS_PATH`. Random smoke checks may sample one existing theory from `lagrangians.pkl`, but the isolated `agent_lagrangians.pkl` remains the input to the strict validation chain.
+For agent-style validation, do not reuse the full batch `lagrangians.pkl` directly as the discovery proposal interface. The preferred discovery path is `graph_agent.py`, where the agent builds or loads the token-level Grammar Masker candidate context, chooses legal `CandidateScalar` operators, scalar configuration, potential type, and parameters, then writes an isolated `agent_lagrangians.pkl` for EOM with `EOM_LAGRANGIANS_PATH`. Random smoke checks may sample one existing theory from `lagrangians.pkl`, but that is replay/debugging, not discovery.
 
-Current proposal compilation matches the theory JSON against legal structures already present in `lagrangians.pkl`. This keeps agent proposals grammar-constrained and prevents arbitrary symbolic expressions from bypassing Grammar Masker.
+Cold-start proposal compilation constructs the selected Lagrangian directly from legal Grammar Masker candidates. It must use the same sector rules, `M_p²` placement, `Λ` powers, fixed scalar matter terms, and coefficient metadata as `generate_lagrangians`, but it must not call the random `generate_lagrangians(... n_samples=...)` batch generator to choose a finished theory.
 
 For cold-start discovery, the agent must not inspect historical `solver_result/` outputs before proposing. It should propose from Grammar Masker rules, allowed candidate labels, scalar configurations, and current-loop feedback only. Historical Solver winners may be used for replay tests, but replay is not discovery.
 
@@ -38,7 +38,7 @@ Downstream consumer:
 ## Main Files
 
 - `runner.py`: orchestrates the stage, applies environment settings, writes text and pickle outputs.
-- `grammar.py`: defines allowed grammar tokens, dimensions, candidate scalars, scalar configurations, and random Lagrangian generation.
+- `grammar.py`: defines allowed grammar tokens, dimensions, candidate scalars, scalar configurations, and the batch Lagrangian generator used for ordinary non-agent runs.
 - `tensor.py`: builds FLRW tensors and evaluates contractions.
 
 ## Theory Space

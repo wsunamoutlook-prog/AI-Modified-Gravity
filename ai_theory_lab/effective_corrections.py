@@ -34,11 +34,12 @@ def _read_csv_first(path: Path | None) -> Dict[str, str]:
 def coefficient_value(row: Dict[str, str], symbol: str) -> Optional[str]:
     if symbol in {"1", "COEFF_FIXED_1"}:
         return "1"
+    bare_symbol = symbol.replace("\\", "")
     candidates = [
         symbol,
-        symbol.replace("\\", ""),
-        f"coef:{symbol.replace('\\', '')}",
-        f"coefficient:{symbol.replace('\\', '')}",
+        bare_symbol,
+        f"coef:{bare_symbol}",
+        f"coefficient:{bare_symbol}",
     ]
     for key in candidates:
         if key in row and row[key] not in ("", None):

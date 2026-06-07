@@ -125,12 +125,12 @@ Default policy:
 - If a pre-sampling stage exceeds 120s, skip that theory and record the timeout as feedback.
 - Generate 1000 parameter samples for the theory.
 - Run the real Solver with those explicit samples.
-- Stop early if any accepted sample reaches chi-square close to the target region, currently `chi2 <= 1650`.
+- Do not stop the agent run early because a sample reaches low chi-square. Low chi-square is recorded as a quality label and learning signal, but the requested loop count should still run unless a hard failure stops initialization.
 - If the first 1000 samples do not produce any sample with `chi2 < 2000`, generate and test 3000 parameter samples for the same theory before giving up on that theory family.
 - If the first 1000 samples produce no accepted `chi2` and the reject feedback is structural or dominated by hard numerical failures, skip the 3000-sample expansion and change the theory structure instead. Skip-trigger feedback includes `q_initial_root_failure`, repeated `q_not_determined`, repeated `no_scalar_constraint`, high-count `constraint_drift`, high-count `integration_failure`, pre-sampling timeout, or symbolic timeout.
 - Record every parameter sample, including rejected samples, in Solver's `all_samples_summary.csv`.
 
-The 120s wall is not applied to the numerical sampling budget itself. Sampling is controlled by the 1000/3000 sample policy and early stopping.
+The 120s wall is not applied to the numerical sampling budget itself. Sampling is controlled by the 1000/3000 sample policy and structural skip rules.
 
 The independent-scalar discovery step should not be repeated for every loop. Repeating it wastes time and prevents the agent from reaching EOM/Builder/Solver feedback.
 

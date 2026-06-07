@@ -292,6 +292,16 @@ generate token-level legal theory
 
 The parameter prior must come from current-loop Solver feedback. Accepted rows in `all_samples_summary.csv` are used to estimate quantile ranges for common parameters such as `H0_km_s_Mpc`, `Omega_m0`, `lambda_H_Lambda_over_H0`, scalar initial values, scalar mass/decay parameters, and coefficient magnitudes/signs.
 
+At proposal time, parameter sampling should be done as a whole physical configuration, not as unrelated independent draws. The cold-start sampler must choose `lambda_H`, scalar initial values, and free correction coefficients together. For non-EH curvature correction terms, choose coefficient magnitudes from a planned effective size relative to the EH term:
+
+```text
+|c_i| ~= target_relative_effect * |c_EH| / (lambda_H^(lambda_power_i) * field_factor_i)
+```
+
+Use a mixed sampling schedule with baseline, weak, moderate, and small active-probe correction modes. This is only a proposal-time sampling policy; Solver ranking and human-facing reports still sort by real `chi2`. EH `R` remains fixed by the configured EH coefficient and should not be penalized or rescaled as a modified-gravity correction.
+
+The proposal-time coefficient cap in `config_p.py` is an exploration bound, not a physical acceptance rule. Large coefficients are allowed up to that cap so high-dimension `Lambda`-suppressed operators can be tested; unstable samples should be rejected by the real Solver feedback rather than hidden by an overly small proposal cap.
+
 Parameter-prior updates are gated. `H0_km_s_Mpc` must keep the default range from `config_p.py`. All other parameters initially use the default range near `config_p.py`; after at least 500 current-loop attempts and at least 20 accepted Solver sample rows, the agent may use accepted-sample quantiles to update `parameter_prior.json`.
 
 Default cold-start parameter ranges live in:
@@ -302,7 +312,11 @@ ai_theory_lab/config_p.py
 
 The runner should import these defaults instead of hard-coding ranges locally. Learned `parameter_prior.json` may narrow or override these defaults after enough accepted current-loop samples exist.
 
-For genuine cold-start discovery, do not choose theory structures by looking up full entries from `lagrangians.pkl`. That file may be used for replay, regression, or compatibility tests. A discovery agent should generate fresh legal structures from token-level Grammar Masker rules, then validate the isolated generated theory through EOM, Builder, and Solver.
+The default `phi2` prior should cover both signs of `varphi2_0_phi2_over_Lambda`, a wider `q2_0_dvarphi2_dln_a` range for two-scalar proposals, lower `lambda_H_Lambda_over_H0` values down to the few-hundred range, and larger `fbar2_f2_over_Lambda` values. These wider ranges are exploration priors; invalid samples are rejected by the Solver.
+
+For genuine cold-start discovery, do not choose theory structures by looking up full entries from `lagrangians.pkl`. That file may be used for replay, regression, or compatibility tests. A discovery agent should generate fresh legal structures from the token-level Grammar Masker candidate pool, then validate the isolated generated theory through EOM, Builder, and Solver.
+
+The cold-start agent should construct each Lagrangian directly from legal `CandidateScalar` operators in the cached token context. It should choose scalar configuration, potential type, and candidate-operator combination, compile the selected combination into a full dimension-balanced `agent_lagrangians.pkl`, and only then run validation. It must not use Grammar Masker's random `generate_lagrangians(... n_samples=...)` batch generator as the proposal source for discovery loops.
 
 For each theory, the default parameter policy is:
 
@@ -312,13 +326,13 @@ For each theory, the default parameter policy is:
 - load the token-level independent-scalar candidate space from `ai_theory_lab/cache/` when available, or build it once and cache it for future runs;
 - apply the same 120s wall-time limit to each per-loop token-level proposal generation attempt after the candidate space has been built; if a proposal attempt times out, record it as a `GrammarGeneration`/`pre_sampling_timeout` failure and move to the next loop;
 - propose 1000 explicit parameter samples;
-- stop early if an accepted sample reaches `chi2 <= 1650`;
+- do not stop the agent run early because a theory reaches a low chi-square; low chi-square is a quality label and learning signal, not a loop-termination condition;
 - if no sample from the first 1000 reaches `chi2 < 2000`, test 3000 explicit samples for the same theory only when the first pass is not clearly structural or numerically unstable;
 - do not expand to 3000 samples when the first 1000 produce no accepted `chi2` and the feedback shows a structural or dominant numerical failure such as `q_initial_root_failure`, `q_not_determined`, `no_scalar_constraint`, high-count `constraint_drift`, high-count `integration_failure`, pre-sampling timeout, or symbolic timeout;
 - also skip the 3000-sample expansion for `scalar=none` empty-ranking failures and for no-accepted first passes tagged with `constraint_drift` or `integration_failure`, because these have been low-yield in current-loop tests;
 - read Solver's `all_samples_summary.csv` so every accepted and rejected parameter sample contributes feedback.
 
-Do not apply the 120s pre-sampling wall to the numerical sampling loop itself; sampling is governed by the explicit sample budget and early stopping.
+Do not apply the 120s pre-sampling wall to the numerical sampling loop itself; sampling is governed by the explicit 1000/3000 sample budget and structural skip rules.
 
 The token-context cache stores Grammar Masker candidate discovery results only. It is allowed in cold-start discovery because it does not contain historical Solver rankings, accepted chi-square values, best-fit parameters, or prior run proposal choices. To force a rebuild, use:
 

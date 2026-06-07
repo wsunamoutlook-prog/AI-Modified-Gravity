@@ -13,10 +13,22 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
-from gr_grammar_masker_v3_2.grammar import GravityMasker
-from gr_grammar_masker_v3_2.runner import _build_tensors_dict, _register_dynamic_functions_for_pickle
+import sympy as sp
 
-from .config_p import COEFFICIENT_PRIOR, EH_R_COEFFICIENT, PARAMETER_PRIORS
+from gr_grammar_masker_v3_2.grammar import (
+    GravityMasker,
+    Lambda_eft,
+    Mp,
+    _GREEK_COEFFS,
+    f1_axion,
+    f2_axion,
+    m1_phi,
+    m2_phi,
+)
+from gr_grammar_masker_v3_2.runner import _build_tensors_dict, _register_dynamic_functions_for_pickle
+from gr_grammar_masker_v3_2.tensor import sqrt_mg
+
+from .config_p import CORRECTION_SAMPLING, COEFFICIENT_PRIOR, EH_R_COEFFICIENT, PARAMETER_PRIORS
 from .harness import ROOT, validate_agent_sample_pipeline
 from .memory import record_attempt
 from .policy_model import score_entry_from_policy
@@ -37,6 +49,9 @@ SCALAR_FAMILY_MIN_EXPLORATION = 0.08
 TOKEN_CONTEXT_CACHE_VERSION = 1
 TOKEN_CONTEXT_DIMS = (2, 3, 4, 5, 6)
 TOKEN_CONTEXT_MAX_DERIVATIVES = 2
+DIRECT_CANDIDATE_TOP_POOL = 36
+DIRECT_CANDIDATE_PAIR_POOL = 26
+DIRECT_CANDIDATE_R_PAIR_POOL = 16
 
 
 @contextmanager
@@ -433,6 +448,335 @@ def _entry_from_lagrangian(lagrangian: Dict[str, Any], n_terms: int, local_numbe
     }
 
 
+def _candidate_label(candidate: Any) -> str:
+    return str(getattr(candidate, "contraction_label", "") or getattr(candidate, "general_label", ""))
+
+
+def _candidate_sort_key(candidate: Any) -> tuple:
+    label = _candidate_label(candidate)
+    sector = str(getattr(candidate, "sector", ""))
+    mass_dim = int(getattr(candidate, "mass_dim", 99))
+    has_derivative = "∇" in label
+    has_phi = "φ" in label
+    has_curvature = "R" in label
+    high_curvature = label.count("R") >= 2 or "R^{ab}" in label or "R_{ab}" in label
+    exact_r = label == "R"
+    sector_rank = {"gravity": 0, "non-minimal": 1, "scalar": 2}.get(sector, 3)
+    return (
+        0 if exact_r else 1,
+        sector_rank,
+        mass_dim,
+        1 if has_derivative else 0,
+        1 if high_curvature else 0,
+        0 if has_curvature else 1,
+        1 if has_phi else 0,
+        label,
+    )
+
+
+def _candidate_allowed_for_scalar_config(candidate: Any, scalar_config: str) -> bool:
+    involves_phi1 = GravityMasker._involves_phi1(candidate)
+    involves_phi2 = GravityMasker._involves_phi2(candidate)
+    if scalar_config == "none":
+        return not involves_phi1 and not involves_phi2
+    if scalar_config == "phi1_only":
+        return not involves_phi2
+    if scalar_config == "phi2_only":
+        return not involves_phi1
+    if scalar_config == "both":
+        return True
+    return False
+
+
+def _potential_options_for_scalar_config(scalar_config: str) -> List[Dict[str, Any]]:
+    if scalar_config == "none":
+        return [{"phi1": None, "phi2": None}]
+    if scalar_config == "phi1_only":
+        return [{"phi1": pot1, "phi2": None} for pot1 in ("quadratic", "axion")]
+    if scalar_config == "phi2_only":
+        return [{"phi1": None, "phi2": pot2} for pot2 in ("quadratic", "axion")]
+    if scalar_config == "both":
+        return [
+            {"phi1": pot1, "phi2": pot2}
+            for pot1 in ("quadratic", "axion")
+            for pot2 in ("quadratic", "axion")
+        ]
+    raise ValueError(f"Unknown scalar_config: {scalar_config}")
+
+
+def _coefficient_symbol_for_index(index: int) -> sp.Symbol:
+    if index < len(_GREEK_COEFFS):
+        return _GREEK_COEFFS[index]
+    return sp.Symbol(f"c_{{{index + 1}}}")
+
+
+def _make_direct_potential(tensors: Dict[str, Any], which: int, pot_type: str) -> tuple[str, Any]:
+    if which == 1:
+        m, f, phi = m1_phi, f1_axion, tensors["phi1"]
+        m_str, f_str, phi_str = "m_1", "f_1", "φ1"
+    else:
+        m, f, phi = m2_phi, f2_axion, tensors["phi2"]
+        m_str, f_str, phi_str = "m_2", "f_2", "φ2"
+
+    if pot_type == "quadratic":
+        return f"-½ {m_str}² {phi_str}²", sp.Rational(-1, 2) * m**2 * phi**2
+    if pot_type == "axion":
+        return f"-{m_str}² {f_str}² (1 - cos({phi_str}/{f_str}))", -m**2 * f**2 * (1 - sp.cos(phi / f))
+    raise ValueError(f"Invalid potential type for phi{which}: {pot_type!r}")
+
+
+def _direct_fixed_matter_terms(
+    tensors: Dict[str, Any],
+    scalar_config: str,
+    potential_types: Dict[str, Any],
+) -> tuple[List[str], Any, List[Dict[str, Any]]]:
+    include_phi1 = scalar_config in {"phi1_only", "both"}
+    include_phi2 = scalar_config in {"phi2_only", "both"}
+    t_coord = tensors["coords"][0]
+    n_func = sp.Function("N", positive=True)(t_coord)
+    general_parts: List[str] = []
+    substituted = sp.Integer(0)
+    term_info: List[Dict[str, Any]] = []
+
+    if include_phi1:
+        phi1_dot = sp.Derivative(tensors["phi1"], t_coord)
+        kinetic_general = "-½ g^{μν} ∇_μφ1 ∇_νφ1"
+        kinetic_value = sp.Rational(1, 2) * phi1_dot**2 / n_func**2
+        pot_general, pot_value = _make_direct_potential(tensors, 1, str(potential_types.get("phi1")))
+        general_parts.extend([kinetic_general, pot_general])
+        substituted += kinetic_value + pot_value
+        term_info.append({
+            "coeff_symbol": "1",
+            "coeff_token": "COEFF_FIXED_1",
+            "candidate": kinetic_general,
+            "mass_dim": 4,
+            "lambda_power": 0,
+            "fixed": True,
+            "sector": "matter",
+        })
+        term_info.append({
+            "coeff_symbol": "1",
+            "coeff_token": "COEFF_FIXED_1",
+            "candidate": pot_general,
+            "mass_dim": 4,
+            "lambda_power": 0,
+            "fixed": True,
+            "sector": "matter",
+            "potential_type": potential_types.get("phi1"),
+        })
+
+    if include_phi2:
+        phi2_dot = sp.Derivative(tensors["phi2"], t_coord)
+        kinetic_general = "-½ g^{μν} ∇_μφ2 ∇_νφ2"
+        kinetic_value = sp.Rational(1, 2) * phi2_dot**2 / n_func**2
+        pot_general, pot_value = _make_direct_potential(tensors, 2, str(potential_types.get("phi2")))
+        general_parts.extend([kinetic_general, pot_general])
+        substituted += kinetic_value + pot_value
+        term_info.append({
+            "coeff_symbol": "1",
+            "coeff_token": "COEFF_FIXED_1",
+            "candidate": kinetic_general,
+            "mass_dim": 4,
+            "lambda_power": 0,
+            "fixed": True,
+            "sector": "matter",
+        })
+        term_info.append({
+            "coeff_symbol": "1",
+            "coeff_token": "COEFF_FIXED_1",
+            "candidate": pot_general,
+            "mass_dim": 4,
+            "lambda_power": 0,
+            "fixed": True,
+            "sector": "matter",
+            "potential_type": potential_types.get("phi2"),
+        })
+
+    return general_parts, substituted, term_info
+
+
+def _compile_direct_lagrangian(
+    tensors: Dict[str, Any],
+    scalar_config: str,
+    potential_types: Dict[str, Any],
+    candidates: Sequence[Any],
+) -> Dict[str, Any]:
+    general_grav_parts: List[str] = []
+    general_nm_parts: List[str] = []
+    general_sc_parts: List[str] = []
+    substituted_grav = sp.Integer(0)
+    substituted_nm = sp.Integer(0)
+    substituted_sc = sp.Integer(0)
+    term_info: List[Dict[str, Any]] = []
+
+    for index, candidate in enumerate(candidates):
+        coeff = _coefficient_symbol_for_index(index)
+        sector = str(getattr(candidate, "sector", "gravity"))
+        mass_dim = int(getattr(candidate, "mass_dim"))
+        lam_power = GravityMasker._pad_lambda(mass_dim, sector)
+        lam_factor = Lambda_eft**lam_power if lam_power != 0 else sp.Integer(1)
+        lam_str = f" Λ^{{{lam_power}}}" if lam_power != 0 else ""
+        general_label = str(getattr(candidate, "general_label", _candidate_label(candidate)))
+        part = f"{coeff}{lam_str} · {general_label}"
+        symbolic_value = getattr(candidate, "symbolic_value")
+
+        if sector == "gravity":
+            general_grav_parts.append(part)
+            substituted_grav += coeff * lam_factor * symbolic_value
+        elif sector == "non-minimal":
+            general_nm_parts.append(part)
+            substituted_nm += coeff * lam_factor * symbolic_value
+        elif sector == "scalar":
+            general_sc_parts.append(part)
+            substituted_sc += coeff * lam_factor * symbolic_value
+        else:
+            raise ValueError(f"Unknown candidate sector: {sector}")
+
+        term_info.append({
+            "coeff_symbol": str(coeff),
+            "coeff_token": f"COEFF_{index}",
+            "candidate": _candidate_label(candidate),
+            "mass_dim": mass_dim,
+            "lambda_power": lam_power,
+            "sector": sector,
+        })
+
+    general_phi_parts, substituted_phi, fixed_terms = _direct_fixed_matter_terms(
+        tensors,
+        scalar_config,
+        potential_types,
+    )
+    term_info.extend(fixed_terms)
+
+    inner_parts: List[str] = []
+    mp2_parts = general_grav_parts + general_nm_parts
+    if mp2_parts:
+        inner_parts.append("M_p² ( " + "  +  ".join(mp2_parts) + " )")
+    if general_sc_parts:
+        inner_parts.append("  +  ".join(general_sc_parts))
+    if general_phi_parts:
+        inner_parts.append("  +  ".join(general_phi_parts))
+    general_str = "√(-g) [ " + "  +  ".join(inner_parts) + " ]"
+
+    substituted_full = sqrt_mg * (
+        Mp**2 * (substituted_grav + substituted_nm) + substituted_sc + substituted_phi
+    )
+    return {
+        "n_terms": len(term_info),
+        "general": general_str,
+        "substituted": sp.simplify(substituted_full),
+        "terms": term_info,
+        "scalar_config": scalar_config,
+        "potential_types": {"phi1": potential_types.get("phi1"), "phi2": potential_types.get("phi2")},
+    }
+
+
+def _direct_entry(
+    *,
+    tensors: Dict[str, Any],
+    scalar_config: str,
+    potential_types: Dict[str, Any],
+    candidates: Sequence[Any],
+    local_number: int,
+) -> Dict[str, Any]:
+    ordered = tuple(sorted(candidates, key=_candidate_sort_key))
+    operator_specs = [
+        {"candidate": _candidate_label(candidate), "coefficient": str(_coefficient_symbol_for_index(index))}
+        for index, candidate in enumerate(ordered)
+    ]
+    lagrangian = _compile_direct_lagrangian(tensors, scalar_config, potential_types, ordered)
+    return {
+        "n_terms": int(lagrangian["n_terms"]),
+        "local_number": int(local_number),
+        "scalar_config": scalar_config,
+        "potential_types": {"phi1": potential_types.get("phi1"), "phi2": potential_types.get("phi2")},
+        "operators": [spec["candidate"] for spec in operator_specs],
+        "operator_specs": operator_specs,
+        "coefficient_symbols": [spec["coefficient"] for spec in operator_specs],
+        "general": lagrangian.get("general"),
+        "lagrangian": lagrangian,
+        "construction_mode": "direct_candidate_combination",
+    }
+
+
+def _entry_skeleton(
+    *,
+    scalar_config: str,
+    potential_types: Dict[str, Any],
+    candidates: Sequence[Any],
+    local_number: int,
+) -> Dict[str, Any]:
+    ordered = tuple(sorted(candidates, key=_candidate_sort_key))
+    operator_specs = [
+        {"candidate": _candidate_label(candidate), "coefficient": str(_coefficient_symbol_for_index(index))}
+        for index, candidate in enumerate(ordered)
+    ]
+    n_fixed = 2 * int(scalar_config in {"phi1_only", "phi2_only"}) + 4 * int(scalar_config == "both")
+    return {
+        "n_terms": len(ordered) + n_fixed,
+        "local_number": int(local_number),
+        "scalar_config": scalar_config,
+        "potential_types": {"phi1": potential_types.get("phi1"), "phi2": potential_types.get("phi2")},
+        "operators": [spec["candidate"] for spec in operator_specs],
+        "operator_specs": operator_specs,
+        "coefficient_symbols": [spec["coefficient"] for spec in operator_specs],
+        "_candidate_objects": ordered,
+        "construction_mode": "direct_candidate_combination",
+    }
+
+
+def _direct_candidate_catalog(context: Dict[str, Any]) -> List[Dict[str, Any]]:
+    candidates = sorted(getattr(context["masker"], "all_candidates", []) or [], key=_candidate_sort_key)
+    catalog: List[Dict[str, Any]] = []
+    seen: set[tuple] = set()
+    local_number = 0
+
+    def add_entry(scalar_config: str, potential_types: Dict[str, Any], chosen: Sequence[Any]) -> None:
+        nonlocal local_number
+        labels = tuple(_candidate_label(candidate) for candidate in sorted(chosen, key=_candidate_sort_key))
+        if not labels:
+            return
+        key = (scalar_config, potential_types.get("phi1"), potential_types.get("phi2"), labels)
+        if key in seen:
+            return
+        seen.add(key)
+        local_number += 1
+        catalog.append(
+            _entry_skeleton(
+                scalar_config=scalar_config,
+                potential_types=potential_types,
+                candidates=chosen,
+                local_number=local_number,
+            )
+        )
+
+    for scalar_config in ("none", "phi1_only", "phi2_only", "both"):
+        allowed = [candidate for candidate in candidates if _candidate_allowed_for_scalar_config(candidate, scalar_config)]
+        if not allowed:
+            continue
+        r_anchor = next((_candidate for _candidate in allowed if _candidate_label(_candidate) == "R"), None)
+        non_r = [_candidate for _candidate in allowed if _candidate is not r_anchor]
+        top_all = allowed[:DIRECT_CANDIDATE_TOP_POOL]
+        top_non_r = non_r[:DIRECT_CANDIDATE_TOP_POOL]
+        pair_pool = non_r[:DIRECT_CANDIDATE_PAIR_POOL]
+        r_pair_pool = non_r[:DIRECT_CANDIDATE_R_PAIR_POOL]
+
+        for potential_types in _potential_options_for_scalar_config(scalar_config):
+            for candidate in top_all:
+                add_entry(scalar_config, potential_types, (candidate,))
+            if r_anchor is not None:
+                for candidate in top_non_r:
+                    add_entry(scalar_config, potential_types, (r_anchor, candidate))
+                for i, first in enumerate(r_pair_pool):
+                    for second in r_pair_pool[i + 1:]:
+                        add_entry(scalar_config, potential_types, (r_anchor, first, second))
+            for i, first in enumerate(pair_pool):
+                for second in pair_pool[i + 1:]:
+                    add_entry(scalar_config, potential_types, (first, second))
+
+    return catalog
+
+
 def _token_context_cache_path() -> Path:
     return ROOT / "ai_theory_lab" / "cache" / (
         f"token_context_v{TOKEN_CONTEXT_CACHE_VERSION}_"
@@ -537,38 +881,32 @@ def _generate_token_level_entry(
     seed: int,
 ) -> Dict[str, Any]:
     tensors = context["tensors"]
-    masker = context["masker"]
+    skeletons = _direct_candidate_catalog(context)
+    if not skeletons:
+        raise RuntimeError("Token-level Grammar Masker candidate pool is empty")
 
-    attempts = 0
-    best_entry: Optional[Dict[str, Any]] = None
-    best_score = -float("inf")
-    max_batches = 4
-    while attempts < max_batches:
-        attempts += 1
-        n_terms = rng.choice([1, 2, 3, 4, 5, 6])
-        generated = masker.generate_lagrangians(
-            tensors,
-            n_terms_list=(n_terms,),
-            n_samples=12,
-            seed=seed + attempts * 1009,
-        )
-        entries = [
-            _entry_from_lagrangian(lag, n_terms, local_number=i + 1)
-            for i, lag in enumerate(generated.get(n_terms, []))
-            if _operator_specs(lag)
-        ]
-        entries = [entry for entry in entries if _under_duplicate_limit(entry, summary)]
-        if entries:
-            candidate = _choose_entry(entries, summary, rng)
-            score = _entry_score(candidate, summary, rng)
-            if score > best_score:
-                best_entry = candidate
-                best_score = score
-            if candidate.get("scalar_config") != "none" or int((summary.get("failure_tag_counts") or {}).get("no_scalar_constraint", 0) or 0) < 2:
-                return candidate
-    if best_entry is not None:
-        return best_entry
-    raise RuntimeError("Token-level Grammar Masker did not produce a non-fixed-operator proposal")
+    entries = [entry for entry in skeletons if _under_duplicate_limit(entry, summary)]
+    if not entries:
+        entries = skeletons
+
+    # The agent chooses from legal Grammar Masker candidates directly. The seed
+    # controls policy exploration; it no longer samples finished Lagrangians
+    # from Grammar Masker's random batch generator.
+    choice_rng = random.Random(seed + 104729)
+    selected = _choose_entry(entries, summary, choice_rng)
+    candidate_objects = selected.pop("_candidate_objects", None)
+    if not candidate_objects:
+        raise RuntimeError("Direct candidate proposal was missing candidate objects")
+
+    compiled = _direct_entry(
+        tensors=tensors,
+        scalar_config=str(selected["scalar_config"]),
+        potential_types=dict(selected["potential_types"]),
+        candidates=candidate_objects,
+        local_number=int(selected["local_number"]),
+    )
+    compiled["proposal_mode"] = "direct_candidate_policy"
+    return compiled
 
 
 def _log_uniform(rng: random.Random, low: float, high: float) -> float:
@@ -615,6 +953,109 @@ def _coefficient_value(rng: random.Random, priors: Dict[str, Any]) -> float:
     return sign * mag
 
 
+def _term_by_coefficient(entry: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    terms = ((entry.get("lagrangian") or {}).get("terms") or [])
+    return {str(term.get("coeff_symbol")): term for term in terms if term.get("coeff_symbol")}
+
+
+def _is_eh_operator(term: Dict[str, Any]) -> bool:
+    return (
+        str(term.get("candidate") or "").strip() == "R"
+        and str(term.get("sector") or "") in {"gravity", "non-minimal"}
+        and int(term.get("lambda_power", 0) or 0) == 0
+        and not bool(term.get("fixed", False))
+    )
+
+
+def _is_modified_gravity_correction(term: Dict[str, Any]) -> bool:
+    if _is_eh_operator(term) or bool(term.get("fixed", False)):
+        return False
+    return "R" in str(term.get("candidate") or "")
+
+
+def _planned_field_factor(candidate: str, sample: Dict[str, Any]) -> float:
+    phi1 = abs(float(sample.get("varphi1_0_phi1_over_Mp", 1.0) or 1.0))
+    phi2 = abs(float(sample.get("varphi2_0_phi2_over_Lambda", 1.0) or 1.0))
+    factor = 1.0
+    factor *= max(phi1, 1e-12) ** candidate.count("φ1")
+    factor *= max(phi2, 1e-12) ** candidate.count("φ2")
+    return factor
+
+
+def _correction_sampling_mode(entry: Dict[str, Any], index: int) -> str:
+    terms = ((entry.get("lagrangian") or {}).get("terms") or [])
+    if not any(_is_modified_gravity_correction(term) for term in terms):
+        return "baseline"
+    cycle = list(CORRECTION_SAMPLING.get("mode_cycle") or ["weak", "moderate"])
+    return str(cycle[index % len(cycle)])
+
+
+def _sample_target_relative_effect(mode: str, rng: random.Random) -> float:
+    spec = (CORRECTION_SAMPLING.get("target_relative_effect") or {}).get(mode) or {}
+    low = float(spec.get("low", 0.0))
+    high = float(spec.get("high", 0.0))
+    if low <= 0.0 or high <= 0.0:
+        return 0.0
+    if spec.get("log10"):
+        return 10 ** rng.uniform(math.log10(low), math.log10(high))
+    return rng.uniform(low, high)
+
+
+def _coefficient_for_planned_effect(
+    *,
+    term: Dict[str, Any],
+    sample: Dict[str, Any],
+    mode: str,
+    rng: random.Random,
+    priors: Dict[str, Any],
+) -> float:
+    if mode == "baseline" or not _is_modified_gravity_correction(term):
+        return _coefficient_value(rng, priors)
+
+    target = _sample_target_relative_effect(mode, rng)
+    if target <= 0.0:
+        return _coefficient_value(rng, priors)
+
+    lambda_h = max(float(sample.get("lambda_H_Lambda_over_H0", 1.0) or 1.0), 1e-12)
+    power = int(term.get("lambda_power", 0) or 0)
+    candidate = str(term.get("candidate") or "")
+    field_factor = _planned_field_factor(candidate, sample)
+    try:
+        lambda_factor = abs(lambda_h**power)
+    except OverflowError:
+        lambda_factor = math.inf
+    denom = max(lambda_factor * field_factor, 1e-300)
+    magnitude = abs(EH_R_COEFFICIENT) * target / denom
+
+    scatter = float(CORRECTION_SAMPLING.get("coefficient_log10_scatter", 0.0) or 0.0)
+    if scatter > 0:
+        magnitude *= 10 ** rng.uniform(-scatter, scatter)
+
+    magnitude = min(
+        float(CORRECTION_SAMPLING.get("coefficient_abs_max", 1e6)),
+        max(float(CORRECTION_SAMPLING.get("coefficient_abs_min", 1e-10)), magnitude),
+    )
+    return rng.choice(COEFFICIENT_PRIOR["signs"]) * magnitude
+
+
+def _parameter_sampling_policy_summary(entry: Dict[str, Any], count: int) -> Dict[str, Any]:
+    mode_counts: Dict[str, int] = {}
+    for index in range(count):
+        mode = _correction_sampling_mode(entry, index)
+        mode_counts[mode] = mode_counts.get(mode, 0) + 1
+    return {
+        "strategy": "planned_relative_effect",
+        "mode_counts": mode_counts,
+        "target_relative_effect": CORRECTION_SAMPLING.get("target_relative_effect"),
+        "coefficient_abs_min": CORRECTION_SAMPLING.get("coefficient_abs_min"),
+        "coefficient_abs_max": CORRECTION_SAMPLING.get("coefficient_abs_max"),
+        "notes": (
+            "Non-EH curvature correction coefficients are sampled from a target effective size "
+            "relative to the EH term using lambda_power and scalar field factors. EH R is fixed."
+        ),
+    }
+
+
 def _default_prior(key: str) -> Dict[str, Any]:
     return PARAMETER_PRIORS[key]
 
@@ -634,19 +1075,13 @@ def _sample_parameter(rng: random.Random, learned_priors: Dict[str, Any], key: s
 def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, summary: Dict[str, Any]) -> Dict[str, Any]:
     scalar_config = entry["scalar_config"]
     priors = _parameter_priors(summary)
+    term_by_coeff = _term_by_coefficient(entry)
+    correction_mode = _correction_sampling_mode(entry, index)
     sample: Dict[str, Any] = {
         "H0_km_s_Mpc": _sample_parameter(rng, priors, "H0_km_s_Mpc"),
         "Omega_m0": _sample_parameter(rng, priors, "Omega_m0"),
         "lambda_H_Lambda_over_H0": _sample_parameter(rng, priors, "lambda_H_Lambda_over_H0"),
     }
-
-    for spec in entry["operator_specs"]:
-        label = spec["candidate"]
-        coeff = spec["coefficient"]
-        if label == "R":
-            sample[coeff] = EH_R_COEFFICIENT
-        else:
-            sample[coeff] = _coefficient_value(rng, priors)
 
     if scalar_config in {"phi1_only", "both"}:
         sample.update(
@@ -664,8 +1099,23 @@ def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, sum
                 "fbar2_f2_over_Lambda": _sample_parameter(rng, priors, "fbar2_f2_over_Lambda"),
             }
         )
-    if scalar_config == "both":
+    if scalar_config in {"phi2_only", "both"}:
         sample["q2_0_dvarphi2_dln_a"] = _sample_parameter(rng, priors, "q2_0_dvarphi2_dln_a")
+
+    for spec in entry["operator_specs"]:
+        label = spec["candidate"]
+        coeff = spec["coefficient"]
+        term = term_by_coeff.get(coeff, {"candidate": label})
+        if _is_eh_operator(term) or label == "R":
+            sample[coeff] = EH_R_COEFFICIENT
+        else:
+            sample[coeff] = _coefficient_for_planned_effect(
+                term=term,
+                sample=sample,
+                mode=correction_mode,
+                rng=rng,
+                priors=priors,
+            )
 
     if index > 0:
         # Local perturbations within the same cold-start prior, not copied from old results.
@@ -684,6 +1134,20 @@ def _proposal_for(
     parameter_samples: List[Dict[str, Any]],
     stage: str,
 ) -> Dict[str, Any]:
+    rationale = (
+        "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. "
+        "No historical solver_result, top-10 plot, or old best-fit parameter was used."
+    )
+    if entry.get("proposal_mode") == "llm":
+        rationale = (
+            "OpenAI API selected this proposal from a batch of token-level Grammar Masker legal candidates. "
+            f"LLM rationale: {entry.get('llm_rationale')}"
+        )
+    elif entry.get("proposal_mode") == "deterministic_fallback":
+        rationale = (
+            "Deterministic fallback proposal generated after LLM selection was unavailable or invalid. "
+            f"Fallback reason: {entry.get('llm_error', 'unknown')}"
+        )
     return {
         "proposal_id": f"cold_start_token_loop_{loop_index:02d}_{stage}",
         "theory": {
@@ -695,12 +1159,19 @@ def _proposal_for(
             ],
         },
         "parameter_samples": parameter_samples,
-        "rationale": (
-            "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. "
-            "No historical solver_result, top-10 plot, or old best-fit parameter was used."
-        ),
+        "parameter_sampling_policy": _parameter_sampling_policy_summary(entry, len(parameter_samples)),
+        "rationale": rationale,
         "cold_start": True,
         "source": "token_level_grammar",
+        "proposal_mode": entry.get("proposal_mode", "deterministic"),
+        **(
+            {
+                "llm_model": entry.get("llm_model"),
+                "llm_choice": entry.get("llm_choice"),
+            }
+            if entry.get("proposal_mode") == "llm"
+            else {}
+        ),
         "catalog_location": {
             "source_n_terms": entry["n_terms"],
             "source_local_number": entry["local_number"],
@@ -823,7 +1294,6 @@ def run(
     run_name: Optional[str] = None,
     initial_parameter_samples: int = 1000,
     expanded_parameter_samples: int = 3000,
-    target_chi2: float = 1650.0,
     expansion_chi2: float = 2000.0,
     pre_sampling_timeout: int = 120,
     grammar_generation_timeout: int = 0,
@@ -929,7 +1399,6 @@ def run(
             timeout_builder=pre_sampling_timeout,
             timeout_solver=600,
             extra_env={
-                "AGENT_EARLY_STOP_CHI2": str(target_chi2),
                 "SOLVER_SETUP_TIMEOUT_SECONDS": str(pre_sampling_timeout),
             },
         )
@@ -958,9 +1427,6 @@ def run(
         )
 
         best = _best_chi2(result)
-        if best is not None and best <= target_chi2:
-            print(f"[{loop_index:02d}/{loop_count}] target reached: chi2={best:.6g}", flush=True)
-            break
         skip_expansion_reason = _structural_expansion_skip_reason(attempt, best)
         if skip_expansion_reason:
             loop_record["skip_expansion_reason"] = skip_expansion_reason
@@ -985,7 +1451,6 @@ def run(
                 timeout_builder=pre_sampling_timeout,
                 timeout_solver=1200,
                 extra_env={
-                    "AGENT_EARLY_STOP_CHI2": str(target_chi2),
                     "SOLVER_SETUP_TIMEOUT_SECONDS": str(pre_sampling_timeout),
                 },
             )
@@ -1013,11 +1478,6 @@ def run(
                 f"family={expanded_attempt['family_key']} tags={expanded_attempt['failure_tags']}",
                 flush=True,
             )
-            expanded_best = _best_chi2(expanded_result)
-            if expanded_best is not None and expanded_best <= target_chi2:
-                print(f"[{loop_index:02d}/{loop_count}] target reached: chi2={expanded_best:.6g}", flush=True)
-                break
-
     final_summary = _load_summary(memory_dir)
     output = {
         "run_name": name,
@@ -1038,7 +1498,6 @@ def main() -> int:
     parser.add_argument("--run-name")
     parser.add_argument("--initial-parameter-samples", type=int, default=1000)
     parser.add_argument("--expanded-parameter-samples", type=int, default=3000)
-    parser.add_argument("--target-chi2", type=float, default=1650.0)
     parser.add_argument("--expansion-chi2", type=float, default=2000.0)
     parser.add_argument("--pre-sampling-timeout", type=int, default=120)
     parser.add_argument(
@@ -1060,7 +1519,6 @@ def main() -> int:
         args.run_name,
         initial_parameter_samples=args.initial_parameter_samples,
         expanded_parameter_samples=args.expanded_parameter_samples,
-        target_chi2=args.target_chi2,
         expansion_chi2=args.expansion_chi2,
         pre_sampling_timeout=args.pre_sampling_timeout,
         grammar_generation_timeout=args.grammar_generation_timeout,

@@ -1,0 +1,1524 @@
+[
+  {
+    "timestamp": "2026-06-06T19:35:55-0400",
+    "loop_id": "loop_114",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1638.8349322344975,
+    "aic": 1652.8349322344975,
+    "bic": 1691.4308969693755,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193544_a4c8096b/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193544_a4c8096b/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193544_a4c8096b/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 3,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "736",
+        "total_rejected_or_skipped": "919",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "182",
+        "total_rejected_or_skipped": "919",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "919",
+        "reason": "constraint drift too large: max|C|=1.170e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193544_a4c8096b/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193544_a4c8096b/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193544_a4c8096b/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_only",
+      "effective_correction_reason": "no non-EH free correction terms",
+      "max_relative_effect_to_EH": 0.0,
+      "dominant_correction_term": "",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 0,
+      "tiny_correction_fraction": null,
+      "term_effects": []
+    }
+  },
+  {
+    "timestamp": "2026-06-06T21:25:11-0400",
+    "loop_id": "loop_281",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1639.0130018585464,
+    "aic": 1653.0130018585464,
+    "bic": 1691.6089665934244,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_212455_949c4bf9/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_212455_949c4bf9/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_212455_949c4bf9/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "φ1 · R · R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · R · R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+high_curvature+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "758",
+        "total_rejected_or_skipped": "919",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "158",
+        "total_rejected_or_skipped": "919",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "919",
+        "reason": "constraint drift too large: max|C|=1.117e-04"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "919",
+        "reason": "constraint drift too large: max|C|=2.113e-04"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "919",
+        "reason": "constraint drift too large: max|C|=1.156e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_212455_949c4bf9/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_212455_949c4bf9/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_212455_949c4bf9/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "active",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 0.029689446100003073,
+      "dominant_correction_term": "φ1 · R · R",
+      "active_correction_terms": 1,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "φ1 · R · R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "15980331881.178389",
+          "lambda_power": -3,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 0.029689446100003073,
+          "effect_class": "active"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T21:02:24-0400",
+    "loop_id": "loop_248_expanded",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1639.312414137396,
+    "aic": 1653.312414137396,
+    "bic": 1691.908378872274,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_210202_b0b31d77/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_210202_b0b31d77/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_210202_b0b31d77/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "R^{ab} · R_{ab}"
+      ],
+      "parameter_sample_count": 3000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+R^{ab} · R_{ab}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+high_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "2247",
+        "total_rejected_or_skipped": "2756",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "508",
+        "total_rejected_or_skipped": "2756",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "2756",
+        "reason": "constraint drift too large: max|C|=1.754e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_210202_b0b31d77/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_210202_b0b31d77/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_210202_b0b31d77/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 5.4223407997389365e-05,
+      "dominant_correction_term": "R^{ab} · R_{ab}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "R^{ab} · R_{ab}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-31.8023385672186",
+          "lambda_power": -2,
+          "sector": "gravity",
+          "relative_effect_to_EH": 5.4223407997389365e-05,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T20:41:26-0400",
+    "loop_id": "loop_217",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1639.5290875403339,
+    "aic": 1651.5290875403339,
+    "bic": 1684.6113430273722,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204059_d65130c5/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204059_d65130c5/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204059_d65130c5/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}R · ∇_{a}R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}R · ∇_{a}R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+derivative",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "575",
+        "total_rejected_or_skipped": "883",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "308",
+        "total_rejected_or_skipped": "883",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204059_d65130c5/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204059_d65130c5/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204059_d65130c5/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 3.0734454047261195e-05,
+      "dominant_correction_term": "∇^{a}R · ∇_{a}R",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}R · ∇_{a}R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-151506655.06136224",
+          "lambda_power": -4,
+          "sector": "gravity",
+          "relative_effect_to_EH": 3.0734454047261195e-05,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T20:23:07-0400",
+    "loop_id": "loop_189",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1639.8414980050945,
+    "aic": 1651.8414980050945,
+    "bic": 1684.9237534921328,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_202256_f0c69fcb/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_202256_f0c69fcb/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_202256_f0c69fcb/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 3,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "596",
+        "total_rejected_or_skipped": "873",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "276",
+        "total_rejected_or_skipped": "873",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "873",
+        "reason": "constraint drift too large: max|C|=1.097e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_202256_f0c69fcb/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_202256_f0c69fcb/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_202256_f0c69fcb/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_only",
+      "effective_correction_reason": "no non-EH free correction terms",
+      "max_relative_effect_to_EH": 0.0,
+      "dominant_correction_term": "",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 0,
+      "tiny_correction_fraction": null,
+      "term_effects": []
+    }
+  },
+  {
+    "timestamp": "2026-06-06T23:05:22-0400",
+    "loop_id": "loop_405",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1639.927985572345,
+    "aic": 1651.927985572345,
+    "bic": 1685.0102410593834,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_230506_40f1a65e/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_230506_40f1a65e/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_230506_40f1a65e/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "R · R · R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R · R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+high_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "579",
+        "total_rejected_or_skipped": "858",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "279",
+        "total_rejected_or_skipped": "858",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_230506_40f1a65e/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_230506_40f1a65e/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_230506_40f1a65e/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 1.911918337060663e-06,
+      "dominant_correction_term": "R · R · R",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "R · R · R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "10713438.017990269",
+          "lambda_power": -4,
+          "sector": "gravity",
+          "relative_effect_to_EH": 1.911918337060663e-06,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T19:55:58-0400",
+    "loop_id": "loop_146",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1640.2432263164148,
+    "aic": 1654.2432263164148,
+    "bic": 1692.8391910512928,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195529_c69b6177/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195529_c69b6177/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195529_c69b6177/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}∇^{b}R · R_{ab}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇^{b}R · R_{ab}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+derivative+high_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "758",
+        "total_rejected_or_skipped": "930",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "171",
+        "total_rejected_or_skipped": "930",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "930",
+        "reason": "constraint drift too large: max|C|=1.301e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195529_c69b6177/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195529_c69b6177/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195529_c69b6177/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_dominated",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 2.458050965829285e-18,
+      "dominant_correction_term": "∇^{a}∇^{b}R · R_{ab}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 1,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 1.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}∇^{b}R · R_{ab}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-1.652555357572697e-07",
+          "lambda_power": -4,
+          "sector": "gravity",
+          "relative_effect_to_EH": 2.458050965829285e-18,
+          "effect_class": "tiny"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T22:49:04-0400",
+    "loop_id": "loop_386",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1640.5002917323973,
+    "aic": 1654.5002917323973,
+    "bic": 1693.0962564672752,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224847_cfa0acd0/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224847_cfa0acd0/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224847_cfa0acd0/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}∇^{b}φ1 · R_{ab}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇^{b}φ1 · R_{ab}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+derivative+high_curvature+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "735",
+        "total_rejected_or_skipped": "917",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "181",
+        "total_rejected_or_skipped": "917",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "917",
+        "reason": "constraint drift too large: max|C|=2.127e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224847_cfa0acd0/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224847_cfa0acd0/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224847_cfa0acd0/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 6.839004154710628e-05,
+      "dominant_correction_term": "∇^{a}∇^{b}φ1 · R_{ab}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}∇^{b}φ1 · R_{ab}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "186301619.5819389",
+          "lambda_power": -3,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 6.839004154710628e-05,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T22:46:45-0400",
+    "loop_id": "loop_383",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1640.7467120286076,
+    "aic": 1652.7467120286076,
+    "bic": 1685.828967515646,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224626_f79e0c3f/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224626_f79e0c3f/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224626_f79e0c3f/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "φ1 · ∇^{a}∇_{a}φ1 · R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · ∇^{a}∇_{a}φ1 · R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+derivative+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "596",
+        "total_rejected_or_skipped": "868",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "272",
+        "total_rejected_or_skipped": "868",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224626_f79e0c3f/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224626_f79e0c3f/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_224626_f79e0c3f/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "moderate",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 0.0013661386175763764,
+      "dominant_correction_term": "φ1 · ∇^{a}∇_{a}φ1 · R",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 1,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "φ1 · ∇^{a}∇_{a}φ1 · R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-59529388.224822454",
+          "lambda_power": -4,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 0.0013661386175763764,
+          "effect_class": "moderate"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-07T00:13:45-0400",
+    "loop_id": "loop_477",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1641.44917529631,
+    "aic": 1653.44917529631,
+    "bic": 1686.5314307833482,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_001316_6e2aacdf/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_001316_6e2aacdf/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_001316_6e2aacdf/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}∇_{a}R · R^{c}_{c}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R · R^{c}_{c}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+derivative+high_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "588",
+        "total_rejected_or_skipped": "886",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "297",
+        "total_rejected_or_skipped": "886",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "886",
+        "reason": "constraint drift too large: max|C|=1.020e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_001316_6e2aacdf/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_001316_6e2aacdf/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_001316_6e2aacdf/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 3.053906841017506e-05,
+      "dominant_correction_term": "∇^{a}∇_{a}R · R^{c}_{c}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}∇_{a}R · R^{c}_{c}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "1000000000000.0",
+          "lambda_power": -4,
+          "sector": "gravity",
+          "relative_effect_to_EH": 3.053906841017506e-05,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T22:01:20-0400",
+    "loop_id": "loop_330",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1641.876381163457,
+    "aic": 1655.876381163457,
+    "bic": 1694.4723458983349,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_220103_88af42c1/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_220103_88af42c1/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_220103_88af42c1/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "734",
+        "total_rejected_or_skipped": "913",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "179",
+        "total_rejected_or_skipped": "913",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_220103_88af42c1/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_220103_88af42c1/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_220103_88af42c1/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_dominated",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 3.104302415227046e-29,
+      "dominant_correction_term": "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 1,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 1.0,
+      "term_effects": [
+        {
+          "candidate": "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-1.4283205133784715e-10",
+          "lambda_power": -4,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 3.104302415227046e-29,
+          "effect_class": "tiny"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T21:10:21-0400",
+    "loop_id": "loop_260",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1642.0424765610326,
+    "aic": 1654.0424765610326,
+    "bic": 1687.1247320480709,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_211006_33914350/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_211006_33914350/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_211006_33914350/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "φ1 · φ1 · R^{ab} · R_{ab}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R^{ab} · R_{ab}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+high_curvature+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "587",
+        "total_rejected_or_skipped": "859",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "271",
+        "total_rejected_or_skipped": "859",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "859",
+        "reason": "constraint drift too large: max|C|=1.018e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_211006_33914350/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_211006_33914350/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_211006_33914350/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 2.606352972249617e-06,
+      "dominant_correction_term": "φ1 · φ1 · R^{ab} · R_{ab}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "φ1 · φ1 · R^{ab} · R_{ab}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-1000000000000.0",
+          "lambda_power": -4,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 2.606352972249617e-06,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T19:59:01-0400",
+    "loop_id": "loop_151",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1650.2730057354897,
+    "aic": 1662.2730057354897,
+    "bic": 1695.355261222528,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195845_07a41d18/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195845_07a41d18/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195845_07a41d18/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}∇^{b}φ1 · R_{ab}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇^{b}φ1 · R_{ab}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+derivative+high_curvature+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "581",
+        "total_rejected_or_skipped": "876",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "294",
+        "total_rejected_or_skipped": "876",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "876",
+        "reason": "constraint drift too large: max|C|=1.030e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195845_07a41d18/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195845_07a41d18/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195845_07a41d18/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_dominated",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 1.0631176088334954e-23,
+      "dominant_correction_term": "∇^{a}∇^{b}φ1 · R_{ab}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 1,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 1.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}∇^{b}φ1 · R_{ab}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-3.4322162401631287e-10",
+          "lambda_power": -3,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 1.0631176088334954e-23,
+          "effect_class": "tiny"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T19:56:38-0400",
+    "loop_id": "loop_147",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1651.3820261652124,
+    "aic": 1665.3820261652124,
+    "bic": 1703.9779909000904,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195622_6e1eae8b/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195622_6e1eae8b/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195622_6e1eae8b/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}∇_{a}φ1 · R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇_{a}φ1 · R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+derivative+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "763",
+        "total_rejected_or_skipped": "922",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "159",
+        "total_rejected_or_skipped": "922",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195622_6e1eae8b/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195622_6e1eae8b/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_195622_6e1eae8b/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_dominated",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 6.901077386356812e-17,
+      "dominant_correction_term": "∇^{a}∇_{a}φ1 · R",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 1,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 1.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}∇_{a}φ1 · R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-2.666071598774659e-05",
+          "lambda_power": -3,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 6.901077386356812e-17,
+          "effect_class": "tiny"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T20:46:00-0400",
+    "loop_id": "loop_225",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1664.3331632083346,
+    "aic": 1676.3331632083346,
+    "bic": 1709.4154186953729,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204546_d218ac6b/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204546_d218ac6b/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204546_d218ac6b/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "564",
+        "total_rejected_or_skipped": "884",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "320",
+        "total_rejected_or_skipped": "884",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204546_d218ac6b/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204546_d218ac6b/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_204546_d218ac6b/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_dominated",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 1.612753977972385e-19,
+      "dominant_correction_term": "φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 1,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 1.0,
+      "term_effects": [
+        {
+          "candidate": "φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+          "coeff_symbol": "\\beta",
+          "coefficient": "6.4950949077462355e-09",
+          "lambda_power": -3,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 1.612753977972385e-19,
+          "effect_class": "tiny"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T19:47:56-0400",
+    "loop_id": "loop_134",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1707.4227041630538,
+    "aic": 1721.4227041630538,
+    "bic": 1760.0186688979318,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_194743_7e505afe/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_194743_7e505afe/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_194743_7e505afe/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "axion",
+        "phi2": null
+      },
+      "operators": [
+        "R",
+        "∇^{a}∇_{a}R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇_{a}R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+derivative",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large",
+      "constraint_drift"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "738",
+        "total_rejected_or_skipped": "924",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "184",
+        "total_rejected_or_skipped": "924",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "924",
+        "reason": "constraint drift too large: max|C|=2.417e-04"
+      },
+      {
+        "lag_id": "1",
+        "count": "1",
+        "total_rejected_or_skipped": "924",
+        "reason": "constraint drift too large: max|C|=1.097e-04"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_194743_7e505afe/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_194743_7e505afe/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_194743_7e505afe/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "active",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 0.014048467014668347,
+      "dominant_correction_term": "∇^{a}∇_{a}R",
+      "active_correction_terms": 1,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "∇^{a}∇_{a}R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-3503.222792614917",
+          "lambda_power": -2,
+          "sector": "gravity",
+          "relative_effect_to_EH": 0.014048467014668347,
+          "effect_class": "active"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-06T19:39:33-0400",
+    "loop_id": "loop_120_expanded",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 9434.002632379183,
+    "aic": 9452.002632379183,
+    "bic": 9501.62601560974,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193909_cae3695b/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193909_cae3695b/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193909_cae3695b/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi2_only",
+      "potential_types": {
+        "phi1": null,
+        "phi2": "axion"
+      },
+      "operators": [
+        "R",
+        "φ2 · R"
+      ],
+      "parameter_sample_count": 3000
+    },
+    "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R+φ2 · R",
+    "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=R_anchor+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "827",
+        "total_rejected_or_skipped": "835",
+        "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "8",
+        "total_rejected_or_skipped": "835",
+        "reason": "|q2| trajectory too large"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193909_cae3695b/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193909_cae3695b/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260606_193909_cae3695b/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 6.228791232602365e-06,
+      "dominant_correction_term": "φ2 · R",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "φ2 · R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-0.09910201954042",
+          "lambda_power": -1,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 6.228791232602365e-06,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-07T00:22:42-0400",
+    "loop_id": "loop_485_expanded",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 9434.002651850886,
+    "aic": 9450.002651850886,
+    "bic": 9494.112325833603,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_002220_31a695d5/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_002220_31a695d5/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_002220_31a695d5/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 4,
+      "source_local_number": 1,
+      "scalar_config": "phi2_only",
+      "potential_types": {
+        "phi1": null,
+        "phi2": "quadratic"
+      },
+      "operators": [
+        "R",
+        "φ2 · R"
+      ],
+      "parameter_sample_count": 3000
+    },
+    "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R+φ2 · R",
+    "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=R_anchor+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "802",
+        "total_rejected_or_skipped": "805",
+        "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+      },
+      {
+        "lag_id": "1",
+        "count": "3",
+        "total_rejected_or_skipped": "805",
+        "reason": "|q2| trajectory too large"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_002220_31a695d5/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_002220_31a695d5/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/agent_20260607_002220_31a695d5/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "weak",
+      "effective_correction_reason": "classified relative to EH coefficient and lambda_H powers",
+      "max_relative_effect_to_EH": 8.706882133312778e-06,
+      "dominant_correction_term": "φ2 · R",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 1,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 1,
+      "tiny_correction_fraction": 0.0,
+      "term_effects": [
+        {
+          "candidate": "φ2 · R",
+          "coeff_symbol": "\\beta",
+          "coefficient": "-0.024671545366969822",
+          "lambda_power": -1,
+          "sector": "non-minimal",
+          "relative_effect_to_EH": 8.706882133312778e-06,
+          "effect_class": "weak"
+        }
+      ]
+    }
+  }
+]

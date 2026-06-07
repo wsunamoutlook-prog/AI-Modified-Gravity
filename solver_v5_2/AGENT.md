@@ -178,10 +178,10 @@ Common parameter keys:
 - `lambda_H_Lambda_over_H0` or `log10_lambda_H`
 - `varphi1_0_phi1_over_Mp`, `mu1_m1_over_H0`, `fbar1_f1_over_Mp`
 - `varphi2_0_phi2_over_Lambda`, `mu2_m2_over_Lambda`, `fbar2_f2_over_Lambda`
-- `q2_0_dvarphi2_dln_a` for two-scalar models where Solver solves `q1_0`
+- `q2_0_dvarphi2_dln_a` for two-scalar models where Solver solves `q1_0`; for `phi2_only` agent proposals, this value may also be supplied as a root-search hint while Solver still solves `q2_0` from `E_N(x=0)=0`
 - free coefficient names such as `\\beta`, `\\gamma`, or `coefficient:\\beta`
 
-Constraint-solved values such as `q1_0` in phi1 models and `q2_0` in phi2-only models are not normally agent-proposed free parameters; Solver solves them from `E_N(x=0)=0`.
+Constraint-solved values such as `q1_0` in phi1 models and `q2_0` in phi2-only models are solved from `E_N(x=0)=0`. For `phi2_only` agent samples, a proposed `q2_0_dvarphi2_dln_a` is only a root-search hint/preference, not a bypass of the initial constraint.
 
 ## Useful Environment Settings
 

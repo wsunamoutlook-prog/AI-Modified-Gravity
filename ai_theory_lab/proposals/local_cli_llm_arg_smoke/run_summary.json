@@ -1,0 +1,12 @@
+{
+  "run_name": "local_cli_llm_arg_smoke",
+  "proposal_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/local_cli_llm_arg_smoke",
+  "memory_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_cli_llm_arg_smoke",
+  "results": [],
+  "loop_traces": [],
+  "summary": {},
+  "messages": [
+    "Initialized LangGraph agent run local_cli_llm_arg_smoke."
+  ],
+  "orchestrator": "langgraph"
+}

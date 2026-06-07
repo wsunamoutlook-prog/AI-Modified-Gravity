@@ -1,0 +1,72 @@
+[
+  {
+    "timestamp": "2026-06-06T16:04:14-0400",
+    "loop_id": "loop_01",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "1",
+    "chi2": 1640.0454005281033,
+    "aic": 1652.0454005281033,
+    "bic": 1685.1276560151416,
+    "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260606_160410_59d1f9da/agent_solver_result/agent_solve",
+    "model_ranking_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260606_160410_59d1f9da/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260606_160410_59d1f9da/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": null,
+      "source_n_terms": 3,
+      "source_local_number": 1,
+      "scalar_config": "phi1_only",
+      "potential_types": {
+        "phi1": "quadratic",
+        "phi2": null
+      },
+      "operators": [
+        "R"
+      ],
+      "parameter_sample_count": 1000
+    },
+    "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R",
+    "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=R_anchor",
+    "failure_tags": [
+      "q_initial_root_failure",
+      "h_absurdly_large"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "1",
+        "count": "39",
+        "total_rejected_or_skipped": "52",
+        "reason": "H(z) absurdly large"
+      },
+      {
+        "lag_id": "1",
+        "count": "13",
+        "total_rejected_or_skipped": "52",
+        "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260606_160410_59d1f9da/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260606_160410_59d1f9da/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/agent_20260606_160410_59d1f9da/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "effective_correction": {
+      "effective_correction_status": "eh_only",
+      "effective_correction_reason": "no non-EH free correction terms",
+      "max_relative_effect_to_EH": 0.0,
+      "dominant_correction_term": "",
+      "active_correction_terms": 0,
+      "moderate_correction_terms": 0,
+      "weak_correction_terms": 0,
+      "tiny_correction_terms": 0,
+      "correction_term_count": 0,
+      "tiny_correction_fraction": null,
+      "term_effects": []
+    }
+  }
+]

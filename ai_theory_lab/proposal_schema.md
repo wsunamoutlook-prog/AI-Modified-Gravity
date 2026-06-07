@@ -2,9 +2,17 @@
 
 Agent proposals should be written as JSON. A proposal contains both the theory structure and explicit numerical parameter samples.
 
+For the full legal Lagrangian contract, including `sqrt(-g)`, `M_p²` placement,
+EFT `Λ` powers, sector rules, scalar fixed matter terms, and dimension-4
+balancing, see:
+
+```text
+ai_theory_lab/lagrangian_legality.md
+```
+
 For cold-start theory discovery, proposals must be generated from Grammar Masker rules and current-loop feedback, not from historical Solver winners.
 
-For genuine cold-start discovery, the theory structure should be generated from token-level Grammar Masker rules. Matching against an existing `lagrangians.pkl` entry is allowed for replay, smoke tests, or compatibility checks, but it should not be the source of new cold-start theory choices.
+For genuine cold-start discovery, the theory structure should be generated from the token-level Grammar Masker candidate pool. Matching against an existing `lagrangians.pkl` entry is allowed for replay, smoke tests, or compatibility checks, but it should not be the source of new cold-start theory choices.
 
 Current harness command:
 
@@ -90,12 +98,13 @@ relative_effect_i ~= |c_i / c_EH| * lambda_H^(lambda_power_i) * field_factor_i
 
 The status thresholds are `active >= 1e-2`, `moderate >= 1e-4`, `weak >= 1e-6`, and `tiny`/`eh_dominated < 1e-6`. `eh_only` means the theory is a clean EH/scalar baseline with no extra modified-gravity correction terms, and should keep its normal chi-square-derived reward. This helps the agent avoid treating an `EH + scalar + effectively-zero correction terms` fit as a strong modified-gravity discovery signal.
 
-Current compiler behavior:
+Current cold-start compiler behavior:
 
-- The proposal is matched against the existing grammar-generated `lagrangians.pkl` catalog.
-- If the structure is not in that catalog, validation fails before EOM.
-- This prevents arbitrary illegal symbolic expressions from entering downstream stages.
-- This is acceptable for smoke tests and catalog-constrained discovery, but it is not yet a full token-level theory compiler.
+- `graph_agent.py` and `cold_start_runner.py` build or load the token-level Grammar Masker candidate context once.
+- The agent constructs a theory by choosing scalar configuration, potential type, and a combination of legal `CandidateScalar` operators from that candidate pool.
+- The selected candidate combination is compiled directly into a full dimension-balanced `agent_lagrangians.pkl` entry with the same `M_p²`, `Λ`, sector, fixed scalar-matter, and coefficient-token conventions used by Grammar Masker.
+- The cold-start agent must not call Grammar Masker's random `generate_lagrangians(... n_samples=...)` batch generator as its proposal source.
+- Replay and compatibility checks may still match proposal JSON against `lagrangians.pkl`, but that is not cold-start discovery.
 
 ## Cold-Start Discovery Restrictions
 
@@ -116,13 +125,11 @@ Disallowed starting information:
 
 Replay experiments may use historical Solver results, but replay is not cold-start discovery and must be labeled separately.
 
-## Unclear / Needs Design Decision
+## Open Design Questions
 
-- The current proposal compiler matches against `lagrangians.pkl`. It does not yet build a brand-new legal Lagrangian directly from token sequences or arbitrary operator combinations.
-- If the agent must generate theories outside the existing `lagrangians.pkl` pool, we need an offline candidate catalog or a direct `theory JSON -> CandidateScalar -> Lagrangian dict` compiler.
-- It is not yet specified whether cold-start parameter samples should begin from broad fixed priors, Latin-hypercube samples, small hand-coded physics priors, or an LLM-chosen distribution.
-- It is not yet specified how many parameter samples the agent should propose per theory in early exploration.
-- It is not yet specified whether the agent may query `lagrangians.pkl` as a legal operator catalog during cold start, or whether it must only use a separately exported grammar catalog.
+- It is not yet specified whether cold-start parameter samples should eventually use broad fixed priors, Latin-hypercube samples, small physics priors, or an LLM-chosen distribution.
+- It is not yet specified how large the direct candidate-combination search beam should be once this runs on a cluster.
+- It is not yet specified whether the external API agent should output a complete operator combination directly or rank a proposed beam generated from the current candidate pool.
 
 ## Parameter Samples
 
@@ -152,6 +159,8 @@ For two-scalar theories, also provide:
 
 In two-scalar models, Solver treats `q2_0_dvarphi2_dln_a` as an agent-sampled free initial velocity while solving `q1_0` from the constraint. Missing this key is a proposal error and should be rejected before the Solver scan.
 
+For `phi2_only` agent proposals, `q2_0_dvarphi2_dln_a` may also be provided. Solver still solves `q2_0` from `E_N(x=0)=0`; the proposed value is used only as a root-search hint/preference so the initial constraint remains a hard gate.
+
 For free coefficients, provide keys matching the coefficient names:
 
 ```json
@@ -161,7 +170,7 @@ For free coefficients, provide keys matching the coefficient names:
 }
 ```
 
-Solver solves constraint-determined initial velocities such as `q1_0` in phi1 models and `q2_0` in phi2-only models. These are written to result CSVs but are not normally proposal inputs. The exception is two-scalar `both` models, where the agent must propose `q2_0_dvarphi2_dln_a` and Solver solves `q1_0`.
+Solver solves constraint-determined initial velocities such as `q1_0` in phi1 models and `q2_0` in phi2-only models. These are written to result CSVs. In `phi2_only`, a provided `q2_0_dvarphi2_dln_a` is a Solver root-search hint, not a direct override. In two-scalar `both` models, the agent must propose `q2_0_dvarphi2_dln_a` and Solver solves `q1_0`.
 
 ## Feedback Contract
 
@@ -193,11 +202,23 @@ Before generating the next proposal, the agent should read `reflection_prompt.md
 
 The agent should also read Solver's `all_samples_summary.csv` when present. This file gives one row per parameter sample, including rejected samples, so the agent can learn parameter regions from both finite chi-square values and failure reasons.
 
-Cold-start runs should use a 120s wall-time limit for EOM, Builder, and Solver setup/lambdify. Do not apply this wall to token-level Grammar Masker candidate discovery while building the independent-scalar space. Build the independent-scalar space once per cold-start run and reuse it for all proposal loops in that run. The wall is not the sampling budget; the 1000/3000 parameter sampling policy and early stop threshold control numerical sampling. The 3000-sample expansion should be skipped when the first 1000 samples have no accepted chi-square and are dominated by `q_initial_root_failure`, `q_not_determined`, `no_scalar_constraint`, high-count `constraint_drift`, or high-count `integration_failure`. It should also be skipped for `scalar=none` empty-ranking failures and for no-accepted first passes tagged with `constraint_drift` or `integration_failure`.
+Cold-start runs should use a 120s wall-time limit for EOM, Builder, and Solver setup/lambdify. Do not apply this wall to token-level Grammar Masker candidate discovery while building the independent-scalar space. Build the independent-scalar space once per cold-start run and reuse it for all proposal loops in that run. The wall is not the sampling budget; the 1000/3000 parameter sampling policy and structural skip rules control numerical sampling. A low chi-square such as `chi2 <= 1650` is a quality label and learning signal, not an early-stop condition for the agent run. The 3000-sample expansion should be skipped when the first 1000 samples have no accepted chi-square and are dominated by `q_initial_root_failure`, `q_not_determined`, `no_scalar_constraint`, high-count `constraint_drift`, or high-count `integration_failure`. It should also be skipped for `scalar=none` empty-ranking failures and for no-accepted first passes tagged with `constraint_drift` or `integration_failure`.
 
 Repeated `q_not_determined` feedback should be treated as structural feedback, not a parameter-only failure. The current-loop policy may softly downweight exact operators and operator families that repeatedly cause this tag, especially scalar derivative and scalar-derivative-curvature couplings, while preserving some exploration.
 
 When learning from accepted proposals, treat chi-square quality as part of the label. `chi2 <= 1650` is an excellent accepted signal, `1650 < chi2 <= 1700` is competitive, `1700 < chi2 <= 2000` is acceptable positive feedback, and `chi2 > 2000` should not strongly reinforce the structure. The final learning signal is `discovery_reward`: it starts from the chi-square-based `fit_reward`, keeps clean `eh_only` EH/scalar baselines as valid baselines, downweights `weak` corrections, and penalizes `tiny` or `eh_dominated` extra correction terms. Solver and reports still rank by `chi2`.
+
+Parameter sampling should treat each sample as one coherent physical setup. After choosing `lambda_H` and scalar initial values, non-EH curvature correction coefficients should be sampled from a planned effective size relative to the EH term:
+
+```text
+|c_i| ~= target_relative_effect * |c_EH| / (lambda_H^(lambda_power_i) * field_factor_i)
+```
+
+The default cold-start sampler mixes baseline, weak, moderate, and small active-probe modes. This prevents extra curvature terms from being almost always erased by `Lambda` suppression while keeping clean EH/scalar baselines valid. Do not put sampling metadata inside individual `parameter_samples`; each sample object should remain solver-facing numerical parameters only.
+
+The coefficient cap from `config_p.py` is only a proposal-time exploration bound. Large coefficients are allowed up to that cap so `Lambda`-suppressed higher-dimension operators can actually be tested; numerical instability, constraint drift, or EFT rejection should come from the real Solver feedback.
+
+The default `phi2` sampling prior intentionally covers negative and positive `varphi2_0_phi2_over_Lambda`, wider `q2_0_dvarphi2_dln_a` values for `phi2_only` and two-scalar proposals, lower `lambda_H_Lambda_over_H0`, and larger `fbar2_f2_over_Lambda`. These are exploration ranges, not acceptance criteria.
 
 ## Cold-Start Proposal Requirements
 

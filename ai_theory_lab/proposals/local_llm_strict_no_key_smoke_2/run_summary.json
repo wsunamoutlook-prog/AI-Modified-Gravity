@@ -1,0 +1,418 @@
+{
+  "run_name": "local_llm_strict_no_key_smoke_2",
+  "proposal_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/local_llm_strict_no_key_smoke_2",
+  "memory_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_llm_strict_no_key_smoke_2",
+  "results": [
+    {
+      "loop": 1,
+      "stage": "grammar_generation",
+      "proposal_path": null,
+      "source_lagrangians_path": null,
+      "parameter_samples_path": null,
+      "validated": false,
+      "failed_stage": "LLMProposal",
+      "chi2": null,
+      "family_key": "scalar=None|potential=None|operators=None",
+      "coarse_family_key": "scalar=None|phi1_potential=None|phi2_potential=None|operator_bucket=plain",
+      "failure_tags": [],
+      "top_reject_reasons": [],
+      "solver_output_dir": null,
+      "diagnostic_message": "Token-level proposal generation failed before validation: RuntimeError: LLM proposal failed in strict mode: OpenAIError: Missing credentials. Please pass an `api_key`, `workload_identity`, `admin_api_key`, or set the `OPENAI_API_KEY` or `OPENAI_ADMIN_KEY` environment variable.",
+      "decision": {
+        "loop": 1,
+        "after_stage": "llm_proposal",
+        "action": "stop",
+        "reason": "token-level proposal generation failed before validation",
+        "evidence": [
+          "Token-level proposal generation failed before validation: RuntimeError: LLM proposal failed in strict mode: OpenAIError: Missing credentials. Please pass an `api_key`, `workload_identity`, `admin_api_key`, or set the `OPENAI_API_KEY` or `OPENAI_ADMIN_KEY` environment variable."
+        ]
+      }
+    }
+  ],
+  "loop_traces": [
+    {
+      "loop": 1,
+      "entry_family": "scalar=None|potential=None|operators=None",
+      "results": [
+        {
+          "loop": 1,
+          "stage": "grammar_generation",
+          "proposal_path": null,
+          "source_lagrangians_path": null,
+          "parameter_samples_path": null,
+          "validated": false,
+          "failed_stage": "LLMProposal",
+          "chi2": null,
+          "family_key": "scalar=None|potential=None|operators=None",
+          "coarse_family_key": "scalar=None|phi1_potential=None|phi2_potential=None|operator_bucket=plain",
+          "failure_tags": [],
+          "top_reject_reasons": [],
+          "solver_output_dir": null,
+          "diagnostic_message": "Token-level proposal generation failed before validation: RuntimeError: LLM proposal failed in strict mode: OpenAIError: Missing credentials. Please pass an `api_key`, `workload_identity`, `admin_api_key`, or set the `OPENAI_API_KEY` or `OPENAI_ADMIN_KEY` environment variable.",
+          "decision": {
+            "loop": 1,
+            "after_stage": "llm_proposal",
+            "action": "stop",
+            "reason": "token-level proposal generation failed before validation",
+            "evidence": [
+              "Token-level proposal generation failed before validation: RuntimeError: LLM proposal failed in strict mode: OpenAIError: Missing credentials. Please pass an `api_key`, `workload_identity`, `admin_api_key`, or set the `OPENAI_API_KEY` or `OPENAI_ADMIN_KEY` environment variable."
+            ]
+          }
+        }
+      ],
+      "reflection": {},
+      "decision": {
+        "loop": 1,
+        "after_stage": "llm_proposal",
+        "action": "stop",
+        "reason": "token-level proposal generation failed before validation",
+        "evidence": [
+          "Token-level proposal generation failed before validation: RuntimeError: LLM proposal failed in strict mode: OpenAIError: Missing credentials. Please pass an `api_key`, `workload_identity`, `admin_api_key`, or set the `OPENAI_API_KEY` or `OPENAI_ADMIN_KEY` environment variable."
+        ]
+      },
+      "summary_after_loop": {
+        "total_attempts": 1,
+        "validated_count": 0,
+        "best_chi2": null,
+        "failure_tag_counts": {}
+      }
+    }
+  ],
+  "summary": {
+    "total_attempts": 1,
+    "validated_count": 0,
+    "entered_solver_count": 0,
+    "failed_stage_counts": {
+      "LLMProposal": 1
+    },
+    "failure_tag_counts": {},
+    "scalar_config_counts": {
+      "None": 1
+    },
+    "best_chi2": null,
+    "best_attempt": null,
+    "top_chi2_attempts": [],
+    "by_family": [
+      {
+        "family_key": "scalar=None|potential=None|operators=None",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "LLMProposal": 1
+        },
+        "failure_tag_counts": {},
+        "best_chi2": null
+      }
+    ],
+    "by_coarse_family": [
+      {
+        "coarse_family_key": "scalar=None|phi1_potential=None|phi2_potential=None|operator_bucket=plain",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "LLMProposal": 1
+        },
+        "failure_tag_counts": {},
+        "best_chi2": null
+      }
+    ],
+    "policy": {
+      "record_count": 1,
+      "global_mean_reward": -1.0,
+      "by_feature": {
+        "scalar_config": {
+          "None": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "phi1_potential": {
+          "None": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "phi2_potential": {
+          "None": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "operator_count": {
+          "0": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_R_anchor": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_scalar": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_phi1": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_phi2": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_both_scalars": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "is_no_scalar": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_scalar_curvature": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_derivative_operator": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_box_operator": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_high_curvature": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_pure_scalar_operator": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        }
+      },
+      "by_operator": {},
+      "by_family": {
+        "scalar=None|potential=None|operators=None": {
+          "count": 1,
+          "mean_reward": -1.0
+        }
+      },
+      "accepted_feature_counts": {},
+      "excellent_feature_counts": {},
+      "competitive_feature_counts": {}
+    },
+    "agent_loop": {
+      "reflection_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_llm_strict_no_key_smoke_2/agent_reflections.jsonl",
+      "structure_prior_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_llm_strict_no_key_smoke_2/structure_prior.json",
+      "parameter_prior_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_llm_strict_no_key_smoke_2/parameter_prior.json",
+      "latest_reflection": {
+        "timestamp": "2026-06-06T14:08:39-0400",
+        "loop_id": "loop_01",
+        "observations": [
+          "total_attempts=1",
+          "validated_count=0",
+          "best_chi2=None",
+          "last_loop_id=loop_01",
+          "last_tags=[]",
+          "scalar_family_metrics={'none': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}, 'phi1_only': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}, 'phi2_only': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}, 'both': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}, 'None': {'attempts': 1, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': 0.0, 'entered_solver_attempt_rate': 0.0, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': 0.0, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}}"
+        ],
+        "next_actions": [
+          "continue exploration with learned policy score and duplicate cap"
+        ],
+        "information_used": [
+          "attempt_history.jsonl",
+          "feedback_summary.json",
+          "all_samples_summary.csv paths from current loop"
+        ],
+        "information_not_used": [
+          "historical solver_result/top10 outputs"
+        ]
+      },
+      "structure_prior": {
+        "source": "current_loop_feedback",
+        "scalar_family_learning": {
+          "principle": "same metrics and soft scoring are applied to none, phi1_only, phi2_only, and both; no scalar family is banned from exploration",
+          "min_exploration_probability_per_family": 0.08,
+          "metrics": {
+            "none": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            },
+            "phi1_only": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            },
+            "phi2_only": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            },
+            "both": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            },
+            "None": {
+              "attempts": 1,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": 0.0,
+              "entered_solver_attempt_rate": 0.0,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": 0.0,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            }
+          }
+        },
+        "accepted_attempt_count": 0,
+        "quality_accepted_attempt_count": 0,
+        "accepted_quality_counts": {},
+        "preferred_scalar_configs": {},
+        "preferred_potentials": {},
+        "preferred_operators": {},
+        "preferred_features": {},
+        "avoid_scalar_configs": {},
+        "avoid_features": {},
+        "avoid_operators": {},
+        "avoid_failure_tags": {},
+        "best_chi2": null
+      },
+      "parameter_prior": {
+        "source": "accepted_all_samples",
+        "active": false,
+        "attempt_count": 1,
+        "accepted_sample_count": 0,
+        "min_attempts_before_update": 500,
+        "min_accepted_samples": 20,
+        "fixed_parameters": [
+          "H0_km_s_Mpc"
+        ],
+        "parameters": {},
+        "message": "Parameter prior evidence is recorded, but defaults remain active until update thresholds are met."
+      }
+    }
+  },
+  "messages": [
+    "Initialized LangGraph agent run local_llm_strict_no_key_smoke_2.",
+    "Built token-level Grammar Masker context once for this run.",
+    "Starting loop 1/1.",
+    "Proposal generation failed for loop 1; skipping validation.",
+    "Wrote loop trace for loop 1."
+  ],
+  "orchestrator": "langgraph"
+}
