@@ -56,7 +56,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Tuple, Any, Union
 from collections import Counter, defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import multiprocessing as mp
@@ -329,7 +329,28 @@ def get_param_symbols(model: Model) -> List[sp.Symbol]:
     return syms
 
 
-def load_parameter_samples(path: str = PARAMETER_SAMPLES_PATH) -> Optional[List[Dict[str, float]]]:
+AgentParameterSamples = Union[List[Dict[str, float]], Dict[str, List[Dict[str, float]]]]
+
+
+def _normalize_parameter_sample_list(payload: Any, *, label: str) -> List[Dict[str, float]]:
+    if not isinstance(payload, list):
+        raise TypeError(f"{label} must be a JSON list of sample objects")
+    samples: List[Dict[str, float]] = []
+    for idx, item in enumerate(payload, 1):
+        if not isinstance(item, dict):
+            raise TypeError(f"{label} sample #{idx} must be an object, got {type(item).__name__}")
+        sample: Dict[str, float] = {}
+        for key, value in item.items():
+            if value is None:
+                continue
+            sample[str(key)] = float(value)
+        samples.append(sample)
+    if not samples:
+        raise ValueError(f"{label} contains no samples")
+    return samples
+
+
+def load_parameter_samples(path: str = PARAMETER_SAMPLES_PATH) -> Optional[AgentParameterSamples]:
     """Load agent-proposed numerical samples.
 
     The default Solver behavior is random sampling. If PARAMETER_SAMPLES_PATH is
@@ -343,23 +364,24 @@ def load_parameter_samples(path: str = PARAMETER_SAMPLES_PATH) -> Optional[List[
     p = Path(path).expanduser().resolve()
     with p.open(encoding="utf-8") as f:
         payload = json.load(f)
+    if isinstance(payload, dict) and isinstance(payload.get("samples_by_lag_id"), dict):
+        by_lag: Dict[str, List[Dict[str, float]]] = {}
+        for lag_id, samples in payload["samples_by_lag_id"].items():
+            by_lag[str(lag_id)] = _normalize_parameter_sample_list(
+                samples,
+                label=f"PARAMETER_SAMPLES_PATH samples_by_lag_id[{lag_id!r}]",
+            )
+        if not by_lag:
+            raise ValueError(f"PARAMETER_SAMPLES_PATH contains empty samples_by_lag_id: {p}")
+        return by_lag
     if isinstance(payload, dict):
         payload = payload.get("samples")
     if not isinstance(payload, list):
-        raise TypeError(f"PARAMETER_SAMPLES_PATH must contain a JSON list or an object with 'samples': {p}")
-    samples: List[Dict[str, float]] = []
-    for idx, item in enumerate(payload, 1):
-        if not isinstance(item, dict):
-            raise TypeError(f"Parameter sample #{idx} must be an object, got {type(item).__name__}")
-        sample: Dict[str, float] = {}
-        for key, value in item.items():
-            if value is None:
-                continue
-            sample[str(key)] = float(value)
-        samples.append(sample)
-    if not samples:
-        raise ValueError(f"PARAMETER_SAMPLES_PATH contains no samples: {p}")
-    return samples
+        raise TypeError(
+            "PARAMETER_SAMPLES_PATH must contain a JSON list, an object with 'samples', "
+            f"or an object with 'samples_by_lag_id': {p}"
+        )
+    return _normalize_parameter_sample_list(payload, label="PARAMETER_SAMPLES_PATH")
 
 
 def _require_agent_value(sample: Dict[str, float], names: List[str]) -> float:
@@ -367,6 +389,50 @@ def _require_agent_value(sample: Dict[str, float], names: List[str]) -> float:
         if name in sample:
             return float(sample[name])
     raise KeyError(" or ".join(names))
+
+
+_GREEK_PARAMETER_ALIASES = {
+    "alpha",
+    "beta",
+    "gamma",
+    "delta",
+    "epsilon",
+    "zeta",
+    "eta",
+    "theta",
+    "iota",
+    "kappa",
+    "lambda",
+    "mu",
+    "nu",
+    "xi",
+    "rho",
+    "sigma",
+    "tau",
+}
+
+
+def _agent_parameter_name_aliases(sym: sp.Symbol) -> List[str]:
+    bases = [str(sym), sym.name]
+    out: List[str] = []
+    for base in bases:
+        if not base:
+            continue
+        bare = base.replace("\\", "")
+        variants = [base, bare]
+        if bare in _GREEK_PARAMETER_ALIASES:
+            variants.append(f"\\{bare}")
+        if "_{" in bare and bare.endswith("}"):
+            variants.append(bare.replace("_{", "_").replace("}", ""))
+        for variant in variants:
+            if variant and variant not in out:
+                out.append(variant)
+    with_prefixes: List[str] = []
+    for name in out:
+        for candidate in (name, f"coef:{name}", f"coefficient:{name}"):
+            if candidate not in with_prefixes:
+                with_prefixes.append(candidate)
+    return with_prefixes
 
 
 def _optional_agent_value(sample: Dict[str, float], names: List[str]) -> Optional[float]:
@@ -416,7 +482,7 @@ def sample_parameter_values(
         if agent_sample is not None:
             vals[sym] = _require_agent_value(
                 agent_sample,
-                [str(sym), sym.name, f"coef:{sym}", f"coefficient:{sym}"],
+                _agent_parameter_name_aliases(sym),
             )
         else:
             lo, hi = PRIORS["log10_abs_c"]

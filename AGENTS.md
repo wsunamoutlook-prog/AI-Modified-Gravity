@@ -302,7 +302,7 @@ Use a mixed sampling schedule with baseline, weak, moderate, and small active-pr
 
 The proposal-time coefficient cap in `config_p.py` is an exploration bound, not a physical acceptance rule. Large coefficients are allowed up to that cap so high-dimension `Lambda`-suppressed operators can be tested; unstable samples should be rejected by the real Solver feedback rather than hidden by an overly small proposal cap.
 
-Parameter-prior updates are gated. `H0_km_s_Mpc` must keep the default range from `config_p.py`. All other parameters initially use the default range near `config_p.py`; after at least 500 current-loop attempts and at least 20 accepted Solver sample rows, the agent may use accepted-sample quantiles to update `parameter_prior.json`.
+Parameter-prior updates are gated. `H0_km_s_Mpc` must keep the default range from `config_p.py`. All other parameters initially use the default range near `config_p.py`; after at least 150 current-loop attempts and at least 20 accepted Solver sample rows, the agent may use accepted-sample quantiles to update `parameter_prior.json`.
 
 Default cold-start parameter ranges live in:
 

@@ -20,6 +20,7 @@ from .cold_start_runner import (
     _direct_entry,
     _entry_score,
     _family_key,
+    _sample_operator_policy,
     _under_duplicate_limit,
 )
 
@@ -162,7 +163,13 @@ def _generate_candidate_entries(
     *,
     max_batches: int = 3,
 ) -> List[Dict[str, Any]]:
-    skeletons = _direct_candidate_catalog(context)
+    target_operator_count, force_r_only = _sample_operator_policy(summary, random.Random(seed + 8191))
+    skeletons = _direct_candidate_catalog(
+        context,
+        rng=random.Random(seed + 131071),
+        target_operator_count=target_operator_count,
+        force_r_only=force_r_only,
+    )
     entries = [entry for entry in skeletons if entry.get("operator_specs") and _under_duplicate_limit(entry, summary)]
     if not entries:
         entries = [entry for entry in skeletons if entry.get("operator_specs")]
@@ -175,7 +182,11 @@ def _generate_candidate_entries(
     beam = list(ranked[:beam_size])
     random.Random(seed + 65537).shuffle(beam)
     ranked = sorted(beam[: MAX_LLM_CANDIDATES * 2], key=lambda entry: _entry_score(entry, summary, rng), reverse=True)
-    return ranked[:MAX_LLM_CANDIDATES]
+    selected = ranked[:MAX_LLM_CANDIDATES]
+    for entry in selected:
+        entry["target_operator_count"] = target_operator_count
+        entry["baseline_control"] = force_r_only
+    return selected
 
 
 def _call_openai_for_choice(
@@ -355,6 +366,8 @@ def propose_entry_with_llm(
     entry["proposal_mode"] = "llm"
     entry["llm_model"] = selected_model
     entry["llm_rationale"] = rationale
+    entry["target_operator_count"] = selected.get("target_operator_count")
+    entry["baseline_control"] = bool(selected.get("baseline_control", False))
     entry["llm_choice"] = {
         "candidate_index": index,
         "candidate_count": len(candidates),

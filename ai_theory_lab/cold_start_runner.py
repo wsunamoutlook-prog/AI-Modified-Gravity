@@ -53,9 +53,10 @@ TOKEN_CONTEXT_MAX_DERIVATIVES = 2
 DIRECT_CANDIDATE_TOP_POOL = 36
 DIRECT_CANDIDATE_PAIR_POOL = 26
 DIRECT_CANDIDATE_R_PAIR_POOL = 16
-DIRECT_MIN_OPERATOR_TERMS = int(os.environ.get("AGENT_MIN_OPERATOR_TERMS", "2"))
-DIRECT_MAX_OPERATOR_TERMS = int(os.environ.get("AGENT_MAX_OPERATOR_TERMS", "12"))
+DIRECT_MIN_OPERATOR_TERMS = int(os.environ.get("AGENT_MIN_OPERATOR_TERMS", "1"))
+DIRECT_MAX_OPERATOR_TERMS = int(os.environ.get("AGENT_MAX_OPERATOR_TERMS", "8"))
 DIRECT_RANDOM_CANDIDATES_PER_POTENTIAL = int(os.environ.get("AGENT_RANDOM_CANDIDATES_PER_POTENTIAL", "28"))
+DIRECT_OPERATOR_COUNT_FIXED_PROB = float(os.environ.get("AGENT_OPERATOR_COUNT_FIXED_PROB", "0.05"))
 
 
 @contextmanager
@@ -514,6 +515,19 @@ def _coefficient_symbol_for_index(index: int) -> sp.Symbol:
     return sp.Symbol(f"c_{{{index + 1}}}")
 
 
+def _coefficient_key_aliases(symbol: str) -> List[str]:
+    aliases = [symbol]
+    bare = symbol.replace("\\", "")
+    aliases.append(bare)
+    if "_{" in bare and bare.endswith("}"):
+        aliases.append(bare.replace("_{", "_").replace("}", ""))
+    out: List[str] = []
+    for alias in aliases:
+        if alias and alias not in out:
+            out.append(alias)
+    return out
+
+
 def _make_direct_potential(tensors: Dict[str, Any], which: int, pot_type: str) -> tuple[str, Any]:
     if which == 1:
         m, f, phi = m1_phi, f1_axion, tensors["phi1"]
@@ -735,11 +749,100 @@ def _sample_operator_count(rng: random.Random) -> int:
     return rng.randint(low, high)
 
 
+def _operator_count_from_family_key(family_key: str) -> Optional[int]:
+    marker = "operators="
+    if marker not in family_key:
+        return None
+    operators = family_key.split(marker, 1)[1]
+    if not operators or operators == "none":
+        return 0
+    return len([part for part in operators.split("+") if part])
+
+
+def _operator_count_stats(summary: Dict[str, Any]) -> Dict[int, Dict[str, float]]:
+    stats: Dict[int, Dict[str, float]] = {}
+    for row in summary.get("by_family") or []:
+        if not isinstance(row, dict):
+            continue
+        count = _operator_count_from_family_key(str(row.get("family_key") or ""))
+        if count is None:
+            continue
+        bucket = stats.setdefault(count, {"attempts": 0.0, "validated": 0.0, "best_chi2": math.inf})
+        bucket["attempts"] += float(row.get("attempts") or 0)
+        bucket["validated"] += float(row.get("validated") or 0)
+        try:
+            chi2 = float(row.get("best_chi2"))
+        except (TypeError, ValueError):
+            chi2 = math.inf
+        if math.isfinite(chi2):
+            bucket["best_chi2"] = min(bucket["best_chi2"], chi2)
+    return stats
+
+
+def _policy_operator_count_reward(summary: Dict[str, Any], count: int) -> float:
+    policy = summary.get("policy") if isinstance(summary.get("policy"), dict) else {}
+    by_feature = policy.get("by_feature") if isinstance(policy.get("by_feature"), dict) else {}
+    operator_count = by_feature.get("operator_count") if isinstance(by_feature.get("operator_count"), dict) else {}
+    stats = operator_count.get(str(count)) if isinstance(operator_count.get(str(count)), dict) else {}
+    try:
+        reward = float(stats.get("mean_reward"))
+    except (TypeError, ValueError):
+        return 0.0
+    if not math.isfinite(reward):
+        return 0.0
+    # discovery_reward is unbounded-ish in policy summaries; squash to a
+    # positive multiplier so bad EH-dominated/tiny corrections downweight but
+    # do not erase the fixed exploration floor.
+    return 1.0 / (1.0 + math.exp(-reward / 3.0))
+
+
+def _chi2_quality_weight(best_chi2: float) -> float:
+    if not math.isfinite(best_chi2):
+        return 0.4
+    if best_chi2 <= 1650.0:
+        return 2.5
+    if best_chi2 <= 1700.0:
+        return 1.8
+    if best_chi2 <= 2000.0:
+        return 1.0
+    return 0.35
+
+
+def _sample_operator_policy(summary: Dict[str, Any], rng: random.Random) -> tuple[int, bool]:
+    low = max(1, int(DIRECT_MIN_OPERATOR_TERMS))
+    high = max(low, int(DIRECT_MAX_OPERATOR_TERMS))
+    counts = list(range(low, high + 1))
+    fixed_prob = min(1.0 / max(len(counts), 1), max(0.0, DIRECT_OPERATOR_COUNT_FIXED_PROB))
+    fixed_mass = fixed_prob * len(counts)
+    draw = rng.random()
+    if draw < fixed_mass:
+        count = counts[min(len(counts) - 1, int(draw / max(fixed_prob, 1e-12)))]
+        return count, count == 1
+
+    stats = _operator_count_stats(summary)
+    weights: List[float] = []
+    for count in counts:
+        # Smooth toward simple theories before enough current-loop evidence exists.
+        prior_attempts = 8.0
+        prior_accepts = 1.2 / max(float(count), 1.0)
+        bucket = stats.get(count, {})
+        attempts = float(bucket.get("attempts") or 0.0)
+        accepted = float(bucket.get("validated") or 0.0)
+        accept_rate = (accepted + prior_accepts) / (attempts + prior_attempts)
+        chi2_weight = _chi2_quality_weight(float(bucket.get("best_chi2", math.inf)))
+        reward_weight = _policy_operator_count_reward(summary, count)
+        learned_score = accept_rate * chi2_weight * (0.5 + reward_weight)
+        complexity_penalty = 1.0 / math.sqrt(max(float(count), 1.0))
+        weights.append(max(1e-6, learned_score * complexity_penalty))
+    return rng.choices(counts, weights=weights, k=1)[0], False
+
+
 def _direct_candidate_catalog(
     context: Dict[str, Any],
     *,
     rng: Optional[random.Random] = None,
     target_operator_count: Optional[int] = None,
+    force_r_only: bool = False,
 ) -> List[Dict[str, Any]]:
     candidates = sorted(getattr(context["masker"], "all_candidates", []) or [], key=_candidate_sort_key)
     catalog: List[Dict[str, Any]] = []
@@ -779,7 +882,11 @@ def _direct_candidate_catalog(
                 desired = int(target_operator_count) if target_operator_count is not None else _sample_operator_count(local_rng)
                 desired = max(1, min(desired, len(allowed)))
                 chosen: List[Any] = []
-                if r_anchor is not None and desired >= 2 and local_rng.random() < 0.85:
+                if force_r_only and r_anchor is not None:
+                    chosen.append(r_anchor)
+                elif r_anchor is not None and desired == 1 and local_rng.random() < 0.55:
+                    chosen.append(r_anchor)
+                elif r_anchor is not None and desired >= 2 and local_rng.random() < 0.85:
                     chosen.append(r_anchor)
                     chosen.extend(local_rng.sample(non_r, min(desired - 1, len(non_r))))
                 else:
@@ -805,11 +912,28 @@ def _load_token_level_context_cache() -> Optional[Dict[str, Any]]:
         import sympy as sp
         import sys
 
-        main_module = sys.modules.get("__main__")
-        if main_module is not None:
-            for name in ("phi1", "phi2"):
-                if not hasattr(main_module, name):
-                    setattr(main_module, name, sp.Function(name))
+        # Older token-context pickles may refer to SymPy undefined Function
+        # classes by the module name of the entrypoint that wrote the cache.
+        # Register the common FLRW functions on likely entry modules before
+        # unpickling so a stale but valid cache does not force a slow rebuild.
+        for module_name in (
+            "__main__",
+            "ai_theory_lab.cold_start_runner",
+            "ai_theory_lab.graph_agent",
+            "ai_theory_lab.graph_agent_batch",
+        ):
+            module = sys.modules.get(module_name)
+            if module is None:
+                continue
+            function_defs = {
+                "N": sp.Function("N", positive=True),
+                "a": sp.Function("a", positive=True),
+                "phi1": sp.Function("phi1"),
+                "phi2": sp.Function("phi2"),
+            }
+            for name, function in function_defs.items():
+                if not hasattr(module, name):
+                    setattr(module, name, function)
         with path.open("rb") as f:
             payload = pickle.load(f)
     except Exception as exc:
@@ -893,11 +1017,12 @@ def _generate_token_level_entry(
     seed: int,
 ) -> Dict[str, Any]:
     tensors = context["tensors"]
-    target_operator_count = _sample_operator_count(random.Random(seed + 8191))
+    target_operator_count, force_r_only = _sample_operator_policy(summary, random.Random(seed + 8191))
     skeletons = _direct_candidate_catalog(
         context,
         rng=random.Random(seed + 131071),
         target_operator_count=target_operator_count,
+        force_r_only=force_r_only,
     )
     if not skeletons:
         raise RuntimeError("Token-level Grammar Masker candidate pool is empty")
@@ -924,6 +1049,7 @@ def _generate_token_level_entry(
     )
     compiled["proposal_mode"] = "direct_candidate_policy"
     compiled["target_operator_count"] = target_operator_count
+    compiled["baseline_control"] = force_r_only
     return compiled
 
 
@@ -1125,15 +1251,17 @@ def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, sum
         coeff = spec["coefficient"]
         term = term_by_coeff.get(coeff, {"candidate": label})
         if _is_eh_operator(term) or label == "R":
-            sample[coeff] = EH_R_COEFFICIENT
+            value = EH_R_COEFFICIENT
         else:
-            sample[coeff] = _coefficient_for_planned_effect(
+            value = _coefficient_for_planned_effect(
                 term=term,
                 sample=sample,
                 mode=correction_mode,
                 rng=rng,
                 priors=priors,
             )
+        for key in _coefficient_key_aliases(coeff):
+            sample[key] = value
 
     if index > 0:
         # Local perturbations within the same cold-start prior, not copied from old results.
@@ -1183,6 +1311,7 @@ def _proposal_for(
         "source": "token_level_grammar",
         "proposal_mode": entry.get("proposal_mode", "deterministic"),
         "target_operator_count": entry.get("target_operator_count"),
+        "baseline_control": bool(entry.get("baseline_control", False)),
         **(
             {
                 "llm_model": entry.get("llm_model"),

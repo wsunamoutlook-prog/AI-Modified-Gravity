@@ -1,0 +1,619 @@
+{
+  "run_name": "local_preflight_batch_1x2_c",
+  "proposal_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/local_preflight_batch_1x2_c",
+  "memory_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_preflight_batch_1x2_c",
+  "report_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/reports/local_preflight_batch_1x2_c",
+  "summary": {
+    "total_attempts": 2,
+    "validated_count": 0,
+    "entered_solver_count": 0,
+    "failed_stage_counts": {
+      "EOM": 2
+    },
+    "failure_tag_counts": {},
+    "scalar_config_counts": {
+      "phi1_only": 2
+    },
+    "best_chi2": null,
+    "best_attempt": null,
+    "top_chi2_attempts": [],
+    "by_family": [
+      {
+        "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "EOM": 1
+        },
+        "failure_tag_counts": {},
+        "best_chi2": null
+      },
+      {
+        "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇^{b}R · R_{ab}+φ1 · φ1 · φ1 · φ1 · R",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "EOM": 1
+        },
+        "failure_tag_counts": {},
+        "best_chi2": null
+      }
+    ],
+    "by_coarse_family": [
+      {
+        "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "EOM": 1
+        },
+        "failure_tag_counts": {},
+        "best_chi2": null
+      },
+      {
+        "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+derivative+high_curvature+scalar_curvature",
+        "attempts": 1,
+        "validated": 0,
+        "entered_solver": 0,
+        "failed_stage_counts": {
+          "EOM": 1
+        },
+        "failure_tag_counts": {},
+        "best_chi2": null
+      }
+    ],
+    "policy": {
+      "record_count": 2,
+      "global_mean_reward": -1.0,
+      "by_feature": {
+        "scalar_config": {
+          "phi1_only": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "phi1_potential": {
+          "axion": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "phi2_potential": {
+          "None": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "operator_count": {
+          "1": {
+            "count": 1,
+            "mean_reward": -1.0
+          },
+          "3": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_R_anchor": {
+          "True": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_scalar": {
+          "True": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_phi1": {
+          "True": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_phi2": {
+          "False": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_both_scalars": {
+          "False": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "is_no_scalar": {
+          "False": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_scalar_curvature": {
+          "True": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_derivative_operator": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          },
+          "True": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_box_operator": {
+          "False": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        },
+        "has_high_curvature": {
+          "False": {
+            "count": 1,
+            "mean_reward": -1.0
+          },
+          "True": {
+            "count": 1,
+            "mean_reward": -1.0
+          }
+        },
+        "has_pure_scalar_operator": {
+          "False": {
+            "count": 2,
+            "mean_reward": -1.0
+          }
+        }
+      },
+      "by_operator": {
+        "R": {
+          "count": 2,
+          "mean_reward": -1.0
+        },
+        "∇^{a}∇^{b}R · R_{ab}": {
+          "count": 1,
+          "mean_reward": -1.0
+        },
+        "φ1 · φ1 · φ1 · φ1 · R": {
+          "count": 1,
+          "mean_reward": -1.0
+        }
+      },
+      "by_family": {
+        "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R": {
+          "count": 1,
+          "mean_reward": -1.0
+        },
+        "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇^{b}R · R_{ab}+φ1 · φ1 · φ1 · φ1 · R": {
+          "count": 1,
+          "mean_reward": -1.0
+        }
+      },
+      "accepted_feature_counts": {},
+      "excellent_feature_counts": {},
+      "competitive_feature_counts": {}
+    },
+    "agent_loop": {
+      "reflection_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_preflight_batch_1x2_c/agent_reflections.jsonl",
+      "structure_prior_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_preflight_batch_1x2_c/structure_prior.json",
+      "parameter_prior_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/memory/local_preflight_batch_1x2_c/parameter_prior.json",
+      "latest_reflection": {
+        "timestamp": "2026-06-07T17:20:12-0400",
+        "loop_id": "wave_0001_lag_2",
+        "observations": [
+          "total_attempts=2",
+          "validated_count=0",
+          "best_chi2=None",
+          "last_loop_id=wave_0001_lag_2",
+          "last_tags=[]",
+          "scalar_family_metrics={'none': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}, 'phi1_only': {'attempts': 2, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': 0.0, 'entered_solver_attempt_rate': 0.0, 'sample_count': 16, 'accepted_sample_count': 0, 'accepted_sample_rate': 0.0, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': 0.0, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': 0.0, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': 0.0, 'constraint_drift_count': 0, 'constraint_drift_rate': 0.0, 'integration_failure_count': 0, 'integration_failure_rate': 0.0, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {'scalar_config=phi1_only': 2, 'phi1_potential=axion': 2, 'has_R_anchor': 2, 'has_scalar': 2, 'has_phi1': 2, 'has_scalar_curvature': 2, 'has_derivative_operator': 1, 'has_high_curvature': 1}}, 'phi2_only': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}, 'both': {'attempts': 0, 'validated_attempts': 0, 'entered_solver_attempts': 0, 'validated_attempt_rate': None, 'entered_solver_attempt_rate': None, 'sample_count': 0, 'accepted_sample_count': 0, 'accepted_sample_rate': None, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': None, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': None, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': None, 'constraint_drift_count': 0, 'constraint_drift_rate': None, 'integration_failure_count': 0, 'integration_failure_rate': None, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {}}}"
+        ],
+        "next_actions": [
+          "continue exploration with learned policy score and duplicate cap"
+        ],
+        "information_used": [
+          "attempt_history.jsonl",
+          "feedback_summary.json",
+          "all_samples_summary.csv paths from current loop"
+        ],
+        "information_not_used": [
+          "historical solver_result/top10 outputs"
+        ]
+      },
+      "structure_prior": {
+        "source": "current_loop_feedback",
+        "scalar_family_learning": {
+          "principle": "same metrics and soft scoring are applied to none, phi1_only, phi2_only, and both; no scalar family is banned from exploration",
+          "min_exploration_probability_per_family": 0.08,
+          "metrics": {
+            "none": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            },
+            "phi1_only": {
+              "attempts": 2,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": 0.0,
+              "entered_solver_attempt_rate": 0.0,
+              "sample_count": 16,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": 0.0,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": 0.0,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": 0.0,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": 0.0,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": 0.0,
+              "integration_failure_count": 0,
+              "integration_failure_rate": 0.0,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {
+                "scalar_config=phi1_only": 2,
+                "phi1_potential=axion": 2,
+                "has_R_anchor": 2,
+                "has_scalar": 2,
+                "has_phi1": 2,
+                "has_scalar_curvature": 2,
+                "has_derivative_operator": 1,
+                "has_high_curvature": 1
+              }
+            },
+            "phi2_only": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            },
+            "both": {
+              "attempts": 0,
+              "validated_attempts": 0,
+              "entered_solver_attempts": 0,
+              "validated_attempt_rate": null,
+              "entered_solver_attempt_rate": null,
+              "sample_count": 0,
+              "accepted_sample_count": 0,
+              "accepted_sample_rate": null,
+              "q_initial_root_failure_count": 0,
+              "q_initial_root_failure_rate": null,
+              "q_not_determined_attempts": 0,
+              "q_not_determined_attempt_rate": null,
+              "no_scalar_constraint_count": 0,
+              "no_scalar_constraint_rate": null,
+              "constraint_drift_count": 0,
+              "constraint_drift_rate": null,
+              "integration_failure_count": 0,
+              "integration_failure_rate": null,
+              "best_chi2": null,
+              "median_chi2": null,
+              "chi2_quality_counts": {},
+              "operator_family_counts": {}
+            }
+          }
+        },
+        "accepted_attempt_count": 0,
+        "quality_accepted_attempt_count": 0,
+        "accepted_quality_counts": {},
+        "preferred_scalar_configs": {},
+        "preferred_potentials": {},
+        "preferred_operators": {},
+        "preferred_features": {},
+        "avoid_scalar_configs": {},
+        "avoid_features": {},
+        "avoid_operators": {},
+        "avoid_failure_tags": {},
+        "best_chi2": null
+      },
+      "parameter_prior": {
+        "source": "accepted_all_samples",
+        "active": false,
+        "attempt_count": 2,
+        "accepted_sample_count": 0,
+        "min_attempts_before_update": 150,
+        "min_accepted_samples": 20,
+        "fixed_parameters": [
+          "H0_km_s_Mpc"
+        ],
+        "parameters": {},
+        "message": "Parameter prior evidence is recorded, but defaults remain active until update thresholds are met."
+      }
+    }
+  },
+  "wave_traces": [
+    {
+      "wave": 1,
+      "batch_size": 2,
+      "agent_run_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001",
+      "records": [
+        {
+          "timestamp": "2026-06-07T17:20:12-0400",
+          "loop_id": "wave_0001_lag_1",
+          "validated": false,
+          "failed_stage": "EOM",
+          "entered_stages": [
+            "EOM"
+          ],
+          "entered_solver": false,
+          "best_lag_id": "1",
+          "chi2": null,
+          "aic": null,
+          "bic": null,
+          "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001/agent_solver_result/agent_solve",
+          "model_ranking_path": null,
+          "scan_report_path": null,
+          "theory": {
+            "proposal_id": "cold_start_token_loop_01_batch_lag_1",
+            "source_n_terms": 3,
+            "source_local_number": 3,
+            "scalar_config": "phi1_only",
+            "potential_types": {
+              "phi1": "axion",
+              "phi2": null
+            },
+            "operators": [
+              "R"
+            ],
+            "parameter_sample_count": 8
+          },
+          "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R",
+          "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor",
+          "failure_tags": [],
+          "top_reject_reasons": [],
+          "all_samples_summary_path": null,
+          "accepted_samples_summary_path": null,
+          "reject_reasons_by_model_path": null,
+          "diagnostic_message": "EOM failed while validating batch wave 1.",
+          "agent_lagrangian": {
+            "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/local_preflight_batch_1x2_c/wave_0001_lag_1.json",
+            "agent_lagrangians_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001/agent_lagrangians.pkl",
+            "agent_parameter_samples_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001/agent_parameter_samples_by_lag_id.json",
+            "proposal_id": "batch_lag_1",
+            "source": "batch_token_level_grammar",
+            "source_n_terms": 3,
+            "source_local_number": 3,
+            "batch_lag_id": "1",
+            "scalar_config": "phi1_only",
+            "potential_types": {
+              "phi1": "axion",
+              "phi2": null
+            },
+            "operators": [
+              "R"
+            ],
+            "operator_specs": [
+              {
+                "candidate": "R",
+                "coefficient": "\\alpha"
+              }
+            ],
+            "general": "√(-g) [ M_p² ( \\alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+            "lagrangian": {
+              "n_terms": 3,
+              "general": "√(-g) [ M_p² ( \\alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+              "terms": [
+                {
+                  "coeff_symbol": "\\alpha",
+                  "coeff_token": "COEFF_0",
+                  "candidate": "R",
+                  "mass_dim": 2,
+                  "lambda_power": 0,
+                  "sector": "gravity"
+                },
+                {
+                  "coeff_symbol": "1",
+                  "coeff_token": "COEFF_FIXED_1",
+                  "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+                  "mass_dim": 4,
+                  "lambda_power": 0,
+                  "fixed": true,
+                  "sector": "matter"
+                },
+                {
+                  "coeff_symbol": "1",
+                  "coeff_token": "COEFF_FIXED_1",
+                  "candidate": "-m_1² f_1² (1 - cos(φ1/f_1))",
+                  "mass_dim": 4,
+                  "lambda_power": 0,
+                  "fixed": true,
+                  "sector": "matter",
+                  "potential_type": "axion"
+                }
+              ],
+              "scalar_config": "phi1_only",
+              "potential_types": {
+                "phi1": "axion",
+                "phi2": null
+              }
+            }
+          }
+        },
+        {
+          "timestamp": "2026-06-07T17:20:12-0400",
+          "loop_id": "wave_0001_lag_2",
+          "validated": false,
+          "failed_stage": "EOM",
+          "entered_stages": [
+            "EOM"
+          ],
+          "entered_solver": false,
+          "best_lag_id": "2",
+          "chi2": null,
+          "aic": null,
+          "bic": null,
+          "solver_output_dir": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001/agent_solver_result/agent_solve",
+          "model_ranking_path": null,
+          "scan_report_path": null,
+          "theory": {
+            "proposal_id": "cold_start_token_loop_01_batch_lag_2",
+            "source_n_terms": 5,
+            "source_local_number": 79,
+            "scalar_config": "phi1_only",
+            "potential_types": {
+              "phi1": "axion",
+              "phi2": null
+            },
+            "operators": [
+              "R",
+              "∇^{a}∇^{b}R · R_{ab}",
+              "φ1 · φ1 · φ1 · φ1 · R"
+            ],
+            "parameter_sample_count": 8
+          },
+          "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇^{b}R · R_{ab}+φ1 · φ1 · φ1 · φ1 · R",
+          "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+derivative+high_curvature+scalar_curvature",
+          "failure_tags": [],
+          "top_reject_reasons": [],
+          "all_samples_summary_path": null,
+          "accepted_samples_summary_path": null,
+          "reject_reasons_by_model_path": null,
+          "diagnostic_message": "EOM failed while validating batch wave 1.",
+          "agent_lagrangian": {
+            "proposal_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/proposals/local_preflight_batch_1x2_c/wave_0001_lag_2.json",
+            "agent_lagrangians_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001/agent_lagrangians.pkl",
+            "agent_parameter_samples_path": "/Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/runs/local_preflight_batch_1x2_c_wave_0001/agent_parameter_samples_by_lag_id.json",
+            "proposal_id": "batch_lag_2",
+            "source": "batch_token_level_grammar",
+            "source_n_terms": 5,
+            "source_local_number": 79,
+            "batch_lag_id": "2",
+            "scalar_config": "phi1_only",
+            "potential_types": {
+              "phi1": "axion",
+              "phi2": null
+            },
+            "operators": [
+              "R",
+              "∇^{a}∇^{b}R · R_{ab}",
+              "φ1 · φ1 · φ1 · φ1 · R"
+            ],
+            "operator_specs": [
+              {
+                "candidate": "R",
+                "coefficient": "\\alpha"
+              },
+              {
+                "candidate": "∇^{a}∇^{b}R · R_{ab}",
+                "coefficient": "\\beta"
+              },
+              {
+                "candidate": "φ1 · φ1 · φ1 · φ1 · R",
+                "coefficient": "\\gamma"
+              }
+            ],
+            "general": "√(-g) [ M_p² ( \\alpha · R  +  \\beta Λ^{-4} · ∇^{a}∇^{b}R · R_{ab}  +  \\gamma Λ^{-4} · φ1 · φ1 · φ1 · φ1 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+            "lagrangian": {
+              "n_terms": 5,
+              "general": "√(-g) [ M_p² ( \\alpha · R  +  \\beta Λ^{-4} · ∇^{a}∇^{b}R · R_{ab}  +  \\gamma Λ^{-4} · φ1 · φ1 · φ1 · φ1 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+              "terms": [
+                {
+                  "coeff_symbol": "\\alpha",
+                  "coeff_token": "COEFF_0",
+                  "candidate": "R",
+                  "mass_dim": 2,
+                  "lambda_power": 0,
+                  "sector": "gravity"
+                },
+                {
+                  "coeff_symbol": "\\beta",
+                  "coeff_token": "COEFF_1",
+                  "candidate": "∇^{a}∇^{b}R · R_{ab}",
+                  "mass_dim": 6,
+                  "lambda_power": -4,
+                  "sector": "gravity"
+                },
+                {
+                  "coeff_symbol": "\\gamma",
+                  "coeff_token": "COEFF_2",
+                  "candidate": "φ1 · φ1 · φ1 · φ1 · R",
+                  "mass_dim": 6,
+                  "lambda_power": -4,
+                  "sector": "non-minimal"
+                },
+                {
+                  "coeff_symbol": "1",
+                  "coeff_token": "COEFF_FIXED_1",
+                  "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+                  "mass_dim": 4,
+                  "lambda_power": 0,
+                  "fixed": true,
+                  "sector": "matter"
+                },
+                {
+                  "coeff_symbol": "1",
+                  "coeff_token": "COEFF_FIXED_1",
+                  "candidate": "-m_1² f_1² (1 - cos(φ1/f_1))",
+                  "mass_dim": 4,
+                  "lambda_power": 0,
+                  "fixed": true,
+                  "sector": "matter",
+                  "potential_type": "axion"
+                }
+              ],
+              "scalar_config": "phi1_only",
+              "potential_types": {
+                "phi1": "axion",
+                "phi2": null
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "messages": [
+    "Initialized batch run local_preflight_batch_1x2_c.",
+    "Wave 1/1 complete; best_chi2=None.",
+    "Generated result report at /Users/sunwenrong/Desktop/AI Modified Gravity/Project/Modify GR/ai_theory_lab/reports/local_preflight_batch_1x2_c."
+  ],
+  "orchestrator": "batch",
+  "batch_size": 2
+}

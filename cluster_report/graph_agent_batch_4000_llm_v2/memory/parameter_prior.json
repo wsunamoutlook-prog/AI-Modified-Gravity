@@ -1,0 +1,13 @@
+{
+  "source": "accepted_all_samples",
+  "active": false,
+  "attempt_count": 704,
+  "accepted_sample_count": 0,
+  "min_attempts_before_update": 150,
+  "min_accepted_samples": 20,
+  "fixed_parameters": [
+    "H0_km_s_Mpc"
+  ],
+  "parameters": {},
+  "message": "Parameter prior evidence is recorded, but defaults remain active until update thresholds are met."
+}

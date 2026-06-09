@@ -102,6 +102,7 @@ Current cold-start compiler behavior:
 
 - `graph_agent.py` and `cold_start_runner.py` build or load the token-level Grammar Masker candidate context once.
 - The agent constructs a theory by choosing scalar configuration, potential type, and a combination of legal `CandidateScalar` operators from that candidate pool.
+- For each proposal, the cold-start generator first samples the number of non-fixed Grammar Masker operators, defaulting to 1 through 8. Each operator count receives a fixed 5% exploration probability. The remaining probability mass is learned from current-loop feedback by combining operator-count accepted rate, chi-square quality, and the policy `discovery_reward`, which already downweights tiny/`eh_dominated` corrections while preserving clean `eh_only` baselines. When the fixed exploration draw selects count 1, the generator forces an `R`-only baseline/control operator set. Fixed scalar kinetic/potential terms are added afterward according to `scalar_config`.
 - The selected candidate combination is compiled directly into a full dimension-balanced `agent_lagrangians.pkl` entry with the same `M_p²`, `Λ`, sector, fixed scalar-matter, and coefficient-token conventions used by Grammar Masker.
 - The cold-start agent must not call Grammar Masker's random `generate_lagrangians(... n_samples=...)` batch generator as its proposal source.
 - Replay and compatibility checks may still match proposal JSON against `lagrangians.pkl`, but that is not cold-start discovery.

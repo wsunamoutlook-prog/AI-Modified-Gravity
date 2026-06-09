@@ -53,7 +53,7 @@ CORRECTION_SAMPLING = {
 
 
 PARAMETER_PRIOR_UPDATE = {
-    "min_attempts_before_update": 500,
+    "min_attempts_before_update": 150,
     "min_accepted_samples": 20,
     "fixed_parameters": ["H0_km_s_Mpc"],
     "quantile_low": 0.15,

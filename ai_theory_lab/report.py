@@ -30,6 +30,20 @@ def _read_csv_rows(path: Path | None) -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
+def _accepted_sample_row(attempt: dict[str, Any]) -> dict[str, str]:
+    accepted_path = Path(attempt["accepted_samples_summary_path"]) if attempt.get("accepted_samples_summary_path") else None
+    rows = _read_csv_rows(accepted_path)
+    if not rows:
+        return {}
+    lag_id = str(attempt.get("best_lag_id") or "")
+    if lag_id:
+        rows = [row for row in rows if str(row.get("lag_id")) == lag_id] or rows
+    attempt_chi2 = _float(attempt.get("chi2"))
+    if not math.isnan(attempt_chi2):
+        rows = sorted(rows, key=lambda row: abs(_float(row.get("chi2")) - attempt_chi2))
+    return rows[0] if rows else {}
+
+
 def _float(value: Any, default: float = math.nan) -> float:
     try:
         if value in (None, ""):
@@ -62,6 +76,11 @@ def _run_dir(attempt: dict[str, Any]) -> Path | None:
 
 
 def _load_lagrangian(attempt: dict[str, Any]) -> dict[str, Any]:
+    metadata = attempt.get("agent_lagrangian")
+    if isinstance(metadata, dict):
+        lagrangian = metadata.get("lagrangian")
+        if isinstance(lagrangian, dict):
+            return lagrangian
     run_dir = _run_dir(attempt)
     if not run_dir:
         return {}
@@ -70,7 +89,15 @@ def _load_lagrangian(attempt: dict[str, Any]) -> dict[str, Any]:
         return {}
     with pkl_path.open("rb") as f:
         data = pickle.load(f)
+    best_lag_id = str(attempt.get("best_lag_id") or "")
     if isinstance(data, dict):
+        global_idx = 1
+        for key in sorted(data, key=lambda value: int(value)):
+            group = data.get(key) or []
+            for item in group:
+                if best_lag_id and str(global_idx) == best_lag_id:
+                    return item if isinstance(item, dict) else {}
+                global_idx += 1
         for group in data.values():
             if group:
                 return group[0]
@@ -82,11 +109,12 @@ def _load_lagrangian(attempt: dict[str, Any]) -> dict[str, Any]:
 def _coefficient_value(row: dict[str, str], symbol: str) -> str | None:
     if symbol in {"1", "COEFF_FIXED_1"}:
         return "1"
+    bare_symbol = symbol.replace("\\", "")
     candidates = [
         symbol,
-        symbol.replace("\\", ""),
-        f"coef:{symbol.replace('\\', '')}",
-        f"coefficient:{symbol.replace('\\', '')}",
+        bare_symbol,
+        f"coef:{bare_symbol}",
+        f"coefficient:{bare_symbol}",
     ]
     for key in candidates:
         if key in row and row[key] not in ("", None):
@@ -150,6 +178,9 @@ def _solution_path(attempt: dict[str, Any]) -> Path | None:
     direct = solver_dir / f"top_01_lagrangian_{best_lag_id}_solution.csv"
     if direct.exists():
         return direct
+    lag_matches = sorted(solver_dir.glob(f"top_*_lagrangian_{best_lag_id}_solution.csv"))
+    if lag_matches:
+        return lag_matches[0]
     matches = sorted(solver_dir.glob("top_01_lagrangian_*_solution.csv"))
     return matches[0] if matches else None
 
@@ -240,6 +271,22 @@ def _write_plots(out_dir: Path, accepted: list[dict[str, Any]], top_n: int) -> N
     fig.savefig(out_dir / "top_h_overlay.png", dpi=180)
     plt.close(fig)
 
+    dense_overlay = top
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    plotted = 0
+    for rank, attempt in enumerate(dense_overlay, start=1):
+        z, h = _load_solution(attempt)
+        if z and h:
+            ax.plot(z, h, lw=1.0, alpha=0.55)
+            plotted += 1
+    ax.set_xlabel("z")
+    ax.set_ylabel("h(z)=H/H0")
+    ax.set_title(f"Top {plotted} accepted family representative h(z)")
+    ax.grid(alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(out_dir / "top_h_overlay_topn.png", dpi=180)
+    plt.close(fig)
+
     panels = top[: min(3, len(top))]
     if panels:
         fig, axes = plt.subplots(len(panels), 1, figsize=(8, 3 * len(panels)), sharex=True)
@@ -267,6 +314,9 @@ def _write_summary(
     top_n: int,
 ) -> None:
     failures = feedback.get("failure_tag_counts") or {}
+    accepted_chi2 = [_float(attempt.get("chi2")) for attempt in accepted]
+    accepted_chi2 = [value for value in accepted_chi2 if not math.isnan(value)]
+    best_chi2 = min(accepted_chi2) if accepted_chi2 else feedback.get("best_chi2")
     lines = [
         f"# LangGraph Agent Result Summary: {run_name}",
         "",
@@ -278,9 +328,9 @@ def _write_summary(
         "| Metric | Value |",
         "|---|---:|",
         f"| Total attempts | {feedback.get('total_attempts', '')} |",
-        f"| Accepted attempts | {feedback.get('validated_count', len(accepted))} |",
+        f"| Accepted attempts | {len(accepted)} |",
         f"| Accepted theory families shown | {len(representatives)} |",
-        f"| Best chi2 | {_fmt(feedback.get('best_chi2'), 6)} |",
+        f"| Best chi2 | {_fmt(best_chi2, 6)} |",
         f"| q_not_determined | {failures.get('q_not_determined', 0)} |",
         f"| constraint_drift | {failures.get('constraint_drift', 0)} |",
         f"| q_initial_root_failure | {failures.get('q_initial_root_failure', 0)} |",
@@ -298,6 +348,8 @@ def _write_summary(
         "",
         "![Top h(z) overlay](top_h_overlay.png)",
         "",
+        "![Top-N h(z) overlay](top_h_overlay_topn.png)",
+        "",
         "![Top 3 h(z) panels](top3_h_panels.png)",
         "",
         "## Top Accepted Family Representatives",
@@ -307,9 +359,7 @@ def _write_summary(
     ]
     for rank, attempt in enumerate(representatives[:top_n], start=1):
         theory = attempt.get("theory") or {}
-        row = _read_csv_first(
-            Path(attempt["accepted_samples_summary_path"]) if attempt.get("accepted_samples_summary_path") else None
-        )
+        row = _accepted_sample_row(attempt)
         ops = "; ".join(theory.get("operators") or [])
         potential = json.dumps(theory.get("potential_types") or {}, ensure_ascii=False)
         effective = _effective_summary(attempt)
@@ -332,9 +382,7 @@ def _write_summary(
         ]
     )
     for rank, attempt in enumerate(representatives[:top_n], start=1):
-        row = _read_csv_first(
-            Path(attempt["accepted_samples_summary_path"]) if attempt.get("accepted_samples_summary_path") else None
-        )
+        row = _accepted_sample_row(attempt)
         terms = (_load_lagrangian(attempt).get("terms") or [])
         lines.append(
             f"| {rank} | {attempt.get('loop_id')} | "
@@ -412,8 +460,7 @@ def _write_lagrangian_reports(out_dir: Path, accepted: list[dict[str, Any]], top
     for rank, attempt in enumerate(accepted[:top_n], start=1):
         lag = _load_lagrangian(attempt)
         solver_dir = _solver_dir(attempt)
-        accepted_path = Path(attempt["accepted_samples_summary_path"]) if attempt.get("accepted_samples_summary_path") else None
-        row = _read_csv_first(accepted_path)
+        row = _accepted_sample_row(attempt)
         terms = lag.get("terms") or []
         raw = lag.get("general") or ""
         bestfit = _bestfit_general(raw, terms, row)
@@ -508,7 +555,7 @@ def _write_lagrangian_reports(out_dir: Path, accepted: list[dict[str, Any]], top
             "",
             f"- proposal: `{attempt.get('proposal_path', '')}`",
             f"- solver output: `{solver_dir or ''}`",
-            f"- accepted_samples_summary.csv: `{accepted_path or ''}`",
+            f"- accepted_samples_summary.csv: `{attempt.get('accepted_samples_summary_path', '')}`",
             f"- solution csv: `{solution_path or ''}`",
             "",
         ]

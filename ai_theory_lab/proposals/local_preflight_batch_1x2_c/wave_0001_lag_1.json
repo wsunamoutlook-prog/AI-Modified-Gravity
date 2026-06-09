@@ -1,0 +1,133 @@
+{
+  "proposal_id": "cold_start_token_loop_01_batch_lag_1",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "axion",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ]
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 64.05625329750741,
+      "Omega_m0": 0.24745826610856414,
+      "lambda_H_Lambda_over_H0": 1639.1296067048922,
+      "varphi1_0_phi1_over_Mp": 0.3012553343914641,
+      "mu1_m1_over_H0": 0.25434788578073964,
+      "fbar1_f1_over_Mp": 4.942868065015602,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 61.13148497091477,
+      "Omega_m0": 0.40154419653231255,
+      "lambda_H_Lambda_over_H0": 55086.16701387055,
+      "varphi1_0_phi1_over_Mp": 2.12543435871992,
+      "mu1_m1_over_H0": 2.345089921032394,
+      "fbar1_f1_over_Mp": 2.745165125563692,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 70.73985151161254,
+      "Omega_m0": 0.23807063996601283,
+      "lambda_H_Lambda_over_H0": 55038.20627330105,
+      "varphi1_0_phi1_over_Mp": 2.636478104751679,
+      "mu1_m1_over_H0": 3.6631766573654634,
+      "fbar1_f1_over_Mp": 4.177222664804474,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 61.91936074017835,
+      "Omega_m0": 0.31196419531639014,
+      "lambda_H_Lambda_over_H0": 18660.973549918148,
+      "varphi1_0_phi1_over_Mp": 0.6069624756174803,
+      "mu1_m1_over_H0": 0.07269549482529315,
+      "fbar1_f1_over_Mp": 3.1941324529966963,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 71.98956552619732,
+      "Omega_m0": 0.3062152019327497,
+      "lambda_H_Lambda_over_H0": 29052.907782795894,
+      "varphi1_0_phi1_over_Mp": 1.8271256403527958,
+      "mu1_m1_over_H0": 0.09222806300752058,
+      "fbar1_f1_over_Mp": 26.7005572235771,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 62.73206649213575,
+      "Omega_m0": 0.2376353110771511,
+      "lambda_H_Lambda_over_H0": 36584.033910925325,
+      "varphi1_0_phi1_over_Mp": 2.660407143219464,
+      "mu1_m1_over_H0": 0.11646503142331072,
+      "fbar1_f1_over_Mp": 0.1307079301279149,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 64.5899989857094,
+      "Omega_m0": 0.28533386609674166,
+      "lambda_H_Lambda_over_H0": 13474.640227768248,
+      "varphi1_0_phi1_over_Mp": 4.344681797090003,
+      "mu1_m1_over_H0": 0.29077459778538917,
+      "fbar1_f1_over_Mp": 0.17081664303162092,
+      "\\alpha": 0.5
+    },
+    {
+      "H0_km_s_Mpc": 61.830810697108845,
+      "Omega_m0": 0.3189649772333991,
+      "lambda_H_Lambda_over_H0": 11837.988329279979,
+      "varphi1_0_phi1_over_Mp": 1.400208875887134,
+      "mu1_m1_over_H0": 0.549302130598508,
+      "fbar1_f1_over_Mp": 0.19440978815346738,
+      "\\alpha": 0.5
+    }
+  ],
+  "parameter_sampling_policy": {
+    "strategy": "planned_relative_effect",
+    "mode_counts": {
+      "baseline": 8
+    },
+    "target_relative_effect": {
+      "baseline": {
+        "low": 0.0,
+        "high": 0.0,
+        "log10": false
+      },
+      "weak": {
+        "low": 1e-06,
+        "high": 0.0001,
+        "log10": true
+      },
+      "moderate": {
+        "low": 0.0001,
+        "high": 0.01,
+        "log10": true
+      },
+      "active_probe": {
+        "low": 0.01,
+        "high": 0.05,
+        "log10": true
+      }
+    },
+    "coefficient_abs_min": 1e-10,
+    "coefficient_abs_max": 1000000000000.0,
+    "notes": "Non-EH curvature correction coefficients are sampled from a target effective size relative to the EH term using lambda_power and scalar field factors. EH R is fixed."
+  },
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "proposal_mode": "direct_candidate_policy",
+  "target_operator_count": 1,
+  "baseline_control": true,
+  "catalog_location": {
+    "source_n_terms": 3,
+    "source_local_number": 3
+  },
+  "batch_wave": 1,
+  "batch_lag_id": "1"
+}

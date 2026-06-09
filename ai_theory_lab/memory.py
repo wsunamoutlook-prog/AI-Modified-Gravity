@@ -234,6 +234,7 @@ def make_attempt_record(result: ValidationResult, loop_id: Optional[str] = None)
         "accepted_samples_summary_path": (result.diagnostics or {}).get("accepted_samples_summary_path"),
         "reject_reasons_by_model_path": (result.diagnostics or {}).get("reject_reasons_by_model_path"),
         "diagnostic_message": (result.diagnostics or {}).get("message"),
+        "agent_lagrangian": (result.diagnostics or {}).get("agent_lagrangian"),
     }
     return record
 

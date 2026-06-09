@@ -110,7 +110,6 @@ def run_solve_from_cache():
     n_bao = len(bao_data["value"])
     n_total_data = n_sn + n_bao
     agent_parameter_samples = load_parameter_samples()
-    samples_per_model = len(agent_parameter_samples) if agent_parameter_samples is not None else N_SAMPLES_PER_MODEL
     cache_path = _find_build_cache_path_for_solve()
     built_models, cache_metadata = _load_built_models_cache(cache_path)
     if MAX_MODELS_TO_BUILD > 0 and len(built_models) > MAX_MODELS_TO_BUILD:
@@ -123,11 +122,19 @@ def run_solve_from_cache():
         )
     _warn_if_cache_build_settings_differ(cache_metadata)
     models_raw = built_models  # Used only for reporting count below; no EOM parsing/build is performed.
+    samples_by_lag_id = agent_parameter_samples if isinstance(agent_parameter_samples, dict) else None
+
+    if samples_by_lag_id is None:
+        samples_per_model_label = len(agent_parameter_samples) if agent_parameter_samples is not None else N_SAMPLES_PER_MODEL
+    else:
+        counts = [len(samples) for samples in samples_by_lag_id.values()]
+        samples_per_model_label = f"per_lag_id:min={min(counts)},max={max(counts)},models={len(counts)}"
+
     print(f"[START-SOLVE] Output directory: {OUTPUT_DIR}", flush=True)
     print(f"[START-SOLVE] Loading built model cache: {cache_path}", flush=True)
     print(
         f"[START-SOLVE] N_SAMPLES_PER_MODEL={N_SAMPLES_PER_MODEL}, "
-        f"agent_parameter_samples={samples_per_model if agent_parameter_samples is not None else 0}, "
+        f"agent_parameter_samples={samples_per_model_label if agent_parameter_samples is not None else 0}, "
         f"parallel={SOLVER_PARALLEL}, workers={N_WORKERS}, "
         f"parallel_threshold={PARALLEL_SAMPLE_THRESHOLD}, likelihood=DES-SN+DESI-DR2-BAO, "
         f"N_GRID={N_GRID}, RTOL={RTOL:g}, ATOL={ATOL:g}",
@@ -138,10 +145,24 @@ def run_solve_from_cache():
     best_by_model: Dict[str, SampleResult] = {}
     reject_counts_by_model: Dict[str, Counter] = defaultdict(Counter)
 
+    def samples_for_model(model: Model) -> Optional[List[Dict[str, float]]]:
+        if samples_by_lag_id is None:
+            return agent_parameter_samples
+        return samples_by_lag_id.get(str(model.lag_id))
+
+    def sample_count_for_model(model: Model) -> int:
+        model_samples = samples_for_model(model)
+        return len(model_samples) if model_samples is not None else N_SAMPLES_PER_MODEL
+
     skipped = [m for m in built_models if m.reject_reason]
     active_models = [m for m in built_models if not m.reject_reason]
+    if samples_by_lag_id is not None:
+        missing_sample_models = [m for m in active_models if str(m.lag_id) not in samples_by_lag_id]
+        for m in missing_sample_models:
+            reject_counts_by_model[m.lag_id]["agent parameter samples missing for lag_id"] += 1
+        active_models = [m for m in active_models if str(m.lag_id) in samples_by_lag_id]
     for m in skipped:
-        reject_counts_by_model[m.lag_id][m.reject_reason] += samples_per_model
+        reject_counts_by_model[m.lag_id][m.reject_reason] += sample_count_for_model(m)
 
     print(
         f"[INFO] Built models: total={len(built_models)}, active_IVP={len(active_models)}, "
@@ -149,7 +170,7 @@ def run_solve_from_cache():
         flush=True,
     )
     print(
-        f"[INFO] Total numerical samples scheduled: {len(active_models) * samples_per_model:,}",
+        f"[INFO] Total numerical samples scheduled: {sum(sample_count_for_model(m) for m in active_models):,}",
         flush=True,
     )
 
@@ -159,54 +180,12 @@ def run_solve_from_cache():
     completed = 0
     last_progress_print = scan_t0
 
-    if SOLVER_PARALLEL and len(active_models) > 1 and N_WORKERS > 1:
-        ctx = mp.get_context("spawn")
-        max_workers = min(N_WORKERS, len(active_models))
-        print(f"[SCAN] Starting ProcessPoolExecutor with {max_workers} workers...", flush=True)
-        worker_args = [
-            (m, MODE, N_SAMPLES_PER_MODEL,
-             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data, bao_data,
-             agent_parameter_samples)
-            for m in active_models
-        ]
-        with ProcessPoolExecutor(max_workers=max_workers, mp_context=ctx) as ex:
-            future_to_lag = {ex.submit(_scan_single_model_worker, arg): arg[0].lag_id for arg in worker_args}
-            for fut in as_completed(future_to_lag):
-                lag_id = future_to_lag[fut]
-                try:
-                    out = fut.result()
-                except Exception as exc:
-                    # Worker crashed. Count all samples as rejected for that model.
-                    reject_counts_by_model[str(lag_id)][f"worker crashed: {type(exc).__name__}: {exc}"] += samples_per_model
-                    out = {"lag_id": lag_id, "accepted": [], "best": None, "rejects": {}, "elapsed": 0.0, "samples": samples_per_model, "status": "crashed"}
-                _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
-                completed += 1
-
-                now = time.time()
-                should_print = (now - last_progress_print >= PROGRESS_EVERY_SECONDS) or completed == len(active_models)
-                if should_print:
-                    elapsed = now - scan_t0
-                    rate = completed / max(elapsed, 1e-9)
-                    eta = (len(active_models) - completed) / rate if rate > 0 else float("nan")
-                    accepted_count = len(all_results)
-                    best_chi2 = min((r.chi2 for r in best_by_model.values()), default=math.inf)
-                    print(
-                        f"[PROGRESS] completed_models={completed}/{len(active_models)} "
-                        f"({100*completed/max(len(active_models),1):.1f}%), "
-                        f"accepted_samples={accepted_count}, best_chi2={best_chi2:.6g}, "
-                        f"elapsed={_format_seconds(elapsed)}, ETA={_format_seconds(eta)}",
-                        flush=True,
-                    )
-                    last_progress_print = now
-
-                if PROGRESS_SAVE_EVERY_MODELS > 0 and (completed % PROGRESS_SAVE_EVERY_MODELS == 0):
-                    _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
-                    print(f"[CHECKPOINT] Partial CSVs written in {OUTPUT_DIR}", flush=True)
-    else:
+    def run_serial_scan() -> None:
+        nonlocal completed, last_progress_print
         print("[SCAN] Running serial scan with lambdify cached once per model...", flush=True)
         for m in active_models:
             seed = _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed)
-            out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data, agent_parameter_samples))
+            out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data, samples_for_model(m)))
             _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
             completed += 1
             now = time.time()
@@ -221,9 +200,64 @@ def run_solve_from_cache():
                 f"best_chi2={best_chi2:.6g}, elapsed={_format_seconds(elapsed)}, ETA={_format_seconds(eta)}",
                 flush=True,
             )
+            last_progress_print = now
             if PROGRESS_SAVE_EVERY_MODELS > 0 and (completed % PROGRESS_SAVE_EVERY_MODELS == 0):
                 _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
                 print(f"[CHECKPOINT] Partial CSVs written in {OUTPUT_DIR}", flush=True)
+
+    if SOLVER_PARALLEL and len(active_models) > 1 and N_WORKERS > 1:
+        ctx = mp.get_context("spawn")
+        max_workers = min(N_WORKERS, len(active_models))
+        print(f"[SCAN] Starting ProcessPoolExecutor with {max_workers} workers...", flush=True)
+        worker_args = [
+            (m, MODE, N_SAMPLES_PER_MODEL,
+             _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed), WORKER_SAMPLE_PROGRESS, sn_data, bao_data,
+             samples_for_model(m))
+            for m in active_models
+        ]
+        try:
+            with ProcessPoolExecutor(max_workers=max_workers, mp_context=ctx) as ex:
+                future_to_lag = {ex.submit(_scan_single_model_worker, arg): arg[0].lag_id for arg in worker_args}
+                for fut in as_completed(future_to_lag):
+                    lag_id = future_to_lag[fut]
+                    try:
+                        out = fut.result()
+                    except Exception as exc:
+                        # Worker crashed. Count all samples as rejected for that model.
+                        crashed_count = sample_count_for_model(next((m for m in active_models if m.lag_id == lag_id), active_models[0]))
+                        reject_counts_by_model[str(lag_id)][f"worker crashed: {type(exc).__name__}: {exc}"] += crashed_count
+                        out = {"lag_id": lag_id, "accepted": [], "best": None, "rejects": {}, "elapsed": 0.0, "samples": crashed_count, "status": "crashed"}
+                    _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
+                    completed += 1
+
+                    now = time.time()
+                    should_print = (now - last_progress_print >= PROGRESS_EVERY_SECONDS) or completed == len(active_models)
+                    if should_print:
+                        elapsed = now - scan_t0
+                        rate = completed / max(elapsed, 1e-9)
+                        eta = (len(active_models) - completed) / rate if rate > 0 else float("nan")
+                        accepted_count = len(all_results)
+                        best_chi2 = min((r.chi2 for r in best_by_model.values()), default=math.inf)
+                        print(
+                            f"[PROGRESS] completed_models={completed}/{len(active_models)} "
+                            f"({100*completed/max(len(active_models),1):.1f}%), "
+                            f"accepted_samples={accepted_count}, best_chi2={best_chi2:.6g}, "
+                            f"elapsed={_format_seconds(elapsed)}, ETA={_format_seconds(eta)}",
+                            flush=True,
+                        )
+                        last_progress_print = now
+
+                    if PROGRESS_SAVE_EVERY_MODELS > 0 and (completed % PROGRESS_SAVE_EVERY_MODELS == 0):
+                        _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
+                        print(f"[CHECKPOINT] Partial CSVs written in {OUTPUT_DIR}", flush=True)
+        except (OSError, PermissionError) as exc:
+            print(
+                f"[WARN] Parallel scan setup failed ({type(exc).__name__}: {exc}); falling back to serial scan.",
+                flush=True,
+            )
+            run_serial_scan()
+    else:
+        run_serial_scan()
 
     # Final checkpoint before report/plots.
     _write_partial_progress(OUTPUT_DIR, all_results, all_evaluated, best_by_model, reject_counts_by_model, label="partial")
@@ -269,7 +303,7 @@ def run_solve_from_cache():
     lines.append(f"Total N_data={n_total_data}")
     lines.append(f"Cached models loaded: {len(models_raw)}")
     lines.append(f"Active nontrivial IVP models: {sum(1 for m in built_models if not m.reject_reason)}")
-    lines.append(f"Samples per model: {samples_per_model}")
+    lines.append(f"Samples per model: {samples_per_model_label}")
     lines.append(f"Agent parameter samples path: {PARAMETER_SAMPLES_PATH or 'none'}")
     lines.append(f"Parallel enabled: {SOLVER_PARALLEL}; workers={N_WORKERS if SOLVER_PARALLEL else 1}")
     lines.append(f"Parallel auto threshold: N_SAMPLES_PER_MODEL > {PARALLEL_SAMPLE_THRESHOLD}")

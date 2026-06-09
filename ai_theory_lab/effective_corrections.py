@@ -31,6 +31,13 @@ def _read_csv_first(path: Path | None) -> Dict[str, str]:
     return rows[0] if rows else {}
 
 
+def _read_csv_rows(path: Path | None) -> List[Dict[str, str]]:
+    if not path or not path.exists():
+        return []
+    with path.open(newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
 def coefficient_value(row: Dict[str, str], symbol: str) -> Optional[str]:
     if symbol in {"1", "COEFF_FIXED_1"}:
         return "1"
@@ -60,6 +67,11 @@ def _run_dir(attempt: Dict[str, Any]) -> Path | None:
 
 
 def load_lagrangian_from_attempt(attempt: Dict[str, Any]) -> Dict[str, Any]:
+    metadata = attempt.get("agent_lagrangian")
+    if isinstance(metadata, dict):
+        lagrangian = metadata.get("lagrangian")
+        if isinstance(lagrangian, dict):
+            return lagrangian
     run_dir = _run_dir(attempt)
     if not run_dir:
         return {}
@@ -68,7 +80,15 @@ def load_lagrangian_from_attempt(attempt: Dict[str, Any]) -> Dict[str, Any]:
         return {}
     with pkl_path.open("rb") as f:
         data = pickle.load(f)
+    best_lag_id = str(attempt.get("best_lag_id") or "")
     if isinstance(data, dict):
+        global_idx = 1
+        for key in sorted(data, key=lambda value: int(value)):
+            group = data.get(key) or []
+            for item in group:
+                if best_lag_id and str(global_idx) == best_lag_id:
+                    return item if isinstance(item, dict) else {}
+                global_idx += 1
         for group in data.values():
             if group:
                 return group[0]
@@ -79,7 +99,16 @@ def load_lagrangian_from_attempt(attempt: Dict[str, Any]) -> Dict[str, Any]:
 
 def accepted_sample_row_from_attempt(attempt: Dict[str, Any]) -> Dict[str, str]:
     value = attempt.get("accepted_samples_summary_path")
-    return _read_csv_first(Path(value)) if value else {}
+    rows = _read_csv_rows(Path(value)) if value else []
+    if not rows:
+        return {}
+    lag_id = str(attempt.get("best_lag_id") or "")
+    if lag_id:
+        rows = [row for row in rows if str(row.get("lag_id")) == lag_id] or rows
+    attempt_chi2 = _float(attempt.get("chi2"))
+    if not math.isnan(attempt_chi2):
+        rows = sorted(rows, key=lambda row: abs(_float(row.get("chi2")) - attempt_chi2))
+    return rows[0] if rows else {}
 
 
 def _candidate(term: Dict[str, Any]) -> str:
