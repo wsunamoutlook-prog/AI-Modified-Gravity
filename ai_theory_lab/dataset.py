@@ -24,6 +24,18 @@ def _operators(theory: Dict[str, Any]) -> List[str]:
     return [str(item) for item in value]
 
 
+def _theory_track(theory: Dict[str, Any]) -> str:
+    explicit = theory.get("theory_track")
+    if explicit:
+        return str(explicit)
+    operators = _operators(theory)
+    if "R" in operators:
+        return "eh_anchored"
+    if any("R" in operator for operator in operators):
+        return "non_eh"
+    return "non_gravity"
+
+
 def theory_features(theory: Dict[str, Any]) -> Dict[str, Any]:
     operators = _operators(theory)
     joined = " ".join(operators)
@@ -32,6 +44,8 @@ def theory_features(theory: Dict[str, Any]) -> Dict[str, Any]:
     has_scalar = scalar_config in {"phi1_only", "phi2_only", "both"}
     return {
         "scalar_config": scalar_config,
+        "proposal_group": theory.get("proposal_group"),
+        "theory_track": _theory_track(theory),
         "phi1_potential": potential_types.get("phi1"),
         "phi2_potential": potential_types.get("phi2"),
         "operator_count": len(operators),
@@ -81,6 +95,16 @@ def fit_reward_for_chi2(chi2: Any) -> Optional[float]:
 def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
     fit_reward = fit_reward_for_chi2(attempt.get("chi2"))
     if fit_reward is not None:
+        theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+        track = attempt.get("theory_track") or _theory_track(theory)
+        if track == "eh_anchored":
+            diagnostics = diagnostics_for_attempt(attempt)
+            status = diagnostics.get("effective_correction_status")
+            if status == "active":
+                return fit_reward + 0.3
+            if status == "moderate":
+                return fit_reward + 0.1
+            return fit_reward
         diagnostics = diagnostics_for_attempt(attempt)
         status = diagnostics.get("effective_correction_status")
         if status == "eh_only":

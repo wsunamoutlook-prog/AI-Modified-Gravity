@@ -67,6 +67,35 @@ def _solver_dir(attempt: dict[str, Any]) -> Path | None:
     return Path(value) if value else None
 
 
+def _track_from_operators(operators: Any) -> str:
+    labels: list[str] = []
+    if isinstance(operators, list):
+        for item in operators:
+            if isinstance(item, dict):
+                labels.append(str(item.get("candidate") or item.get("label") or item))
+            else:
+                labels.append(str(item))
+    if "R" in labels:
+        return "eh_anchored"
+    if any("R" in label for label in labels):
+        return "non_eh"
+    return "non_gravity"
+
+
+def _theory_track(attempt: dict[str, Any]) -> str:
+    theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+    return str(
+        attempt.get("theory_track")
+        or theory.get("theory_track")
+        or _track_from_operators(theory.get("operators"))
+    )
+
+
+def _proposal_group(attempt: dict[str, Any]) -> str:
+    theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+    return str(attempt.get("proposal_group") or theory.get("proposal_group") or _theory_track(attempt))
+
+
 def _run_dir(attempt: dict[str, Any]) -> Path | None:
     solver_dir = _solver_dir(attempt)
     if not solver_dir:
@@ -210,10 +239,14 @@ def _family_key(attempt: dict[str, Any]) -> str:
     return str(attempt.get("coarse_family_key") or attempt.get("family_key") or attempt.get("loop_id"))
 
 
+def _representative_key(attempt: dict[str, Any]) -> str:
+    return f"group={_proposal_group(attempt)}|{_family_key(attempt)}"
+
+
 def _family_representatives(accepted: list[dict[str, Any]]) -> list[dict[str, Any]]:
     best_by_family: dict[str, dict[str, Any]] = {}
     for attempt in sorted(accepted, key=lambda a: _float(a.get("chi2"))):
-        key = _family_key(attempt)
+        key = _representative_key(attempt)
         if key not in best_by_family:
             best_by_family[key] = attempt
     return sorted(best_by_family.values(), key=lambda a: _float(a.get("chi2")))
@@ -266,7 +299,9 @@ def _write_plots(out_dir: Path, accepted: list[dict[str, Any]], top_n: int) -> N
     ax.set_ylabel("h(z)=H/H0")
     ax.set_title("Top accepted family representative h(z)")
     ax.grid(alpha=0.25)
-    ax.legend(fontsize=8)
+    handles, labels = ax.get_legend_handles_labels()
+    if handles:
+        ax.legend(fontsize=8)
     fig.tight_layout()
     fig.savefig(out_dir / "top_h_overlay.png", dpi=180)
     plt.close(fig)
@@ -285,6 +320,96 @@ def _write_plots(out_dir: Path, accepted: list[dict[str, Any]], top_n: int) -> N
     ax.grid(alpha=0.25)
     fig.tight_layout()
     fig.savefig(out_dir / "top_h_overlay_topn.png", dpi=180)
+    plt.close(fig)
+
+    eh_top = [attempt for attempt in accepted if _theory_track(attempt) == "eh_anchored"][:10]
+    non_eh_top = [attempt for attempt in accepted if _theory_track(attempt) == "non_eh"][:10]
+    track_top = [("EH", attempt) for attempt in eh_top] + [("non-EH", attempt) for attempt in non_eh_top]
+
+    fig, ax = plt.subplots(figsize=(max(9, 0.55 * len(track_top)), 4.8))
+    colors = ["#2f6f9f" if label == "EH" else "#a23b72" for label, _ in track_top]
+    track_labels = [f"{label} {attempt.get('loop_id')}" for label, attempt in track_top]
+    track_chi2 = [_float(attempt.get("chi2")) for _, attempt in track_top]
+    ax.bar(range(len(track_top)), track_chi2, color=colors)
+    ax.set_xticks(range(len(track_top)))
+    ax.set_xticklabels(track_labels, rotation=50, ha="right")
+    ax.set_ylabel("chi2")
+    ax.set_title("Top 10 EH-anchored vs top 10 non-EH family representatives")
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(out_dir / "top_by_track_chi2_bar.png", dpi=180)
+    plt.close(fig)
+
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    plotted = 0
+    for rank, attempt in enumerate(eh_top, start=1):
+        z, h = _load_solution(attempt)
+        if z and h:
+            ax.plot(z, h, lw=1.6, alpha=0.75, color="#2f6f9f", label="EH anchored" if rank == 1 else None)
+            plotted += 1
+    for rank, attempt in enumerate(non_eh_top, start=1):
+        z, h = _load_solution(attempt)
+        if z and h:
+            ax.plot(z, h, lw=1.6, alpha=0.75, color="#a23b72", linestyle="--", label="non-EH" if rank == 1 else None)
+            plotted += 1
+    ax.set_xlabel("z")
+    ax.set_ylabel("h(z)=H/H0")
+    ax.set_title(f"Track comparison h(z), {plotted} plotted representatives")
+    ax.grid(alpha=0.25)
+    handles, labels = ax.get_legend_handles_labels()
+    if handles:
+        ax.legend(fontsize=8)
+    fig.tight_layout()
+    fig.savefig(out_dir / "top_by_track_h_overlay.png", dpi=180)
+    plt.close(fig)
+
+    preferred_groups = ["open_search", "eh_phi2_only", "non_eh"]
+    observed_groups = sorted({_proposal_group(attempt) for attempt in accepted})
+    group_names = [group for group in preferred_groups if group in observed_groups] + [
+        group for group in observed_groups if group not in preferred_groups
+    ]
+    group_tops = {group: [attempt for attempt in accepted if _proposal_group(attempt) == group][:10] for group in group_names}
+    group_colors = {"open_search": "#2f6f9f", "eh_phi2_only": "#2a9d8f", "non_eh": "#a23b72"}
+    group_top = [(group, attempt) for group in group_names for attempt in group_tops[group]]
+    fig, ax = plt.subplots(figsize=(max(9, 0.50 * len(group_top)), 4.8))
+    ax.bar(
+        range(len(group_top)),
+        [_float(attempt.get("chi2")) for _, attempt in group_top],
+        color=[group_colors.get(group, "#666666") for group, _ in group_top],
+    )
+    ax.set_xticks(range(len(group_top)))
+    ax.set_xticklabels([f"{group} {attempt.get('loop_id')}" for group, attempt in group_top], rotation=55, ha="right")
+    ax.set_ylabel("chi2")
+    ax.set_title("Top 10 representatives by proposal group")
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(out_dir / "top_by_group_chi2_bar.png", dpi=180)
+    plt.close(fig)
+
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    plotted = 0
+    for group in group_names:
+        for rank, attempt in enumerate(group_tops[group], start=1):
+            z, h = _load_solution(attempt)
+            if z and h:
+                ax.plot(
+                    z,
+                    h,
+                    lw=1.6,
+                    alpha=0.75,
+                    color=group_colors.get(group, "#666666"),
+                    label=group if rank == 1 else None,
+                )
+                plotted += 1
+    ax.set_xlabel("z")
+    ax.set_ylabel("h(z)=H/H0")
+    ax.set_title(f"Proposal group h(z) comparison, {plotted} plotted representatives")
+    ax.grid(alpha=0.25)
+    handles, labels = ax.get_legend_handles_labels()
+    if handles:
+        ax.legend(fontsize=8)
+    fig.tight_layout()
+    fig.savefig(out_dir / "top_by_group_h_overlay.png", dpi=180)
     plt.close(fig)
 
     panels = top[: min(3, len(top))]
@@ -350,12 +475,31 @@ def _write_summary(
         "",
         "![Top-N h(z) overlay](top_h_overlay_topn.png)",
         "",
+        "![Track chi2 comparison](top_by_track_chi2_bar.png)",
+        "",
+        "![Track h(z) comparison](top_by_track_h_overlay.png)",
+        "",
+        "![Proposal group chi2 comparison](top_by_group_chi2_bar.png)",
+        "",
+        "![Proposal group h(z) comparison](top_by_group_h_overlay.png)",
+        "",
         "![Top 3 h(z) panels](top3_h_panels.png)",
+        "",
+        "## Proposal Group Comparison",
+        "",
+        "- [Top open-search representatives](top_open_search.md)",
+        "- [Top EH + phi2-only representatives](top_eh_phi2_only.md)",
+        "- [Top non-EH representatives](top_non_eh.md)",
+        "",
+        "## Track Comparison",
+        "",
+        "- [Top EH-anchored representatives](top_eh_anchored.md)",
+        "- [Top non-EH representatives](top_non_eh.md)",
         "",
         "## Top Accepted Family Representatives",
         "",
-        "| Rank | Family | Loop | chi2 | Status | Max rel. effect | Dominant correction | Sample | H0 | Omega_m0 | lambda_H | Scalar | Potential | Operators |",
-        "|---:|---|---|---:|---|---:|---|---:|---:|---:|---:|---|---|---|",
+        "| Rank | Group | Track | Family | Loop | chi2 | Status | Max rel. effect | Dominant correction | Sample | H0 | Omega_m0 | lambda_H | Scalar | Potential | Operators |",
+        "|---:|---|---|---|---|---:|---|---:|---|---:|---:|---:|---:|---|---|---|",
     ]
     for rank, attempt in enumerate(representatives[:top_n], start=1):
         theory = attempt.get("theory") or {}
@@ -364,7 +508,7 @@ def _write_summary(
         potential = json.dumps(theory.get("potential_types") or {}, ensure_ascii=False)
         effective = _effective_summary(attempt)
         lines.append(
-            f"| {rank} | {_family_key(attempt)} | {attempt.get('loop_id')} | {_fmt(attempt.get('chi2'), 6)} | "
+            f"| {rank} | {_proposal_group(attempt)} | {_theory_track(attempt)} | {_family_key(attempt)} | {attempt.get('loop_id')} | {_fmt(attempt.get('chi2'), 6)} | "
             f"{effective.get('effective_correction_status', '')} | "
             f"{_fmt(effective.get('max_relative_effect_to_EH'), 3)} | "
             f"{effective.get('dominant_correction_term', '')} | "
@@ -418,6 +562,8 @@ def _write_lagrangian_reports(out_dir: Path, accepted: list[dict[str, Any]], top
         "aic",
         "bic",
         "scalar_config",
+        "proposal_group",
+        "theory_track",
         "potential_types",
         "raw_general_lagrangian",
         "bestfit_general_lagrangian",
@@ -478,6 +624,8 @@ def _write_lagrangian_reports(out_dir: Path, accepted: list[dict[str, Any]], top
                 "aic": attempt.get("aic"),
                 "bic": attempt.get("bic"),
                 "scalar_config": theory.get("scalar_config"),
+                "proposal_group": _proposal_group(attempt),
+                "theory_track": _theory_track(attempt),
                 "potential_types": json.dumps(theory.get("potential_types") or {}, ensure_ascii=False),
                 "raw_general_lagrangian": raw,
                 "bestfit_general_lagrangian": bestfit,
@@ -506,6 +654,8 @@ def _write_lagrangian_reports(out_dir: Path, accepted: list[dict[str, Any]], top
             f"## {rank}. {attempt.get('loop_id')}  chi2={_fmt(attempt.get('chi2'), 6)}",
             "",
             f"- scalar_config: `{theory.get('scalar_config', '')}`",
+            f"- proposal_group: `{_proposal_group(attempt)}`",
+            f"- theory_track: `{_theory_track(attempt)}`",
             f"- potential_types: `{json.dumps(theory.get('potential_types') or {}, ensure_ascii=False)}`",
             f"- agent_parameter_sample_index: `{row.get('agent_parameter_sample_index', '')}`",
             f"- H0_km_s_Mpc: `{_fmt(row.get('H0_km_s_Mpc'), 8)}`",
@@ -574,6 +724,72 @@ def _write_lagrangian_reports(out_dir: Path, accepted: list[dict[str, Any]], top
     (out_dir / "accepted_lagrangians_full.md").write_text("\n".join(full_lines), encoding="utf-8")
 
 
+def _write_track_reports(out_dir: Path, representatives: list[dict[str, Any]]) -> None:
+    specs = [
+        ("eh_anchored", "top_eh_anchored.md", "Top EH-Anchored Representatives"),
+        ("non_eh", "top_non_eh.md", "Top Non-EH Representatives"),
+    ]
+    for track, filename, title in specs:
+        rows = [attempt for attempt in representatives if _theory_track(attempt) == track][:10]
+        lines = [
+            f"# {title}",
+            "",
+            "| Rank | Loop | chi2 | Status | Max rel. effect | Scalar | Operators |",
+            "|---:|---|---:|---|---:|---|---|",
+        ]
+        for rank, attempt in enumerate(rows, start=1):
+            theory = attempt.get("theory") or {}
+            effective = _effective_summary(attempt)
+            lines.append(
+                f"| {rank} | {attempt.get('loop_id')} | {_fmt(attempt.get('chi2'), 6)} | "
+                f"{effective.get('effective_correction_status', '')} | "
+                f"{_fmt(effective.get('max_relative_effect_to_EH'), 3)} | "
+                f"{theory.get('scalar_config', '')} | {'; '.join(theory.get('operators') or [])} |"
+            )
+        if not rows:
+            lines.extend(["", "No accepted family representatives were found for this track."])
+        lines.append("")
+        (out_dir / filename).write_text("\n".join(lines), encoding="utf-8")
+
+
+def _write_group_reports(out_dir: Path, representatives: list[dict[str, Any]]) -> None:
+    preferred_specs = [
+        ("open_search", "top_open_search.md", "Top Open-Search Representatives"),
+        ("eh_phi2_only", "top_eh_phi2_only.md", "Top EH + Phi2-Only Representatives"),
+        ("non_eh", "top_non_eh.md", "Top Non-EH Representatives"),
+    ]
+    observed = sorted({_proposal_group(attempt) for attempt in representatives})
+    spec_by_group = {group: (filename, title) for group, filename, title in preferred_specs}
+    specs = []
+    for group, filename, title in preferred_specs:
+        specs.append((group, filename, title))
+    for group in observed:
+        if group not in spec_by_group:
+            specs.append((group, f"top_{group}.md", f"Top {group} Representatives"))
+    for group, filename, title in specs:
+        rows = [attempt for attempt in representatives if _proposal_group(attempt) == group][:10]
+        lines = [
+            f"# {title}",
+            "",
+            "| Rank | Loop | chi2 | Track | Status | Max rel. effect | Scalar | Operators |",
+            "|---:|---|---:|---|---|---:|---|---|",
+        ]
+        for rank, attempt in enumerate(rows, start=1):
+            theory = attempt.get("theory") or {}
+            effective = _effective_summary(attempt)
+            lines.append(
+                f"| {rank} | {attempt.get('loop_id')} | {_fmt(attempt.get('chi2'), 6)} | "
+                f"{_theory_track(attempt)} | "
+                f"{effective.get('effective_correction_status', '')} | "
+                f"{_fmt(effective.get('max_relative_effect_to_EH'), 3)} | "
+                f"{theory.get('scalar_config', '')} | {'; '.join(theory.get('operators') or [])} |"
+            )
+        if not rows:
+            lines.extend(["", "No accepted family representatives were found for this proposal group."])
+        lines.append("")
+        (out_dir / filename).write_text("\n".join(lines), encoding="utf-8")
+
+
 def generate_report(run_name: str, top_n: int = 20, output_dir: Path | None = None) -> Path:
     memory_dir = Path("ai_theory_lab") / "memory" / run_name
     feedback_path = memory_dir / "feedback_summary.json"
@@ -594,6 +810,8 @@ def generate_report(run_name: str, top_n: int = 20, output_dir: Path | None = No
     )
     _write_plots(out_dir, representatives, top_n=top_n)
     _write_lagrangian_reports(out_dir, representatives, top_n=top_n)
+    _write_track_reports(out_dir, representatives)
+    _write_group_reports(out_dir, representatives)
     _write_summary(out_dir, run_name, feedback, accepted, representatives, top_n=top_n)
     return out_dir
 

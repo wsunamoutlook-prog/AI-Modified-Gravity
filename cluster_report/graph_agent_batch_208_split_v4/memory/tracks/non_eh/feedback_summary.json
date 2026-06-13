@@ -1,0 +1,4157 @@
+{
+  "total_attempts": 104,
+  "validated_count": 8,
+  "entered_solver_count": 104,
+  "failed_stage_counts": {
+    "Solver": 96
+  },
+  "failure_tag_counts": {
+    "no_accepted_samples": 100,
+    "q_initial_root_failure": 9,
+    "q_not_determined": 8,
+    "constraint_drift": 5,
+    "symbolic_timeout": 2,
+    "integration_failure": 2
+  },
+  "scalar_config_counts": {
+    "none": 85,
+    "phi2_only": 9,
+    "both": 6,
+    "phi1_only": 4
+  },
+  "theory_track_counts": {
+    "non_eh": 104
+  },
+  "accepted_theory_track_counts": {
+    "non_eh": 8
+  },
+  "best_chi2": 9434.003155067094,
+  "best_attempt": {
+    "timestamp": "2026-06-09T20:41:24-0400",
+    "loop_id": "wave_0013_lag_16",
+    "validated": true,
+    "failed_stage": null,
+    "entered_stages": [
+      "EOM",
+      "Builder",
+      "Solver"
+    ],
+    "entered_solver": true,
+    "best_lag_id": "16",
+    "chi2": 9434.003155067094,
+    "aic": 9452.003155067094,
+    "bic": 9501.62653829765,
+    "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve",
+    "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/model_ranking.csv",
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/scan_report.txt",
+    "theory": {
+      "proposal_id": "cold_start_token_loop_13_batch_lag_16",
+      "source_n_terms": 9,
+      "source_local_number": 99,
+      "scalar_config": "phi2_only",
+      "potential_types": {
+        "phi1": null,
+        "phi2": "quadratic"
+      },
+      "operators": [
+        "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+        "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+        "R_{ab} · R^{adef} · R^{b}_{def}",
+        "φ2 · R",
+        "φ2 · R^{ab} · R_{ab}",
+        "φ2 · φ2 · R^{ab} · R_{ab}",
+        "φ2 · φ2 · φ2"
+      ],
+      "theory_track": "non_eh",
+      "parameter_sample_count": 1000
+    },
+    "theory_track": "non_eh",
+    "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+φ2 · R+φ2 · R^{ab} · R_{ab}+φ2 · φ2 · R^{ab} · R_{ab}+φ2 · φ2 · φ2",
+    "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=high_curvature+scalar_curvature",
+    "failure_tags": [
+      "q_initial_root_failure"
+    ],
+    "top_reject_reasons": [
+      {
+        "lag_id": "16",
+        "count": "210",
+        "total_rejected_or_skipped": "210",
+        "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+      }
+    ],
+    "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/all_samples_summary.csv",
+    "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+    "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+    "diagnostic_message": null,
+    "agent_lagrangian": {
+      "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0013_lag_16.json",
+      "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_lagrangians.pkl",
+      "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_parameter_samples_by_lag_id.json",
+      "proposal_id": "batch_lag_16",
+      "source": "batch_token_level_grammar",
+      "source_n_terms": 9,
+      "source_local_number": 99,
+      "batch_lag_id": "16",
+      "scalar_config": "phi2_only",
+      "potential_types": {
+        "phi1": null,
+        "phi2": "quadratic"
+      },
+      "operators": [
+        "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+        "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+        "R_{ab} · R^{adef} · R^{b}_{def}",
+        "φ2 · R",
+        "φ2 · R^{ab} · R_{ab}",
+        "φ2 · φ2 · R^{ab} · R_{ab}",
+        "φ2 · φ2 · φ2"
+      ],
+      "operator_specs": [
+        {
+          "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+          "coefficient": "\\alpha"
+        },
+        {
+          "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+          "coefficient": "\\beta"
+        },
+        {
+          "candidate": "R_{ab} · R^{adef} · R^{b}_{def}",
+          "coefficient": "\\gamma"
+        },
+        {
+          "candidate": "φ2 · R",
+          "coefficient": "\\delta"
+        },
+        {
+          "candidate": "φ2 · R^{ab} · R_{ab}",
+          "coefficient": "\\epsilon"
+        },
+        {
+          "candidate": "φ2 · φ2 · R^{ab} · R_{ab}",
+          "coefficient": "\\zeta"
+        },
+        {
+          "candidate": "φ2 · φ2 · φ2",
+          "coefficient": "\\eta"
+        }
+      ],
+      "theory_track": "non_eh",
+      "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \\beta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \\gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def}  +  \\delta Λ^{-1} · φ2 · R  +  \\epsilon Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \\zeta Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab} )  +  \\eta Λ^{1} · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+      "lagrangian": {
+        "n_terms": 9,
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \\beta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \\gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def}  +  \\delta Λ^{-1} · φ2 · R  +  \\epsilon Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \\zeta Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab} )  +  \\eta Λ^{1} · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+        "terms": [
+          {
+            "coeff_symbol": "\\alpha",
+            "coeff_token": "COEFF_0",
+            "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+            "mass_dim": 6,
+            "lambda_power": -4,
+            "sector": "gravity"
+          },
+          {
+            "coeff_symbol": "\\beta",
+            "coeff_token": "COEFF_1",
+            "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+            "mass_dim": 6,
+            "lambda_power": -4,
+            "sector": "gravity"
+          },
+          {
+            "coeff_symbol": "\\gamma",
+            "coeff_token": "COEFF_2",
+            "candidate": "R_{ab} · R^{adef} · R^{b}_{def}",
+            "mass_dim": 6,
+            "lambda_power": -4,
+            "sector": "gravity"
+          },
+          {
+            "coeff_symbol": "\\delta",
+            "coeff_token": "COEFF_3",
+            "candidate": "φ2 · R",
+            "mass_dim": 3,
+            "lambda_power": -1,
+            "sector": "non-minimal"
+          },
+          {
+            "coeff_symbol": "\\epsilon",
+            "coeff_token": "COEFF_4",
+            "candidate": "φ2 · R^{ab} · R_{ab}",
+            "mass_dim": 5,
+            "lambda_power": -3,
+            "sector": "non-minimal"
+          },
+          {
+            "coeff_symbol": "\\zeta",
+            "coeff_token": "COEFF_5",
+            "candidate": "φ2 · φ2 · R^{ab} · R_{ab}",
+            "mass_dim": 6,
+            "lambda_power": -4,
+            "sector": "non-minimal"
+          },
+          {
+            "coeff_symbol": "\\eta",
+            "coeff_token": "COEFF_6",
+            "candidate": "φ2 · φ2 · φ2",
+            "mass_dim": 3,
+            "lambda_power": 1,
+            "sector": "scalar"
+          },
+          {
+            "coeff_symbol": "1",
+            "coeff_token": "COEFF_FIXED_1",
+            "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+            "mass_dim": 4,
+            "lambda_power": 0,
+            "fixed": true,
+            "sector": "matter"
+          },
+          {
+            "coeff_symbol": "1",
+            "coeff_token": "COEFF_FIXED_1",
+            "candidate": "-½ m_2² φ2²",
+            "mass_dim": 4,
+            "lambda_power": 0,
+            "fixed": true,
+            "sector": "matter",
+            "potential_type": "quadratic"
+          }
+        ],
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        }
+      }
+    }
+  },
+  "top_chi2_attempts": [
+    {
+      "timestamp": "2026-06-09T20:41:24-0400",
+      "loop_id": "wave_0013_lag_16",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "16",
+      "chi2": 9434.003155067094,
+      "aic": 9452.003155067094,
+      "bic": 9501.62653829765,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_13_batch_lag_16",
+        "source_n_terms": 9,
+        "source_local_number": 99,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+          "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+          "R_{ab} · R^{adef} · R^{b}_{def}",
+          "φ2 · R",
+          "φ2 · R^{ab} · R_{ab}",
+          "φ2 · φ2 · R^{ab} · R_{ab}",
+          "φ2 · φ2 · φ2"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+φ2 · R+φ2 · R^{ab} · R_{ab}+φ2 · φ2 · R^{ab} · R_{ab}+φ2 · φ2 · φ2",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=high_curvature+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "16",
+          "count": "210",
+          "total_rejected_or_skipped": "210",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0013_lag_16.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0013/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_16",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 9,
+        "source_local_number": 99,
+        "batch_lag_id": "16",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+          "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+          "R_{ab} · R^{adef} · R^{b}_{def}",
+          "φ2 · R",
+          "φ2 · R^{ab} · R_{ab}",
+          "φ2 · φ2 · R^{ab} · R_{ab}",
+          "φ2 · φ2 · φ2"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+            "coefficient": "\\beta"
+          },
+          {
+            "candidate": "R_{ab} · R^{adef} · R^{b}_{def}",
+            "coefficient": "\\gamma"
+          },
+          {
+            "candidate": "φ2 · R",
+            "coefficient": "\\delta"
+          },
+          {
+            "candidate": "φ2 · R^{ab} · R_{ab}",
+            "coefficient": "\\epsilon"
+          },
+          {
+            "candidate": "φ2 · φ2 · R^{ab} · R_{ab}",
+            "coefficient": "\\zeta"
+          },
+          {
+            "candidate": "φ2 · φ2 · φ2",
+            "coefficient": "\\eta"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \\beta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \\gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def}  +  \\delta Λ^{-1} · φ2 · R  +  \\epsilon Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \\zeta Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab} )  +  \\eta Λ^{1} · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+        "lagrangian": {
+          "n_terms": 9,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}  +  \\beta Λ^{-4} · R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}  +  \\gamma Λ^{-4} · R_{ab} · R^{adef} · R^{b}_{def}  +  \\delta Λ^{-1} · φ2 · R  +  \\epsilon Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \\zeta Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab} )  +  \\eta Λ^{1} · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\gamma",
+              "coeff_token": "COEFF_2",
+              "candidate": "R_{ab} · R^{adef} · R^{b}_{def}",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\delta",
+              "coeff_token": "COEFF_3",
+              "candidate": "φ2 · R",
+              "mass_dim": 3,
+              "lambda_power": -1,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\epsilon",
+              "coeff_token": "COEFF_4",
+              "candidate": "φ2 · R^{ab} · R_{ab}",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\zeta",
+              "coeff_token": "COEFF_5",
+              "candidate": "φ2 · φ2 · R^{ab} · R_{ab}",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\eta",
+              "coeff_token": "COEFF_6",
+              "candidate": "φ2 · φ2 · φ2",
+              "mass_dim": 3,
+              "lambda_power": 1,
+              "sector": "scalar"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ m_2² φ2²",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "quadratic"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "quadratic"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T17:55:53-0400",
+      "loop_id": "wave_0004_lag_11",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "11",
+      "chi2": 9434.004829038797,
+      "aic": 9452.004829038797,
+      "bic": 9501.628212269354,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_04_batch_lag_11",
+        "source_n_terms": 4,
+        "source_local_number": 115,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "axion"
+        },
+        "operators": [
+          "R · R",
+          "φ2 · R"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R+φ2 · R",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=high_curvature+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "11",
+          "count": "218",
+          "total_rejected_or_skipped": "218",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0004_lag_11.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0004/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_11",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 4,
+        "source_local_number": 115,
+        "batch_lag_id": "11",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "axion"
+        },
+        "operators": [
+          "R · R",
+          "φ2 · R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R · R",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "φ2 · R",
+            "coefficient": "\\beta"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-2} · R · R  +  \\beta Λ^{-1} · φ2 · R )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+        "lagrangian": {
+          "n_terms": 4,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-2} · R · R  +  \\beta Λ^{-1} · φ2 · R )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R · R",
+              "mass_dim": 4,
+              "lambda_power": -2,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "φ2 · R",
+              "mass_dim": 3,
+              "lambda_power": -1,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_2² f_2² (1 - cos(φ2/f_2))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "axion"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T17:28:53-0400",
+      "loop_id": "wave_0002_lag_9",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "9",
+      "chi2": 9434.006130612506,
+      "aic": 9458.006130612506,
+      "bic": 9524.170641586583,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_02_batch_lag_9",
+        "source_n_terms": 5,
+        "source_local_number": 70,
+        "scalar_config": "both",
+        "potential_types": {
+          "phi1": "quadratic",
+          "phi2": "axion"
+        },
+        "operators": [
+          "φ2 · R"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'axion'}|operators=φ2 · R",
+      "coarse_family_key": "scalar=both|phi1_potential=quadratic|phi2_potential=axion|operator_bucket=scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "constraint_drift"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "9",
+          "count": "803",
+          "total_rejected_or_skipped": "907",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "9",
+          "count": "16",
+          "total_rejected_or_skipped": "907",
+          "reason": "|q2| trajectory too large"
+        },
+        {
+          "lag_id": "9",
+          "count": "2",
+          "total_rejected_or_skipped": "907",
+          "reason": "constraint drift too large: max|C|=2.712e-04"
+        },
+        {
+          "lag_id": "9",
+          "count": "2",
+          "total_rejected_or_skipped": "907",
+          "reason": "constraint drift too large: max|C|=1.709e-04"
+        },
+        {
+          "lag_id": "9",
+          "count": "2",
+          "total_rejected_or_skipped": "907",
+          "reason": "constraint drift too large: max|C|=1.143e-04"
+        },
+        {
+          "lag_id": "9",
+          "count": "2",
+          "total_rejected_or_skipped": "907",
+          "reason": "constraint drift too large: max|C|=2.160e-04"
+        },
+        {
+          "lag_id": "9",
+          "count": "1",
+          "total_rejected_or_skipped": "907",
+          "reason": "constraint drift too large: max|C|=1.208e-04"
+        },
+        {
+          "lag_id": "9",
+          "count": "1",
+          "total_rejected_or_skipped": "907",
+          "reason": "constraint drift too large: max|C|=3.182e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0002_lag_9.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_9",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 5,
+        "source_local_number": 70,
+        "batch_lag_id": "9",
+        "scalar_config": "both",
+        "potential_types": {
+          "phi1": "quadratic",
+          "phi2": "axion"
+        },
+        "operators": [
+          "φ2 · R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "φ2 · R",
+            "coefficient": "\\alpha"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-1} · φ2 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1²  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+        "lagrangian": {
+          "n_terms": 5,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-1} · φ2 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1²  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "φ2 · R",
+              "mass_dim": 3,
+              "lambda_power": -1,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ m_1² φ1²",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "quadratic"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_2² f_2² (1 - cos(φ2/f_2))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "both",
+          "potential_types": {
+            "phi1": "quadratic",
+            "phi2": "axion"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T17:29:21-0400",
+      "loop_id": "wave_0002_lag_10",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "10",
+      "chi2": 9434.007280210033,
+      "aic": 9458.007280210033,
+      "bic": 9524.17179118411,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_02_batch_lag_10",
+        "source_n_terms": 5,
+        "source_local_number": 73,
+        "scalar_config": "both",
+        "potential_types": {
+          "phi1": "quadratic",
+          "phi2": "axion"
+        },
+        "operators": [
+          "φ2 · φ2 · R"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'axion'}|operators=φ2 · φ2 · R",
+      "coarse_family_key": "scalar=both|phi1_potential=quadratic|phi2_potential=axion|operator_bucket=scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "constraint_drift",
+        "integration_failure"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "10",
+          "count": "963",
+          "total_rejected_or_skipped": "993",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "10",
+          "count": "20",
+          "total_rejected_or_skipped": "993",
+          "reason": "solve_ivp failed: Required step size is less than spacing between numbers."
+        },
+        {
+          "lag_id": "10",
+          "count": "1",
+          "total_rejected_or_skipped": "993",
+          "reason": "constraint drift too large: max|C|=1.026e-04"
+        },
+        {
+          "lag_id": "10",
+          "count": "1",
+          "total_rejected_or_skipped": "993",
+          "reason": "constraint drift too large: max|C|=4.198e-04"
+        },
+        {
+          "lag_id": "10",
+          "count": "1",
+          "total_rejected_or_skipped": "993",
+          "reason": "constraint drift too large: max|C|=1.609e-04"
+        },
+        {
+          "lag_id": "10",
+          "count": "1",
+          "total_rejected_or_skipped": "993",
+          "reason": "constraint drift too large: max|C|=1.100e-04"
+        },
+        {
+          "lag_id": "10",
+          "count": "1",
+          "total_rejected_or_skipped": "993",
+          "reason": "constraint drift too large: max|C|=1.378e-04"
+        },
+        {
+          "lag_id": "10",
+          "count": "1",
+          "total_rejected_or_skipped": "993",
+          "reason": "constraint drift too large: max|C|=4.631e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0002_lag_10.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0002/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_10",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 5,
+        "source_local_number": 73,
+        "batch_lag_id": "10",
+        "scalar_config": "both",
+        "potential_types": {
+          "phi1": "quadratic",
+          "phi2": "axion"
+        },
+        "operators": [
+          "φ2 · φ2 · R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "φ2 · φ2 · R",
+            "coefficient": "\\alpha"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-2} · φ2 · φ2 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1²  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+        "lagrangian": {
+          "n_terms": 5,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-2} · φ2 · φ2 · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -½ m_1² φ1²  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "φ2 · φ2 · R",
+              "mass_dim": 4,
+              "lambda_power": -2,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ m_1² φ1²",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "quadratic"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_2² f_2² (1 - cos(φ2/f_2))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "both",
+          "potential_types": {
+            "phi1": "quadratic",
+            "phi2": "axion"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T17:40:54-0400",
+      "loop_id": "wave_0003_lag_16",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "16",
+      "chi2": 9434.007646778593,
+      "aic": 9456.007646778593,
+      "bic": 9516.65844850483,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_03_batch_lag_16",
+        "source_n_terms": 10,
+        "source_local_number": 107,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "R^{ab} · R_{ab}",
+          "R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+          "φ2 · φ2 · R",
+          "∇^{a}∇_{a}φ2 · R",
+          "φ2 · ∇^{a}φ2 · ∇_{a}R",
+          "φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+          "φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2",
+          "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ2 · φ2 · R+∇^{a}∇_{a}φ2 · R+φ2 · ∇^{a}φ2 · ∇_{a}R+φ2 · ∇^{a}φ2 · ∇_{a}φ2+φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2+φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=derivative+high_curvature+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "16",
+          "count": "100",
+          "total_rejected_or_skipped": "100",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0003_lag_16.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0003/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_16",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 10,
+        "source_local_number": 107,
+        "batch_lag_id": "16",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "R^{ab} · R_{ab}",
+          "R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+          "φ2 · φ2 · R",
+          "∇^{a}∇_{a}φ2 · R",
+          "φ2 · ∇^{a}φ2 · ∇_{a}R",
+          "φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+          "φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2",
+          "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R^{ab} · R_{ab}",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+            "coefficient": "\\beta"
+          },
+          {
+            "candidate": "φ2 · φ2 · R",
+            "coefficient": "\\gamma"
+          },
+          {
+            "candidate": "∇^{a}∇_{a}φ2 · R",
+            "coefficient": "\\delta"
+          },
+          {
+            "candidate": "φ2 · ∇^{a}φ2 · ∇_{a}R",
+            "coefficient": "\\epsilon"
+          },
+          {
+            "candidate": "φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+            "coefficient": "\\zeta"
+          },
+          {
+            "candidate": "φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2",
+            "coefficient": "\\eta"
+          },
+          {
+            "candidate": "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+            "coefficient": "\\theta"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-2} · R^{ab} · R_{ab}  +  \\beta Λ^{-4} · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \\gamma Λ^{-2} · φ2 · φ2 · R  +  \\delta Λ^{-3} · ∇^{a}∇_{a}φ2 · R  +  \\epsilon Λ^{-4} · φ2 · ∇^{a}φ2 · ∇_{a}R )  +  \\zeta Λ^{-1} · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  \\eta Λ^{-2} · φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2  +  \\theta Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+        "lagrangian": {
+          "n_terms": 10,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-2} · R^{ab} · R_{ab}  +  \\beta Λ^{-4} · R^{b}_{a} · R^{cd} · R^{a}_{cbd}  +  \\gamma Λ^{-2} · φ2 · φ2 · R  +  \\delta Λ^{-3} · ∇^{a}∇_{a}φ2 · R  +  \\epsilon Λ^{-4} · φ2 · ∇^{a}φ2 · ∇_{a}R )  +  \\zeta Λ^{-1} · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  \\eta Λ^{-2} · φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2  +  \\theta Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R^{ab} · R_{ab}",
+              "mass_dim": 4,
+              "lambda_power": -2,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\gamma",
+              "coeff_token": "COEFF_2",
+              "candidate": "φ2 · φ2 · R",
+              "mass_dim": 4,
+              "lambda_power": -2,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\delta",
+              "coeff_token": "COEFF_3",
+              "candidate": "∇^{a}∇_{a}φ2 · R",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\epsilon",
+              "coeff_token": "COEFF_4",
+              "candidate": "φ2 · ∇^{a}φ2 · ∇_{a}R",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\zeta",
+              "coeff_token": "COEFF_5",
+              "candidate": "φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+              "mass_dim": 5,
+              "lambda_power": -1,
+              "sector": "scalar"
+            },
+            {
+              "coeff_symbol": "\\eta",
+              "coeff_token": "COEFF_6",
+              "candidate": "φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2",
+              "mass_dim": 6,
+              "lambda_power": -2,
+              "sector": "scalar"
+            },
+            {
+              "coeff_symbol": "\\theta",
+              "coeff_token": "COEFF_7",
+              "candidate": "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+              "mass_dim": 6,
+              "lambda_power": -2,
+              "sector": "scalar"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ m_2² φ2²",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "quadratic"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "quadratic"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T17:15:28-0400",
+      "loop_id": "wave_0001_lag_6",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "6",
+      "chi2": 9434.007984427655,
+      "aic": 9450.007984427655,
+      "bic": 9494.117658410372,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_01_batch_lag_6",
+        "source_n_terms": 3,
+        "source_local_number": 34,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "φ2 · φ2 · φ2 · φ2 · R"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=φ2 · φ2 · φ2 · φ2 · R",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "constraint_drift",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "6",
+          "count": "100",
+          "total_rejected_or_skipped": "684",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "6",
+          "count": "2",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=9.205e-03"
+        },
+        {
+          "lag_id": "6",
+          "count": "2",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=2.242e-03"
+        },
+        {
+          "lag_id": "6",
+          "count": "2",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=1.386e-02"
+        },
+        {
+          "lag_id": "6",
+          "count": "2",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=1.080e-03"
+        },
+        {
+          "lag_id": "6",
+          "count": "2",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=1.441e-01"
+        },
+        {
+          "lag_id": "6",
+          "count": "1",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=3.312e-04"
+        },
+        {
+          "lag_id": "6",
+          "count": "1",
+          "total_rejected_or_skipped": "684",
+          "reason": "constraint drift too large: max|C|=2.214e-02"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0001_lag_6.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_6",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 3,
+        "source_local_number": 34,
+        "batch_lag_id": "6",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "φ2 · φ2 · φ2 · φ2 · R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "φ2 · φ2 · φ2 · φ2 · R",
+            "coefficient": "\\alpha"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · φ2 · φ2 · φ2 · φ2 · R )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+        "lagrangian": {
+          "n_terms": 3,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · φ2 · φ2 · φ2 · φ2 · R )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "φ2 · φ2 · φ2 · φ2 · R",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ m_2² φ2²",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "quadratic"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "quadratic"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T18:11:35-0400",
+      "loop_id": "wave_0005_lag_12",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "12",
+      "chi2": 9434.007984433736,
+      "aic": 9458.007984433736,
+      "bic": 9524.172495407813,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_05_batch_lag_12",
+        "source_n_terms": 8,
+        "source_local_number": 114,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "axion"
+        },
+        "operators": [
+          "R · R^{bcd}_{a} · R^{a}_{bcd}",
+          "∇^{a}R · ∇_{a}R",
+          "φ2 · φ2 · R",
+          "φ2 · φ2 · φ2 · R",
+          "φ2 · φ2 · φ2 · φ2 · R",
+          "φ2 · φ2 · φ2 · φ2 · φ2 · φ2"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R+φ2 · φ2 · R+φ2 · φ2 · φ2 · R+φ2 · φ2 · φ2 · φ2 · R+φ2 · φ2 · φ2 · φ2 · φ2 · φ2",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=derivative+high_curvature+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "constraint_drift",
+        "integration_failure"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "12",
+          "count": "99",
+          "total_rejected_or_skipped": "833",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "12",
+          "count": "8",
+          "total_rejected_or_skipped": "833",
+          "reason": "solve_ivp failed: Required step size is less than spacing between numbers."
+        },
+        {
+          "lag_id": "12",
+          "count": "2",
+          "total_rejected_or_skipped": "833",
+          "reason": "constraint drift too large: max|C|=1.116e-02"
+        },
+        {
+          "lag_id": "12",
+          "count": "2",
+          "total_rejected_or_skipped": "833",
+          "reason": "constraint drift too large: max|C|=9.112e+02"
+        },
+        {
+          "lag_id": "12",
+          "count": "2",
+          "total_rejected_or_skipped": "833",
+          "reason": "constraint drift too large: max|C|=1.856e-02"
+        },
+        {
+          "lag_id": "12",
+          "count": "2",
+          "total_rejected_or_skipped": "833",
+          "reason": "constraint drift too large: max|C|=2.960e-03"
+        },
+        {
+          "lag_id": "12",
+          "count": "1",
+          "total_rejected_or_skipped": "833",
+          "reason": "constraint drift too large: max|C|=1.252e-04"
+        },
+        {
+          "lag_id": "12",
+          "count": "1",
+          "total_rejected_or_skipped": "833",
+          "reason": "constraint drift too large: max|C|=7.392e-03"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0005_lag_12.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0005/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_12",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 8,
+        "source_local_number": 114,
+        "batch_lag_id": "12",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "axion"
+        },
+        "operators": [
+          "R · R^{bcd}_{a} · R^{a}_{bcd}",
+          "∇^{a}R · ∇_{a}R",
+          "φ2 · φ2 · R",
+          "φ2 · φ2 · φ2 · R",
+          "φ2 · φ2 · φ2 · φ2 · R",
+          "φ2 · φ2 · φ2 · φ2 · φ2 · φ2"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R · R^{bcd}_{a} · R^{a}_{bcd}",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "∇^{a}R · ∇_{a}R",
+            "coefficient": "\\beta"
+          },
+          {
+            "candidate": "φ2 · φ2 · R",
+            "coefficient": "\\gamma"
+          },
+          {
+            "candidate": "φ2 · φ2 · φ2 · R",
+            "coefficient": "\\delta"
+          },
+          {
+            "candidate": "φ2 · φ2 · φ2 · φ2 · R",
+            "coefficient": "\\epsilon"
+          },
+          {
+            "candidate": "φ2 · φ2 · φ2 · φ2 · φ2 · φ2",
+            "coefficient": "\\zeta"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \\beta Λ^{-4} · ∇^{a}R · ∇_{a}R  +  \\gamma Λ^{-2} · φ2 · φ2 · R  +  \\delta Λ^{-3} · φ2 · φ2 · φ2 · R  +  \\epsilon Λ^{-4} · φ2 · φ2 · φ2 · φ2 · R )  +  \\zeta Λ^{-2} · φ2 · φ2 · φ2 · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+        "lagrangian": {
+          "n_terms": 8,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-4} · R · R^{bcd}_{a} · R^{a}_{bcd}  +  \\beta Λ^{-4} · ∇^{a}R · ∇_{a}R  +  \\gamma Λ^{-2} · φ2 · φ2 · R  +  \\delta Λ^{-3} · φ2 · φ2 · φ2 · R  +  \\epsilon Λ^{-4} · φ2 · φ2 · φ2 · φ2 · R )  +  \\zeta Λ^{-2} · φ2 · φ2 · φ2 · φ2 · φ2 · φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R · R^{bcd}_{a} · R^{a}_{bcd}",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "∇^{a}R · ∇_{a}R",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\gamma",
+              "coeff_token": "COEFF_2",
+              "candidate": "φ2 · φ2 · R",
+              "mass_dim": 4,
+              "lambda_power": -2,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\delta",
+              "coeff_token": "COEFF_3",
+              "candidate": "φ2 · φ2 · φ2 · R",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\epsilon",
+              "coeff_token": "COEFF_4",
+              "candidate": "φ2 · φ2 · φ2 · φ2 · R",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\zeta",
+              "coeff_token": "COEFF_5",
+              "candidate": "φ2 · φ2 · φ2 · φ2 · φ2 · φ2",
+              "mass_dim": 6,
+              "lambda_power": -2,
+              "sector": "scalar"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_2² f_2² (1 - cos(φ2/f_2))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "axion"
+          }
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-09T17:15:21-0400",
+      "loop_id": "wave_0001_lag_5",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "5",
+      "chi2": 9434.007984445447,
+      "aic": 9452.007984445447,
+      "bic": 9501.631367676004,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_01_batch_lag_5",
+        "source_n_terms": 3,
+        "source_local_number": 59,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "axion"
+        },
+        "operators": [
+          "φ2 · φ2 · φ2 · R"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=φ2 · φ2 · φ2 · R",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "constraint_drift",
+        "no_accepted_samples"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "5",
+          "count": "100",
+          "total_rejected_or_skipped": "273",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=2.024e-03"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=4.815e-02"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=2.972e-03"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=5.584e-04"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=1.480e-04"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=3.635e-04"
+        },
+        {
+          "lag_id": "5",
+          "count": "1",
+          "total_rejected_or_skipped": "273",
+          "reason": "constraint drift too large: max|C|=9.164e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/graph_agent_batch_208_split_v4/wave_0001_lag_5.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_208_split_v4_wave_0001/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "batch_lag_5",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 3,
+        "source_local_number": 59,
+        "batch_lag_id": "5",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "axion"
+        },
+        "operators": [
+          "φ2 · φ2 · φ2 · R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "φ2 · φ2 · φ2 · R",
+            "coefficient": "\\alpha"
+          }
+        ],
+        "theory_track": "non_eh",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-3} · φ2 · φ2 · φ2 · R )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+        "lagrangian": {
+          "n_terms": 3,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-3} · φ2 · φ2 · φ2 · R )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "φ2 · φ2 · φ2 · R",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_2² f_2² (1 - cos(φ2/f_2))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "axion"
+          }
+        }
+      }
+    }
+  ],
+  "by_family": [
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R",
+      "attempts": 5,
+      "validated": 0,
+      "entered_solver": 5,
+      "failed_stage_counts": {
+        "Solver": 5
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 5
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}",
+      "attempts": 4,
+      "validated": 0,
+      "entered_solver": 4,
+      "failed_stage_counts": {
+        "Solver": 4
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 4
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}",
+      "attempts": 3,
+      "validated": 0,
+      "entered_solver": 3,
+      "failed_stage_counts": {
+        "Solver": 3
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 3
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R^{d}_{a} · R_{bd}",
+      "attempts": 3,
+      "validated": 0,
+      "entered_solver": 3,
+      "failed_stage_counts": {
+        "Solver": 3
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 3
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R",
+      "attempts": 2,
+      "validated": 0,
+      "entered_solver": 2,
+      "failed_stage_counts": {
+        "Solver": 2
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 2
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}R · ∇_{a}R",
+      "attempts": 2,
+      "validated": 0,
+      "entered_solver": 2,
+      "failed_stage_counts": {
+        "Solver": 2
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 2
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+      "attempts": 2,
+      "validated": 0,
+      "entered_solver": 2,
+      "failed_stage_counts": {
+        "Solver": 2
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 2
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+φ2 · R+φ2 · R^{ab} · R_{ab}+φ2 · φ2 · R^{ab} · R_{ab}+φ2 · φ2 · φ2",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1
+      },
+      "best_chi2": 9434.003155067094
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R+φ2 · R",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.004829038797
+    },
+    {
+      "family_key": "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'axion'}|operators=φ2 · R",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1
+      },
+      "best_chi2": 9434.006130612506
+    },
+    {
+      "family_key": "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'axion'}|operators=φ2 · φ2 · R",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "integration_failure": 1
+      },
+      "best_chi2": 9434.007280210033
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ2 · φ2 · R+∇^{a}∇_{a}φ2 · R+φ2 · ∇^{a}φ2 · ∇_{a}R+φ2 · ∇^{a}φ2 · ∇_{a}φ2+φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2+φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007646778593
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=φ2 · φ2 · φ2 · φ2 · R",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007984427655
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R+φ2 · φ2 · R+φ2 · φ2 · φ2 · R+φ2 · φ2 · φ2 · φ2 · R+φ2 · φ2 · φ2 · φ2 · φ2 · φ2",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "integration_failure": 1
+      },
+      "best_chi2": 9434.007984433736
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=φ2 · φ2 · φ2 · R",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007984445447
+    },
+    {
+      "family_key": "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=φ1 · R^{ab} · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=φ2 · φ2 · ∇^{a}∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R · R^{ab} · R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+∇^{a}φ1 · ∇_{a}R+φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}+φ1 · φ1 · ∇^{a}∇_{a}R+φ1 · φ1 · ∇^{a}∇_{a}φ1+φ1 · φ1 · φ1 · φ1 · φ1 · φ1+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=∇^{a}∇_{a}R · R^{c}_{c}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ1 · φ1 · ∇^{a}∇_{a}φ1",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=both|potential={'phi1': 'axion', 'phi2': 'quadratic'}|operators=R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'quadratic'}|operators=φ1 · φ2 · R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "symbolic_timeout": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{ab} · R_{ab}+R^{ab} · R^{d}_{a} · R_{bd}+R_{ab} · R^{adef} · R^{b}_{def}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=both|potential={'phi1': 'axion', 'phi2': 'axion'}|operators=φ1 · φ1 · φ2 · φ2 · R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "symbolic_timeout": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{c}R^{ab} · ∇_{c}R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R_{ab} · R^{adef} · R^{b}_{def}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+∇^{a}∇_{a}R+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇^{b}R · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{a}R · ∇_{a}R+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+∇^{a}∇_{a}R+R · R · R+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R+∇^{a}∇^{b}R · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R_{ab}+∇^{a}∇_{a}R+R^{ab} · R^{d}_{a} · R_{bd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{ab} · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R^{ab} · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R · R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+∇^{a}∇^{b}R · R_{ab}+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R+∇^{a}∇^{b}R · R_{ab}+φ2 · φ2 · R^{ab} · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{ab} · R^{d}_{a} · R_{bd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{c}R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R_{ab} · R^{adef} · R^{b}_{def}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=both|potential={'phi1': 'axion', 'phi2': 'quadratic'}|operators=∇^{a}R · ∇_{a}R+φ2 · φ2 · φ2 · R+φ1 · φ2 · φ2+φ2 · φ2 · φ2 · φ2+φ1 · ∇^{a}φ1 · φ2 · ∇_{a}φ2",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{ab} · R_{ab}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R_{ab} · R^{adef} · R^{b}_{def}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R · R+R^{ab} · R^{d}_{a} · R_{bd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{a}∇_{a}R · R^{c}_{c}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R^{d}_{a} · R_{bd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+∇^{a}∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R+∇^{a}∇_{a}R · R^{c}_{c}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R · R+R · R^{bcd}_{a} · R^{a}_{bcd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}∇^{b}R · R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{c}R_{ab}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+∇^{a}∇_{a}R · R^{c}_{c}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R^{ab} · R^{d}_{a} · R_{bd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "family_key": "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    }
+  ],
+  "by_coarse_family": [
+    {
+      "coarse_family_key": "scalar=none|phi1_potential=None|phi2_potential=None|operator_bucket=derivative+high_curvature",
+      "attempts": 45,
+      "validated": 0,
+      "entered_solver": 45,
+      "failed_stage_counts": {
+        "Solver": 45
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 45
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=none|phi1_potential=None|phi2_potential=None|operator_bucket=high_curvature",
+      "attempts": 26,
+      "validated": 0,
+      "entered_solver": 26,
+      "failed_stage_counts": {
+        "Solver": 26
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 26
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=none|phi1_potential=None|phi2_potential=None|operator_bucket=plain",
+      "attempts": 8,
+      "validated": 0,
+      "entered_solver": 8,
+      "failed_stage_counts": {
+        "Solver": 8
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 8
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=none|phi1_potential=None|phi2_potential=None|operator_bucket=derivative",
+      "attempts": 6,
+      "validated": 0,
+      "entered_solver": 6,
+      "failed_stage_counts": {
+        "Solver": 6
+      },
+      "failure_tag_counts": {
+        "no_accepted_samples": 6
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=both|phi1_potential=quadratic|phi2_potential=axion|operator_bucket=scalar_curvature",
+      "attempts": 2,
+      "validated": 2,
+      "entered_solver": 2,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 2,
+        "constraint_drift": 2,
+        "integration_failure": 1
+      },
+      "best_chi2": 9434.006130612506
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=derivative+high_curvature+scalar_curvature",
+      "attempts": 2,
+      "validated": 1,
+      "entered_solver": 2,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "integration_failure": 1,
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007984433736
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=high_curvature+scalar_curvature",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1
+      },
+      "best_chi2": 9434.003155067094
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=high_curvature+scalar_curvature",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.004829038797
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=derivative+high_curvature+scalar_curvature",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007646778593
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=scalar_curvature",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007984427655
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=scalar_curvature",
+      "attempts": 1,
+      "validated": 1,
+      "entered_solver": 1,
+      "failed_stage_counts": {},
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "constraint_drift": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": 9434.007984445447
+    },
+    {
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=quadratic|phi2_potential=None|operator_bucket=high_curvature+scalar_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=derivative+scalar_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=derivative+high_curvature+scalar_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=derivative+high_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=axion|operator_bucket=derivative+high_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=derivative",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=both|phi1_potential=axion|phi2_potential=quadratic|operator_bucket=plain",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_not_determined": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=both|phi1_potential=quadratic|phi2_potential=quadratic|operator_bucket=scalar_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "symbolic_timeout": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=both|phi1_potential=axion|phi2_potential=axion|operator_bucket=scalar_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "symbolic_timeout": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    },
+    {
+      "coarse_family_key": "scalar=both|phi1_potential=axion|phi2_potential=quadratic|operator_bucket=derivative+scalar_curvature",
+      "attempts": 1,
+      "validated": 0,
+      "entered_solver": 1,
+      "failed_stage_counts": {
+        "Solver": 1
+      },
+      "failure_tag_counts": {
+        "q_initial_root_failure": 1,
+        "no_accepted_samples": 1
+      },
+      "best_chi2": null
+    }
+  ],
+  "by_theory_track": {
+    "non_eh": {
+      "attempts": 104,
+      "validated": 8,
+      "accepted_rate": 0.07692307692307693,
+      "best_chi2": 9434.003155067094,
+      "failure_tag_counts": {
+        "no_accepted_samples": 100,
+        "q_initial_root_failure": 9,
+        "q_not_determined": 8,
+        "constraint_drift": 5,
+        "symbolic_timeout": 2,
+        "integration_failure": 2
+      }
+    }
+  },
+  "policy": {
+    "record_count": 104,
+    "global_mean_reward": -1.4903846153846154,
+    "by_feature": {
+      "scalar_config": {
+        "phi1_only": {
+          "count": 4,
+          "mean_reward": -3.5
+        },
+        "phi2_only": {
+          "count": 9,
+          "mean_reward": -3.8333333333333335
+        },
+        "both": {
+          "count": 6,
+          "mean_reward": -3.5833333333333335
+        },
+        "none": {
+          "count": 85,
+          "mean_reward": -1.0
+        }
+      },
+      "theory_track": {
+        "non_eh": {
+          "count": 104,
+          "mean_reward": -1.4903846153846154
+        }
+      },
+      "phi1_potential": {
+        "quadratic": {
+          "count": 4,
+          "mean_reward": -3.75
+        },
+        "None": {
+          "count": 94,
+          "mean_reward": -1.2712765957446808
+        },
+        "axion": {
+          "count": 6,
+          "mean_reward": -3.4166666666666665
+        }
+      },
+      "phi2_potential": {
+        "None": {
+          "count": 89,
+          "mean_reward": -1.1123595505617978
+        },
+        "axion": {
+          "count": 9,
+          "mean_reward": -3.7777777777777777
+        },
+        "quadratic": {
+          "count": 6,
+          "mean_reward": -3.6666666666666665
+        }
+      },
+      "operator_count": {
+        "1": {
+          "count": 41,
+          "mean_reward": -1.6585365853658536
+        },
+        "8": {
+          "count": 9,
+          "mean_reward": -1.6111111111111112
+        },
+        "4": {
+          "count": 7,
+          "mean_reward": -1.3571428571428572
+        },
+        "2": {
+          "count": 18,
+          "mean_reward": -1.3055555555555556
+        },
+        "3": {
+          "count": 8,
+          "mean_reward": -1.3125
+        },
+        "5": {
+          "count": 11,
+          "mean_reward": -1.1818181818181819
+        },
+        "6": {
+          "count": 7,
+          "mean_reward": -1.4285714285714286
+        },
+        "7": {
+          "count": 3,
+          "mean_reward": -2.0
+        }
+      },
+      "has_R_anchor": {
+        "False": {
+          "count": 104,
+          "mean_reward": -1.4903846153846154
+        }
+      },
+      "has_scalar": {
+        "True": {
+          "count": 19,
+          "mean_reward": -3.6842105263157894
+        },
+        "False": {
+          "count": 85,
+          "mean_reward": -1.0
+        }
+      },
+      "has_phi1": {
+        "True": {
+          "count": 10,
+          "mean_reward": -3.55
+        },
+        "False": {
+          "count": 94,
+          "mean_reward": -1.2712765957446808
+        }
+      },
+      "has_phi2": {
+        "False": {
+          "count": 89,
+          "mean_reward": -1.1123595505617978
+        },
+        "True": {
+          "count": 15,
+          "mean_reward": -3.7333333333333334
+        }
+      },
+      "has_both_scalars": {
+        "False": {
+          "count": 98,
+          "mean_reward": -1.3622448979591837
+        },
+        "True": {
+          "count": 6,
+          "mean_reward": -3.5833333333333335
+        }
+      },
+      "is_no_scalar": {
+        "False": {
+          "count": 19,
+          "mean_reward": -3.6842105263157894
+        },
+        "True": {
+          "count": 85,
+          "mean_reward": -1.0
+        }
+      },
+      "has_scalar_curvature": {
+        "True": {
+          "count": 19,
+          "mean_reward": -3.6842105263157894
+        },
+        "False": {
+          "count": 85,
+          "mean_reward": -1.0
+        }
+      },
+      "has_derivative_operator": {
+        "False": {
+          "count": 44,
+          "mean_reward": -1.6363636363636365
+        },
+        "True": {
+          "count": 60,
+          "mean_reward": -1.3833333333333333
+        }
+      },
+      "has_box_operator": {
+        "False": {
+          "count": 77,
+          "mean_reward": -1.4935064935064934
+        },
+        "True": {
+          "count": 27,
+          "mean_reward": -1.4814814814814814
+        }
+      },
+      "has_high_curvature": {
+        "True": {
+          "count": 80,
+          "mean_reward": -1.30625
+        },
+        "False": {
+          "count": 24,
+          "mean_reward": -2.1041666666666665
+        }
+      },
+      "has_pure_scalar_operator": {
+        "False": {
+          "count": 97,
+          "mean_reward": -1.3350515463917525
+        },
+        "True": {
+          "count": 7,
+          "mean_reward": -3.642857142857143
+        }
+      }
+    },
+    "by_operator": {
+      "φ1 · R^{ab} · R_{ab}": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "φ2 · φ2 · ∇^{a}∇_{a}R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "R · R^{ab} · R_{ab}": {
+        "count": 17,
+        "mean_reward": -1.1470588235294117
+      },
+      "∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 9,
+        "mean_reward": -1.2777777777777777
+      },
+      "∇^{a}φ1 · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "φ1 · φ1 · ∇^{a}∇_{a}R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+        "count": 2,
+        "mean_reward": -3.5
+      },
+      "φ1 · φ1 · φ1 · φ1 · φ1 · φ1": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "∇^{a}∇_{a}R · R^{c}_{c}": {
+        "count": 7,
+        "mean_reward": -1.3571428571428572
+      },
+      "φ2 · φ2 · φ2 · R": {
+        "count": 3,
+        "mean_reward": -3.6666666666666665
+      },
+      "φ2 · φ2 · φ2 · φ2 · R": {
+        "count": 2,
+        "mean_reward": -4.0
+      },
+      "R · R · R": {
+        "count": 7,
+        "mean_reward": -1.3571428571428572
+      },
+      "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}": {
+        "count": 7,
+        "mean_reward": -1.7857142857142858
+      },
+      "∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 12,
+        "mean_reward": -1.2083333333333333
+      },
+      "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2": {
+        "count": 2,
+        "mean_reward": -3.75
+      },
+      "R^{b}_{a} · R^{cd} · R^{a}_{cbd}": {
+        "count": 15,
+        "mean_reward": -1.3666666666666667
+      },
+      "R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}": {
+        "count": 12,
+        "mean_reward": -1.2083333333333333
+      },
+      "R · R": {
+        "count": 24,
+        "mean_reward": -1.2291666666666667
+      },
+      "R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 22,
+        "mean_reward": -1.0
+      },
+      "∇^{a}∇_{a}R": {
+        "count": 19,
+        "mean_reward": -1.0
+      },
+      "R · R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 16,
+        "mean_reward": -1.1875
+      },
+      "∇^{a}∇^{b}R · R_{ab}": {
+        "count": 10,
+        "mean_reward": -1.25
+      },
+      "φ1 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "φ2 · R": {
+        "count": 3,
+        "mean_reward": -4.0
+      },
+      "φ2 · φ2 · R": {
+        "count": 3,
+        "mean_reward": -4.0
+      },
+      "R^{ab} · R^{d}_{a} · R_{bd}": {
+        "count": 16,
+        "mean_reward": -1.0
+      },
+      "R_{ab} · R^{adef} · R^{b}_{def}": {
+        "count": 20,
+        "mean_reward": -1.15
+      },
+      "φ1 · φ1 · φ2 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "R^{ab} · R_{ab}": {
+        "count": 20,
+        "mean_reward": -1.15
+      },
+      "∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 13,
+        "mean_reward": -1.0
+      },
+      "∇^{a}∇_{a}φ2 · R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "φ2 · ∇^{a}φ2 · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "φ2 · ∇^{a}φ2 · ∇_{a}φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "∇^{a}R · ∇_{a}R": {
+        "count": 26,
+        "mean_reward": -1.1923076923076923
+      },
+      "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}": {
+        "count": 11,
+        "mean_reward": -1.2727272727272727
+      },
+      "φ2 · φ2 · φ2 · φ2 · φ2 · φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "φ2 · φ2 · R^{ab} · R_{ab}": {
+        "count": 2,
+        "mean_reward": -3.75
+      },
+      "φ1 · φ2 · φ2": {
+        "count": 1,
+        "mean_reward": -3.0
+      },
+      "φ2 · φ2 · φ2 · φ2": {
+        "count": 1,
+        "mean_reward": -3.0
+      },
+      "φ1 · ∇^{a}φ1 · φ2 · ∇_{a}φ2": {
+        "count": 1,
+        "mean_reward": -3.0
+      },
+      "φ2 · R^{ab} · R_{ab}": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "φ2 · φ2 · φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      }
+    },
+    "by_family": {
+      "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=φ1 · R^{ab} · R_{ab}": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=φ2 · φ2 · ∇^{a}∇_{a}R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R · R^{ab} · R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+∇^{a}φ1 · ∇_{a}R+φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}+φ1 · φ1 · ∇^{a}∇_{a}R+φ1 · φ1 · ∇^{a}∇_{a}φ1+φ1 · φ1 · φ1 · φ1 · φ1 · φ1+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=∇^{a}∇_{a}R · R^{c}_{c}": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=φ2 · φ2 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=φ2 · φ2 · φ2 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=both|potential={'phi1': 'axion', 'phi2': 'quadratic'}|operators=R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'quadratic'}|operators=φ1 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'axion'}|operators=φ2 · R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R": {
+        "count": 5,
+        "mean_reward": -1.0
+      },
+      "scalar=both|potential={'phi1': 'quadratic', 'phi2': 'axion'}|operators=φ2 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{ab} · R_{ab}+R^{ab} · R^{d}_{a} · R_{bd}+R_{ab} · R^{adef} · R^{b}_{def}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=both|potential={'phi1': 'axion', 'phi2': 'axion'}|operators=φ1 · φ1 · φ2 · φ2 · R": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{c}R^{ab} · ∇_{c}R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R_{ab} · R^{adef} · R^{b}_{def}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}": {
+        "count": 4,
+        "mean_reward": -1.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ2 · φ2 · R+∇^{a}∇_{a}φ2 · R+φ2 · ∇^{a}φ2 · ∇_{a}R+φ2 · ∇^{a}φ2 · ∇_{a}φ2+φ2 · φ2 · φ2 · ∇^{a}∇_{a}φ2+φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+∇^{a}∇_{a}R+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇^{b}R · R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{a}R · ∇_{a}R+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 3,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R+φ2 · R": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R+φ2 · φ2 · R+φ2 · φ2 · φ2 · R+φ2 · φ2 · φ2 · φ2 · R+φ2 · φ2 · φ2 · φ2 · φ2 · φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R^{d}_{a} · R_{bd}": {
+        "count": 3,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+∇^{a}∇_{a}R+R · R · R+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R+∇^{a}∇^{b}R · R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R_{ab}+∇^{a}∇_{a}R+R^{ab} · R^{d}_{a} · R_{bd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R": {
+        "count": 2,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{ab} · R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R^{ab} · R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R · R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+∇^{a}∇^{b}R · R_{ab}+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R · R+∇^{a}∇^{b}R · R_{ab}+φ2 · φ2 · R^{ab} · R_{ab}": {
+        "count": 1,
+        "mean_reward": -3.5
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{ab} · R^{d}_{a} · R_{bd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R · R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{c}R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R_{ab} · R^{adef} · R^{b}_{def}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{b}_{a} · R^{cd} · R^{a}_{cbd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}R · ∇_{a}R": {
+        "count": 2,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}": {
+        "count": 2,
+        "mean_reward": -1.0
+      },
+      "scalar=both|potential={'phi1': 'axion', 'phi2': 'quadratic'}|operators=∇^{a}R · ∇_{a}R+φ2 · φ2 · φ2 · R+φ1 · φ2 · φ2+φ2 · φ2 · φ2 · φ2+φ1 · ∇^{a}φ1 · φ2 · ∇_{a}φ2": {
+        "count": 1,
+        "mean_reward": -3.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R · R^{bcd}_{a} · R^{a}_{bcd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{ab} · R_{ab}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R_{ab} · R^{adef} · R^{b}_{def}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R · R+R^{ab} · R^{d}_{a} · R_{bd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+∇^{a}∇_{a}R · R^{c}_{c}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R^{d}_{a} · R_{bd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+∇^{a}∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R+∇^{a}∇_{a}R · R^{c}_{c}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bcd}_{a} · R^{a}_{bcd}+R · R · R+R · R^{bcd}_{a} · R^{a}_{bcd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}∇^{b}R · R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R^{bcd}_{a} · R^{a}_{bcd}+R^{ab} · R^{d}_{a} · R_{bd}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}∇_{a}R+R · R^{ab} · R_{ab}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+∇^{a}∇_{a}R · R^{c}_{c}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+R_{ab} · R^{adef} · R^{b}_{def}+φ2 · R+φ2 · R^{ab} · R_{ab}+φ2 · φ2 · R^{ab} · R_{ab}+φ2 · φ2 · φ2": {
+        "count": 1,
+        "mean_reward": -4.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{ab} · R_{ab}+R^{bcd}_{a} · R^{a}_{bcd}+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}R · ∇_{a}R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=∇^{a}∇_{a}R+R^{ab} · R^{d}_{a} · R_{bd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R · R^{ab} · R_{ab}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}R · ∇_{a}R": {
+        "count": 1,
+        "mean_reward": -1.0
+      },
+      "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R · R+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R_{ab} · R^{adef} · R^{b}_{def}+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+        "count": 1,
+        "mean_reward": -1.0
+      }
+    },
+    "accepted_feature_counts": {},
+    "excellent_feature_counts": {},
+    "competitive_feature_counts": {}
+  },
+  "agent_loop": {
+    "reflection_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/memory/graph_agent_batch_208_split_v4/tracks/non_eh/agent_reflections.jsonl",
+    "structure_prior_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/memory/graph_agent_batch_208_split_v4/tracks/non_eh/structure_prior.json",
+    "parameter_prior_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/memory/graph_agent_batch_208_split_v4/tracks/non_eh/parameter_prior.json",
+    "latest_reflection": {
+      "timestamp": "2026-06-09T20:50:47-0400",
+      "loop_id": "wave_0013_lag_15",
+      "observations": [
+        "total_attempts=104",
+        "validated_count=8",
+        "best_chi2=9434.003155067094",
+        "last_loop_id=wave_0013_lag_15",
+        "last_tags=['no_accepted_samples']",
+        "scalar_family_metrics={'none': {'attempts': 85, 'validated_attempts': 0, 'entered_solver_attempts': 85, 'validated_attempt_rate': 0.0, 'entered_solver_attempt_rate': 1.0, 'sample_count': 425000, 'accepted_sample_count': 26582, 'accepted_sample_rate': 0.06254588235294117, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': 0.0, 'q_not_determined_attempts': 0, 'q_not_determined_attempt_rate': 0.0, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': 0.0, 'constraint_drift_count': 0, 'constraint_drift_rate': 0.0, 'integration_failure_count': 0, 'integration_failure_rate': 0.0, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {'scalar_config=none': 85, 'theory_track=non_eh': 85, 'is_no_scalar': 85, 'has_high_curvature': 71, 'has_derivative_operator': 51, 'has_box_operator': 22}}, 'phi1_only': {'attempts': 4, 'validated_attempts': 0, 'entered_solver_attempts': 4, 'validated_attempt_rate': 0.0, 'entered_solver_attempt_rate': 1.0, 'sample_count': 20000, 'accepted_sample_count': 524, 'accepted_sample_rate': 0.0262, 'q_initial_root_failure_count': 0, 'q_initial_root_failure_rate': 0.0, 'q_not_determined_attempts': 4, 'q_not_determined_attempt_rate': 1.0, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': 0.0, 'constraint_drift_count': 0, 'constraint_drift_rate': 0.0, 'integration_failure_count': 0, 'integration_failure_rate': 0.0, 'best_chi2': None, 'median_chi2': None, 'chi2_quality_counts': {}, 'operator_family_counts': {'scalar_config=phi1_only': 4, 'theory_track=non_eh': 4, 'has_scalar': 4, 'has_phi1': 4, 'has_scalar_curvature': 4, 'has_high_curvature': 3, 'phi1_potential=axion': 3, 'has_derivative_operator': 3, 'has_box_operator': 3, 'has_pure_scalar_operator': 2, 'phi1_potential=quadratic': 1}}, 'phi2_only': {'attempts': 9, 'validated_attempts': 6, 'entered_solver_attempts': 9, 'validated_attempt_rate': 0.6666666666666666, 'entered_solver_attempt_rate': 1.0, 'sample_count': 45000, 'accepted_sample_count': 2437, 'accepted_sample_rate': 0.054155555555555554, 'q_initial_root_failure_count': 827, 'q_initial_root_failure_rate': 0.018377777777777778, 'q_not_determined_attempts': 3, 'q_not_determined_attempt_rate': 0.3333333333333333, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': 0.0, 'constraint_drift_count': 29, 'constraint_drift_rate': 0.0006444444444444444, 'integration_failure_count': 8, 'integration_failure_rate': 0.00017777777777777779, 'best_chi2': 9434.003155067094, 'median_chi2': 9434.007815603123, 'chi2_quality_counts': {'poor_accept': 6}, 'operator_family_counts': {'scalar_config=phi2_only': 9, 'theory_track=non_eh': 9, 'has_scalar': 9, 'has_phi2': 9, 'has_scalar_curvature': 9, 'phi2_potential=axion': 6, 'has_high_curvature': 6, 'has_derivative_operator': 5, 'has_pure_scalar_operator': 4, 'phi2_potential=quadratic': 3, 'has_box_operator': 2}}, 'both': {'attempts': 6, 'validated_attempts': 2, 'entered_solver_attempts': 6, 'validated_attempt_rate': 0.3333333333333333, 'entered_solver_attempt_rate': 1.0, 'sample_count': 30000, 'accepted_sample_count': 2625, 'accepted_sample_rate': 0.0875, 'q_initial_root_failure_count': 2766, 'q_initial_root_failure_rate': 0.0922, 'q_not_determined_attempts': 1, 'q_not_determined_attempt_rate': 0.16666666666666666, 'no_scalar_constraint_count': 0, 'no_scalar_constraint_rate': 0.0, 'constraint_drift_count': 16, 'constraint_drift_rate': 0.0005333333333333334, 'integration_failure_count': 20, 'integration_failure_rate': 0.0006666666666666666, 'best_chi2': 9434.006130612506, 'median_chi2': 9434.00670541127, 'chi2_quality_counts': {'poor_accept': 2}, 'operator_family_counts': {'scalar_config=both': 6, 'theory_track=non_eh': 6, 'has_scalar': 6, 'has_phi1': 6, 'has_phi2': 6, 'has_both_scalars': 6, 'has_scalar_curvature': 6, 'phi1_potential=axion': 3, 'phi2_potential=quadratic': 3, 'phi1_potential=quadratic': 3, 'phi2_potential=axion': 3, 'has_derivative_operator': 1, 'has_pure_scalar_operator': 1}}}",
+        "accepted_parameter_samples=32168"
+      ],
+      "next_actions": [
+        "continue exploration with learned policy score and duplicate cap"
+      ],
+      "information_used": [
+        "attempt_history.jsonl",
+        "feedback_summary.json",
+        "all_samples_summary.csv paths from current loop"
+      ],
+      "information_not_used": [
+        "historical solver_result/top10 outputs"
+      ]
+    },
+    "structure_prior": {
+      "source": "current_loop_feedback",
+      "scalar_family_learning": {
+        "principle": "same metrics and soft scoring are applied to none, phi1_only, phi2_only, and both; no scalar family is banned from exploration",
+        "min_exploration_probability_per_family": 0.08,
+        "metrics": {
+          "none": {
+            "attempts": 85,
+            "validated_attempts": 0,
+            "entered_solver_attempts": 85,
+            "validated_attempt_rate": 0.0,
+            "entered_solver_attempt_rate": 1.0,
+            "sample_count": 425000,
+            "accepted_sample_count": 26582,
+            "accepted_sample_rate": 0.06254588235294117,
+            "q_initial_root_failure_count": 0,
+            "q_initial_root_failure_rate": 0.0,
+            "q_not_determined_attempts": 0,
+            "q_not_determined_attempt_rate": 0.0,
+            "no_scalar_constraint_count": 0,
+            "no_scalar_constraint_rate": 0.0,
+            "constraint_drift_count": 0,
+            "constraint_drift_rate": 0.0,
+            "integration_failure_count": 0,
+            "integration_failure_rate": 0.0,
+            "best_chi2": null,
+            "median_chi2": null,
+            "chi2_quality_counts": {},
+            "operator_family_counts": {
+              "scalar_config=none": 85,
+              "theory_track=non_eh": 85,
+              "is_no_scalar": 85,
+              "has_high_curvature": 71,
+              "has_derivative_operator": 51,
+              "has_box_operator": 22
+            }
+          },
+          "phi1_only": {
+            "attempts": 4,
+            "validated_attempts": 0,
+            "entered_solver_attempts": 4,
+            "validated_attempt_rate": 0.0,
+            "entered_solver_attempt_rate": 1.0,
+            "sample_count": 20000,
+            "accepted_sample_count": 524,
+            "accepted_sample_rate": 0.0262,
+            "q_initial_root_failure_count": 0,
+            "q_initial_root_failure_rate": 0.0,
+            "q_not_determined_attempts": 4,
+            "q_not_determined_attempt_rate": 1.0,
+            "no_scalar_constraint_count": 0,
+            "no_scalar_constraint_rate": 0.0,
+            "constraint_drift_count": 0,
+            "constraint_drift_rate": 0.0,
+            "integration_failure_count": 0,
+            "integration_failure_rate": 0.0,
+            "best_chi2": null,
+            "median_chi2": null,
+            "chi2_quality_counts": {},
+            "operator_family_counts": {
+              "scalar_config=phi1_only": 4,
+              "theory_track=non_eh": 4,
+              "has_scalar": 4,
+              "has_phi1": 4,
+              "has_scalar_curvature": 4,
+              "has_high_curvature": 3,
+              "phi1_potential=axion": 3,
+              "has_derivative_operator": 3,
+              "has_box_operator": 3,
+              "has_pure_scalar_operator": 2,
+              "phi1_potential=quadratic": 1
+            }
+          },
+          "phi2_only": {
+            "attempts": 9,
+            "validated_attempts": 6,
+            "entered_solver_attempts": 9,
+            "validated_attempt_rate": 0.6666666666666666,
+            "entered_solver_attempt_rate": 1.0,
+            "sample_count": 45000,
+            "accepted_sample_count": 2437,
+            "accepted_sample_rate": 0.054155555555555554,
+            "q_initial_root_failure_count": 827,
+            "q_initial_root_failure_rate": 0.018377777777777778,
+            "q_not_determined_attempts": 3,
+            "q_not_determined_attempt_rate": 0.3333333333333333,
+            "no_scalar_constraint_count": 0,
+            "no_scalar_constraint_rate": 0.0,
+            "constraint_drift_count": 29,
+            "constraint_drift_rate": 0.0006444444444444444,
+            "integration_failure_count": 8,
+            "integration_failure_rate": 0.00017777777777777779,
+            "best_chi2": 9434.003155067094,
+            "median_chi2": 9434.007815603123,
+            "chi2_quality_counts": {
+              "poor_accept": 6
+            },
+            "operator_family_counts": {
+              "scalar_config=phi2_only": 9,
+              "theory_track=non_eh": 9,
+              "has_scalar": 9,
+              "has_phi2": 9,
+              "has_scalar_curvature": 9,
+              "phi2_potential=axion": 6,
+              "has_high_curvature": 6,
+              "has_derivative_operator": 5,
+              "has_pure_scalar_operator": 4,
+              "phi2_potential=quadratic": 3,
+              "has_box_operator": 2
+            }
+          },
+          "both": {
+            "attempts": 6,
+            "validated_attempts": 2,
+            "entered_solver_attempts": 6,
+            "validated_attempt_rate": 0.3333333333333333,
+            "entered_solver_attempt_rate": 1.0,
+            "sample_count": 30000,
+            "accepted_sample_count": 2625,
+            "accepted_sample_rate": 0.0875,
+            "q_initial_root_failure_count": 2766,
+            "q_initial_root_failure_rate": 0.0922,
+            "q_not_determined_attempts": 1,
+            "q_not_determined_attempt_rate": 0.16666666666666666,
+            "no_scalar_constraint_count": 0,
+            "no_scalar_constraint_rate": 0.0,
+            "constraint_drift_count": 16,
+            "constraint_drift_rate": 0.0005333333333333334,
+            "integration_failure_count": 20,
+            "integration_failure_rate": 0.0006666666666666666,
+            "best_chi2": 9434.006130612506,
+            "median_chi2": 9434.00670541127,
+            "chi2_quality_counts": {
+              "poor_accept": 2
+            },
+            "operator_family_counts": {
+              "scalar_config=both": 6,
+              "theory_track=non_eh": 6,
+              "has_scalar": 6,
+              "has_phi1": 6,
+              "has_phi2": 6,
+              "has_both_scalars": 6,
+              "has_scalar_curvature": 6,
+              "phi1_potential=axion": 3,
+              "phi2_potential=quadratic": 3,
+              "phi1_potential=quadratic": 3,
+              "phi2_potential=axion": 3,
+              "has_derivative_operator": 1,
+              "has_pure_scalar_operator": 1
+            }
+          }
+        }
+      },
+      "accepted_attempt_count": 8,
+      "quality_accepted_attempt_count": 0,
+      "accepted_quality_counts": {
+        "poor_accept": 8
+      },
+      "preferred_scalar_configs": {},
+      "preferred_potentials": {},
+      "preferred_operators": {},
+      "preferred_features": {},
+      "avoid_scalar_configs": {
+        "phi1_only": 4,
+        "phi2_only": 3,
+        "both": 2
+      },
+      "avoid_features": {
+        "has_phi1_with_q_failure": 6,
+        "derivative_with_q_not_determined": 6,
+        "scalar_derivative_curvature_with_q_not_determined": 6,
+        "has_phi2_with_q_failure": 5,
+        "scalar_derivative_with_q_not_determined": 4,
+        "box_operator_with_q_not_determined": 4,
+        "has_both_scalars_with_q_failure": 2
+      },
+      "avoid_operators": {
+        "φ1 · φ1 · ∇^{a}∇_{a}φ1": 2,
+        "φ1 · R^{ab} · R_{ab}": 1,
+        "φ2 · φ2 · ∇^{a}∇_{a}R": 1,
+        "R · R^{ab} · R_{ab}": 1,
+        "∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": 1,
+        "∇^{a}φ1 · ∇_{a}R": 1,
+        "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}": 1,
+        "φ1 · φ1 · ∇^{a}∇_{a}R": 1,
+        "φ1 · φ1 · φ1 · φ1 · φ1 · φ1": 1,
+        "φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": 1,
+        "∇^{a}∇_{a}R · R^{c}_{c}": 1,
+        "R · R · R": 1,
+        "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}": 1,
+        "∇^{c}R^{ab} · ∇_{b}R_{ac}": 1,
+        "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2": 1,
+        "R^{b}_{a} · R^{cd} · R^{a}_{cbd}": 1,
+        "R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}": 1,
+        "R · R": 1,
+        "∇^{a}∇^{b}R · R_{ab}": 1,
+        "φ2 · φ2 · R^{ab} · R_{ab}": 1
+      },
+      "avoid_failure_tags": {
+        "q_initial_root_failure": 9,
+        "q_not_determined": 8,
+        "constraint_drift": 5,
+        "symbolic_timeout": 2,
+        "integration_failure": 2
+      },
+      "best_chi2": 9434.003155067094
+    },
+    "parameter_prior": {
+      "source": "accepted_all_samples",
+      "active": false,
+      "attempt_count": 104,
+      "accepted_sample_count": 32168,
+      "min_attempts_before_update": 150,
+      "min_accepted_samples": 20,
+      "fixed_parameters": [
+        "H0_km_s_Mpc"
+      ],
+      "parameters": {},
+      "message": "Parameter prior evidence is recorded, but defaults remain active until update thresholds are met."
+    }
+  }
+}

@@ -1,0 +1,868 @@
+{
+  "record_count": 104,
+  "global_mean_reward": 3.596566911459426,
+  "by_feature": {
+    "scalar_config": {
+      "phi2_only": {
+        "count": 5,
+        "mean_reward": -3.4
+      },
+      "phi1_only": {
+        "count": 98,
+        "mean_reward": 4.020846518283472
+      },
+      "none": {
+        "count": 1,
+        "mean_reward": -3.0
+      }
+    },
+    "theory_track": {
+      "eh_anchored": {
+        "count": 104,
+        "mean_reward": 3.596566911459426
+      }
+    },
+    "phi1_potential": {
+      "None": {
+        "count": 6,
+        "mean_reward": -3.3333333333333335
+      },
+      "quadratic": {
+        "count": 91,
+        "mean_reward": 4.006557158729911
+      },
+      "axion": {
+        "count": 7,
+        "mean_reward": 4.206608192479773
+      }
+    },
+    "phi2_potential": {
+      "axion": {
+        "count": 3,
+        "mean_reward": -3.6666666666666665
+      },
+      "None": {
+        "count": 99,
+        "mean_reward": 3.949928876684649
+      },
+      "quadratic": {
+        "count": 2,
+        "mean_reward": -3.0
+      }
+    },
+    "operator_count": {
+      "3": {
+        "count": 26,
+        "mean_reward": 4.577370065838421
+      },
+      "4": {
+        "count": 5,
+        "mean_reward": -0.015393268451342479
+      },
+      "5": {
+        "count": 13,
+        "mean_reward": 1.4235296835449818
+      },
+      "8": {
+        "count": 8,
+        "mean_reward": -0.9765361353782338
+      },
+      "1": {
+        "count": 13,
+        "mean_reward": 7.941329062347567
+      },
+      "2": {
+        "count": 28,
+        "mean_reward": 6.031021951460555
+      },
+      "6": {
+        "count": 8,
+        "mean_reward": -1.961398229029345
+      },
+      "7": {
+        "count": 3,
+        "mean_reward": -4.0
+      }
+    },
+    "has_R_anchor": {
+      "True": {
+        "count": 104,
+        "mean_reward": 3.596566911459426
+      }
+    },
+    "has_scalar": {
+      "True": {
+        "count": 103,
+        "mean_reward": 3.660611250405634
+      },
+      "False": {
+        "count": 1,
+        "mean_reward": -3.0
+      }
+    },
+    "has_phi1": {
+      "False": {
+        "count": 6,
+        "mean_reward": -3.3333333333333335
+      },
+      "True": {
+        "count": 98,
+        "mean_reward": 4.020846518283472
+      }
+    },
+    "has_phi2": {
+      "True": {
+        "count": 5,
+        "mean_reward": -3.4
+      },
+      "False": {
+        "count": 99,
+        "mean_reward": 3.949928876684649
+      }
+    },
+    "has_both_scalars": {
+      "False": {
+        "count": 104,
+        "mean_reward": 3.596566911459426
+      }
+    },
+    "is_no_scalar": {
+      "False": {
+        "count": 103,
+        "mean_reward": 3.660611250405634
+      },
+      "True": {
+        "count": 1,
+        "mean_reward": -3.0
+      }
+    },
+    "has_scalar_curvature": {
+      "True": {
+        "count": 103,
+        "mean_reward": 3.660611250405634
+      },
+      "False": {
+        "count": 1,
+        "mean_reward": -3.0
+      }
+    },
+    "has_derivative_operator": {
+      "True": {
+        "count": 58,
+        "mean_reward": 2.8376104137297484
+      },
+      "False": {
+        "count": 46,
+        "mean_reward": 4.553512060770758
+      }
+    },
+    "has_box_operator": {
+      "True": {
+        "count": 30,
+        "mean_reward": 2.3525149641371357
+      },
+      "False": {
+        "count": 74,
+        "mean_reward": 4.100912295509002
+      }
+    },
+    "has_high_curvature": {
+      "False": {
+        "count": 41,
+        "mean_reward": 4.120971662312367
+      },
+      "True": {
+        "count": 63,
+        "mean_reward": 3.2552876291583055
+      }
+    },
+    "has_pure_scalar_operator": {
+      "True": {
+        "count": 32,
+        "mean_reward": -0.6753424548215698
+      },
+      "False": {
+        "count": 72,
+        "mean_reward": 5.495193296473201
+      }
+    }
+  },
+  "by_operator": {
+    "R": {
+      "count": 104,
+      "mean_reward": 3.596566911459426
+    },
+    "φ2 · φ2 · φ2 · R": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "∇^{a}∇_{a}φ2": {
+      "count": 2,
+      "mean_reward": -4.0
+    },
+    "∇^{a}∇_{a}R": {
+      "count": 11,
+      "mean_reward": 4.395150008232464
+    },
+    "φ2 · ∇^{a}∇_{a}R": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "φ2 · φ2 · R^{ab} · R_{ab}": {
+      "count": 2,
+      "mean_reward": -3.5
+    },
+    "R · R^{ab} · R_{ab}": {
+      "count": 2,
+      "mean_reward": 2.160061043714736
+    },
+    "R^{b}_{a} · R^{cd} · R^{a}_{cbd}": {
+      "count": 8,
+      "mean_reward": 0.39439292432142337
+    },
+    "φ1 · φ1 · φ1 · φ1": {
+      "count": 7,
+      "mean_reward": -3.0
+    },
+    "φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 5,
+      "mean_reward": -4.4
+    },
+    "φ2 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "∇^{a}∇_{a}φ2 · R": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "φ2 · φ2 · φ2 · φ2 · R": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "∇^{a}φ2 · ∇_{a}φ2 · R": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}": {
+      "count": 5,
+      "mean_reward": 0.5738843297701752
+    },
+    "φ2 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "φ2 · φ2 · φ2 · φ2": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "∇^{a}φ2 · ∇_{a}φ2": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+      "count": 12,
+      "mean_reward": 2.328586240693778
+    },
+    "φ1 · φ1 · R^{ab} · R_{ab}": {
+      "count": 10,
+      "mean_reward": 1.3034386846445873
+    },
+    "∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 26,
+      "mean_reward": 1.7299703725097806
+    },
+    "R^{ab} · R^{d}_{a} · R_{bd}": {
+      "count": 5,
+      "mean_reward": 1.7918684112078012
+    },
+    "∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+      "count": 3,
+      "mean_reward": 0.09446644200949746
+    },
+    "∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}": {
+      "count": 6,
+      "mean_reward": -0.8788182851855023
+    },
+    "φ1 · φ1 · R": {
+      "count": 9,
+      "mean_reward": -2.5
+    },
+    "φ1 · R^{ab} · R_{ab}": {
+      "count": 10,
+      "mean_reward": 2.5105068619728477
+    },
+    "φ1 · φ1 · R · R": {
+      "count": 4,
+      "mean_reward": 4.990200040606865
+    },
+    "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}": {
+      "count": 4,
+      "mean_reward": -3.625
+    },
+    "φ1 · φ1 · φ1 · φ1 · φ1": {
+      "count": 3,
+      "mean_reward": -3.0
+    },
+    "φ1 · ∇^{a}∇^{b}φ1 · R_{ab}": {
+      "count": 2,
+      "mean_reward": 0.6942979626816839
+    },
+    "∇^{a}∇_{a}R · R^{c}_{c}": {
+      "count": 3,
+      "mean_reward": -0.4114256362405679
+    },
+    "φ1 · ∇^{a}∇_{a}R": {
+      "count": 9,
+      "mean_reward": 1.274278559377721
+    },
+    "φ1 · φ1 · φ1 · φ1 · R": {
+      "count": 3,
+      "mean_reward": -3.1666666666666665
+    },
+    "R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 2,
+      "mean_reward": 8.536805796427444
+    },
+    "φ1 · R · R": {
+      "count": 6,
+      "mean_reward": 1.7610517136301034
+    },
+    "∇^{a}φ1 · ∇_{a}R": {
+      "count": 3,
+      "mean_reward": 3.3712427583221323
+    },
+    "∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 5,
+      "mean_reward": 4.495449209050409
+    },
+    "φ1 · φ1": {
+      "count": 4,
+      "mean_reward": -0.92279645805869
+    },
+    "φ1 · R": {
+      "count": 8,
+      "mean_reward": -3.125
+    },
+    "∇^{a}∇_{a}φ1": {
+      "count": 2,
+      "mean_reward": -0.7223404331442453
+    },
+    "R · R": {
+      "count": 10,
+      "mean_reward": 6.170586082455299
+    },
+    "φ1 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 3,
+      "mean_reward": 5.1173017468042605
+    },
+    "φ1 · φ1 · ∇^{a}∇_{a}R": {
+      "count": 1,
+      "mean_reward": 8.921987825695833
+    },
+    "∇^{a}φ1 · ∇_{a}φ1 · R": {
+      "count": 8,
+      "mean_reward": 7.986561162258362
+    },
+    "φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 4,
+      "mean_reward": 6.136915524745243
+    },
+    "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 2,
+      "mean_reward": 2.302293413975703
+    },
+    "R_{ab} · R^{adef} · R^{b}_{def}": {
+      "count": 3,
+      "mean_reward": 9.54571690486713
+    },
+    "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}": {
+      "count": 3,
+      "mean_reward": -5.166666666666667
+    },
+    "∇^{a}∇^{b}R · R_{ab}": {
+      "count": 1,
+      "mean_reward": -6.0
+    },
+    "φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 4,
+      "mean_reward": -4.375
+    },
+    "φ1 · φ1 · φ1 · R": {
+      "count": 6,
+      "mean_reward": -2.5
+    },
+    "∇^{a}R · ∇_{a}R": {
+      "count": 3,
+      "mean_reward": 3.222398709663402
+    },
+    "φ1 · φ1 · φ1 · φ1 · φ1 · φ1": {
+      "count": 2,
+      "mean_reward": -3.75
+    },
+    "R · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": 11.313157953109101
+    },
+    "R · R · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "∇^{a}∇_{a}φ1 · R": {
+      "count": 2,
+      "mean_reward": 4.461516828871644
+    },
+    "φ1 · φ1 · φ1": {
+      "count": 2,
+      "mean_reward": -2.75
+    },
+    "φ1 · φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "R^{ab} · R_{ab}": {
+      "count": 5,
+      "mean_reward": 6.330460011513896
+    },
+    "φ1 · ∇^{a}φ1 · ∇_{a}R": {
+      "count": 2,
+      "mean_reward": -4.75
+    },
+    "φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 3,
+      "mean_reward": -5.166666666666667
+    },
+    "φ1 · ∇^{a}∇_{a}φ1 · R": {
+      "count": 2,
+      "mean_reward": 4.461516828871644
+    },
+    "∇^{a}∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 9.0006409123732
+    }
+  },
+  "by_family": {
+    "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R+φ2 · φ2 · φ2 · R+∇^{a}∇_{a}φ2": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R+∇^{a}∇_{a}R+φ2 · ∇^{a}∇_{a}R+φ2 · φ2 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R^{ab} · R_{ab}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ1 · φ1 · φ1 · φ1+φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi2_only|potential={'phi1': None, 'phi2': 'axion'}|operators=R+φ2 · R^{ab} · R_{ab}+∇^{a}∇_{a}φ2 · R+φ2 · φ2 · φ2 · φ2 · R+φ2 · φ2 · R^{ab} · R_{ab}+φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}φ2 · ∇_{a}φ2 · R+∇^{a}∇_{a}φ2": {
+      "count": 1,
+      "mean_reward": -4.0
+    },
+    "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+φ2 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=R+φ2 · φ2 · φ2 · φ2+∇^{a}φ2 · ∇_{a}φ2": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ1 · φ1 · R^{ab} · R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.40907718002919
+    },
+    "scalar=none|potential={'phi1': None, 'phi2': None}|operators=R": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+φ1 · φ1 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 5.947433823155043
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R^{d}_{a} · R_{bd}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{c}R^{ab} · ∇_{c}R_{ab}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+φ1 · φ1 · R+φ1 · R^{ab} · R_{ab}+φ1 · φ1 · R · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+      "count": 1,
+      "mean_reward": 8.867308365167263
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.372961736060484
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R": {
+      "count": 10,
+      "mean_reward": 8.963580761486623
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+φ1 · φ1 · R^{ab} · R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · φ1 · φ1 · φ1+φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+φ1 · R^{ab} · R_{ab}+φ1 · ∇^{a}∇^{b}φ1 · R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 3.8885959253633677
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{a}∇_{a}R · R^{c}_{c}+φ1 · ∇^{a}∇_{a}R+φ1 · φ1 · φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{bcd}_{a} · R^{a}_{bcd}+φ1 · R · R": {
+      "count": 1,
+      "mean_reward": 8.764797425089647
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{c}R^{ab} · ∇_{b}R_{ac}": {
+      "count": 1,
+      "mean_reward": 11.350848020197924
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}φ1 · ∇_{a}R+φ1 · φ1 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 8.804914107201157
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · ∇^{a}∇_{a}R+∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 8.117263380740114
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ1 · φ1 · R+φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R": {
+      "count": 1,
+      "mean_reward": 5.935925499522152
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 4.555319133711509
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · ∇^{a}∇_{a}R": {
+      "count": 1,
+      "mean_reward": 11.542429485894136
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ1 · R^{bcd}_{a} · R^{a}_{bcd}+φ1 · φ1 · ∇^{a}∇_{a}R+∇^{a}φ1 · ∇_{a}φ1 · R+φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 8.921987825695833
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": 7.104586827951406
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}φ1 · ∇_{a}φ1 · R": {
+      "count": 1,
+      "mean_reward": 11.378662803482495
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{b}_{a} · R^{cd} · R^{a}_{cbd}": {
+      "count": 1,
+      "mean_reward": 7.246066214542197
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.414866501379834
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R+∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 11.438229170548924
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R_{ab} · R^{adef} · R^{b}_{def}+φ1 · R^{ab} · R_{ab}+∇^{a}φ1 · ∇_{a}φ1 · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.478792458991036
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+∇^{a}∇^{b}R · R_{ab}+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ1 · R · R+φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -6.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R+φ1 · φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}+∇^{a}R · ∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ1 · R^{ab} · R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · φ1 · φ1 · φ1+φ1 · φ1 · φ1 · φ1 · φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 11.35995118200684
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+φ1 · R^{ab} · R_{ab}+φ1 · R^{bcd}_{a} · R^{a}_{bcd}+φ1 · ∇^{a}∇_{a}R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": 11.313157953109101
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+φ1 · R+φ1 · ∇^{a}∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 7.320122087429472
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R_{ab} · R^{adef} · R^{b}_{def}": {
+      "count": 1,
+      "mean_reward": 8.374958929581862
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.351967071116178
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}R · ∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 5.342454915813039
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R_{ab} · R^{adef} · R^{b}_{def}+∇^{c}R^{ab} · ∇_{c}R_{ab}": {
+      "count": 1,
+      "mean_reward": 8.783399326028492
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R · R+φ1 · φ1 · R+∇^{a}∇_{a}φ1 · R+φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 7.857519870877258
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · φ1+∇^{a}φ1 · ∇_{a}φ1+φ1 · φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+φ1 · ∇^{a}∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · φ1 · φ1+φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+R^{ab} · R_{ab}+∇^{a}∇_{a}R+∇^{a}∇_{a}R · R^{c}_{c}+φ1 · R^{ab} · R_{ab}+∇^{a}φ1 · ∇_{a}φ1 · R+φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 7.265723091278296
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+R · R+∇^{a}∇_{a}R+φ1 · φ1 · φ1 · R+φ1 · R · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": 8.921753493963006
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{hdf}+φ1 · φ1 · R+φ1 · φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+∇^{a}∇_{a}R+R^{ab} · R^{d}_{a} · R_{bd}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.390925958177549
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R": {
+      "count": 1,
+      "mean_reward": 5.907041213744515
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+φ1 · R · R": {
+      "count": 1,
+      "mean_reward": 5.266839093560615
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+φ1 · φ1 · R^{ab} · R_{ab}+φ1 · ∇^{a}φ1 · ∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -7.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}+φ1 · R+∇^{a}φ1 · ∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -7.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{bcd}_{a} · R^{a}_{bcd}+φ1 · ∇^{a}∇_{a}R+∇^{a}φ1 · ∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1": {
+      "count": 1,
+      "mean_reward": 8.30881416776524
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R^{d}_{a} · R_{bd}+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ1 · φ1 · φ1 · R+φ1 · φ1 · R^{ab} · R_{ab}+φ1 · ∇^{a}∇^{b}φ1 · R_{ab}+φ1 · φ1+φ1 · φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R^{d}_{a} · R_{bd}": {
+      "count": 1,
+      "mean_reward": 5.568416097861457
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R^{bcd}_{a} · R^{a}_{bcd}": {
+      "count": 1,
+      "mean_reward": 8.929917414716948
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R · R": {
+      "count": 1,
+      "mean_reward": 7.244886509892349
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}R · ∇_{a}R": {
+      "count": 1,
+      "mean_reward": 7.324741213177167
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R · R^{c}_{c}+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{c}R^{ab} · ∇_{c}R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+∇^{a}∇_{a}φ1+φ1 · φ1 · ∇^{a}∇_{a}φ1+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -6.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · ∇^{a}∇_{a}R+φ1 · φ1 · R^{ab} · R_{ab}+φ1 · φ1 · φ1 · φ1+φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{b}_{a} · R^{cd} · R^{a}_{cbd}+φ1 · φ1 · R+φ1 · φ1 · φ1 · R+φ1 · ∇^{a}φ1 · ∇_{a}R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R^{d}_{a} · R_{bd}+φ1 · R^{ab} · R_{ab}+φ1 · φ1 · φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}φ1 · ∇_{a}φ1 · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 7.423648548502751
+    },
+    "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · R · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 3.7874801541580725
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+∇^{a}∇_{a}R": {
+      "count": 1,
+      "mean_reward": 8.610043642339305
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R+φ1 · R": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R · R": {
+      "count": 1,
+      "mean_reward": 8.034673763130359
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}+φ1 · R+φ1 · ∇^{a}∇_{a}φ1 · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": -2.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R": {
+      "count": 2,
+      "mean_reward": 8.30073509782606
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · R^{ab} · R_{ab}+φ1 · φ1 · R^{ab} · R_{ab}+φ1 · φ1 · φ1 · φ1+∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · ∇^{a}∇_{a}R+∇^{a}φ1 · ∇_{a}φ1 · R+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · φ1 · φ1 · φ1+φ1 · φ1 · ∇^{a}∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+φ1 · φ1 · R^{ab} · R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}+φ1 · ∇^{a}φ1 · ∇_{a}φ1": {
+      "count": 1,
+      "mean_reward": -6.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R_{ab}+φ1 · R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 8.614437273218519
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R_{ab}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 7.344112440434419
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · φ1 · φ1 · R+φ1 · φ1 · φ1 · φ1 · φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -4.5
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇^{b}φ1 · R_{ab}+∇^{a}φ1 · ∇_{a}φ1 · R": {
+      "count": 1,
+      "mean_reward": 9.0006409123732
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R_{ab}+φ1 · R+φ1 · φ1 · φ1 · φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+φ1 · φ1 · φ1 · φ1": {
+      "count": 1,
+      "mean_reward": -3.0
+    },
+    "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+∇^{a}∇_{a}φ1 · R+φ1 · ∇^{a}∇_{a}φ1 · R+∇^{a}φ1 · ∇_{a}φ1 · R": {
+      "count": 1,
+      "mean_reward": 11.423033657743288
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R · R+φ1 · φ1 · R · R": {
+      "count": 1,
+      "mean_reward": 11.428433498377041
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+∇^{a}∇_{a}R+∇^{c}R^{ab} · ∇_{b}R_{ac}+∇^{e}R^{bcd}_{a} · ∇_{e}R^{a}_{bcd}+∇^{a}φ1 · ∇^{b}φ1 · R_{ab}": {
+      "count": 1,
+      "mean_reward": 5.338494363523618
+    },
+    "scalar=phi1_only|potential={'phi1': 'quadratic', 'phi2': None}|operators=R+R^{ab} · R_{ab}": {
+      "count": 1,
+      "mean_reward": 11.428027252638246
+    }
+  },
+  "accepted_feature_counts": {
+    "scalar_config=phi1_only": 48,
+    "theory_track=eh_anchored": 48,
+    "has_R_anchor": 48,
+    "has_scalar": 48,
+    "has_phi1": 48,
+    "has_scalar_curvature": 48,
+    "phi1_potential=quadratic": 44,
+    "has_high_curvature": 27,
+    "has_derivative_operator": 24,
+    "has_box_operator": 11,
+    "has_pure_scalar_operator": 7,
+    "phi1_potential=axion": 4
+  },
+  "excellent_feature_counts": {
+    "scalar_config=phi1_only": 19,
+    "theory_track=eh_anchored": 19,
+    "has_R_anchor": 19,
+    "has_scalar": 19,
+    "has_phi1": 19,
+    "has_scalar_curvature": 19,
+    "phi1_potential=quadratic": 18,
+    "has_derivative_operator": 11,
+    "has_high_curvature": 10,
+    "has_box_operator": 5,
+    "has_pure_scalar_operator": 2,
+    "phi1_potential=axion": 1
+  },
+  "competitive_feature_counts": {
+    "scalar_config=phi1_only": 29,
+    "theory_track=eh_anchored": 29,
+    "has_R_anchor": 29,
+    "has_scalar": 29,
+    "has_phi1": 29,
+    "has_scalar_curvature": 29,
+    "phi1_potential=quadratic": 26,
+    "has_high_curvature": 17,
+    "has_derivative_operator": 13,
+    "has_box_operator": 6,
+    "has_pure_scalar_operator": 5,
+    "phi1_potential=axion": 3
+  }
+}

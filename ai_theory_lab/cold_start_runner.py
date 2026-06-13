@@ -168,6 +168,68 @@ def _coarse_family_key(entry: Dict[str, Any]) -> str:
     )
 
 
+def theory_track_from_operators(operators: Sequence[Any]) -> str:
+    labels = [
+        str(item.get("candidate") or item.get("label") or item)
+        if isinstance(item, dict)
+        else str(item)
+        for item in (operators or [])
+    ]
+    if "R" in labels:
+        return "eh_anchored"
+    if any("R" in label for label in labels):
+        return "non_eh"
+    return "non_gravity"
+
+
+def _entry_track(entry: Dict[str, Any]) -> str:
+    return theory_track_from_operators(entry.get("operators") or [])
+
+
+def _matches_track(entry: Dict[str, Any], track: Optional[str]) -> bool:
+    if not track or track == "mixed":
+        return True
+    return _entry_track(entry) == track
+
+
+def _matches_scalar_config(entry: Dict[str, Any], scalar_config: Optional[str]) -> bool:
+    if not scalar_config or scalar_config == "mixed":
+        return True
+    return str(entry.get("scalar_config")) == scalar_config
+
+
+def _matches_required_operator(
+    entry: Dict[str, Any],
+    required_operator_substring: Optional[str],
+    required_operator_contains_curvature: bool = False,
+) -> bool:
+    if not required_operator_substring and not required_operator_contains_curvature:
+        return True
+    for operator in entry.get("operators") or []:
+        label = str(operator)
+        if required_operator_substring and required_operator_substring not in label:
+            continue
+        if required_operator_contains_curvature and "R" not in label:
+            continue
+        return True
+    return False
+
+
+def _matches_proposal_constraints(
+    entry: Dict[str, Any],
+    *,
+    track: Optional[str] = None,
+    scalar_config: Optional[str] = None,
+    required_operator_substring: Optional[str] = None,
+    required_operator_contains_curvature: bool = False,
+) -> bool:
+    return (
+        _matches_track(entry, track)
+        and _matches_scalar_config(entry, scalar_config)
+        and _matches_required_operator(entry, required_operator_substring, required_operator_contains_curvature)
+    )
+
+
 def _coarse_family_attempt_counts(summary: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     counts: Dict[str, Dict[str, Any]] = {}
     for row in summary.get("by_coarse_family") or []:
@@ -417,7 +479,29 @@ def _entry_score(entry: Dict[str, Any], summary: Dict[str, Any], rng: random.Ran
     return score
 
 
-def _choose_entry(catalog: Sequence[Dict[str, Any]], summary: Dict[str, Any], rng: random.Random) -> Dict[str, Any]:
+def _choose_entry(
+    catalog: Sequence[Dict[str, Any]],
+    summary: Dict[str, Any],
+    rng: random.Random,
+    *,
+    track: Optional[str] = None,
+    scalar_config: Optional[str] = None,
+    required_operator_substring: Optional[str] = None,
+    required_operator_contains_curvature: bool = False,
+) -> Dict[str, Any]:
+    constrained_catalog = [
+        entry
+        for entry in catalog
+        if _matches_proposal_constraints(
+            entry,
+            track=track,
+            scalar_config=scalar_config,
+            required_operator_substring=required_operator_substring,
+            required_operator_contains_curvature=required_operator_contains_curvature,
+        )
+    ]
+    if constrained_catalog:
+        catalog = constrained_catalog
     # Keep some explicit exploration so the loop does not collapse to one family.
     if summary.get("total_attempts", 0) < 5:
         scalar_order = ["phi1_only", "phi1_only", "phi2_only", "both", "none"]
@@ -1015,9 +1099,18 @@ def _generate_token_level_entry(
     summary: Dict[str, Any],
     rng: random.Random,
     seed: int,
+    *,
+    track: Optional[str] = None,
+    scalar_config: Optional[str] = None,
+    required_operator_substring: Optional[str] = None,
+    required_operator_contains_curvature: bool = False,
 ) -> Dict[str, Any]:
     tensors = context["tensors"]
     target_operator_count, force_r_only = _sample_operator_policy(summary, random.Random(seed + 8191))
+    if track == "non_eh" or required_operator_substring:
+        force_r_only = False
+    if track == "eh_anchored" and required_operator_substring:
+        target_operator_count = max(2, target_operator_count)
     skeletons = _direct_candidate_catalog(
         context,
         rng=random.Random(seed + 131071),
@@ -1027,6 +1120,25 @@ def _generate_token_level_entry(
     if not skeletons:
         raise RuntimeError("Token-level Grammar Masker candidate pool is empty")
 
+    skeletons = [
+        entry
+        for entry in skeletons
+        if _matches_proposal_constraints(
+            entry,
+            track=track,
+            scalar_config=scalar_config,
+            required_operator_substring=required_operator_substring,
+            required_operator_contains_curvature=required_operator_contains_curvature,
+        )
+    ]
+    if not skeletons:
+        raise RuntimeError(
+            "Token-level Grammar Masker candidate pool is empty for "
+            f"track={track}, scalar_config={scalar_config}, "
+            f"required_operator_substring={required_operator_substring}, "
+            f"required_operator_contains_curvature={required_operator_contains_curvature}"
+        )
+
     entries = [entry for entry in skeletons if _under_duplicate_limit(entry, summary)]
     if not entries:
         entries = skeletons
@@ -1035,7 +1147,15 @@ def _generate_token_level_entry(
     # controls policy exploration; it no longer samples finished Lagrangians
     # from Grammar Masker's random batch generator.
     choice_rng = random.Random(seed + 104729)
-    selected = _choose_entry(entries, summary, choice_rng)
+    selected = _choose_entry(
+        entries,
+        summary,
+        choice_rng,
+        track=track,
+        scalar_config=scalar_config,
+        required_operator_substring=required_operator_substring,
+        required_operator_contains_curvature=required_operator_contains_curvature,
+    )
     candidate_objects = selected.pop("_candidate_objects", None)
     if not candidate_objects:
         raise RuntimeError("Direct candidate proposal was missing candidate objects")
@@ -1050,6 +1170,13 @@ def _generate_token_level_entry(
     compiled["proposal_mode"] = "direct_candidate_policy"
     compiled["target_operator_count"] = target_operator_count
     compiled["baseline_control"] = force_r_only
+    compiled["theory_track"] = track or _entry_track(compiled)
+    if scalar_config:
+        compiled["proposal_scalar_constraint"] = scalar_config
+    if required_operator_substring:
+        compiled["proposal_required_operator_substring"] = required_operator_substring
+    if required_operator_contains_curvature:
+        compiled["proposal_required_operator_contains_curvature"] = True
     return compiled
 
 
@@ -1303,6 +1430,18 @@ def _proposal_for(
                 {"coefficient": spec["coefficient"], "candidate": spec["candidate"]}
                 for spec in entry["operator_specs"]
             ],
+            "theory_track": entry.get("theory_track") or _entry_track(entry),
+            **({"proposal_group": entry.get("proposal_group")} if entry.get("proposal_group") else {}),
+            **(
+                {"proposal_required_operator_substring": entry.get("proposal_required_operator_substring")}
+                if entry.get("proposal_required_operator_substring")
+                else {}
+            ),
+            **(
+                {"proposal_required_operator_contains_curvature": True}
+                if entry.get("proposal_required_operator_contains_curvature")
+                else {}
+            ),
         },
         "parameter_samples": parameter_samples,
         "parameter_sampling_policy": _parameter_sampling_policy_summary(entry, len(parameter_samples)),
@@ -1312,6 +1451,19 @@ def _proposal_for(
         "proposal_mode": entry.get("proposal_mode", "deterministic"),
         "target_operator_count": entry.get("target_operator_count"),
         "baseline_control": bool(entry.get("baseline_control", False)),
+        "theory_track": entry.get("theory_track") or _entry_track(entry),
+        **({"proposal_group": entry.get("proposal_group")} if entry.get("proposal_group") else {}),
+        **({"proposal_scalar_constraint": entry.get("proposal_scalar_constraint")} if entry.get("proposal_scalar_constraint") else {}),
+        **(
+            {"proposal_required_operator_substring": entry.get("proposal_required_operator_substring")}
+            if entry.get("proposal_required_operator_substring")
+            else {}
+        ),
+        **(
+            {"proposal_required_operator_contains_curvature": True}
+            if entry.get("proposal_required_operator_contains_curvature")
+            else {}
+        ),
         **(
             {
                 "llm_model": entry.get("llm_model"),

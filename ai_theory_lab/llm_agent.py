@@ -22,6 +22,7 @@ from .cold_start_runner import (
     _family_key,
     _sample_operator_policy,
     _under_duplicate_limit,
+    theory_track_from_operators,
 )
 
 
@@ -58,6 +59,7 @@ def _candidate_view(entry: Dict[str, Any], index: int, score: float) -> Dict[str
         "potential_types": entry.get("potential_types"),
         "operators": entry.get("operators") or [],
         "operator_specs": entry.get("operator_specs") or [],
+        "theory_track": entry.get("theory_track") or theory_track_from_operators(entry.get("operators") or []),
         "deterministic_score": round(score, 6),
     }
 
@@ -162,14 +164,50 @@ def _generate_candidate_entries(
     seed: int,
     *,
     max_batches: int = 3,
+    track: Optional[str] = None,
+    scalar_config: Optional[str] = None,
+    required_operator_substring: Optional[str] = None,
+    required_operator_contains_curvature: bool = False,
 ) -> List[Dict[str, Any]]:
     target_operator_count, force_r_only = _sample_operator_policy(summary, random.Random(seed + 8191))
+    if track == "non_eh" or required_operator_substring:
+        force_r_only = False
+    if track == "eh_anchored" and required_operator_substring:
+        target_operator_count = max(2, target_operator_count)
     skeletons = _direct_candidate_catalog(
         context,
         rng=random.Random(seed + 131071),
         target_operator_count=target_operator_count,
         force_r_only=force_r_only,
     )
+    if track and track != "mixed":
+        skeletons = [
+            entry
+            for entry in skeletons
+            if theory_track_from_operators(entry.get("operators") or []) == track
+        ]
+    if scalar_config and scalar_config != "mixed":
+        skeletons = [
+            entry
+            for entry in skeletons
+            if str(entry.get("scalar_config")) == scalar_config
+        ]
+    if required_operator_substring:
+        skeletons = [
+            entry
+            for entry in skeletons
+            if any(
+                required_operator_substring in str(operator)
+                and (not required_operator_contains_curvature or "R" in str(operator))
+                for operator in entry.get("operators") or []
+            )
+        ]
+    elif required_operator_contains_curvature:
+        skeletons = [
+            entry
+            for entry in skeletons
+            if any("R" in str(operator) for operator in entry.get("operators") or [])
+        ]
     entries = [entry for entry in skeletons if entry.get("operator_specs") and _under_duplicate_limit(entry, summary)]
     if not entries:
         entries = [entry for entry in skeletons if entry.get("operator_specs")]
@@ -186,6 +224,13 @@ def _generate_candidate_entries(
     for entry in selected:
         entry["target_operator_count"] = target_operator_count
         entry["baseline_control"] = force_r_only
+        entry["theory_track"] = track or theory_track_from_operators(entry.get("operators") or [])
+        if scalar_config:
+            entry["proposal_scalar_constraint"] = scalar_config
+        if required_operator_substring:
+            entry["proposal_required_operator_substring"] = required_operator_substring
+        if required_operator_contains_curvature:
+            entry["proposal_required_operator_contains_curvature"] = True
     return selected
 
 
@@ -299,6 +344,10 @@ def propose_entry_with_llm(
     max_output_tokens: int = DEFAULT_LLM_MAX_OUTPUT_TOKENS,
     debug_dir: Optional[Path | str] = None,
     loop_id: str = "loop_unknown",
+    track: Optional[str] = None,
+    scalar_config: Optional[str] = None,
+    required_operator_substring: Optional[str] = None,
+    required_operator_contains_curvature: bool = False,
 ) -> Dict[str, Any]:
     """Generate legal candidates and let the OpenAI API select one.
 
@@ -313,6 +362,10 @@ def propose_entry_with_llm(
         rng,
         seed,
         max_batches=max_candidate_batches,
+        track=track,
+        scalar_config=scalar_config,
+        required_operator_substring=required_operator_substring,
+        required_operator_contains_curvature=required_operator_contains_curvature,
     )
     if not candidates:
         raise RuntimeError("No grammar-generated candidates available for LLM selection")
@@ -368,6 +421,13 @@ def propose_entry_with_llm(
     entry["llm_rationale"] = rationale
     entry["target_operator_count"] = selected.get("target_operator_count")
     entry["baseline_control"] = bool(selected.get("baseline_control", False))
+    entry["theory_track"] = track or theory_track_from_operators(entry.get("operators") or [])
+    if scalar_config:
+        entry["proposal_scalar_constraint"] = scalar_config
+    if required_operator_substring:
+        entry["proposal_required_operator_substring"] = required_operator_substring
+    if required_operator_contains_curvature:
+        entry["proposal_required_operator_contains_curvature"] = True
     entry["llm_choice"] = {
         "candidate_index": index,
         "candidate_count": len(candidates),

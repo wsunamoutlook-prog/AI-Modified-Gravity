@@ -45,6 +45,8 @@ def _operator_delta(policy: Dict[str, Any], operator: str) -> float:
 def _entry_theory(entry: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "scalar_config": entry.get("scalar_config"),
+        "proposal_group": entry.get("proposal_group"),
+        "theory_track": entry.get("theory_track"),
         "potential_types": entry.get("potential_types"),
         "operators": entry.get("operators") or [],
     }
@@ -58,6 +60,8 @@ def score_entry_from_policy(entry: Dict[str, Any], policy: Dict[str, Any]) -> fl
     score = 0.0
     feature_names = [
         "scalar_config",
+        "proposal_group",
+        "theory_track",
         "phi1_potential",
         "phi2_potential",
         "operator_count",

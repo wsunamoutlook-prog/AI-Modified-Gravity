@@ -100,17 +100,37 @@ def _operator_labels(value: Any) -> Any:
     return labels
 
 
+def _theory_track_from_operators(operators: Any) -> str:
+    labels = _operator_labels(operators)
+    if not isinstance(labels, list):
+        labels = []
+    if "R" in labels:
+        return "eh_anchored"
+    if any("R" in str(label) for label in labels):
+        return "non_eh"
+    return "non_gravity"
+
+
 def _theory_from(metadata: Dict[str, Any], proposal: Dict[str, Any]) -> Dict[str, Any]:
     theory = proposal.get("theory")
     if not isinstance(theory, dict):
         theory = {}
+    operators = _operator_labels(theory.get("operators", metadata.get("operators") or metadata.get("general")))
+    track = (
+        theory.get("theory_track")
+        or proposal.get("theory_track")
+        or metadata.get("theory_track")
+        or _theory_track_from_operators(operators)
+    )
     return {
         "proposal_id": proposal.get("proposal_id") or metadata.get("proposal_id"),
+        "proposal_group": theory.get("proposal_group") or proposal.get("proposal_group") or metadata.get("proposal_group"),
         "source_n_terms": metadata.get("source_n_terms"),
         "source_local_number": metadata.get("source_local_number"),
         "scalar_config": theory.get("scalar_config", metadata.get("scalar_config")),
         "potential_types": theory.get("potential_types", metadata.get("potential_types")),
-        "operators": _operator_labels(theory.get("operators", metadata.get("operators") or metadata.get("general"))),
+        "operators": operators,
+        "theory_track": track,
         "parameter_sample_count": _parameter_sample_count(metadata, proposal),
     }
 
@@ -226,6 +246,8 @@ def make_attempt_record(result: ValidationResult, loop_id: Optional[str] = None)
         "model_ranking_path": result.model_ranking_path,
         "scan_report_path": result.scan_report_path,
         "theory": theory,
+        "theory_track": theory.get("theory_track"),
+        "proposal_group": theory.get("proposal_group"),
         "family_key": _family_key(theory),
         "coarse_family_key": _coarse_family_key(theory),
         "failure_tags": _failure_tags(result),
@@ -293,11 +315,76 @@ def _summarize_by_coarse_family(attempts: Iterable[Dict[str, Any]]) -> List[Dict
     return rows
 
 
+def _summarize_by_track(attempts: Iterable[Dict[str, Any]]) -> Dict[str, Any]:
+    grouped: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+    for attempt in attempts:
+        theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+        track = attempt.get("theory_track") or theory.get("theory_track") or _theory_track_from_operators(theory.get("operators"))
+        grouped[str(track)].append(attempt)
+
+    summary: Dict[str, Any] = {}
+    for track, items in grouped.items():
+        chi2_values = [float(a["chi2"]) for a in items if a.get("chi2") is not None]
+        tags = Counter(tag for a in items for tag in a.get("failure_tags", []))
+        summary[track] = {
+            "attempts": len(items),
+            "validated": sum(1 for a in items if a.get("validated")),
+            "accepted_rate": sum(1 for a in items if a.get("validated")) / len(items) if items else 0.0,
+            "best_chi2": min(chi2_values) if chi2_values else None,
+            "failure_tag_counts": _counter_dict(tags),
+        }
+    return summary
+
+
+def _summarize_by_group(attempts: Iterable[Dict[str, Any]]) -> Dict[str, Any]:
+    grouped: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+    for attempt in attempts:
+        theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+        group = attempt.get("proposal_group") or theory.get("proposal_group") or "unknown"
+        grouped[str(group)].append(attempt)
+
+    summary: Dict[str, Any] = {}
+    for group, items in grouped.items():
+        chi2_values = [float(a["chi2"]) for a in items if a.get("chi2") is not None]
+        tags = Counter(tag for a in items for tag in a.get("failure_tags", []))
+        summary[group] = {
+            "attempts": len(items),
+            "validated": sum(1 for a in items if a.get("validated")),
+            "accepted_rate": sum(1 for a in items if a.get("validated")) / len(items) if items else 0.0,
+            "best_chi2": min(chi2_values) if chi2_values else None,
+            "failure_tag_counts": _counter_dict(tags),
+        }
+    return summary
+
+
 def summarize_attempts(attempts: List[Dict[str, Any]]) -> Dict[str, Any]:
     chi2_attempts = [a for a in attempts if a.get("chi2") is not None]
     failed_stages = Counter(str(a.get("failed_stage")) for a in attempts if a.get("failed_stage"))
     failure_tags = Counter(tag for a in attempts for tag in a.get("failure_tags", []))
     scalar_configs = Counter(str((a.get("theory") or {}).get("scalar_config")) for a in attempts)
+    groups = Counter(str(a.get("proposal_group") or (a.get("theory") or {}).get("proposal_group") or "unknown") for a in attempts)
+    accepted_groups = Counter(
+        str(a.get("proposal_group") or (a.get("theory") or {}).get("proposal_group") or "unknown")
+        for a in attempts
+        if a.get("validated")
+    )
+    tracks = Counter(
+        str(
+            a.get("theory_track")
+            or (a.get("theory") or {}).get("theory_track")
+            or _theory_track_from_operators((a.get("theory") or {}).get("operators"))
+        )
+        for a in attempts
+    )
+    accepted_tracks = Counter(
+        str(
+            a.get("theory_track")
+            or (a.get("theory") or {}).get("theory_track")
+            or _theory_track_from_operators((a.get("theory") or {}).get("operators"))
+        )
+        for a in attempts
+        if a.get("validated")
+    )
     top_chi2 = sorted(chi2_attempts, key=lambda a: float(a["chi2"]))[:10]
 
     training_records = [attempt_to_training_record(attempt) for attempt in attempts]
@@ -309,11 +396,17 @@ def summarize_attempts(attempts: List[Dict[str, Any]]) -> Dict[str, Any]:
         "failed_stage_counts": _counter_dict(failed_stages),
         "failure_tag_counts": _counter_dict(failure_tags),
         "scalar_config_counts": _counter_dict(scalar_configs),
+        "proposal_group_counts": _counter_dict(groups),
+        "accepted_proposal_group_counts": _counter_dict(accepted_groups),
+        "theory_track_counts": _counter_dict(tracks),
+        "accepted_theory_track_counts": _counter_dict(accepted_tracks),
         "best_chi2": float(top_chi2[0]["chi2"]) if top_chi2 else None,
         "best_attempt": top_chi2[0] if top_chi2 else None,
         "top_chi2_attempts": top_chi2,
         "by_family": _summarize_by_family(attempts),
         "by_coarse_family": _summarize_by_coarse_family(attempts),
+        "by_proposal_group": _summarize_by_group(attempts),
+        "by_theory_track": _summarize_by_track(attempts),
         "policy": policy_summary,
     }
 

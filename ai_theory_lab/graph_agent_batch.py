@@ -26,6 +26,7 @@ from .cold_start_runner import (
     _load_summary,
     _parameter_samples,
     _proposal_for,
+    theory_track_from_operators,
     _wall_timeout,
     _write_token_level_context_summary,
 )
@@ -33,6 +34,18 @@ from .harness import ROOT, _run_stage, read_best_result, solver_feedback_paths, 
 from .memory import record_attempt
 from .report import generate_report
 from .validation_result import StageResult, ValidationResult
+
+
+GROUP_SPECS: Dict[str, Dict[str, Any]] = {
+    "open_search": {"track": None, "scalar_config": None},
+    "eh_phi2_only": {
+        "track": "eh_anchored",
+        "scalar_config": "phi2_only",
+        "required_operator_substring": "φ2",
+        "required_operator_contains_curvature": True,
+    },
+    "non_eh": {"track": "non_eh", "scalar_config": None},
+}
 
 
 def _agent_run_dir(run_name: str, wave_index: int) -> Path:
@@ -128,6 +141,8 @@ def _metadata_for_entry(
         "potential_types": entry["potential_types"],
         "operators": entry["operators"],
         "operator_specs": entry["operator_specs"],
+        "theory_track": entry.get("theory_track") or theory_track_from_operators(entry.get("operators") or []),
+        "proposal_group": entry.get("proposal_group"),
         "general": entry["general"],
         "lagrangian": report_lagrangian,
     }
@@ -246,6 +261,10 @@ def _proposal_entry(
     llm_api_timeout: int,
     debug_dir: Path,
     loop_id: str,
+    track: Optional[str] = None,
+    scalar_config: Optional[str] = None,
+    required_operator_substring: Optional[str] = None,
+    required_operator_contains_curvature: bool = False,
 ) -> Dict[str, Any]:
     if proposal_mode == "llm":
         try:
@@ -260,11 +279,68 @@ def _proposal_entry(
                 api_timeout=llm_api_timeout,
                 debug_dir=debug_dir,
                 loop_id=loop_id,
+                track=track,
+                scalar_config=scalar_config,
+                required_operator_substring=required_operator_substring,
+                required_operator_contains_curvature=required_operator_contains_curvature,
             )
         except Exception:
             if llm_fallback == "fail":
                 raise
-    return _generate_token_level_entry(context, summary, rng, seed)
+    return _generate_token_level_entry(
+        context,
+        summary,
+        rng,
+        seed,
+        track=track,
+        scalar_config=scalar_config,
+        required_operator_substring=required_operator_substring,
+        required_operator_contains_curvature=required_operator_contains_curvature,
+    )
+
+
+def _track_targets(batch_size: int, track_mode: str, eh_track_fraction: float, rng: random.Random) -> List[Dict[str, Any]]:
+    if track_mode == "mixed":
+        return [{"group": "open_search", "track": None, "scalar_config": None} for _ in range(batch_size)]
+    if batch_size <= 1:
+        return [{"group": "eh_anchored", "track": "eh_anchored", "scalar_config": None}]
+    eh_fraction = min(1.0, max(0.0, float(eh_track_fraction)))
+    eh_count = int(round(batch_size * eh_fraction))
+    eh_count = min(batch_size - 1, max(1, eh_count))
+    targets: List[Dict[str, Any]] = (
+        [{"group": "eh_anchored", "track": "eh_anchored", "scalar_config": None} for _ in range(eh_count)]
+        + [{"group": "non_eh", "track": "non_eh", "scalar_config": None} for _ in range(batch_size - eh_count)]
+    )
+    rng.shuffle(targets)
+    return targets
+
+
+def _group_targets(batch_size: int, group_mode: str, eh_track_fraction: float, rng: random.Random) -> List[Dict[str, Any]]:
+    if group_mode == "triad":
+        names = list(GROUP_SPECS)
+        base = batch_size // len(names)
+        remainder = batch_size % len(names)
+        targets: List[Dict[str, Any]] = []
+        for index, name in enumerate(names):
+            count = base + (1 if index < remainder else 0)
+            spec = GROUP_SPECS[name]
+            targets.extend(
+                {
+                    "group": name,
+                    "track": spec.get("track"),
+                    "scalar_config": spec.get("scalar_config"),
+                    "required_operator_substring": spec.get("required_operator_substring"),
+                    "required_operator_contains_curvature": bool(spec.get("required_operator_contains_curvature")),
+                }
+                for _ in range(count)
+            )
+        rng.shuffle(targets)
+        return targets
+    if group_mode == "track_split":
+        return _track_targets(batch_size, "split", eh_track_fraction, rng)
+    targets = _track_targets(batch_size, "mixed", eh_track_fraction, rng)
+    rng.shuffle(targets)
+    return targets
 
 
 def run_batch_agent(
@@ -281,12 +357,19 @@ def run_batch_agent(
     llm_api_timeout: int,
     use_token_context_cache: bool,
     n_workers: int,
+    group_mode: str = "triad",
+    track_mode: str = "split",
+    eh_track_fraction: float = 0.5,
 ) -> Dict[str, Any]:
     name = run_name or f"graph_agent_batch_{waves}x{batch_size}_{time.strftime('%Y%m%d_%H%M%S')}"
     proposal_dir = ROOT / "ai_theory_lab" / "proposals" / name
     memory_dir = ROOT / "ai_theory_lab" / "memory" / name
     proposal_dir.mkdir(parents=True, exist_ok=False)
     memory_dir.mkdir(parents=True, exist_ok=False)
+    group_names = list(GROUP_SPECS) if group_mode == "triad" else ["eh_anchored", "non_eh"] if group_mode == "track_split" else ["open_search"]
+    group_memory_dirs = {group: memory_dir / "groups" / group for group in group_names}
+    for group_dir in group_memory_dirs.values():
+        group_dir.mkdir(parents=True, exist_ok=True)
     rng = random.Random(seed)
     context = _build_token_level_context(0, use_cache=use_token_context_cache)
     _write_token_level_context_summary(context, proposal_dir / "operator_catalog_summary.json")
@@ -295,12 +378,21 @@ def run_batch_agent(
 
     for wave_index in range(1, waves + 1):
         summary = _load_summary(memory_dir)
-        proposal_summary = summary
+        group_summaries = {group: _load_summary(path) for group, path in group_memory_dirs.items()}
+        targets = _group_targets(batch_size, group_mode, eh_track_fraction, rng)
         entries: List[Dict[str, Any]] = []
+        entry_summaries: List[Dict[str, Any]] = []
         seen_families: set[str] = set()
         attempts = 0
         while len(entries) < batch_size and attempts < batch_size * 5:
             attempts += 1
+            target = targets[len(entries)] if len(entries) < len(targets) else {"group": "open_search", "track": None, "scalar_config": None}
+            target_group = str(target.get("group") or "open_search")
+            target_track = target.get("track")
+            target_scalar = target.get("scalar_config")
+            target_required = target.get("required_operator_substring")
+            target_required_curvature = bool(target.get("required_operator_contains_curvature"))
+            proposal_summary = group_summaries.get(target_group, summary)
             loop_id = f"wave_{wave_index:04d}_item_{len(entries) + 1:02d}"
             entry = _proposal_entry(
                 context=context,
@@ -313,9 +405,18 @@ def run_batch_agent(
                 llm_api_timeout=llm_api_timeout,
                 debug_dir=proposal_dir / "llm_proposal_debug",
                 loop_id=loop_id,
+                track=target_track,
+                scalar_config=target_scalar,
+                required_operator_substring=target_required,
+                required_operator_contains_curvature=target_required_curvature,
             )
+            entry_track = entry.get("theory_track") or theory_track_from_operators(entry.get("operators") or [])
+            entry["theory_track"] = entry_track
+            entry["proposal_group"] = target_group
             family = json.dumps(
                 {
+                    "proposal_group": target_group,
+                    "theory_track": entry_track,
                     "scalar_config": entry.get("scalar_config"),
                     "potential_types": entry.get("potential_types"),
                     "operators": entry.get("operators"),
@@ -327,6 +428,7 @@ def run_batch_agent(
                 continue
             seen_families.add(family)
             entries.append(entry)
+            entry_summaries.append(proposal_summary)
         if not entries:
             messages.append(f"Wave {wave_index}: no entries generated; stopping.")
             break
@@ -339,11 +441,13 @@ def run_batch_agent(
         parameter_samples_path = agent_dir / "agent_parameter_samples_by_lag_id.json"
         for entry_index, entry in enumerate(entries):
             lag_id = lag_ids[entry_index]
-            samples = _parameter_samples(entry, rng, initial_parameter_samples, proposal_summary)
+            samples = _parameter_samples(entry, rng, initial_parameter_samples, entry_summaries[entry_index])
             samples_by_lag_id[lag_id] = samples
             proposal = _proposal_for(entry, wave_index, samples, f"batch_lag_{lag_id}")
             proposal["batch_wave"] = wave_index
             proposal["batch_lag_id"] = lag_id
+            proposal["theory_track"] = entry.get("theory_track")
+            proposal["proposal_group"] = entry.get("proposal_group")
             proposal_path = proposal_dir / f"wave_{wave_index:04d}_lag_{lag_id}.json"
             proposal_path.write_text(json.dumps(proposal, indent=2, ensure_ascii=False), encoding="utf-8")
             proposal_paths[entry_index] = proposal_path
@@ -402,11 +506,19 @@ def run_batch_agent(
                     metadata=metadata,
                 )
             memory_info = record_attempt(result, memory_dir, loop_id=f"wave_{wave_index:04d}_lag_{lag_id}")
+            entry_group = str(entry.get("proposal_group") or "open_search")
+            group_dir = group_memory_dirs.get(entry_group)
+            if group_dir is not None:
+                record_attempt(result, group_dir, loop_id=f"wave_{wave_index:04d}_lag_{lag_id}")
             wave_records.append(memory_info["attempt"])
         traces.append(
             {
                 "wave": wave_index,
                 "batch_size": len(entries),
+                "group_mode": group_mode,
+                "group_targets": [entry.get("proposal_group") for entry in entries],
+                "track_mode": track_mode,
+                "track_targets": [entry.get("theory_track") for entry in entries],
                 "agent_run_dir": str(agent_dir),
                 "records": wave_records,
             }
@@ -433,6 +545,9 @@ def run_batch_agent(
         "messages": messages,
         "orchestrator": "batch",
         "batch_size": batch_size,
+        "group_mode": group_mode,
+        "track_mode": track_mode,
+        "eh_track_fraction": eh_track_fraction,
     }
     (proposal_dir / "run_summary.json").write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
     return output
@@ -441,7 +556,7 @@ def run_batch_agent(
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Run mini-batch cold-start theory discovery.")
     parser.add_argument("--waves", type=int, default=10)
-    parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--batch-size", type=int, default=24)
     parser.add_argument("--seed", type=int, default=20260607)
     parser.add_argument("--run-name")
     parser.add_argument("--initial-parameter-samples", type=int, default=1000)
@@ -452,6 +567,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--llm-api-timeout", type=int, default=120)
     parser.add_argument("--no-token-context-cache", action="store_true")
     parser.add_argument("--n-workers", type=int, default=8)
+    parser.add_argument("--group-mode", choices=("triad", "track_split", "mixed"), default="triad")
+    parser.add_argument("--track-mode", choices=("split", "mixed"), default="split")
+    parser.add_argument("--eh-track-fraction", type=float, default=0.5)
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args(argv)
     output = run_batch_agent(
@@ -467,6 +585,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         llm_api_timeout=args.llm_api_timeout,
         use_token_context_cache=not args.no_token_context_cache,
         n_workers=args.n_workers,
+        group_mode=args.group_mode,
+        track_mode=args.track_mode,
+        eh_track_fraction=args.eh_track_fraction,
     )
     print(json.dumps(output, indent=2 if args.pretty else None, ensure_ascii=False, default=str))
     return 0
