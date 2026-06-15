@@ -29,7 +29,13 @@ from gr_grammar_masker_v3_2.grammar import (
 from gr_grammar_masker_v3_2.runner import _build_tensors_dict, _register_dynamic_functions_for_pickle
 from gr_grammar_masker_v3_2.tensor import sqrt_mg
 
-from .config_p import CORRECTION_SAMPLING, COEFFICIENT_PRIOR, EH_R_COEFFICIENT, PARAMETER_PRIORS
+from .config_p import (
+    CORRECTION_SAMPLING,
+    COEFFICIENT_PRIOR,
+    EH_R_COEFFICIENT,
+    PARAMETER_PRIORS,
+    PARAMETER_SAMPLE_POLICY,
+)
 from .harness import ROOT, validate_agent_sample_pipeline
 from .memory import record_attempt
 from .policy_model import score_entry_from_policy
@@ -271,7 +277,8 @@ def _successful_attempts(summary: Dict[str, Any]) -> List[Dict[str, Any]]:
             chi2 = float(attempt.get("chi2"))
         except (TypeError, ValueError):
             continue
-        if chi2 < 2000.0:
+        group = attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")
+        if chi2 < 2000.0 or group == "non_eh":
             attempts.append(attempt)
     return attempts
 
@@ -1203,16 +1210,29 @@ def _sample_prior_value(
     if isinstance(spec, dict) and spec.get("count", 0) >= 3:
         low = float(spec.get("low"))
         high = float(spec.get("high"))
+        if spec.get("signed_log10"):
+            magnitude = 10 ** rng.uniform(low, high)
+            sign_weights = spec.get("sign_weights") if isinstance(spec.get("sign_weights"), dict) else {}
+            positive_weight = float(sign_weights.get("positive", 0.5))
+            sign = 1.0 if rng.random() < positive_weight else -1.0
+            return sign * magnitude
         if spec.get("log10"):
             return 10 ** rng.uniform(low, high)
         return rng.uniform(low, high)
+    if _default_prior(key).get("signed_log10"):
+        magnitude = _log_uniform(rng, default_low, default_high)
+        return rng.choice([-1.0, 1.0]) * magnitude
     if default_log:
         return _log_uniform(rng, default_low, default_high)
     return rng.uniform(default_low, default_high)
 
 
-def _coefficient_value(rng: random.Random, priors: Dict[str, Any]) -> float:
-    coeff_prior = priors.get("coefficient_log10_abs") if isinstance(priors.get("coefficient_log10_abs"), dict) else None
+def _coefficient_value(rng: random.Random, priors: Dict[str, Any], *, use_learned_prior: bool = True) -> float:
+    coeff_prior = (
+        priors.get("coefficient_log10_abs")
+        if use_learned_prior and isinstance(priors.get("coefficient_log10_abs"), dict)
+        else None
+    )
     if coeff_prior and coeff_prior.get("count", 0) >= 3:
         mag = 10 ** rng.uniform(float(coeff_prior["low"]), float(coeff_prior["high"]))
         sign_weights = priors.get("coefficient_sign_weights") if isinstance(priors.get("coefficient_sign_weights"), dict) else {}
@@ -1222,6 +1242,39 @@ def _coefficient_value(rng: random.Random, priors: Dict[str, Any]) -> float:
     sign = rng.choice(COEFFICIENT_PRIOR["signs"])
     mag = 10 ** rng.uniform(float(COEFFICIENT_PRIOR["log10_abs_low"]), float(COEFFICIENT_PRIOR["log10_abs_high"]))
     return sign * mag
+
+
+CORRECTION_MODE_CODES = {
+    "baseline": 0,
+    "weak": 1,
+    "moderate": 2,
+    "active_probe": 3,
+}
+CORRECTION_MODE_BY_CODE = {code: mode for mode, code in CORRECTION_MODE_CODES.items()}
+SAMPLE_SOURCE_CODES = {
+    "learned_random": float(PARAMETER_SAMPLE_POLICY.get("learned_random_source_code", 0.0)),
+    "agent_exact": float(PARAMETER_SAMPLE_POLICY.get("agent_exact_source_code", 1.0)),
+}
+JOINT_PRIOR_LEVEL_CODES = {
+    "none": -1.0,
+    "global": 0.0,
+    "scalar": 1.0,
+    "coarse": 2.0,
+    "exact": 3.0,
+}
+EXACT_PARAMETER_ANCHORS = [0.50, 0.20, 0.80, 0.05, 0.95, 0.35, 0.65]
+EXACT_PARAMETER_KEYS = [
+    "H0_km_s_Mpc",
+    "Omega_m0",
+    "lambda_H_Lambda_over_H0",
+    "varphi1_0_phi1_over_Mp",
+    "mu1_m1_over_H0",
+    "fbar1_f1_over_Mp",
+    "varphi2_0_phi2_over_Lambda",
+    "q2_0_dvarphi2_dln_a",
+    "mu2_m2_over_Lambda",
+    "fbar2_f2_over_Lambda",
+]
 
 
 def _term_by_coefficient(entry: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
@@ -1253,12 +1306,77 @@ def _planned_field_factor(candidate: str, sample: Dict[str, Any]) -> float:
     return factor
 
 
-def _correction_sampling_mode(entry: Dict[str, Any], index: int) -> str:
+def _correction_mode_weights(summary: Optional[Dict[str, Any]] = None) -> Dict[str, float]:
+    configured = CORRECTION_SAMPLING.get("mode_weights") if isinstance(CORRECTION_SAMPLING.get("mode_weights"), dict) else {}
+    modes = ["baseline", "weak", "moderate", "active_probe"]
+    weights = {mode: max(0.0, float(configured.get(mode, 0.0) or 0.0)) for mode in modes}
+
+    agent_loop = summary.get("agent_loop") if isinstance(summary, dict) and isinstance(summary.get("agent_loop"), dict) else {}
+    structure_prior = agent_loop.get("structure_prior") if isinstance(agent_loop.get("structure_prior"), dict) else {}
+    mode_learning = (
+        structure_prior.get("correction_mode_learning")
+        if isinstance(structure_prior.get("correction_mode_learning"), dict)
+        else {}
+    )
+    learned = mode_learning.get("mode_weights") if isinstance(mode_learning.get("mode_weights"), dict) else {}
+    if learned:
+        for mode in modes:
+            weights[mode] = max(0.0, float(learned.get(mode, weights[mode]) or 0.0))
+
+    floors = (
+        CORRECTION_SAMPLING.get("min_mode_probability")
+        if isinstance(CORRECTION_SAMPLING.get("min_mode_probability"), dict)
+        else {}
+    )
+    total = sum(weights.values())
+    if total <= 0.0:
+        weights = {mode: 1.0 / len(modes) for mode in modes}
+        total = 1.0
+    normalized = {mode: weights[mode] / total for mode in modes}
+    floor_values = {mode: max(0.0, float(floors.get(mode, 0.0) or 0.0)) for mode in modes}
+    floor_total = sum(floor_values.values())
+    if floor_total >= 1.0:
+        return {mode: floor_values[mode] / floor_total for mode in modes}
+
+    below_floor = {mode for mode in modes if normalized[mode] < floor_values[mode]}
+    if not below_floor:
+        return normalized
+
+    remaining_mass = 1.0 - sum(floor_values[mode] for mode in below_floor)
+    above_total = sum(normalized[mode] for mode in modes if mode not in below_floor)
+    adjusted: Dict[str, float] = {}
+    for mode in modes:
+        if mode in below_floor:
+            adjusted[mode] = floor_values[mode]
+        elif above_total > 0.0:
+            adjusted[mode] = remaining_mass * normalized[mode] / above_total
+        else:
+            adjusted[mode] = remaining_mass / max(1, len(modes) - len(below_floor))
+    adjusted_total = sum(adjusted.values())
+    return {mode: value / adjusted_total for mode, value in adjusted.items()}
+
+
+def _sample_correction_mode(entry: Dict[str, Any], rng: random.Random, summary: Optional[Dict[str, Any]] = None) -> str:
     terms = ((entry.get("lagrangian") or {}).get("terms") or [])
     if not any(_is_modified_gravity_correction(term) for term in terms):
         return "baseline"
-    cycle = list(CORRECTION_SAMPLING.get("mode_cycle") or ["weak", "moderate"])
-    return str(cycle[index % len(cycle)])
+    weights = _correction_mode_weights(summary)
+    modes = list(weights)
+    return str(rng.choices(modes, weights=[weights[mode] for mode in modes], k=1)[0])
+
+
+def _exact_correction_mode(entry: Dict[str, Any], index: int, summary: Optional[Dict[str, Any]] = None) -> str:
+    terms = ((entry.get("lagrangian") or {}).get("terms") or [])
+    if not any(_is_modified_gravity_correction(term) for term in terms):
+        return "baseline"
+    weights = _correction_mode_weights(summary)
+    draw = ((index + 0.5) * 0.6180339887498949) % 1.0
+    cumulative = 0.0
+    for mode, weight in weights.items():
+        cumulative += float(weight)
+        if draw <= cumulative:
+            return str(mode)
+    return str(next(reversed(weights)))
 
 
 def _sample_target_relative_effect(mode: str, rng: random.Random) -> float:
@@ -1272,6 +1390,60 @@ def _sample_target_relative_effect(mode: str, rng: random.Random) -> float:
     return rng.uniform(low, high)
 
 
+def _exact_anchor(index: int, offset: int = 0) -> float:
+    return float(EXACT_PARAMETER_ANCHORS[(index + offset) % len(EXACT_PARAMETER_ANCHORS)])
+
+
+def _exact_prior_value(priors: Dict[str, Any], key: str, index: int) -> float:
+    default = _default_prior(key)
+    spec = (priors.get("parameters") or {}).get(key) if isinstance(priors.get("parameters"), dict) else None
+    offset = EXACT_PARAMETER_KEYS.index(key) if key in EXACT_PARAMETER_KEYS else 0
+    anchor = _exact_anchor(index, offset)
+    if isinstance(spec, dict) and spec.get("count", 0) >= 3:
+        low = float(spec.get("low"))
+        high = float(spec.get("high"))
+        value = low + anchor * (high - low)
+        if spec.get("signed_log10"):
+            sign_weights = spec.get("sign_weights") if isinstance(spec.get("sign_weights"), dict) else {}
+            positive_weight = float(sign_weights.get("positive", 0.5))
+            sign_anchor = _exact_anchor(index, offset + 3)
+            sign = 1.0 if sign_anchor < positive_weight else -1.0
+            return sign * (10 ** value)
+        if spec.get("log10"):
+            return 10 ** value
+        return value
+    low = float(default["low"])
+    high = float(default["high"])
+    if default.get("signed_log10"):
+        value = 10 ** (math.log10(low) + anchor * (math.log10(high) - math.log10(low)))
+        sign = 1.0 if _exact_anchor(index, offset + 3) < 0.5 else -1.0
+        return sign * value
+    if default.get("log10"):
+        return 10 ** (math.log10(low) + anchor * (math.log10(high) - math.log10(low)))
+    return low + anchor * (high - low)
+
+
+def _exact_target_relative_effect(mode: str, index: int) -> float:
+    spec = (CORRECTION_SAMPLING.get("target_relative_effect") or {}).get(mode) or {}
+    low = float(spec.get("low", 0.0))
+    high = float(spec.get("high", 0.0))
+    if low <= 0.0 or high <= 0.0:
+        return 0.0
+    anchor = _exact_anchor(index)
+    if spec.get("log10"):
+        return 10 ** (math.log10(low) + anchor * (math.log10(high) - math.log10(low)))
+    return low + anchor * (high - low)
+
+
+def _exact_coefficient_value(index: int, coeff_index: int = 0) -> float:
+    low = float(COEFFICIENT_PRIOR["log10_abs_low"])
+    high = float(COEFFICIENT_PRIOR["log10_abs_high"])
+    anchor = _exact_anchor(index, coeff_index)
+    magnitude = 10 ** (low + anchor * (high - low))
+    sign = 1.0 if (index + coeff_index) % 2 == 0 else -1.0
+    return sign * magnitude
+
+
 def _coefficient_for_planned_effect(
     *,
     term: Dict[str, Any],
@@ -1281,11 +1453,11 @@ def _coefficient_for_planned_effect(
     priors: Dict[str, Any],
 ) -> float:
     if mode == "baseline" or not _is_modified_gravity_correction(term):
-        return _coefficient_value(rng, priors)
+        return _coefficient_value(rng, priors, use_learned_prior=(mode != "baseline"))
 
     target = _sample_target_relative_effect(mode, rng)
     if target <= 0.0:
-        return _coefficient_value(rng, priors)
+        return _coefficient_value(rng, priors, use_learned_prior=False)
 
     lambda_h = max(float(sample.get("lambda_H_Lambda_over_H0", 1.0) or 1.0), 1e-12)
     power = int(term.get("lambda_power", 0) or 0)
@@ -1309,20 +1481,91 @@ def _coefficient_for_planned_effect(
     return rng.choice(COEFFICIENT_PRIOR["signs"]) * magnitude
 
 
-def _parameter_sampling_policy_summary(entry: Dict[str, Any], count: int) -> Dict[str, Any]:
-    mode_counts: Dict[str, int] = {}
-    for index in range(count):
-        mode = _correction_sampling_mode(entry, index)
-        mode_counts[mode] = mode_counts.get(mode, 0) + 1
+def _coefficient_for_exact_effect(
+    *,
+    term: Dict[str, Any],
+    sample: Dict[str, Any],
+    mode: str,
+    index: int,
+    coeff_index: int,
+) -> float:
+    if mode == "baseline" or not _is_modified_gravity_correction(term):
+        return _exact_coefficient_value(index, coeff_index)
+
+    target = _exact_target_relative_effect(mode, index + coeff_index)
+    if target <= 0.0:
+        return _exact_coefficient_value(index, coeff_index)
+
+    lambda_h = max(float(sample.get("lambda_H_Lambda_over_H0", 1.0) or 1.0), 1e-12)
+    power = int(term.get("lambda_power", 0) or 0)
+    candidate = str(term.get("candidate") or "")
+    field_factor = _planned_field_factor(candidate, sample)
+    try:
+        lambda_factor = abs(lambda_h**power)
+    except OverflowError:
+        lambda_factor = math.inf
+    denom = max(lambda_factor * field_factor, 1e-300)
+    magnitude = abs(EH_R_COEFFICIENT) * target / denom
+    magnitude = min(
+        float(CORRECTION_SAMPLING.get("coefficient_abs_max", 1e6)),
+        max(float(CORRECTION_SAMPLING.get("coefficient_abs_min", 1e-10)), magnitude),
+    )
+    sign = 1.0 if (index + coeff_index) % 2 == 0 else -1.0
+    return sign * magnitude
+
+
+def _parameter_sampling_policy_summary(
+    entry: Dict[str, Any],
+    parameter_samples: List[Dict[str, Any]],
+    summary: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    weights = _correction_mode_weights(summary)
+    reverse_codes = {value: key for key, value in CORRECTION_MODE_CODES.items()}
+    reverse_joint_codes = {value: key for key, value in JOINT_PRIOR_LEVEL_CODES.items()}
+    mode_counts = {mode: 0 for mode in weights}
+    source_counts = {"learned_random": 0, "agent_exact": 0}
+    joint_counts = {level: 0 for level in JOINT_PRIOR_LEVEL_CODES}
+    for sample in parameter_samples:
+        try:
+            code = int(round(float(sample.get("agent_correction_mode_code", -1))))
+        except (TypeError, ValueError):
+            continue
+        mode = reverse_codes.get(code)
+        if mode:
+            mode_counts[mode] = mode_counts.get(mode, 0) + 1
+        try:
+            source_code = float(sample.get("agent_sample_source_code", -1))
+        except (TypeError, ValueError):
+            source_code = -1.0
+        if source_code == SAMPLE_SOURCE_CODES["agent_exact"]:
+            source_counts["agent_exact"] += 1
+        elif source_code == SAMPLE_SOURCE_CODES["learned_random"]:
+            source_counts["learned_random"] += 1
+        try:
+            joint_code = float(sample.get("agent_joint_prior_level_code", JOINT_PRIOR_LEVEL_CODES["none"]))
+        except (TypeError, ValueError):
+            joint_code = JOINT_PRIOR_LEVEL_CODES["none"]
+        joint_level = reverse_joint_codes.get(joint_code, "none")
+        joint_counts[joint_level] = joint_counts.get(joint_level, 0) + 1
     return {
-        "strategy": "planned_relative_effect",
+        "strategy": "structure_conditioned_joint_prior_plus_planned_relative_effect",
+        "agent_exact_fraction": PARAMETER_SAMPLE_POLICY.get("agent_exact_fraction"),
+        "joint_prior_usage_fraction": PARAMETER_SAMPLE_POLICY.get("joint_prior_usage_fraction"),
+        "sample_source_counts": source_counts,
+        "joint_prior_usage_counts": joint_counts,
         "mode_counts": mode_counts,
+        "mode_weights": weights,
         "target_relative_effect": CORRECTION_SAMPLING.get("target_relative_effect"),
         "coefficient_abs_min": CORRECTION_SAMPLING.get("coefficient_abs_min"),
         "coefficient_abs_max": CORRECTION_SAMPLING.get("coefficient_abs_max"),
         "notes": (
-            "Non-EH curvature correction coefficients are sampled from a target effective size "
-            "relative to the EH term using lambda_power and scalar field factors. EH R is fixed."
+            "When current-loop joint_parameter_prior has positive reward evidence for the exact, "
+            "coarse, scalar, or global theory family, common cosmological/scalar parameters are "
+            "seeded from those joint vectors before coefficients are recomputed for the current "
+            "operator set. Baseline samples draw raw coefficients from the broad coefficient prior. Non-EH "
+            "curvature correction coefficients in weak/moderate/active_probe modes are sampled "
+            "from a target effective size relative to the EH term using lambda_power and scalar "
+            "field factors. EH R is fixed."
         ),
     }
 
@@ -1343,15 +1586,228 @@ def _sample_parameter(rng: random.Random, learned_priors: Dict[str, Any], key: s
     )
 
 
+def _safe_numeric(value: Any) -> Optional[float]:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(number):
+        return None
+    return number
+
+
+def _joint_parameter_prior(summary: Dict[str, Any]) -> Dict[str, Any]:
+    agent_loop = summary.get("agent_loop") if isinstance(summary.get("agent_loop"), dict) else {}
+    prior = agent_loop.get("joint_parameter_prior") if isinstance(agent_loop.get("joint_parameter_prior"), dict) else {}
+    return prior if isinstance(prior, dict) else {}
+
+
+def _joint_group_for_entry(entry: Dict[str, Any], summary: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    prior = _joint_parameter_prior(summary)
+    families = prior.get("families") if isinstance(prior.get("families"), dict) else {}
+    scalar_config = str(entry.get("scalar_config") or "unknown")
+    options = [
+        ("exact", _family_key(entry)),
+        ("coarse", _coarse_family_key(entry)),
+        ("scalar", scalar_config),
+        ("global", "all"),
+    ]
+    for level, key in options:
+        level_groups = families.get(level) if isinstance(families.get(level), dict) else {}
+        group = level_groups.get(key) if isinstance(level_groups, dict) else None
+        if not isinstance(group, dict):
+            continue
+        top_vectors = group.get("top_vectors") if isinstance(group.get("top_vectors"), list) else []
+        if top_vectors:
+            return {"level": level, "key": key, "group": group}
+    return None
+
+
+def _select_joint_record(group_info: Dict[str, Any], rng: random.Random, index: int, *, exact: bool) -> Optional[Dict[str, Any]]:
+    group = group_info.get("group") if isinstance(group_info.get("group"), dict) else {}
+    top_vectors = group.get("top_vectors") if isinstance(group.get("top_vectors"), list) else []
+    if not top_vectors:
+        return None
+    if exact:
+        return top_vectors[index % len(top_vectors)]
+    weights = [max(0.1, float(record.get("reward", 0.0) or 0.0)) for record in top_vectors]
+    return rng.choices(top_vectors, weights=weights, k=1)[0]
+
+
+def _joint_correction_mode(entry: Dict[str, Any], record: Dict[str, Any], fallback_mode: str) -> str:
+    terms = ((entry.get("lagrangian") or {}).get("terms") or [])
+    if not any(_is_modified_gravity_correction(term) for term in terms):
+        return "baseline"
+    vector = record.get("sample") if isinstance(record.get("sample"), dict) else {}
+    code = _safe_numeric(vector.get("agent_correction_mode_code"))
+    if code is None:
+        return fallback_mode
+    mode = CORRECTION_MODE_BY_CODE.get(int(round(code)))
+    return str(mode or fallback_mode)
+
+
+def _clip_to_default(key: str, value: float) -> float:
+    default = PARAMETER_PRIORS.get(key)
+    if not isinstance(default, dict):
+        return value
+    low = float(default["low"])
+    high = float(default["high"])
+    if default.get("signed_log10"):
+        sign = 1.0 if value >= 0.0 else -1.0
+        magnitude = min(high, max(low, abs(value)))
+        return sign * magnitude
+    return min(high, max(low, value))
+
+
+def _joint_seed_value(key: str, value: float, rng: random.Random, *, jitter: bool) -> float:
+    if not jitter:
+        return _clip_to_default(key, value)
+    default = PARAMETER_PRIORS.get(key)
+    if not isinstance(default, dict):
+        return value
+    if key == "H0_km_s_Mpc":
+        return _clip_to_default(key, value + rng.uniform(-1.0, 1.0))
+    if key == "Omega_m0":
+        return _clip_to_default(key, value + rng.uniform(-0.015, 0.015))
+    if default.get("signed_log10"):
+        sign = 1.0 if value >= 0.0 else -1.0
+        if rng.random() < 0.10:
+            sign *= -1.0
+        magnitude = max(float(default["low"]), abs(value))
+        magnitude *= 10 ** rng.uniform(-0.30, 0.30)
+        return _clip_to_default(key, sign * magnitude)
+    if default.get("log10"):
+        magnitude = max(float(default["low"]), value)
+        magnitude *= 10 ** rng.uniform(-0.25, 0.25)
+        return _clip_to_default(key, magnitude)
+    return _clip_to_default(key, value + rng.uniform(-0.05, 0.05) * max(abs(value), 1.0))
+
+
+def _joint_required_parameter_keys(entry: Dict[str, Any]) -> List[str]:
+    scalar_config = str(entry.get("scalar_config") or "")
+    keys = ["H0_km_s_Mpc", "Omega_m0", "lambda_H_Lambda_over_H0"]
+    if scalar_config in {"phi1_only", "both"}:
+        keys.extend(["varphi1_0_phi1_over_Mp", "mu1_m1_over_H0", "fbar1_f1_over_Mp"])
+    if scalar_config in {"phi2_only", "both"}:
+        keys.extend(
+            [
+                "varphi2_0_phi2_over_Lambda",
+                "mu2_m2_over_Lambda",
+                "fbar2_f2_over_Lambda",
+                "q2_0_dvarphi2_dln_a",
+            ]
+        )
+    return keys
+
+
+def _apply_joint_parameter_seed(
+    entry: Dict[str, Any],
+    sample: Dict[str, Any],
+    record: Dict[str, Any],
+    rng: random.Random,
+    *,
+    jitter: bool,
+) -> None:
+    vector = record.get("sample") if isinstance(record.get("sample"), dict) else {}
+    for key in _joint_required_parameter_keys(entry):
+        value = _safe_numeric(vector.get(key))
+        if value is None:
+            continue
+        sample[key] = _joint_seed_value(key, value, rng, jitter=jitter)
+
+
+def _apply_operator_coefficients(
+    entry: Dict[str, Any],
+    sample: Dict[str, Any],
+    *,
+    correction_mode: str,
+    rng: random.Random,
+    priors: Dict[str, Any],
+    index: int,
+    exact: bool,
+) -> None:
+    term_by_coeff = _term_by_coefficient(entry)
+    for coeff_index, spec in enumerate(entry["operator_specs"]):
+        label = spec["candidate"]
+        coeff = spec["coefficient"]
+        term = term_by_coeff.get(coeff, {"candidate": label})
+        if _is_eh_operator(term) or label == "R":
+            value = EH_R_COEFFICIENT
+        elif exact:
+            value = _coefficient_for_exact_effect(
+                term=term,
+                sample=sample,
+                mode=correction_mode,
+                index=index,
+                coeff_index=coeff_index,
+            )
+        else:
+            value = _coefficient_for_planned_effect(
+                term=term,
+                sample=sample,
+                mode=correction_mode,
+                rng=rng,
+                priors=priors,
+            )
+        for key in _coefficient_key_aliases(coeff):
+            sample[key] = value
+
+
+def _parameter_sample_from_joint_prior(
+    entry: Dict[str, Any],
+    rng: random.Random,
+    index: int,
+    summary: Dict[str, Any],
+    *,
+    exact: bool,
+) -> Optional[Dict[str, Any]]:
+    group_info = _joint_group_for_entry(entry, summary)
+    if group_info is None:
+        return None
+    record = _select_joint_record(group_info, rng, index, exact=exact)
+    if record is None:
+        return None
+
+    sample = (
+        _agent_exact_parameter_sample(entry, index, summary)
+        if exact
+        else _parameter_sample(entry, rng, index, summary)
+    )
+    fallback_mode = _exact_correction_mode(entry, index, summary) if exact else _sample_correction_mode(entry, rng, summary)
+    correction_mode = _joint_correction_mode(entry, record, fallback_mode)
+    _apply_joint_parameter_seed(entry, sample, record, rng, jitter=not exact)
+    sample["agent_correction_mode_code"] = float(CORRECTION_MODE_CODES.get(correction_mode, -1))
+    sample["agent_joint_prior_level_code"] = float(JOINT_PRIOR_LEVEL_CODES.get(str(group_info["level"]), -1.0))
+    sample["agent_joint_prior_reward"] = float(record.get("reward", 0.0) or 0.0)
+    sample["agent_joint_prior_chi2"] = float(record.get("chi2")) if record.get("chi2") is not None else -1.0
+    sample["agent_joint_prior_rank"] = float(index)
+    _apply_operator_coefficients(
+        entry,
+        sample,
+        correction_mode=correction_mode,
+        rng=rng,
+        priors=_parameter_priors(summary),
+        index=index,
+        exact=exact,
+    )
+    return sample
+
+
 def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, summary: Dict[str, Any]) -> Dict[str, Any]:
     scalar_config = entry["scalar_config"]
     priors = _parameter_priors(summary)
     term_by_coeff = _term_by_coefficient(entry)
-    correction_mode = _correction_sampling_mode(entry, index)
+    correction_mode = _sample_correction_mode(entry, rng, summary)
     sample: Dict[str, Any] = {
         "H0_km_s_Mpc": _sample_parameter(rng, priors, "H0_km_s_Mpc"),
         "Omega_m0": _sample_parameter(rng, priors, "Omega_m0"),
         "lambda_H_Lambda_over_H0": _sample_parameter(rng, priors, "lambda_H_Lambda_over_H0"),
+        "agent_sample_source_code": SAMPLE_SOURCE_CODES["learned_random"],
+        "agent_correction_mode_code": float(CORRECTION_MODE_CODES.get(correction_mode, -1)),
+        "agent_joint_prior_level_code": JOINT_PRIOR_LEVEL_CODES["none"],
+        "agent_joint_prior_reward": 0.0,
+        "agent_joint_prior_chi2": -1.0,
+        "agent_joint_prior_rank": -1.0,
     }
 
     if scalar_config in {"phi1_only", "both"}:
@@ -1397,8 +1853,92 @@ def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, sum
     return sample
 
 
+def _agent_exact_parameter_sample(entry: Dict[str, Any], index: int, summary: Dict[str, Any]) -> Dict[str, Any]:
+    scalar_config = entry["scalar_config"]
+    priors = _parameter_priors(summary)
+    term_by_coeff = _term_by_coefficient(entry)
+    correction_mode = _exact_correction_mode(entry, index, summary)
+    sample: Dict[str, Any] = {
+        "H0_km_s_Mpc": _exact_prior_value(priors, "H0_km_s_Mpc", index),
+        "Omega_m0": _exact_prior_value(priors, "Omega_m0", index),
+        "lambda_H_Lambda_over_H0": _exact_prior_value(priors, "lambda_H_Lambda_over_H0", index),
+        "agent_sample_source_code": SAMPLE_SOURCE_CODES["agent_exact"],
+        "agent_correction_mode_code": float(CORRECTION_MODE_CODES.get(correction_mode, -1)),
+        "agent_joint_prior_level_code": JOINT_PRIOR_LEVEL_CODES["none"],
+        "agent_joint_prior_reward": 0.0,
+        "agent_joint_prior_chi2": -1.0,
+        "agent_joint_prior_rank": -1.0,
+    }
+
+    if scalar_config in {"phi1_only", "both"}:
+        sample.update(
+            {
+                "varphi1_0_phi1_over_Mp": _exact_prior_value(priors, "varphi1_0_phi1_over_Mp", index),
+                "mu1_m1_over_H0": _exact_prior_value(priors, "mu1_m1_over_H0", index),
+                "fbar1_f1_over_Mp": _exact_prior_value(priors, "fbar1_f1_over_Mp", index),
+            }
+        )
+    if scalar_config in {"phi2_only", "both"}:
+        sample.update(
+            {
+                "varphi2_0_phi2_over_Lambda": _exact_prior_value(priors, "varphi2_0_phi2_over_Lambda", index),
+                "mu2_m2_over_Lambda": _exact_prior_value(priors, "mu2_m2_over_Lambda", index),
+                "fbar2_f2_over_Lambda": _exact_prior_value(priors, "fbar2_f2_over_Lambda", index),
+            }
+        )
+    if scalar_config in {"phi2_only", "both"}:
+        sample["q2_0_dvarphi2_dln_a"] = _exact_prior_value(priors, "q2_0_dvarphi2_dln_a", index)
+
+    for coeff_index, spec in enumerate(entry["operator_specs"]):
+        label = spec["candidate"]
+        coeff = spec["coefficient"]
+        term = term_by_coeff.get(coeff, {"candidate": label})
+        if _is_eh_operator(term) or label == "R":
+            value = EH_R_COEFFICIENT
+        else:
+            value = _coefficient_for_exact_effect(
+                term=term,
+                sample=sample,
+                mode=correction_mode,
+                index=index,
+                coeff_index=coeff_index,
+            )
+        for key in _coefficient_key_aliases(coeff):
+            sample[key] = value
+    return sample
+
+
+def _use_joint_prior_for_sample(rng: random.Random, index: int, *, exact: bool) -> bool:
+    fraction = min(1.0, max(0.0, float(PARAMETER_SAMPLE_POLICY.get("joint_prior_usage_fraction", 0.0) or 0.0)))
+    if fraction <= 0.0:
+        return False
+    if fraction >= 1.0:
+        return True
+    if exact:
+        return _exact_anchor(index, offset=5) < fraction
+    return rng.random() < fraction
+
+
 def _parameter_samples(entry: Dict[str, Any], rng: random.Random, count: int, summary: Dict[str, Any]) -> List[Dict[str, Any]]:
-    return [_parameter_sample(entry, rng, i, summary) for i in range(count)]
+    exact_fraction = min(1.0, max(0.0, float(PARAMETER_SAMPLE_POLICY.get("agent_exact_fraction", 0.0) or 0.0)))
+    exact_count = int(round(count * exact_fraction))
+    random_count = max(0, count - exact_count)
+    samples: List[Dict[str, Any]] = []
+    for i in range(exact_count):
+        joint_sample = (
+            _parameter_sample_from_joint_prior(entry, rng, i, summary, exact=True)
+            if _use_joint_prior_for_sample(rng, i, exact=True)
+            else None
+        )
+        samples.append(joint_sample if joint_sample is not None else _agent_exact_parameter_sample(entry, i, summary))
+    for i in range(random_count):
+        joint_sample = (
+            _parameter_sample_from_joint_prior(entry, rng, i, summary, exact=False)
+            if _use_joint_prior_for_sample(rng, i, exact=False)
+            else None
+        )
+        samples.append(joint_sample if joint_sample is not None else _parameter_sample(entry, rng, i, summary))
+    return samples
 
 
 def _proposal_for(
@@ -1406,6 +1946,7 @@ def _proposal_for(
     loop_index: int,
     parameter_samples: List[Dict[str, Any]],
     stage: str,
+    summary: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     rationale = (
         "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. "
@@ -1444,7 +1985,7 @@ def _proposal_for(
             ),
         },
         "parameter_samples": parameter_samples,
-        "parameter_sampling_policy": _parameter_sampling_policy_summary(entry, len(parameter_samples)),
+        "parameter_sampling_policy": _parameter_sampling_policy_summary(entry, parameter_samples, summary),
         "rationale": rationale,
         "cold_start": True,
         "source": "token_level_grammar",
@@ -1644,6 +2185,7 @@ def run(
     results: List[Dict[str, Any]] = []
     for loop_index in range(1, loop_count + 1):
         summary = _load_summary(memory_dir)
+        proposal_summary = summary
         try:
             with _wall_timeout(pre_sampling_timeout, "Token-level proposal generation"):
                 entry = _generate_token_level_entry(
@@ -1684,8 +2226,8 @@ def run(
         source_path = proposal_dir / f"loop_{loop_index:02d}_token_lagrangians.pkl"
         _write_token_level_source(entry, source_path)
 
-        samples_1000 = _parameter_samples(entry, rng, initial_parameter_samples, summary)
-        proposal = _proposal_for(entry, loop_index, samples_1000, "initial")
+        samples_1000 = _parameter_samples(entry, rng, initial_parameter_samples, proposal_summary)
+        proposal = _proposal_for(entry, loop_index, samples_1000, "initial", proposal_summary)
         proposal_path = proposal_dir / f"loop_{loop_index:02d}_initial.json"
         proposal_path.write_text(json.dumps(proposal, indent=2, ensure_ascii=False), encoding="utf-8")
         parameter_path = proposal_dir / f"loop_{loop_index:02d}_initial_parameter_samples.json"
@@ -1703,6 +2245,7 @@ def run(
             },
         )
         memory_info = record_attempt(result, memory_dir, loop_id=f"loop_{loop_index:02d}")
+        proposal_summary = memory_info["summary"]
         attempt = memory_info["attempt"]
         loop_record = {
             "loop": loop_index,
@@ -1736,8 +2279,8 @@ def run(
             )
             continue
         if best is None or best >= expansion_chi2:
-            samples_3000 = _parameter_samples(entry, rng, expanded_parameter_samples, summary)
-            expanded_proposal = _proposal_for(entry, loop_index, samples_3000, "expanded")
+            samples_3000 = _parameter_samples(entry, rng, expanded_parameter_samples, proposal_summary)
+            expanded_proposal = _proposal_for(entry, loop_index, samples_3000, "expanded", proposal_summary)
             expanded_proposal_path = proposal_dir / f"loop_{loop_index:02d}_expanded.json"
             expanded_proposal_path.write_text(json.dumps(expanded_proposal, indent=2, ensure_ascii=False), encoding="utf-8")
             expanded_parameter_path = proposal_dir / f"loop_{loop_index:02d}_expanded_parameter_samples.json"

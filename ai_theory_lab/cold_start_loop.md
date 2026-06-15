@@ -152,8 +152,11 @@ The memory files are:
 - `agent_reflections.jsonl`: reflection records produced after validation attempts.
 - `structure_prior.json`: structure preferences learned from current-loop accepted and failed attempts.
 - `parameter_prior.json`: parameter ranges learned from accepted Solver sample rows.
+- `joint_parameter_prior.json`: structure-conditioned parameter vectors learned from current-loop sample rows.
 
 `structure_prior.json` records scalar-family learning with the same diagnostics for `none`, `phi1_only`, `phi2_only`, and `both`: Solver reachability, accepted-sample rate, q-root failure rate, `q_not_determined` rate, numerical-failure rates, best/median chi-square, and operator-family counts. These diagnostics are used for soft, current-loop sampling adjustments. They are not a manual rule to privilege or punish `phi2` or any other scalar family, and every legal scalar family keeps a nonzero exploration floor.
+
+`joint_parameter_prior.json` is the first memory layer that couples theory structure and numerical parameters. It groups sample-level reward records by exact theory family, coarse theory family, scalar family, and global fallback. When a later proposal matches one of those levels, the sampler can seed `H0`, `Omega_m0`, `lambda_H`, scalar initial values, scalar masses/decay constants, and sampled scalar velocities from high-reward vectors before recomputing free correction coefficients for the current operator set. Exact samples reuse stored vectors; random samples jitter around them in log space. The configured `joint_prior_usage_fraction`, currently `0.80`, keeps part of the sample budget on the ordinary learned/default priors as an exploration floor. If the matching groups have no positive current-loop evidence, the sampler falls back to the ordinary learned/default priors.
 
 The agent should use these files to infer its own next proposal policy. For example, it may notice repeated Builder failures or repeated no-scalar constraint failures, but the decision about what to change belongs in the agent's reflection.
 
@@ -180,6 +183,22 @@ The report should show `effective_correction_status`, `max_relative_effect_to_EH
 
 The runner now has a lightweight learned policy layer. It converts current-loop attempts into `training_dataset.jsonl`, summarizes empirical rewards in `policy_summary.json`, and adds the learned score to candidate-theory selection. This is a small interpretable policy model, not an LLM fine-tune.
 
+For mini-batch runs, proposal sectors are split evenly between `open_search` and `non_eh`. `open_search` remains broad and may still produce EH/scalar baselines, including `phi2_only`, while `non_eh` explicitly spends half the budget on modified-gravity correction structures. There is no separate default `EH + phi2_only` sector.
+
+Only inside the `non_eh` sector, scalar-family selection uses a fixed exploration floor before applying reward learning. Each non-EH proposal first selects a scalar family from this schedule:
+
+```text
+phi1_only: 15% fixed baseline
+phi2_only: 15% fixed baseline
+both:      15% fixed baseline
+none:      15% fixed baseline
+reward-weighted choice among the four families: 40%
+```
+
+The reward-weighted 40% uses current-loop `policy_summary.json` evidence from the same `non_eh` sector. If no scalar family has positive reward evidence yet, that 40% falls back to a uniform draw. This rule does not apply to `open_search` or any EH-anchored sector; those continue to use the ordinary broad proposal policy.
+
+Mini-batch validation is also split by complexity. After a proposal wave is generated, the runner assigns each Lagrangian a `complexity_score` and one of `simple`, `medium`, or `complex`. It then writes separate isolated run directories per bucket, such as `_wave_0001_simple` and `_wave_0001_complex`, and runs EOM -> Builder -> Solver independently for each bucket. `wave_trace.jsonl` records a bucket-specific `validation_wave` such as `wave_0001_simple`. A symbolic-heavy complex model can therefore time out without blocking simple models from the same proposal wave. The split is enabled by default; `--no-complexity-split` restores the old single-batch wave behavior.
+
 ## Agent Loop
 
 The cold-start runner should execute this loop explicitly:
@@ -195,9 +214,11 @@ generate theory
 
 The structure prior is learned from accepted low-chi-square attempts and repeated structural failures. It should learn both exact fingerprints and coarse families, but scalar-family feedback must be symmetric: the same accepted-rate, q-root, `q_not_determined`, numerical-failure, and chi-square diagnostics are computed for `none`, `phi1_only`, `phi2_only`, and `both`. Repeated bad evidence may softly downweight a nearby family/operator bucket, while successful low-chi-square evidence may softly raise it, but no legal scalar family should be eliminated. Repeated `q_not_determined` should also be summarized at the operator level; exact operators and coarse structures that often lead to unusable `q1_x` or `q2_x` RHS extraction may receive a soft downweight, especially scalar derivative and scalar-derivative-curvature couplings. The parameter prior is learned from accepted rows in Solver's `all_samples_summary.csv`; it estimates quantile ranges for common cosmological, scalar, and coefficient parameters. The next proposal should sample from these priors when enough accepted current-loop data exists, and fall back to the broad cold-start prior otherwise.
 
-Parameter-prior updates are intentionally delayed. `H0_km_s_Mpc` remains fixed to the default `config_p.py` range. Other parameters use the broad default range until the loop has at least 150 attempts and at least 20 accepted Solver sample rows; only then may `parameter_prior.json` become active.
+Parameter-prior updates are intentionally delayed. `H0_km_s_Mpc` remains fixed to the default `config_p.py` range. Other parameters use the broad default range until the loop has at least 10 attempts and at least 100 accepted Solver sample rows; only then may `parameter_prior.json` become active. `joint_parameter_prior.json` is separate: it can record and reuse positive current-loop sample vectors earlier, but only through the exact/coarse/scalar/global fallback hierarchy and only as proposal-time seeding.
 
 Default broad parameter priors are centralized in `ai_theory_lab/config_p.py`. Do not hard-code these ranges in the runner; import them from that config file so the agent and documentation agree about the sampling space.
+
+The scalar exploration prior is broad by default. Positive scale parameters use log sampling: `varphi1_0_phi1_over_Mp` in `1e-3..1e1`, `mu1_m1_over_H0` in `1e-2..1e2`, `fbar1_f1_over_Mp` in `1e-2..1e2`, `mu2_m2_over_Lambda` in `1e-5..1e5`, and `fbar2_f2_over_Lambda` in `1e-5..1e5`. Sign-sensitive phi2 quantities use signed-log sampling: `varphi2_0_phi2_over_Lambda` and `q2_0_dvarphi2_dln_a` draw both signs with `|value|` in `1e-5..1e5`.
 
 ## Feedback Categories
 

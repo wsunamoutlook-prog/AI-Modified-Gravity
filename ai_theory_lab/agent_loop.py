@@ -11,8 +11,9 @@ from pathlib import Path
 from statistics import median
 from typing import Any, Dict, Iterable, List, Optional
 
-from .config_p import PARAMETER_PRIOR_UPDATE
+from .config_p import CORRECTION_SAMPLING, PARAMETER_PRIOR_UPDATE
 from .dataset import chi2_quality_tier, theory_features
+from .joint_parameter_prior import JOINT_PARAMETER_PRIOR_FILENAME, build_joint_parameter_prior
 
 
 REFLECTIONS_FILENAME = "agent_reflections.jsonl"
@@ -35,6 +36,12 @@ COMMON_PARAMETER_COLUMNS = [
 
 SCALAR_FAMILIES = ("none", "phi1_only", "phi2_only", "both")
 MIN_SCALAR_FAMILY_EXPLORATION_PROBABILITY = 0.08
+CORRECTION_MODE_BY_CODE = {
+    0: "baseline",
+    1: "weak",
+    2: "moderate",
+    3: "active_probe",
+}
 
 
 def _load_jsonl(path: Path) -> List[Dict[str, Any]]:
@@ -140,12 +147,19 @@ def _numeric_prior(
     values: List[float],
     *,
     log: bool = False,
-    quantile_low: float = 0.15,
-    quantile_high: float = 0.85,
+    signed_log: bool = False,
+    quantile_low: float = 0.10,
+    quantile_high: float = 0.90,
 ) -> Optional[Dict[str, float]]:
     if not values:
         return None
-    transformed = [math.log10(v) for v in values if log and v > 0] if log else list(values)
+    if signed_log:
+        nonzero = [v for v in values if v != 0]
+        transformed = [math.log10(abs(v)) for v in nonzero]
+    elif log:
+        transformed = [math.log10(v) for v in values if v > 0]
+    else:
+        transformed = list(values)
     if not transformed:
         return None
     lo = _quantile(transformed, quantile_low)
@@ -157,13 +171,23 @@ def _numeric_prior(
         spread = max(abs(center) * 0.1, 1e-3)
         lo -= spread
         hi += spread
-    return {
+    prior = {
         "low": float(lo),
         "high": float(hi),
         "center": float(center),
         "log10": bool(log),
+        "signed_log10": bool(signed_log),
         "count": len(transformed),
     }
+    if signed_log:
+        positives = sum(1 for value in values if value > 0)
+        negatives = sum(1 for value in values if value < 0)
+        total = max(1, positives + negatives)
+        prior["sign_weights"] = {
+            "positive": positives / total,
+            "negative": negatives / total,
+        }
+    return prior
 
 
 def _parameter_prior_from_samples(rows: List[Dict[str, str]], attempt_count: int) -> Dict[str, Any]:
@@ -196,9 +220,11 @@ def _parameter_prior_from_samples(rows: List[Dict[str, str]], attempt_count: int
         clean = [value for value in values if value is not None]
         if not clean:
             continue
+        signed_log = column in {"varphi2_0_phi2_over_Lambda", "q2_0_dvarphi2_dln_a"}
         priors["parameters"][column] = _numeric_prior(
             clean,
-            log=column.startswith("lambda_H") or column.startswith("mu") or column.startswith("fbar"),
+            log=column.startswith("lambda_H") or column.startswith("mu") or column.startswith("fbar") or column == "varphi1_0_phi1_over_Mp",
+            signed_log=signed_log,
             quantile_low=q_low,
             quantile_high=q_high,
         )
@@ -225,6 +251,55 @@ def _parameter_prior_from_samples(rows: List[Dict[str, str]], attempt_count: int
     return priors
 
 
+def _correction_mode_learning(attempts: List[Dict[str, Any]]) -> Dict[str, Any]:
+    configured = CORRECTION_SAMPLING.get("mode_weights") if isinstance(CORRECTION_SAMPLING.get("mode_weights"), dict) else {}
+    modes = ["baseline", "weak", "moderate", "active_probe"]
+    base_weights = {mode: max(0.0, float(configured.get(mode, 0.0) or 0.0)) for mode in modes}
+    if sum(base_weights.values()) <= 0.0:
+        base_weights = {mode: 1.0 / len(modes) for mode in modes}
+
+    sample_counts = Counter()
+    accepted_counts = Counter()
+    reward_scores = {mode: 20.0 * base_weights[mode] for mode in modes}
+    for attempt in attempts:
+        for row in _read_all_samples(attempt.get("all_samples_summary_path")):
+            code = _safe_float(row.get("agent_correction_mode_code"))
+            if code is None:
+                continue
+            mode = CORRECTION_MODE_BY_CODE.get(int(round(code)))
+            if mode not in reward_scores:
+                continue
+            sample_counts[mode] += 1
+            chi2 = _safe_float(row.get("chi2"))
+            if row.get("success") == "True" and chi2 is not None:
+                accepted_counts[mode] += 1
+                tier = chi2_quality_tier(chi2)
+                reward_scores[mode] += {
+                    "excellent": 5.0,
+                    "competitive": 3.5,
+                    "weak_accept": 2.0,
+                    "poor_accept": 0.4,
+                }.get(tier, 0.0)
+
+    total_score = sum(max(0.0, value) for value in reward_scores.values())
+    if total_score <= 0.0:
+        learned_weights = dict(base_weights)
+    else:
+        learned_weights = {mode: max(0.0, reward_scores[mode]) / total_score for mode in modes}
+    return {
+        "source": "current_loop_all_samples_summary",
+        "base_mode_weights": base_weights,
+        "mode_weights": learned_weights,
+        "sample_counts": dict(sample_counts),
+        "accepted_counts": dict(accepted_counts),
+        "reward_scores": reward_scores,
+        "note": (
+            "Weights are learned softly from accepted current-loop parameter samples. "
+            "The sampler still applies min_mode_probability floors from config_p.py."
+        ),
+    }
+
+
 def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict[str, Any]) -> Dict[str, Any]:
     accepted = [attempt for attempt in attempts if attempt.get("chi2") is not None]
     accepted.sort(key=lambda attempt: float(attempt["chi2"]))
@@ -232,6 +307,7 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
         attempt
         for attempt in accepted
         if chi2_quality_tier(attempt.get("chi2")) in {"excellent", "competitive", "weak_accept"}
+        or (attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")) == "non_eh"
     ]
     scalar_counts = Counter()
     operator_counts = Counter()
@@ -241,6 +317,11 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
     for attempt in quality_accepted[:10]:
         tier = chi2_quality_tier(attempt.get("chi2"))
         weight = {"excellent": 3.5, "competitive": 2.5, "weak_accept": 1.5}.get(tier, 0.0)
+        if (
+            weight <= 0.0
+            and (attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")) == "non_eh"
+        ):
+            weight = 1.0
         if weight <= 0.0:
             continue
         theory = attempt.get("theory") or {}
@@ -410,11 +491,18 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
         "avoid_failure_tags": {
             key: value for key, value in failed_tags.items() if key in {"q_initial_root_failure", "q_not_determined", "no_scalar_constraint", "symbolic_timeout", "constraint_drift", "integration_failure"}
         },
+        "correction_mode_learning": _correction_mode_learning(attempts),
         "best_chi2": summary.get("best_chi2"),
     }
 
 
-def _reflection(attempts: List[Dict[str, Any]], summary: Dict[str, Any], parameter_prior: Dict[str, Any], structure_prior: Dict[str, Any]) -> Dict[str, Any]:
+def _reflection(
+    attempts: List[Dict[str, Any]],
+    summary: Dict[str, Any],
+    parameter_prior: Dict[str, Any],
+    structure_prior: Dict[str, Any],
+    joint_parameter_prior: Dict[str, Any],
+) -> Dict[str, Any]:
     last = attempts[-1] if attempts else {}
     tags = last.get("failure_tags") or []
     observations = [
@@ -431,12 +519,19 @@ def _reflection(attempts: List[Dict[str, Any]], summary: Dict[str, Any], paramet
         observations.append(f"scalar_family_metrics={scalar_learning['metrics']}")
     if parameter_prior.get("accepted_sample_count"):
         observations.append(f"accepted_parameter_samples={parameter_prior['accepted_sample_count']}")
+    if joint_parameter_prior.get("positive_reward_sample_row_count"):
+        observations.append(
+            "joint_parameter_prior_positive_rows="
+            f"{joint_parameter_prior['positive_reward_sample_row_count']}"
+        )
 
     next_actions: List[str] = []
     if structure_prior.get("preferred_scalar_configs"):
         next_actions.append("bias structure generation toward accepted scalar configurations and operators")
     if parameter_prior.get("parameters"):
         next_actions.append("sample common numerical parameters from accepted-sample quantile priors")
+    if joint_parameter_prior.get("positive_reward_sample_row_count"):
+        next_actions.append("condition parameter proposals on exact/coarse/scalar theory-family reward memory")
     if "q_not_determined" in tags:
         next_actions.append("avoid nearby scalar derivative structures that repeatedly fail q solving")
     if "q_initial_root_failure" in tags:
@@ -455,6 +550,7 @@ def _reflection(attempts: List[Dict[str, Any]], summary: Dict[str, Any], paramet
             "attempt_history.jsonl",
             "feedback_summary.json",
             "all_samples_summary.csv paths from current loop",
+            "joint_parameter_prior.json",
         ],
         "information_not_used": ["historical solver_result/top10 outputs"],
     }
@@ -465,7 +561,8 @@ def update_agent_loop_state(memory_dir: Path, summary: Dict[str, Any]) -> Dict[s
     accepted_rows = _accepted_sample_rows(attempts)
     parameter_prior = _parameter_prior_from_samples(accepted_rows, len(attempts))
     structure_prior = _structure_prior_from_attempts(attempts, summary)
-    reflection = _reflection(attempts, summary, parameter_prior, structure_prior)
+    joint_parameter_prior = build_joint_parameter_prior(attempts)
+    reflection = _reflection(attempts, summary, parameter_prior, structure_prior, joint_parameter_prior)
 
     (memory_dir / PARAMETER_PRIOR_FILENAME).write_text(
         json.dumps(parameter_prior, indent=2, ensure_ascii=False) + "\n",
@@ -475,6 +572,10 @@ def update_agent_loop_state(memory_dir: Path, summary: Dict[str, Any]) -> Dict[s
         json.dumps(structure_prior, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+    (memory_dir / JOINT_PARAMETER_PRIOR_FILENAME).write_text(
+        json.dumps(joint_parameter_prior, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
     with (memory_dir / REFLECTIONS_FILENAME).open("a", encoding="utf-8") as f:
         f.write(json.dumps(reflection, ensure_ascii=False) + "\n")
 
@@ -482,7 +583,9 @@ def update_agent_loop_state(memory_dir: Path, summary: Dict[str, Any]) -> Dict[s
         "reflection_path": str(memory_dir / REFLECTIONS_FILENAME),
         "structure_prior_path": str(memory_dir / STRUCTURE_PRIOR_FILENAME),
         "parameter_prior_path": str(memory_dir / PARAMETER_PRIOR_FILENAME),
+        "joint_parameter_prior_path": str(memory_dir / JOINT_PARAMETER_PRIOR_FILENAME),
         "latest_reflection": reflection,
         "structure_prior": structure_prior,
         "parameter_prior": parameter_prior,
+        "joint_parameter_prior": joint_parameter_prior,
     }

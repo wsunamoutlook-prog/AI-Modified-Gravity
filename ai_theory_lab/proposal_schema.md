@@ -14,6 +14,29 @@ For cold-start theory discovery, proposals must be generated from Grammar Masker
 
 For genuine cold-start discovery, the theory structure should be generated from the token-level Grammar Masker candidate pool. Matching against an existing `lagrangians.pkl` entry is allowed for replay, smoke tests, or compatibility checks, but it should not be the source of new cold-start theory choices.
 
+Mini-batch cold-start proposal runs use two default proposal sectors with equal budget:
+
+```text
+open_search: 0.50
+non_eh:      0.50
+```
+
+There is no separate default `EH + phi2_only` sector. EH/scalar `phi2_only` theories can still appear through `open_search` and scalar-family exploration.
+
+The `non_eh` sector has an additional scalar-family exploration rule that does not apply to `open_search` or EH-anchored proposal modes. For non-EH proposals only, scalar family is selected as:
+
+```text
+phi1_only: 15% fixed baseline
+phi2_only: 15% fixed baseline
+both:      15% fixed baseline
+none:      15% fixed baseline
+reward-weighted choice among the four families: 40%
+```
+
+The reward-weighted portion uses only current-loop reward evidence from the `non_eh` sector. If no scalar family has positive reward evidence yet, it is uniform over the four families. The fixed baselines keep every scalar family alive while preventing the non-EH search from collapsing into one family such as `none`.
+
+Mini-batch validation waves are split into `simple`, `medium`, and `complex` buckets before EOM/Builder/Solver. Each bucket is written to a separate isolated run directory, `wave_trace.jsonl` records a bucket-specific `validation_wave`, and proposal JSON records `complexity_bucket` plus `complexity_score`. This is a scheduling choice only; accepted theories are still ranked by Solver `chi2`.
+
 Current harness command:
 
 ```bash
@@ -215,11 +238,28 @@ Parameter sampling should treat each sample as one coherent physical setup. Afte
 |c_i| ~= target_relative_effect * |c_EH| / (lambda_H^(lambda_power_i) * field_factor_i)
 ```
 
-The default cold-start sampler mixes baseline, weak, moderate, and small active-probe modes. This prevents extra curvature terms from being almost always erased by `Lambda` suppression while keeping clean EH/scalar baselines valid. Do not put sampling metadata inside individual `parameter_samples`; each sample object should remain solver-facing numerical parameters only.
+The default cold-start sampler mixes baseline, weak, moderate, and active-probe modes. Baseline samples do not use the effective-size inversion; they draw raw non-EH coefficients log-uniformly from the broad `config_p.py` coefficient prior, currently `|c_I| = 1e-10` to `1e20` with both signs. Weak, moderate, and active-probe samples choose non-EH curvature correction coefficients from a planned effective size relative to the EH term. The initial mode weights are:
+
+```text
+baseline:     0.10
+weak:         0.30
+moderate:     0.30
+active_probe: 0.30
+```
+
+The initial target effective-size ranges are:
+
+```text
+weak:         1e-6 <= relative_effect < 1e-4
+moderate:     1e-4 <= relative_effect < 1e-2
+active_probe: 1e-2 <= relative_effect <= 1e2
+```
+
+The sampler uses a 50/50 split between agent-exact samples and learned-prior random samples. Both halves can check `joint_parameter_prior.json`, which stores high-reward parameter vectors from the current loop grouped by exact theory family, coarse theory family, scalar family, and global fallback. The default `joint_prior_usage_fraction` is `0.80`: agent-exact samples in that fraction reuse the nearest matching high-reward vectors, and learned-prior random samples in that fraction jitter around those vectors in log space. The remaining sample budget keeps using the learned/default priors as an exploration floor. If no matching positive current-loop evidence exists, agent-exact samples fall back to current learned/default prior centers, low/high quantile anchors, and boundary probes, while learned-prior random samples draw stochastically from the current prior. The agent may softly adjust correction-mode weights from current-loop `all_samples_summary.csv` feedback while preserving exploration floors. Generated samples include numeric agent metadata such as `agent_sample_source_code`, `agent_correction_mode_code`, `agent_joint_prior_level_code`, and `agent_joint_prior_reward` so the memory layer can learn which source, correction mode, and family-level memory produced accepted or rejected samples; this metadata is not a physical coupling used by the EOM.
 
 The coefficient cap from `config_p.py` is only a proposal-time exploration bound. Large coefficients are allowed up to that cap so `Lambda`-suppressed higher-dimension operators can actually be tested; numerical instability, constraint drift, or EFT rejection should come from the real Solver feedback.
 
-The default `phi2` sampling prior intentionally covers negative and positive `varphi2_0_phi2_over_Lambda`, wider `q2_0_dvarphi2_dln_a` values for `phi2_only` and two-scalar proposals, lower `lambda_H_Lambda_over_H0`, and larger `fbar2_f2_over_Lambda`. These are exploration ranges, not acceptance criteria.
+The default scalar sampling prior is intentionally broad. Positive scale parameters use log sampling: `varphi1_0_phi1_over_Mp` in `1e-3..1e1`, `mu1_m1_over_H0` in `1e-2..1e2`, `fbar1_f1_over_Mp` in `1e-2..1e2`, `mu2_m2_over_Lambda` in `1e-5..1e5`, and `fbar2_f2_over_Lambda` in `1e-5..1e5`. Sign-sensitive phi2 quantities use signed-log sampling: `varphi2_0_phi2_over_Lambda` and `q2_0_dvarphi2_dln_a` draw both signs with `|value|` in `1e-5..1e5`. These are exploration ranges, not acceptance criteria.
 
 ## Cold-Start Proposal Requirements
 

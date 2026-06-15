@@ -237,6 +237,7 @@ When `--memory-dir` is used, the harness writes:
 - `agent_reflections.jsonl`: one reflection record after each validation attempt.
 - `structure_prior.json`: the current-loop learned structure prior used by the next proposal.
 - `parameter_prior.json`: the current-loop learned parameter prior inferred from accepted rows in Solver's `all_samples_summary.csv`.
+- `joint_parameter_prior.json`: the current-loop structure-conditioned parameter memory inferred from all sample rows, grouped by exact theory family, coarse theory family, scalar family, and global fallback.
 
 These files are current-loop memory. They are allowed for cold-start discovery. Historical `solver_result/` files are still not allowed as proposal memory.
 
@@ -298,11 +299,13 @@ At proposal time, parameter sampling should be done as a whole physical configur
 |c_i| ~= target_relative_effect * |c_EH| / (lambda_H^(lambda_power_i) * field_factor_i)
 ```
 
-Use a mixed sampling schedule with baseline, weak, moderate, and small active-probe correction modes. This is only a proposal-time sampling policy; Solver ranking and human-facing reports still sort by real `chi2`. EH `R` remains fixed by the configured EH coefficient and should not be penalized or rescaled as a modified-gravity correction.
+Use a mixed sampling schedule with baseline, weak, moderate, and active-probe correction modes. Baseline samples should draw raw non-EH coefficients directly from the broad coefficient prior, currently `|c_I| = 1e-10` to `1e20` with both signs, rather than using the effective-size inversion. Weak, moderate, and active-probe samples should choose non-EH curvature correction coefficients from a planned effective size relative to the EH term. The default initial mode weights are `baseline=0.10`, `weak=0.30`, `moderate=0.30`, and `active_probe=0.30`; active-probe targets should cover `1e-2 <= relative_effect <= 1e2`. The parameter sample list should use a 50/50 split between agent-exact samples and learned-prior random samples. Both halves may consult `joint_parameter_prior.json` for up to the configured `joint_prior_usage_fraction` of samples, currently `0.80`: exact samples reuse high-reward parameter vectors from the nearest available current-loop family level, while random samples jitter around those vectors in log space. The remaining samples keep using learned/default priors as an exploration floor. If no positive current-loop evidence exists for exact/coarse/scalar/global matches, sampling falls back to the learned/default priors. The agent may softly adjust correction-mode weights from current-loop sample feedback while preserving exploration floors. This is only a proposal-time sampling policy; Solver ranking and human-facing reports still sort by real `chi2`. EH `R` remains fixed by the configured EH coefficient and should not be penalized or rescaled as a modified-gravity correction.
+
+`joint_parameter_prior.json` is sample-level memory, not a table of hard-coded best parameters. Each sample row gets a reward from real Solver feedback: accepted low-chi-square rows are positive, poor accepted rows may be weak or negative, and rejected rows provide negative failure evidence. The sampler searches this memory in order: exact family, coarse operator/scalar bucket, scalar family, then global fallback. It seeds common cosmological/scalar parameters from the selected vector and then recomputes free coefficients for the current operator set, so coefficient values stay tied to the current theory's `lambda_power`, field factors, and correction mode.
 
 The proposal-time coefficient cap in `config_p.py` is an exploration bound, not a physical acceptance rule. Large coefficients are allowed up to that cap so high-dimension `Lambda`-suppressed operators can be tested; unstable samples should be rejected by the real Solver feedback rather than hidden by an overly small proposal cap.
 
-Parameter-prior updates are gated. `H0_km_s_Mpc` must keep the default range from `config_p.py`. All other parameters initially use the default range near `config_p.py`; after at least 150 current-loop attempts and at least 20 accepted Solver sample rows, the agent may use accepted-sample quantiles to update `parameter_prior.json`.
+Parameter-prior updates are gated. `H0_km_s_Mpc` must keep the default range from `config_p.py`. All other parameters initially use the default range near `config_p.py`; after at least 10 current-loop attempts and at least 100 accepted Solver sample rows, the agent may use accepted-sample quantiles to update `parameter_prior.json`.
 
 Default cold-start parameter ranges live in:
 
@@ -312,7 +315,7 @@ ai_theory_lab/config_p.py
 
 The runner should import these defaults instead of hard-coding ranges locally. Learned `parameter_prior.json` may narrow or override these defaults after enough accepted current-loop samples exist.
 
-The default `phi2` prior should cover both signs of `varphi2_0_phi2_over_Lambda`, a wider `q2_0_dvarphi2_dln_a` range for two-scalar proposals, lower `lambda_H_Lambda_over_H0` values down to the few-hundred range, and larger `fbar2_f2_over_Lambda` values. These wider ranges are exploration priors; invalid samples are rejected by the Solver.
+The default scalar prior is intentionally broad. Use log sampling for positive scale parameters: `varphi1_0_phi1_over_Mp` in `1e-3..1e1`, `mu1_m1_over_H0` in `1e-2..1e2`, `fbar1_f1_over_Mp` in `1e-2..1e2`, `mu2_m2_over_Lambda` in `1e-5..1e5`, and `fbar2_f2_over_Lambda` in `1e-5..1e5`. Use signed-log sampling for sign-sensitive phi2 quantities: `varphi2_0_phi2_over_Lambda` and `q2_0_dvarphi2_dln_a` should draw both signs with `|value|` in `1e-5..1e5`. These wider ranges are exploration priors; invalid samples are rejected by the Solver.
 
 For genuine cold-start discovery, do not choose theory structures by looking up full entries from `lagrangians.pkl`. That file may be used for replay, regression, or compatibility tests. A discovery agent should generate fresh legal structures from the token-level Grammar Masker candidate pool, then validate the isolated generated theory through EOM, Builder, and Solver.
 
@@ -451,6 +454,27 @@ initialize_run
 -> finalize_run
 -> generate_result_report
 ```
+
+For mini-batch proposal runs, the default proposal sectors are:
+
+```text
+open_search: 0.50
+non_eh:      0.50
+```
+
+Do not reserve a separate `EH + phi2_only` sector by default. `phi2_only` EH-anchored theories may still appear through `open_search` and scalar-family exploration, but the dedicated sector budget should be used for explicit non-EH modified-gravity search instead.
+
+Only the `non_eh` mini-batch sector uses a fixed scalar-family baseline. For non-EH proposals, select scalar family with `phi1_only=0.15`, `phi2_only=0.15`, `both=0.15`, and `none=0.15` fixed probability, and use the remaining `0.40` probability for reward-weighted choice among the same four families from current-loop `non_eh` policy evidence. If no scalar family has positive reward evidence, the reward-weighted part falls back to a uniform draw. This rule does not apply to `open_search` or EH-anchored proposal modes.
+
+Mini-batch validation waves should be split by proposal complexity before running EOM, Builder, and Solver. The batch runner should classify generated Lagrangians into `simple`, `medium`, and `complex` buckets from operator count, term count, scalar family, derivative operators, high-curvature structures, mass dimension, and `Lambda` powers. Each bucket must be written to its own isolated agent run directory, for example:
+
+```text
+ai_theory_lab/runs/<run_name>_wave_0001_simple/
+ai_theory_lab/runs/<run_name>_wave_0001_medium/
+ai_theory_lab/runs/<run_name>_wave_0001_complex/
+```
+
+This keeps simple models from waiting behind symbolic-heavy complex models on a cluster wave. Memory records should still be written per Lagrangian, and `wave_trace.jsonl` should record `validation_wave`, `complexity_bucket`, and `complexity_score` for reproducibility. Use `--no-complexity-split` only when deliberately reproducing the old single-batch behavior.
 
 `graph_agent.py` must still use the same deterministic harness and isolated agent files. LangGraph controls branching, loop state, reflection, skip/expand decisions, loop tracing, and final summary writing; EOM, Builder, Solver, chi-square scoring, and memory updates remain deterministic project code. Each loop writes a structured record to `loop_trace.jsonl` with validation results, reflection, decision, and current-loop summary facts.
 

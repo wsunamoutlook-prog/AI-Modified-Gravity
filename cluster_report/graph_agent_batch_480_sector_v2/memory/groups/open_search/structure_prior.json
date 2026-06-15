@@ -1,0 +1,279 @@
+{
+  "source": "current_loop_feedback",
+  "scalar_family_learning": {
+    "principle": "same metrics and soft scoring are applied to none, phi1_only, phi2_only, and both; no scalar family is banned from exploration",
+    "min_exploration_probability_per_family": 0.08,
+    "metrics": {
+      "none": {
+        "attempts": 1,
+        "validated_attempts": 0,
+        "entered_solver_attempts": 1,
+        "validated_attempt_rate": 0.0,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 2000,
+        "accepted_sample_count": 758,
+        "accepted_sample_rate": 0.379,
+        "q_initial_root_failure_count": 0,
+        "q_initial_root_failure_rate": 0.0,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 542,
+        "no_scalar_constraint_rate": 0.271,
+        "constraint_drift_count": 0,
+        "constraint_drift_rate": 0.0,
+        "integration_failure_count": 0,
+        "integration_failure_rate": 0.0,
+        "best_chi2": null,
+        "median_chi2": null,
+        "chi2_quality_counts": {},
+        "operator_family_counts": {
+          "scalar_config=none": 1,
+          "proposal_group=open_search": 1,
+          "theory_track=eh_anchored": 1,
+          "has_R_anchor": 1,
+          "is_no_scalar": 1
+        }
+      },
+      "phi1_only": {
+        "attempts": 13,
+        "validated_attempts": 8,
+        "entered_solver_attempts": 13,
+        "validated_attempt_rate": 0.6153846153846154,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 38000,
+        "accepted_sample_count": 9134,
+        "accepted_sample_rate": 0.2403684210526316,
+        "q_initial_root_failure_count": 3132,
+        "q_initial_root_failure_rate": 0.08242105263157895,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 0,
+        "no_scalar_constraint_rate": 0.0,
+        "constraint_drift_count": 606,
+        "constraint_drift_rate": 0.01594736842105263,
+        "integration_failure_count": 36,
+        "integration_failure_rate": 0.0009473684210526315,
+        "best_chi2": 1638.026706779315,
+        "median_chi2": 1638.032803946086,
+        "chi2_quality_counts": {
+          "excellent": 7,
+          "poor_accept": 1
+        },
+        "operator_family_counts": {
+          "scalar_config=phi1_only": 13,
+          "proposal_group=open_search": 13,
+          "theory_track=eh_anchored": 13,
+          "has_R_anchor": 13,
+          "has_scalar": 13,
+          "has_phi1": 13,
+          "has_scalar_curvature": 13,
+          "phi1_potential=axion": 7,
+          "phi1_potential=quadratic": 6,
+          "has_derivative_operator": 4,
+          "has_pure_scalar_operator": 3,
+          "has_box_operator": 2,
+          "has_high_curvature": 2
+        }
+      },
+      "phi2_only": {
+        "attempts": 4,
+        "validated_attempts": 0,
+        "entered_solver_attempts": 4,
+        "validated_attempt_rate": 0.0,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 19000,
+        "accepted_sample_count": 411,
+        "accepted_sample_rate": 0.021631578947368422,
+        "q_initial_root_failure_count": 4000,
+        "q_initial_root_failure_rate": 0.21052631578947367,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 0,
+        "no_scalar_constraint_rate": 0.0,
+        "constraint_drift_count": 0,
+        "constraint_drift_rate": 0.0,
+        "integration_failure_count": 0,
+        "integration_failure_rate": 0.0,
+        "best_chi2": null,
+        "median_chi2": null,
+        "chi2_quality_counts": {},
+        "operator_family_counts": {
+          "scalar_config=phi2_only": 4,
+          "proposal_group=open_search": 4,
+          "theory_track=eh_anchored": 4,
+          "has_R_anchor": 4,
+          "has_scalar": 4,
+          "has_phi2": 4,
+          "has_scalar_curvature": 4,
+          "phi2_potential=axion": 3,
+          "has_derivative_operator": 3,
+          "has_high_curvature": 3,
+          "has_box_operator": 2,
+          "has_pure_scalar_operator": 2,
+          "phi2_potential=quadratic": 1
+        }
+      },
+      "both": {
+        "attempts": 182,
+        "validated_attempts": 92,
+        "entered_solver_attempts": 182,
+        "validated_attempt_rate": 0.5054945054945055,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 773000,
+        "accepted_sample_count": 239535,
+        "accepted_sample_rate": 0.3098771021992238,
+        "q_initial_root_failure_count": 48234,
+        "q_initial_root_failure_rate": 0.06239844760672704,
+        "q_not_determined_attempts": 1,
+        "q_not_determined_attempt_rate": 0.005494505494505495,
+        "no_scalar_constraint_count": 0,
+        "no_scalar_constraint_rate": 0.0,
+        "constraint_drift_count": 3618,
+        "constraint_drift_rate": 0.004680465717981888,
+        "integration_failure_count": 2205,
+        "integration_failure_rate": 0.002852522639068564,
+        "best_chi2": 1638.0227115860428,
+        "median_chi2": 1638.5946410865713,
+        "chi2_quality_counts": {
+          "excellent": 71,
+          "poor_accept": 19,
+          "competitive": 1,
+          "weak_accept": 1
+        },
+        "operator_family_counts": {
+          "scalar_config=both": 182,
+          "proposal_group=open_search": 182,
+          "has_scalar": 182,
+          "has_phi1": 182,
+          "has_phi2": 182,
+          "has_both_scalars": 182,
+          "has_scalar_curvature": 182,
+          "theory_track=eh_anchored": 181,
+          "has_R_anchor": 181,
+          "phi2_potential=axion": 110,
+          "phi1_potential=axion": 109,
+          "has_pure_scalar_operator": 80,
+          "phi1_potential=quadratic": 73,
+          "phi2_potential=quadratic": 72,
+          "has_derivative_operator": 69,
+          "has_high_curvature": 66,
+          "has_box_operator": 32,
+          "theory_track=non_eh": 1
+        }
+      }
+    }
+  },
+  "accepted_attempt_count": 100,
+  "quality_accepted_attempt_count": 80,
+  "accepted_quality_counts": {
+    "excellent": 78,
+    "poor_accept": 20,
+    "competitive": 1,
+    "weak_accept": 1
+  },
+  "preferred_scalar_configs": {
+    "both": 35.0
+  },
+  "preferred_potentials": {
+    "phi1:axion": 28.0,
+    "phi2:axion": 21.0,
+    "phi2:quadratic": 14.0,
+    "phi1:quadratic": 7.0
+  },
+  "preferred_operators": {
+    "R": 35.0,
+    "φ1 · ∇^{a}φ2 · ∇_{a}φ2": 14.0,
+    "φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}": 10.5,
+    "φ1 · ∇^{a}∇_{a}R": 10.5,
+    "∇^{a}φ1 · ∇_{a}R": 3.5,
+    "φ1 · φ2 · ∇^{a}∇_{a}φ2": 3.5,
+    "φ1 · φ2 · φ2 · φ2 · φ2 · φ2": 3.5,
+    "R^{ab} · R_{ab}": 3.5,
+    "R · R": 3.5,
+    "∇^{a}∇_{a}R": 3.5,
+    "φ1 · φ2": 3.5,
+    "∇^{a}∇_{a}φ2 · R": 3.5,
+    "∇^{a}φ1 · ∇_{a}φ2": 3.5,
+    "φ2 · φ2": 3.5,
+    "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}": 3.5
+  },
+  "preferred_features": {
+    "scalar_config=both": 35.0,
+    "proposal_group=open_search": 35.0,
+    "theory_track=eh_anchored": 35.0,
+    "has_R_anchor": 35.0,
+    "has_scalar": 35.0,
+    "has_phi1": 35.0,
+    "has_phi2": 35.0,
+    "has_both_scalars": 35.0,
+    "has_scalar_curvature": 35.0,
+    "phi1_potential=axion": 28.0,
+    "has_derivative_operator": 24.5,
+    "phi2_potential=axion": 21.0,
+    "has_box_operator": 21.0,
+    "has_pure_scalar_operator": 17.5,
+    "phi2_potential=quadratic": 14.0,
+    "has_high_curvature": 7.0,
+    "phi1_potential=quadratic": 7.0
+  },
+  "avoid_scalar_configs": {
+    "both": 26,
+    "phi2_only": 4,
+    "phi1_only": 2,
+    "none": 1
+  },
+  "avoid_features": {
+    "has_phi2_with_q_failure": 30,
+    "has_phi1_with_q_failure": 28,
+    "has_both_scalars_with_q_failure": 26,
+    "derivative_with_numerical_failure": 9,
+    "high_curvature_with_numerical_failure": 6,
+    "is_no_scalar_with_constraint_failure": 1
+  },
+  "avoid_operators": {
+    "R^{ab} · R_{ab}": 1
+  },
+  "avoid_failure_tags": {
+    "q_initial_root_failure": 131,
+    "symbolic_timeout": 49,
+    "constraint_drift": 35,
+    "integration_failure": 24,
+    "no_scalar_constraint": 1,
+    "q_not_determined": 1
+  },
+  "correction_mode_learning": {
+    "source": "current_loop_all_samples_summary",
+    "base_mode_weights": {
+      "baseline": 0.1,
+      "weak": 0.3,
+      "moderate": 0.3,
+      "active_probe": 0.3
+    },
+    "mode_weights": {
+      "baseline": 0.939865949052777,
+      "weak": 0.020049738707080923,
+      "moderate": 0.018839128906244847,
+      "active_probe": 0.021245183333897275
+    },
+    "sample_counts": {
+      "baseline": 738359,
+      "weak": 32985,
+      "active_probe": 30826,
+      "moderate": 29830
+    },
+    "accepted_counts": {
+      "baseline": 233686,
+      "weak": 5986,
+      "moderate": 5028,
+      "active_probe": 5138
+    },
+    "reward_scores": {
+      "baseline": 613555.3000010847,
+      "weak": 13088.69999999927,
+      "moderate": 12298.39999999946,
+      "active_probe": 13869.099999999487
+    },
+    "note": "Weights are learned softly from accepted current-loop parameter samples. The sampler still applies min_mode_probability floors from config_p.py."
+  },
+  "best_chi2": 1638.0227115860428
+}

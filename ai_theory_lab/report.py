@@ -363,13 +363,13 @@ def _write_plots(out_dir: Path, accepted: list[dict[str, Any]], top_n: int) -> N
     fig.savefig(out_dir / "top_by_track_h_overlay.png", dpi=180)
     plt.close(fig)
 
-    preferred_groups = ["open_search", "eh_phi2_only", "non_eh"]
+    preferred_groups = ["open_search", "non_eh"]
     observed_groups = sorted({_proposal_group(attempt) for attempt in accepted})
     group_names = [group for group in preferred_groups if group in observed_groups] + [
         group for group in observed_groups if group not in preferred_groups
     ]
     group_tops = {group: [attempt for attempt in accepted if _proposal_group(attempt) == group][:10] for group in group_names}
-    group_colors = {"open_search": "#2f6f9f", "eh_phi2_only": "#2a9d8f", "non_eh": "#a23b72"}
+    group_colors = {"open_search": "#2f6f9f", "non_eh": "#a23b72"}
     group_top = [(group, attempt) for group in group_names for attempt in group_tops[group]]
     fig, ax = plt.subplots(figsize=(max(9, 0.50 * len(group_top)), 4.8))
     ax.bar(
@@ -488,7 +488,6 @@ def _write_summary(
         "## Proposal Group Comparison",
         "",
         "- [Top open-search representatives](top_open_search.md)",
-        "- [Top EH + phi2-only representatives](top_eh_phi2_only.md)",
         "- [Top non-EH representatives](top_non_eh.md)",
         "",
         "## Track Comparison",
@@ -755,7 +754,6 @@ def _write_track_reports(out_dir: Path, representatives: list[dict[str, Any]]) -
 def _write_group_reports(out_dir: Path, representatives: list[dict[str, Any]]) -> None:
     preferred_specs = [
         ("open_search", "top_open_search.md", "Top Open-Search Representatives"),
-        ("eh_phi2_only", "top_eh_phi2_only.md", "Top EH + Phi2-Only Representatives"),
         ("non_eh", "top_non_eh.md", "Top Non-EH Representatives"),
     ]
     observed = sorted({_proposal_group(attempt) for attempt in representatives})

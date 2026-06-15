@@ -15,6 +15,7 @@ POLICY_SUMMARY_FILENAME = "policy_summary.json"
 EXCELLENT_CHI2 = 1650.0
 COMPETITIVE_CHI2 = 1700.0
 WEAK_ACCEPT_CHI2 = 2000.0
+NON_EH_ACCEPT_REWARD_FLOOR = 2.0
 
 
 def _operators(theory: Dict[str, Any]) -> List[str]:
@@ -92,6 +93,10 @@ def fit_reward_for_chi2(chi2: Any) -> Optional[float]:
     return max(-4.0, -1.0 - (value - WEAK_ACCEPT_CHI2) / 400.0)
 
 
+def _proposal_group(theory: Dict[str, Any]) -> str:
+    return str(theory.get("proposal_group") or "")
+
+
 def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
     fit_reward = fit_reward_for_chi2(attempt.get("chi2"))
     if fit_reward is not None:
@@ -114,9 +119,17 @@ def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
         if status == "moderate":
             return fit_reward
         if status == "weak":
-            return fit_reward * 0.35
+            reward = fit_reward * 0.35
+            if _proposal_group(theory) == "non_eh":
+                return max(NON_EH_ACCEPT_REWARD_FLOOR, reward)
+            return reward
         if status in {"tiny", "eh_dominated"}:
-            return -1.0
+            reward = -1.0
+            if _proposal_group(theory) == "non_eh":
+                return max(NON_EH_ACCEPT_REWARD_FLOOR, reward)
+            return reward
+        if _proposal_group(theory) == "non_eh":
+            return max(NON_EH_ACCEPT_REWARD_FLOOR, fit_reward)
         return fit_reward
 
     return failure_reward_for_attempt(attempt)
@@ -224,19 +237,23 @@ def summarize_policy(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         if family_key:
             family_rewards[str(family_key)].append(reward)
         result = record.get("result") or {}
-        if result.get("validated") and result.get("chi2_quality_tier") in {"excellent", "competitive"}:
+        accepted_for_features = result.get("validated") and (
+            result.get("chi2_quality_tier") in {"excellent", "competitive"}
+            or features.get("proposal_group") == "non_eh"
+        )
+        if accepted_for_features:
             for name, value in features.items():
                 if isinstance(value, bool) and value:
                     accepted_features[name] += 1
                     if result.get("chi2_quality_tier") == "excellent":
                         excellent_features[name] += 1
-                    else:
+                    elif result.get("chi2_quality_tier") == "competitive":
                         competitive_features[name] += 1
                 elif isinstance(value, str) and value not in {"None", ""}:
                     accepted_features[f"{name}={value}"] += 1
                     if result.get("chi2_quality_tier") == "excellent":
                         excellent_features[f"{name}={value}"] += 1
-                    else:
+                    elif result.get("chi2_quality_tier") == "competitive":
                         competitive_features[f"{name}={value}"] += 1
 
     return {

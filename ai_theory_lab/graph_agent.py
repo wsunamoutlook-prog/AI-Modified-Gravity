@@ -304,7 +304,7 @@ def validate_initial(state: GraphAgentState) -> Dict[str, Any]:
     proposal_summary = summary if bool(state.get("proposal_memory_enabled", True)) else {}
 
     samples = _parameter_samples(entry, rng, int(state["initial_parameter_samples"]), proposal_summary)
-    proposal = _proposal_for(entry, loop_index, samples, "initial")
+    proposal = _proposal_for(entry, loop_index, samples, "initial", proposal_summary)
     proposal_path = proposal_dir / f"loop_{loop_index:02d}_initial.json"
     parameter_path = proposal_dir / f"loop_{loop_index:02d}_initial_parameter_samples.json"
     proposal_path.write_text(json.dumps(proposal, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -366,7 +366,7 @@ def validate_expanded(state: GraphAgentState) -> Dict[str, Any]:
     proposal_summary = summary if bool(state.get("proposal_memory_enabled", True)) else {}
 
     samples = _parameter_samples(entry, rng, int(state["expanded_parameter_samples"]), proposal_summary)
-    proposal = _proposal_for(entry, loop_index, samples, "expanded")
+    proposal = _proposal_for(entry, loop_index, samples, "expanded", proposal_summary)
     proposal_path = proposal_dir / f"loop_{loop_index:02d}_expanded.json"
     parameter_path = proposal_dir / f"loop_{loop_index:02d}_expanded_parameter_samples.json"
     proposal_path.write_text(json.dumps(proposal, indent=2, ensure_ascii=False), encoding="utf-8")
