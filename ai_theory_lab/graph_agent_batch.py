@@ -13,6 +13,7 @@ import argparse
 import csv
 import json
 import math
+import os
 import pickle
 import random
 import sys
@@ -45,7 +46,9 @@ GROUP_SPECS: Dict[str, Dict[str, Any]] = {
 
 COMPLEXITY_BUCKET_ORDER = ("simple", "medium", "complex")
 NON_EH_SCALAR_FAMILIES = ("phi1_only", "phi2_only", "both", "none")
+OPEN_SEARCH_SCALAR_BASELINE_PER_FAMILY = 0.08
 NON_EH_SCALAR_BASELINE_PER_FAMILY = 0.15
+BATCH_PROPOSAL_TIMEOUT_SECONDS = int(os.environ.get("AGENT_PROPOSAL_TIMEOUT_SECONDS", "300"))
 
 
 def _agent_run_dir(run_name: str, wave_index: int, complexity_bucket: Optional[str] = None) -> Path:
@@ -448,8 +451,8 @@ def _positive_scalar_reward_weights(summary: Dict[str, Any]) -> List[float]:
     return [math.exp(1.5 * (reward - peak)) if reward > 0.0 else 1e-3 for reward in rewards]
 
 
-def _non_eh_scalar_target(summary: Dict[str, Any], rng: random.Random) -> str:
-    baseline_mass = min(1.0, NON_EH_SCALAR_BASELINE_PER_FAMILY * len(NON_EH_SCALAR_FAMILIES))
+def _scalar_target_with_baseline(summary: Dict[str, Any], rng: random.Random, baseline_per_family: float) -> str:
+    baseline_mass = min(1.0, max(0.0, baseline_per_family) * len(NON_EH_SCALAR_FAMILIES))
     if rng.random() < baseline_mass:
         return rng.choice(list(NON_EH_SCALAR_FAMILIES))
     return rng.choices(
@@ -457,6 +460,14 @@ def _non_eh_scalar_target(summary: Dict[str, Any], rng: random.Random) -> str:
         weights=_positive_scalar_reward_weights(summary),
         k=1,
     )[0]
+
+
+def _open_search_scalar_target(summary: Dict[str, Any], rng: random.Random) -> str:
+    return _scalar_target_with_baseline(summary, rng, OPEN_SEARCH_SCALAR_BASELINE_PER_FAMILY)
+
+
+def _non_eh_scalar_target(summary: Dict[str, Any], rng: random.Random) -> str:
+    return _scalar_target_with_baseline(summary, rng, NON_EH_SCALAR_BASELINE_PER_FAMILY)
 
 
 def _group_targets(batch_size: int, group_mode: str, eh_track_fraction: float, rng: random.Random) -> List[Dict[str, Any]]:
@@ -546,23 +557,34 @@ def run_batch_agent(
             proposal_summary = group_summaries.get(target_group, summary)
             if target_group == "non_eh" and target_scalar in {None, "mixed"}:
                 target_scalar = _non_eh_scalar_target(proposal_summary, rng)
+            elif target_group == "open_search" and target_scalar in {None, "mixed"}:
+                target_scalar = _open_search_scalar_target(proposal_summary, rng)
             loop_id = f"wave_{wave_index:04d}_item_{len(entries) + 1:02d}"
-            entry = _proposal_entry(
-                context=context,
-                summary=proposal_summary,
-                rng=rng,
-                seed=seed + wave_index * 1009 + attempts * 37,
-                proposal_mode=proposal_mode,
-                llm_model=llm_model,
-                llm_fallback=llm_fallback,
-                llm_api_timeout=llm_api_timeout,
-                debug_dir=proposal_dir / "llm_proposal_debug",
-                loop_id=loop_id,
-                track=target_track,
-                scalar_config=target_scalar,
-                required_operator_substring=target_required,
-                required_operator_contains_curvature=target_required_curvature,
-            )
+            try:
+                with _wall_timeout(BATCH_PROPOSAL_TIMEOUT_SECONDS, "Batch proposal generation"):
+                    entry = _proposal_entry(
+                        context=context,
+                        summary=proposal_summary,
+                        rng=rng,
+                        seed=seed + wave_index * 1009 + attempts * 37,
+                        proposal_mode=proposal_mode,
+                        llm_model=llm_model,
+                        llm_fallback=llm_fallback,
+                        llm_api_timeout=llm_api_timeout,
+                        debug_dir=proposal_dir / "llm_proposal_debug",
+                        loop_id=loop_id,
+                        track=target_track,
+                        scalar_config=target_scalar,
+                        required_operator_substring=target_required,
+                        required_operator_contains_curvature=target_required_curvature,
+                    )
+            except Exception as exc:
+                if proposal_mode == "llm" and llm_fallback == "fail":
+                    raise
+                message = f"{loop_id} proposal skipped after {type(exc).__name__}: {exc}"
+                print(f"[BatchProposal] {message}", flush=True)
+                messages.append(message)
+                continue
             entry_track = entry.get("theory_track") or theory_track_from_operators(entry.get("operators") or [])
             entry["theory_track"] = entry_track
             entry["proposal_group"] = target_group

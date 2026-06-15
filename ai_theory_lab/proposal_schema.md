@@ -23,7 +23,19 @@ non_eh:      0.50
 
 There is no separate default `EH + phi2_only` sector. EH/scalar `phi2_only` theories can still appear through `open_search` and scalar-family exploration.
 
-The `non_eh` sector has an additional scalar-family exploration rule that does not apply to `open_search` or EH-anchored proposal modes. For non-EH proposals only, scalar family is selected as:
+The `open_search` sector uses a light scalar-family exploration floor before reward learning:
+
+```text
+phi1_only: 8% fixed baseline
+phi2_only: 8% fixed baseline
+both:      8% fixed baseline
+none:      8% fixed baseline
+reward-weighted choice among the four families: 68%
+```
+
+The reward-weighted portion uses only current-loop reward evidence from the `open_search` sector. If no scalar family has positive reward evidence yet, it is uniform over the four families.
+
+The `non_eh` sector has a stronger scalar-family exploration rule. For non-EH proposals, scalar family is selected as:
 
 ```text
 phi1_only: 15% fixed baseline

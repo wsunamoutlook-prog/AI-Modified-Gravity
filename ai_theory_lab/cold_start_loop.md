@@ -185,7 +185,19 @@ The runner now has a lightweight learned policy layer. It converts current-loop 
 
 For mini-batch runs, proposal sectors are split evenly between `open_search` and `non_eh`. `open_search` remains broad and may still produce EH/scalar baselines, including `phi2_only`, while `non_eh` explicitly spends half the budget on modified-gravity correction structures. There is no separate default `EH + phi2_only` sector.
 
-Only inside the `non_eh` sector, scalar-family selection uses a fixed exploration floor before applying reward learning. Each non-EH proposal first selects a scalar family from this schedule:
+Scalar-family selection uses sector-specific exploration floors before applying reward learning. In `open_search`, each proposal first selects a scalar family from this schedule:
+
+```text
+phi1_only: 8% fixed baseline
+phi2_only: 8% fixed baseline
+both:      8% fixed baseline
+none:      8% fixed baseline
+reward-weighted choice among the four families: 68%
+```
+
+The reward-weighted 68% uses current-loop `policy_summary.json` evidence from the same `open_search` sector. If no scalar family has positive reward evidence yet, that portion falls back to a uniform draw.
+
+Inside the `non_eh` sector, each proposal uses a stronger scalar-family exploration floor:
 
 ```text
 phi1_only: 15% fixed baseline
@@ -195,7 +207,7 @@ none:      15% fixed baseline
 reward-weighted choice among the four families: 40%
 ```
 
-The reward-weighted 40% uses current-loop `policy_summary.json` evidence from the same `non_eh` sector. If no scalar family has positive reward evidence yet, that 40% falls back to a uniform draw. This rule does not apply to `open_search` or any EH-anchored sector; those continue to use the ordinary broad proposal policy.
+The reward-weighted 40% uses current-loop `policy_summary.json` evidence from the same `non_eh` sector. If no scalar family has positive reward evidence yet, that 40% falls back to a uniform draw. EH-anchored track-split proposal modes continue to use the ordinary broad proposal policy unless they are run through `open_search`.
 
 Mini-batch validation is also split by complexity. After a proposal wave is generated, the runner assigns each Lagrangian a `complexity_score` and one of `simple`, `medium`, or `complex`. It then writes separate isolated run directories per bucket, such as `_wave_0001_simple` and `_wave_0001_complex`, and runs EOM -> Builder -> Solver independently for each bucket. `wave_trace.jsonl` records a bucket-specific `validation_wave` such as `wave_0001_simple`. A symbolic-heavy complex model can therefore time out without blocking simple models from the same proposal wave. The split is enabled by default; `--no-complexity-split` restores the old single-batch wave behavior.
 

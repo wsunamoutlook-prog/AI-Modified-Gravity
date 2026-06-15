@@ -464,7 +464,9 @@ non_eh:      0.50
 
 Do not reserve a separate `EH + phi2_only` sector by default. `phi2_only` EH-anchored theories may still appear through `open_search` and scalar-family exploration, but the dedicated sector budget should be used for explicit non-EH modified-gravity search instead.
 
-Only the `non_eh` mini-batch sector uses a fixed scalar-family baseline. For non-EH proposals, select scalar family with `phi1_only=0.15`, `phi2_only=0.15`, `both=0.15`, and `none=0.15` fixed probability, and use the remaining `0.40` probability for reward-weighted choice among the same four families from current-loop `non_eh` policy evidence. If no scalar family has positive reward evidence, the reward-weighted part falls back to a uniform draw. This rule does not apply to `open_search` or EH-anchored proposal modes.
+The `open_search` mini-batch sector uses a light fixed scalar-family baseline. For open-search proposals, select scalar family with `phi1_only=0.08`, `phi2_only=0.08`, `both=0.08`, and `none=0.08` fixed probability, and use the remaining `0.68` probability for reward-weighted choice among the same four families from current-loop `open_search` policy evidence. If no scalar family has positive reward evidence, the reward-weighted part falls back to a uniform draw.
+
+The `non_eh` mini-batch sector uses a stronger fixed scalar-family baseline. For non-EH proposals, select scalar family with `phi1_only=0.15`, `phi2_only=0.15`, `both=0.15`, and `none=0.15` fixed probability, and use the remaining `0.40` probability for reward-weighted choice among the same four families from current-loop `non_eh` policy evidence. If no scalar family has positive reward evidence, the reward-weighted part falls back to a uniform draw.
 
 Mini-batch validation waves should be split by proposal complexity before running EOM, Builder, and Solver. The batch runner should classify generated Lagrangians into `simple`, `medium`, and `complex` buckets from operator count, term count, scalar family, derivative operators, high-curvature structures, mass dimension, and `Lambda` powers. Each bucket must be written to its own isolated agent run directory, for example:
 
@@ -475,6 +477,8 @@ ai_theory_lab/runs/<run_name>_wave_0001_complex/
 ```
 
 This keeps simple models from waiting behind symbolic-heavy complex models on a cluster wave. Memory records should still be written per Lagrangian, and `wave_trace.jsonl` should record `validation_wave`, `complexity_bucket`, and `complexity_score` for reproducibility. Use `--no-complexity-split` only when deliberately reproducing the old single-batch behavior.
+
+Mini-batch proposal generation must also have a per-attempt wall-time guard so one symbolic-heavy candidate cannot block the whole wave before validation begins. The default guard is `AGENT_PROPOSAL_TIMEOUT_SECONDS=300`. If a proposal attempt times out or cannot compile a candidate, skip that attempt and keep filling the batch, while preserving hard failure behavior when `--llm-fallback fail` is explicitly requested.
 
 `graph_agent.py` must still use the same deterministic harness and isolated agent files. LangGraph controls branching, loop state, reflection, skip/expand decisions, loop tracing, and final summary writing; EOM, Builder, Solver, chi-square scoring, and memory updates remain deterministic project code. Each loop writes a structured record to `loop_trace.jsonl` with validation results, reflection, decision, and current-loop summary facts.
 
