@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <defs>
+    <style>
+      .bg { fill: #fbfbf8; }
+      .title { font-family: Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 700; fill: #202124; }
+      .subtitle { font-family: Helvetica, Arial, sans-serif; font-size: 15px; fill: #4d5156; }
+      .label { font-family: Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; }
+      .small { font-family: Helvetica, Arial, sans-serif; font-size: 15px; fill: #2f3437; }
+      .tiny { font-family: Helvetica, Arial, sans-serif; font-size: 12px; fill: #3b3f42; }
+      .micro { font-family: Helvetica, Arial, sans-serif; font-size: 10px; fill: #5f6368; }
+      .box { fill: #ffffff; stroke-width: 2.8; }
+      .soft { fill: #ffffff; stroke-width: 2.1; }
+      .dash { fill: none; stroke: #777b80; stroke-width: 2.2; stroke-dasharray: 5 5; }
+      .arrow { fill: none; stroke: #202124; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-black); }
+      .arrow-red { fill: none; stroke: #c62828; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-red); }
+      .arrow-blue { fill: none; stroke: #1976d2; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-blue); }
+      .arrow-brown { fill: none; stroke: #8d5524; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-brown); }
+      .arrow-green { fill: none; stroke: #2e7d32; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-green); }
+      .agentBlue { stroke: #1e88e5; }
+      .orchRed { stroke: #d32f2f; }
+      .physBrown { stroke: #8d5524; }
+      .dataGreen { stroke: #2e7d32; }
+      .violet { stroke: #5e35b1; }
+      .orange { stroke: #ef6c00; }
+      .failRed { stroke: #c62828; }
+      .blueText { fill: #1565c0; }
+      .redText { fill: #c62828; }
+      .brownText { fill: #7b3f00; }
+      .greenText { fill: #1b5e20; }
+      .violetText { fill: #4527a0; }
+      .orangeText { fill: #e65100; }
+      .shadow { filter: url(#softShadow); }
+    </style>
+
+    <filter id="softShadow" x="-10%" y="-15%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+
+    <marker id="arrow-black" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#202124"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#c62828"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#1976d2"/>
+    </marker>
+    <marker id="arrow-brown" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#8d5524"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#2e7d32"/>
+    </marker>
+
+    <g id="robot-blue">
+      <rect x="0" y="12" width="50" height="43" rx="9" fill="#eaf4ff" stroke="#1e88e5" stroke-width="2.4"/>
+      <line x1="25" y1="12" x2="25" y2="3" stroke="#1e88e5" stroke-width="2.4"/>
+      <circle cx="25" cy="2.5" r="2.5" fill="#1e88e5"/>
+      <circle cx="16" cy="31" r="3" fill="#1e88e5"/>
+      <circle cx="34" cy="31" r="3" fill="#1e88e5"/>
+      <path d="M17 43 Q25 49 33 43" fill="none" stroke="#1e88e5" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="0" y1="33" x2="-7" y2="33" stroke="#1e88e5" stroke-width="2.4"/>
+      <line x1="50" y1="33" x2="57" y2="33" stroke="#1e88e5" stroke-width="2.4"/>
+    </g>
+    <g id="robot-red">
+      <rect x="0" y="12" width="50" height="43" rx="9" fill="#fff1f1" stroke="#d32f2f" stroke-width="2.4"/>
+      <line x1="25" y1="12" x2="25" y2="3" stroke="#d32f2f" stroke-width="2.4"/>
+      <circle cx="25" cy="2.5" r="2.5" fill="#d32f2f"/>
+      <circle cx="16" cy="31" r="3" fill="#d32f2f"/>
+      <circle cx="34" cy="31" r="3" fill="#d32f2f"/>
+      <path d="M17 43 Q25 49 33 43" fill="none" stroke="#d32f2f" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <g id="robot-green">
+      <rect x="0" y="12" width="50" height="43" rx="9" fill="#edf8ee" stroke="#2e7d32" stroke-width="2.4"/>
+      <line x1="25" y1="12" x2="25" y2="3" stroke="#2e7d32" stroke-width="2.4"/>
+      <circle cx="25" cy="2.5" r="2.5" fill="#2e7d32"/>
+      <circle cx="16" cy="31" r="3" fill="#2e7d32"/>
+      <circle cx="34" cy="31" r="3" fill="#2e7d32"/>
+      <path d="M17 43 Q25 49 33 43" fill="none" stroke="#2e7d32" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1500" height="820"/>
+  <text x="60" y="58" class="title">Agentic discovery loop for modified-gravity theories</text>
+  <text x="60" y="86" class="subtitle">LLM proposals are separated from deterministic physical validation; only validated theories update the search memory.</text>
+
+  <!-- Human supervision -->
+  <rect x="385" y="116" width="730" height="58" rx="11" class="box" stroke="#333333"/>
+  <text x="660" y="151" class="label" fill="#202124">Human supervision</text>
+  <circle cx="442" cy="144" r="15" fill="none" stroke="#202124" stroke-width="2.2"/>
+  <circle cx="477" cy="144" r="15" fill="none" stroke="#202124" stroke-width="2.2"/>
+  <path d="M416 170 Q442 151 468 170" fill="none" stroke="#202124" stroke-width="2.2"/>
+  <path d="M451 170 Q477 151 503 170" fill="none" stroke="#202124" stroke-width="2.2"/>
+
+  <!-- Orchestrator -->
+  <rect x="345" y="205" width="810" height="74" rx="12" class="box shadow orchRed"/>
+  <use href="#robot-red" x="532" y="214"/>
+  <text x="675" y="251" class="label redText">Orchestrator</text>
+  <text x="811" y="251" class="subtitle">coordinates proposal, validation, and reporting</text>
+  <path d="M750 174 L750 202" class="arrow"/>
+  <path d="M750 279 L750 306" class="arrow-red"/>
+
+  <!-- Prompt -->
+  <rect x="66" y="354" width="150" height="178" rx="14" class="box" stroke="#2b2b2b"/>
+  <text x="105" y="390" class="small" font-weight="700">Prompt</text>
+  <text x="95" y="421" class="tiny">grammar rules</text>
+  <text x="95" y="446" class="tiny">operator basis</text>
+  <text x="95" y="471" class="tiny">data target</text>
+  <path d="M216 415 C252 395 275 388 308 389" class="arrow-blue"/>
+  <path d="M216 481 C254 505 278 508 308 507" class="arrow"/>
+  <text x="240" y="381" class="tiny blueText" font-style="italic">new idea</text>
+  <text x="245" y="545" class="tiny">memory</text>
+
+  <!-- Proposal stage -->
+  <rect x="310" y="322" width="355" height="262" rx="16" class="box shadow agentBlue"/>
+  <circle cx="352" cy="364" r="27" fill="#eaf4ff" stroke="#1e88e5" stroke-width="2.4"/>
+  <path d="M352 347 L352 381 M337 364 L367 364 M341 353 L363 375 M363 353 L341 375" stroke="#1e88e5" stroke-width="2.1" stroke-linecap="round"/>
+  <text x="395" y="372" class="label blueText">Proposal stage</text>
+  <line x1="395" y1="389" x2="620" y2="389" stroke="#1e88e5" stroke-width="2"/>
+  <circle cx="477" cy="389" r="3.5" fill="#1e88e5"/>
+  <circle cx="507" cy="389" r="3.5" fill="#1e88e5"/>
+  <circle cx="537" cy="389" r="3.5" fill="#1e88e5"/>
+
+  <rect x="344" y="426" width="84" height="102" rx="10" fill="#ffffff" stroke="#1e88e5" stroke-width="2.3"/>
+  <use href="#robot-blue" x="361" y="434"/>
+  <text x="357" y="515" class="tiny" font-weight="700">proposer</text>
+
+  <rect x="460" y="426" width="84" height="102" rx="10" fill="#ffffff" stroke="#1e88e5" stroke-width="2.3"/>
+  <use href="#robot-blue" x="477" y="434"/>
+  <text x="472" y="515" class="tiny" font-weight="700">grammar</text>
+  <text x="478" y="531" class="micro">masker</text>
+
+  <rect x="576" y="426" width="84" height="102" rx="10" fill="#ffffff" stroke="#1e88e5" stroke-width="2.3"/>
+  <use href="#robot-blue" x="593" y="434"/>
+  <text x="596" y="515" class="tiny" font-weight="700">critic</text>
+
+  <path d="M429 477 L457 477" class="arrow-blue"/>
+  <path d="M545 477 L573 477" class="arrow-blue"/>
+  <text x="348" y="559" class="tiny">fresh token-level proposal</text>
+  <text x="348" y="576" class="tiny">explicit parameter samples</text>
+
+  <!-- Theory object -->
+  <rect x="705" y="325" width="230" height="256" rx="16" class="box shadow violet"/>
+  <text x="744" y="367" class="label violetText">Theory object</text>
+  <rect x="742" y="396" width="158" height="44" rx="7" fill="#f3efff" stroke="#5e35b1" stroke-width="1.7"/>
+  <text x="755" y="423" class="tiny">sqrt(-g) [ M_p^2 R + ... ]</text>
+  <rect x="742" y="457" width="158" height="44" rx="7" fill="#f3efff" stroke="#5e35b1" stroke-width="1.7"/>
+  <text x="760" y="484" class="tiny">Lambda powers fixed</text>
+  <rect x="742" y="518" width="158" height="44" rx="7" fill="#f3efff" stroke="#5e35b1" stroke-width="1.7"/>
+  <text x="758" y="545" class="tiny">coefficient vector c_I</text>
+  <path d="M665 453 L702 453" class="arrow-blue"/>
+
+  <!-- Validation stage -->
+  <rect x="975" y="322" width="405" height="262" rx="16" class="box shadow physBrown"/>
+  <circle cx="1018" cy="364" r="27" fill="#fff4e6" stroke="#8d5524" stroke-width="2.4"/>
+  <path d="M1004 364 H1032 M1018 350 V378 M1009 355 L1027 373 M1027 355 L1009 373" stroke="#8d5524" stroke-width="2.4" stroke-linecap="round"/>
+  <text x="1062" y="372" class="label brownText">Deterministic physics gates</text>
+  <line x1="1062" y1="389" x2="1338" y2="389" stroke="#8d5524" stroke-width="2"/>
+  <circle cx="1166" cy="389" r="3.5" fill="#8d5524"/>
+  <circle cx="1196" cy="389" r="3.5" fill="#8d5524"/>
+  <circle cx="1226" cy="389" r="3.5" fill="#8d5524"/>
+
+  <rect x="1008" y="423" width="80" height="74" rx="9" fill="#ffffff" stroke="#8d5524" stroke-width="2"/>
+  <text x="1021" y="453" class="tiny" font-weight="700">Grammar</text>
+  <text x="1027" y="474" class="micro">legal EFT</text>
+  <rect x="1110" y="423" width="80" height="74" rx="9" fill="#ffffff" stroke="#8d5524" stroke-width="2"/>
+  <text x="1131" y="453" class="tiny" font-weight="700">EOM</text>
+  <text x="1126" y="474" class="micro">ghost-free</text>
+  <rect x="1212" y="423" width="80" height="74" rx="9" fill="#ffffff" stroke="#8d5524" stroke-width="2"/>
+  <text x="1228" y="453" class="tiny" font-weight="700">Builder</text>
+  <text x="1223" y="474" class="micro">numeric ODE</text>
+  <rect x="1314" y="423" width="52" height="74" rx="9" fill="#ffffff" stroke="#8d5524" stroke-width="2"/>
+  <text x="1324" y="453" class="tiny" font-weight="700">Fit</text>
+  <text x="1322" y="474" class="micro">chi2</text>
+  <path d="M1089 460 L1107 460" class="arrow-brown"/>
+  <path d="M1191 460 L1209 460" class="arrow-brown"/>
+  <path d="M1293 460 L1311 460" class="arrow-brown"/>
+  <text x="1010" y="535" class="tiny">DES-SN + DESI BAO likelihood</text>
+  <text x="1010" y="557" class="tiny">Hamiltonian constraint monitored</text>
+  <path d="M936 453 L972 453" class="arrow-brown"/>
+
+  <!-- Accepted / report -->
+  <rect x="1395" y="349" width="75" height="208" rx="13" class="box shadow dataGreen"/>
+  <use href="#robot-green" x="1408" y="407"/>
+  <text x="1413" y="496" class="tiny" font-weight="700">report</text>
+  <text x="1411" y="516" class="micro">ranked</text>
+  <text x="1407" y="531" class="micro">theories</text>
+  <path d="M1380 453 L1392 453" class="arrow-green"/>
+
+  <!-- Rejection diagnostics -->
+  <rect x="1008" y="626" width="362" height="70" rx="12" fill="#fff5f5" stroke="#c62828" stroke-width="2.3"/>
+  <text x="1032" y="654" class="small" font-weight="700" fill="#c62828">Rejection diagnostics</text>
+  <text x="1032" y="678" class="tiny">invalid grammar, ghost, constraint-root failure, drift, integration failure</text>
+  <path d="M1048 497 C1048 540 1065 584 1110 623" class="arrow-red"/>
+  <path d="M1150 497 C1150 544 1164 585 1188 622" class="arrow-red"/>
+  <path d="M1252 497 C1252 540 1239 585 1216 622" class="arrow-red"/>
+
+  <!-- Memory -->
+  <rect x="386" y="638" width="512" height="92" rx="15" class="box shadow orange"/>
+  <text x="423" y="674" class="label orangeText">Current-loop memory</text>
+  <text x="423" y="704" class="tiny">attempt history, structure prior, parameter prior, reflections</text>
+  <rect x="770" y="661" width="91" height="44" rx="7" fill="#fff7ed" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="790" y="688" class="tiny" font-weight="700">policy</text>
+  <path d="M1370 661 C1438 662 1450 742 1358 754 L330 754 C229 754 201 568 306 530" class="arrow-brown"/>
+  <path d="M1008 661 L902 684" class="arrow-red"/>
+  <path d="M642 638 C642 610 644 601 654 584" class="arrow-blue"/>
+  <path d="M386 684 C258 682 183 594 206 533" class="arrow-blue"/>
+
+  <!-- dotted grouping -->
+  <rect x="286" y="302" width="1115" height="455" rx="18" class="dash"/>
+  <text x="302" y="784" class="micro">Solid arrows: accepted workflow. Red arrows: failed validation. Bottom path: feedback used only after deterministic validation.</text>
+</svg>

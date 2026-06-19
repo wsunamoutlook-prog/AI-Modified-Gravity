@@ -254,6 +254,8 @@ Accepted theories are not all equally good training signals. The proposal policy
 - `1700 < chi2 <= 2000`: acceptable; record as viable and use positive reinforcement, but less than competitive models.
 - `chi2 > 2000`: poor accepted; apply weak or negative reinforcement depending on how far above 2000 it is.
 
+For the dedicated `non_eh` proposal sector only, accepted attempts are not rewarded merely for surviving the pipeline. Use chi-square quality within that sector: `chi2 <= 2000` remains positive, `2000 < chi2 <= 3000` is weak positive, `3000 < chi2 <= 6000` is marginal/near-zero negative, and `chi2 > 6000` is negative. A non-EH attempt with no accepted chi-square is penalized more strongly than a very poor accepted non-EH attempt, because the latter at least reached a runnable background while the former did not.
+
 Chi-square remains the primary Solver and report ranking metric. However, the agent's learning reward should distinguish a genuinely active modified-gravity correction from an EH-dominated fit. For accepted attempts, compute `fit_reward` from `chi2`, then compute `discovery_reward` from `fit_reward` plus `effective_correction_status`. The status is based on each non-EH, non-fixed-matter correction that contains curvature, such as `R²`, `Riemann²`, `φR`, `φ²R`, `□φ R`, or derivative-curvature terms. Pure scalar/self terms such as standalone `φ²` or standalone `□φ` are not counted as modified-gravity corrections for this diagnostic.
 
 Do not penalize a clean EH+scalar baseline merely because it has no modified-gravity correction. `eh_only` means the validated theory is an EH/scalar baseline and should keep its normal chi-square-derived `fit_reward`. Penalize only models that add extra modified-gravity correction terms whose effective contribution is tiny after coefficient values and `Lambda` powers are applied. In other words, `EH + scalar` is a valid baseline; `EH + scalar + effectively-zero correction terms` is a poor discovery signal.
@@ -331,11 +333,12 @@ For each theory, the default parameter policy is:
 - propose 1000 explicit parameter samples;
 - do not stop the agent run early because a theory reaches a low chi-square; low chi-square is a quality label and learning signal, not a loop-termination condition;
 - if no sample from the first 1000 reaches `chi2 < 2000`, test 3000 explicit samples for the same theory only when the first pass is not clearly structural or numerically unstable;
+- for async-slot mini-batch runs, if the 3000-sample expanded pass still has `chi2 < 1638`, run a final 5000-sample refinement for that same theory; in the dedicated `non_eh` proposal sector, use the separate default threshold `chi2 < 2000` and the separate default budget of 10000 samples because the non-EH search is evaluated on its own new-physics scale and such candidates are rare; refined attempts do not count toward the global initial-theory target;
 - do not expand to 3000 samples when the first 1000 produce no accepted `chi2` and the feedback shows a structural or dominant numerical failure such as `q_initial_root_failure`, `q_not_determined`, `no_scalar_constraint`, high-count `constraint_drift`, high-count `integration_failure`, pre-sampling timeout, or symbolic timeout;
 - also skip the 3000-sample expansion for `scalar=none` empty-ranking failures and for no-accepted first passes tagged with `constraint_drift` or `integration_failure`, because these have been low-yield in current-loop tests;
 - read Solver's `all_samples_summary.csv` so every accepted and rejected parameter sample contributes feedback.
 
-Do not apply the 120s pre-sampling wall to the numerical sampling loop itself; sampling is governed by the explicit 1000/3000 sample budget and structural skip rules.
+Do not apply the 120s pre-sampling wall to the numerical sampling loop itself; sampling is governed by the explicit 1000/3000/5000 sample budget, the dedicated non-EH 10000-sample refinement budget, and structural skip rules.
 
 The token-context cache stores Grammar Masker candidate discovery results only. It is allowed in cold-start discovery because it does not contain historical Solver rankings, accepted chi-square values, best-fit parameters, or prior run proposal choices. To force a rebuild, use:
 
@@ -468,15 +471,36 @@ The `open_search` mini-batch sector uses a light fixed scalar-family baseline. F
 
 The `non_eh` mini-batch sector uses a stronger fixed scalar-family baseline. For non-EH proposals, select scalar family with `phi1_only=0.15`, `phi2_only=0.15`, `both=0.15`, and `none=0.15` fixed probability, and use the remaining `0.40` probability for reward-weighted choice among the same four families from current-loop `non_eh` policy evidence. If no scalar family has positive reward evidence, the reward-weighted part falls back to a uniform draw.
 
-Mini-batch validation waves should be split by proposal complexity before running EOM, Builder, and Solver. The batch runner should classify generated Lagrangians into `simple`, `medium`, and `complex` buckets from operator count, term count, scalar family, derivative operators, high-curvature structures, mass dimension, and `Lambda` powers. Each bucket must be written to its own isolated agent run directory, for example:
+Proposal diversity is controlled separately from scalar-family baselines. The `--diversity-strength` option is a proposal-time anti-collapse knob in `[0, 1]`; the default is `0.0` so ordinary discovery runs prioritize convergence. When explicitly enabled, the proposal scorer down-ranks exact and coarse theory families that have already been heavily explored in the current loop, especially already-successful low-chi-square basins. This does not change Solver ranking, `discovery_reward`, `joint_parameter_prior.json`, or the scalar-family baseline floors. It only changes which grammar-legal structure is proposed next.
+
+Mini-batch validation waves should be split by expected runtime before running EOM, Builder, and Solver. The `simple`, `medium`, `complex`, and `very_complex` buckets are scheduling lanes, not physical complexity labels. At the start of a run, the batch runner may fall back to structural runtime estimates from operator count, term count, scalar family, derivative operators, high-curvature structures, mass dimension, and `Lambda` powers. During the current run, it must update `ai_theory_lab/memory/<run_name>/runtime_complexity_prior.json` from observed bucket wall times and use that current-loop runtime prior to estimate later proposal runtimes. After estimating runtime for a proposal pool, classify the fastest runtime quartile as `simple`, the next quartile as `medium`, the next as `complex`, and the slowest quartile as `very_complex`; these boundaries are relative to the current pool and should move as the runtime prior learns. A structurally complicated model that repeatedly runs quickly should move toward the fast quartile; a structurally compact model that repeatedly stalls Solver should move toward the slow quartile. Each bucket must be written to its own isolated agent run directory, for example:
 
 ```text
 ai_theory_lab/runs/<run_name>_wave_0001_simple/
 ai_theory_lab/runs/<run_name>_wave_0001_medium/
 ai_theory_lab/runs/<run_name>_wave_0001_complex/
+ai_theory_lab/runs/<run_name>_wave_0001_very_complex/
 ```
 
-This keeps simple models from waiting behind symbolic-heavy complex models on a cluster wave. Memory records should still be written per Lagrangian, and `wave_trace.jsonl` should record `validation_wave`, `complexity_bucket`, and `complexity_score` for reproducibility. Use `--no-complexity-split` only when deliberately reproducing the old single-batch behavior.
+The default scheduler is `--scheduler wave`: it generates a full proposal wave, validates the `simple`, `medium`, `complex`, and `very_complex` buckets in order, records memory, and only then generates the next wave. This keeps bucket outputs isolated but still waits for the slowest bucket before later proposal waves can learn from the finished ones. Use `--no-complexity-split` only when deliberately reproducing the old single-batch validation behavior.
+
+For asynchronous cluster discovery, use `--scheduler async_lanes`. In this mode the runner keeps one validation task per complexity lane in flight. A completed `simple` lane writes its per-Lagrangian records to the common current-loop memory and is immediately replenished from the updated memory, even while slower lanes continue running. The same rule applies independently to `medium`, `complex`, and `very_complex`. The default async stop policy is `--async-target-policy balanced_lane_floors`: the run stops only after the global `--target-attempts` is reached and each non-exhausted lane has recorded at least `--async-lane-min-fraction` of the global target, currently `0.20`, unless a larger explicit `--lane-min-attempts-<lane>` value is supplied. This prevents early current-loop memory from being dominated by fast lanes while complex candidates are still running or queued. For pure throughput benchmarking, use `--async-target-policy global_recorded_total`; in that mode whichever lanes finish fastest may contribute most of the completed attempts. The async scheduler should generate mixed proposal pools, queue every generated proposal by complexity, and submit lane batches from those queues so off-lane proposals are reused instead of discarded. Async lane runs must keep separate lane directories such as:
+
+```text
+ai_theory_lab/runs/<run_name>_task_000001_simple/
+ai_theory_lab/runs/<run_name>_task_000002_medium/
+ai_theory_lab/runs/<run_name>_task_000003_complex/
+ai_theory_lab/runs/<run_name>_task_000004_very_complex/
+```
+
+Async lane safety rules:
+
+- write every lane to an isolated run directory and isolated proposal JSON files;
+- write current-loop memory only through `record_attempt`, which serializes memory rewrites with `.memory.lock`;
+- record scheduler events in `ai_theory_lab/proposals/<run_name>/scheduler_tasks.jsonl`, including `target_policy`, `lane_min_attempts`, `lane_floor_shortfalls`, per-lane submitted/recorded diagnostics, and global `recorded_total`;
+- update `runtime_complexity_prior.json` only from current-loop task completions or explicit running-time lower-bound signals from active tasks;
+- keep total lane workers within the SLURM CPU allocation, for example `--lane-workers-simple 2 --lane-workers-medium 2 --lane-workers-complex 2 --lane-workers-very-complex 2` for an 8-CPU throughput job;
+- read only current-loop common memory when generating lane refills; group memory is diagnostic and historical `solver_result/` output must not be used as proposal memory.
 
 Mini-batch proposal generation must also have a per-attempt wall-time guard so one symbolic-heavy candidate cannot block the whole wave before validation begins. The default guard is `AGENT_PROPOSAL_TIMEOUT_SECONDS=300`. If a proposal attempt times out or cannot compile a candidate, skip that attempt and keep filling the batch, while preserving hard failure behavior when `--llm-fallback fail` is explicitly requested.
 
@@ -505,6 +529,8 @@ Every completed agent task must leave a fixed report artifact set. Do not only a
 - `accepted_chi2_bar.png`: accepted-model chi-square plot.
 - `top_h_overlay.png`: h(z) overlay for top accepted Solver solutions.
 - `top3_h_panels.png`: separate h(z) panels for the best accepted Solver solutions.
+
+Report figures should use publication-readable labels. Plot labels and titles must write chi-square as LaTeX-style `$\chi^2$`, use compact representative labels such as `#L313` instead of full task names like `task_000313_expanded_refine_slot_01_lag_1`, and save figures at high resolution, currently 300 dpi. Bar charts should print the concrete chi-square value above each bar with horizontal mathtext labels when space allows; dense bar charts should cap the plotted representatives at a readable count, currently 15, while keeping the full ranked list in markdown/CSV/JSON. Sector-comparison figures must include a legend mapping colors to sectors, tracks, or proposal groups, use colorblind-safe colors, and use hatch/line-style differences where useful so the distinction survives grayscale printing. Sector/track chi-square comparison plots are intended for readable comparison, not for displaying the full poor-fit tail. `top_by_group_chi2_bar.png`, `top_by_track_chi2_bar.png`, `top_by_group_h_overlay.png`, `top_by_track_h_overlay.png`, and the dense `top_h_overlay_topn.png` should show only accepted family representatives with `chi2 < 2000`. Hubble-overlay comparison legends should identify individual curves with compact representative labels and their concrete chi-square values, not only the sector name. Poor accepted representatives around the high-chi-square plateau should remain in markdown/CSV/JSON outputs, but should not be drawn in these comparison figures.
 
 The agent-facing memory and `accepted_summary.json` should keep all accepted attempts. The human-facing files (`summary.md`, `accepted_lagrangians_and_parameters.md`, `accepted_lagrangians_full.md`, `accepted_lagrangians_and_parameters.csv`, and plots) should show one best chi-square representative per theory family so repeated similar theories do not dominate the report. Use `coarse_family_key` when available, falling back to exact `family_key`.
 

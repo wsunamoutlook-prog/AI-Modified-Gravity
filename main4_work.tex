@@ -1,0 +1,536 @@
+\documentclass[aps,prd,twocolumn,superscriptaddress,nofootinbib,longbibliography]{revtex4-2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Lag}{\mathcal{L}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\Mp}{M_{\rm p}}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\LCDM}{\Lambda{\rm CDM}}
+\newcommand{\DES}{\mathrm{DES}}
+\newcommand{\DESI}{\mathrm{DESI}}
+\newcommand{\SN}{\mathrm{SN}}
+\newcommand{\BAO}{\mathrm{BAO}}
+\newcommand{\varphione}{\varphi_1}
+\newcommand{\varphitwo}{\varphi_2}
+\newcommand{\chiT}{\chi^2_{\rm tot}}
+
+\begin{document}
+
+\preprint{AI-MG-v5.2.2-agent}
+
+\title{Autonomous Search for Modified Gravity from Cosmological Background Data}
+
+\author{Cooper Niu}
+\affiliation{Department of Physics, Brown University, Providence, Rhode Island 02912, USA}
+
+\author{Wenrong Sun}
+\affiliation{Department of Physics, Brown University, Providence, Rhode Island 02912, USA}
+
+\date{\today}
+
+\begin{abstract}
+We present a physics-first framework for the autonomous discovery of two-scalar modified-gravity theories from late-time cosmological data.  Candidate theories are generated as covariant, dimension-balanced Lagrangians built from curvature tensors, covariant derivatives, and two scalar fields.  They are then subjected to deterministic physical validation: the FLRW equations are derived symbolically, higher-derivative terms are removed by ghost-free coefficient relations, the lapse equation is retained as a modified Friedmann constraint, and the surviving systems are integrated and compared with DES type-Ia supernova distances and DESI Data Release 2 baryon-acoustic-oscillation measurements.  The artificial-intelligence component is used only to navigate the large discrete theory space and propose parameter samples; theoretical consistency and empirical scoring are decided by the physics pipeline.  We emphasize the role of temporal diffeomorphism invariance in the minisuperspace theory: even when a modified-gravity Lagrangian contains derivatives of the lapse before simplification, the residual time-reparametrization Noether identity implies that, in the ghost-free FLRW sector, the gauge-fixed lapse equation is a first-order constraint rather than an independent dynamical equation, and this constraint is preserved by the evolution equations.  Recent v5.2.2-agent scans find background solutions with $\chiT\simeq 1638$ for DES-SN plus DESI-DR2 BAO.  The best families are typically Einstein--Hilbert anchored scalar sectors, while a subset contains weak, moderate, or active curvature corrections.  These results identify promising background branches, not final fully viable gravitational theories; perturbation stability, structure growth, gravitational-wave constraints, and local tests remain necessary future validation layers.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+The observed acceleration of the Universe is one of the clearest indications that either the cosmic energy budget or the gravitational sector is not yet fully understood.  The minimal $\LCDM$ model describes current background data with impressive efficiency, but it leaves the cosmological constant problem and the microscopic origin of dark energy unresolved.  Modified gravity and scalar-tensor theories provide a systematic way to test whether late-time acceleration can arise from additional gravitational degrees of freedom rather than from a rigid vacuum energy \cite{Clifton2012,SotiriouFaraoni2010,Horndeski1974}.
+
+The difficulty is not the absence of possible theories.  It is the opposite: the space of covariant Lagrangians built from curvature invariants, derivatives, and scalar fields is combinatorially large.  Most expressions are physically unacceptable.  Generic higher-derivative theories contain Ostrogradsky instabilities \cite{Ostrogradsky1850}; many theories fail to admit a regular cosmological initial-value problem; and many stable background branches do not fit the data.  Historically, theorists have navigated this landscape with symmetry, naturalness, simplicity, and experience.  These principles remain essential, but they are incomplete search strategies in a high-dimensional theory space.
+
+Recent DES supernova and DESI baryon-acoustic-oscillation measurements provide a sharp background-expansion target for such searches \cite{DES2024SN,DESI2025BAO}.  At the same time, recent work on autonomous theory discovery has shown that physics can be encoded as a formal language, so that artificial intelligence proposes only well-formed theories while deterministic computations impose first-principle constraints and evaluate data likelihoods \cite{Alexander2026Albert}.  We adopt the same philosophy for modified gravity.  The agent is not asked to hallucinate equations or to judge its own success.  It proposes covariant operator combinations and numerical samples inside a fixed grammar.  The theory is then accepted or rejected by an explicit symbolic and numerical pipeline.
+
+This paper describes the physical content of the v5.2.2-agent modified-gravity framework.  The emphasis is deliberately different from a software manual.  The implementation details are documented in the public code; here we focus on the theory space, the ghost-free FLRW reduction, the Hamiltonian-type constraint, the construction of a dimensionless cosmological initial-value problem, and the interpretation of the resulting DES-SN and DESI-DR2 BAO fits.
+
+\section{Covariant Theory Space}
+\label{sec:theory-space}
+
+\subsection{Dimension-balanced effective Lagrangians}
+\label{subsec:dimension-balanced}
+
+We consider a broad EFT-like space of metric theories containing two scalar fields, $\phi_1$ and $\phi_2$.  A generated theory is written as
+\begin{equation}
+\calS=\int \dd^4x\,\sqrt{-g}\,\Lag ,
+\label{eq:action}
+\end{equation}
+with
+\begin{equation}
+\Lag=
+\Mp^2\sum_{I\in G\cup N}
+c_I\Lam^{2-d_I}O_I
++
+\sum_{J\in S}c_J\Lam^{4-d_J}S_J
++
+\Lag_{\rm fixed}.
+\label{eq:lagrangian}
+\end{equation}
+Here $G$ denotes pure-curvature invariants, $N$ non-minimal scalar-curvature invariants, and $S$ pure-scalar generated invariants.  The integer $d_I$ is the mass dimension of the corresponding covariant scalar.  The factors of $\Mp^2$ and $\Lam$ ensure that each term in $\sqrt{-g}\Lag$ has the correct mass dimension.  Thus a candidate is not specified by an operator label alone; its sector, coefficient, cutoff power, and Planck-mass prefactor are part of the physical theory.
+
+The candidate building blocks include
+\begin{equation}
+R,\qquad R_{\mu\nu},\qquad R^\rho{}_{\sigma\mu\nu},\qquad
+\nabla_\mu,\qquad \phi_1,\qquad \phi_2 .
+\end{equation}
+Examples of generated invariants are
+\begin{equation}
+R^2,\qquad
+R_{\mu\nu}R^{\mu\nu},\qquad
+\phi_1^2R,\qquad
+\nabla_\mu\phi_1\nabla_\nu\phi_1R^{\mu\nu},\qquad
+\Box\phi_1\,R .
+\end{equation}
+The scalar configurations are
+\begin{equation}
+\hbox{none},\qquad \phi_1\hbox{ only},\qquad \phi_2\hbox{ only},\qquad \phi_1+\phi_2 .
+\end{equation}
+When a scalar is active, the fixed matter sector contains a canonical kinetic term and either a quadratic or an axion-like potential:
+\begin{align}
+\Lag_{\rm fixed}^{(i)}
+&=-\frac12 g^{\mu\nu}\nabla_\mu\phi_i\nabla_\nu\phi_i - V_i(\phi_i),\\
+V_i(\phi_i)
+&=\frac12 m_i^2\phi_i^2
+\quad{\rm or}\quad
+m_i^2f_i^2\left[1-\cos\left(\frac{\phi_i}{f_i}\right)\right].
+\label{eq:fixed-sector}
+\end{align}
+
+The plain $R$ term, when present, is treated as an Einstein--Hilbert anchor with coefficient fixed to $c_R=1/2$ in the numerical comparison:
+\begin{equation}
+\Lag_{\rm EH}=\frac{\Mp^2}{2}R.
+\label{eq:EH}
+\end{equation}
+This common normalization allows meaningful comparison of higher-curvature and scalar-curvature corrections across candidate theories.
+
+\subsection{Why two scalar normalizations?}
+\label{subsec:two-scalars}
+
+The two scalar fields play different roles in the current theory grammar.  The first scalar is naturally measured in Planck units,
+\begin{equation}
+\phi_1=\Mp\varphione,
+\end{equation}
+while the second is measured in cutoff units,
+\begin{equation}
+\phi_2=\Lam\varphitwo .
+\end{equation}
+This separation allows the search to include both Planck-normalized scalar-tensor sectors and cutoff-normalized EFT scalar structures.  The distinction matters because a term such as $\phi_2 R$ carries a different physical size from $\phi_1 R$, even when their dimensionless field amplitudes are comparable.  The Solver therefore tracks the cutoff ratio
+\begin{equation}
+\lambda_H=\frac{\Lam}{H_0}
+\end{equation}
+and enforces an EFT consistency condition along accepted trajectories,
+\begin{equation}
+\max_x\frac{|H(x)|}{\Lam}=\max_x\frac{|h(x)|}{\lambda_H}<0.1.
+\label{eq:eft-cut}
+\end{equation}
+
+\subsection{Free parameters and scan ranges}
+\label{subsec:parameter-priors}
+
+The autonomous search is meaningful only after specifying which continuous quantities are allowed to vary.  Table~\ref{tab:parameter-priors} summarizes the default cold-start parameter ranges used in the v5.2.2-agent scans.  These are proposal priors, not physical acceptance conditions.  A sample drawn from these ranges is still rejected if it fails the Friedmann constraint, violates the EFT cut, produces an unstable trajectory, or gives no acceptable real initial-velocity root.
+
+\begin{table*}[t]
+\centering
+\begin{ruledtabular}
+\begin{tabular}{lllll}
+Parameter & Dimensionless definition & Applies to & Default range & Sampling scale \\
+\hline
+$H_0$ & $H_0\,[{\rm km\,s^{-1}\,Mpc^{-1}}]$ & all sectors & $58$--$74$ & linear \\
+$\Omega_{m0}$ & $\rho_{m0}/(3\Mp^2H_0^2)$ & all sectors & $0.22$--$0.40$ & linear \\
+$\lambda_H$ & $\Lam/H_0$ & all sectors & $5.0\times10^2$--$8.0\times10^4$ & log \\
+$\varphi_{1,0}$ & $\phi_1(t_0)/\Mp$ & $\phi_1$ sectors & $0.15$--$4.5$ & linear \\
+$\mu_1$ & $m_1/H_0$ & $\phi_1$ sectors & $0.04$--$4.0$ & log \\
+$\bar f_1$ & $f_1/\Mp$ & $\phi_1$ axion sectors & $0.05$--$30$ & log \\
+$\varphi_{2,0}$ & $\phi_2(t_0)/\Lam$ & $\phi_2$ sectors & $-3.0$--$3.0$ & linear \\
+$q_{2,0}$ & $\dd\varphi_2/\dd\ln a|_{0}$ & two-scalar sectors & $-5.0$--$5.0$ & linear \\
+$\mu_2$ & $m_2/\Lam$ & $\phi_2$ sectors & $10^{-4}$--$1$ & log \\
+$\bar f_2$ & $f_2/\Lam$ & $\phi_2$ axion sectors & $0.05$--$50$ & log \\
+$c_I$ & non-EH operator coefficients & generated operators & $10^{-10}$--$10^{-4}$ in $|c_I|$ & log, both signs \\
+\end{tabular}
+\end{ruledtabular}
+\caption{Default continuous proposal ranges used for cold-start sampling.  These are proposal priors, not physical acceptance cuts.  The Einstein--Hilbert coefficient is not scanned: when the plain $R$ anchor is present it is fixed to $c_R=1/2$.  In one-scalar models the initial scalar velocity is solved from the modified Friedmann constraint rather than independently sampled.  In two-scalar models $q_{2,0}$ is sampled and the constraint solves for the remaining scalar velocity.}
+\label{tab:parameter-priors}
+\end{table*}
+
+For higher-dimension curvature corrections, a naive coefficient prior can make the correction effectively invisible because of powers of $\Lam$.  The scans therefore also use an effective-size diagnostic and, in some proposal modes, choose coefficient magnitudes to target weak, moderate, or active fractional corrections relative to the Einstein--Hilbert term.  The diagnostic range is
+\begin{equation}
+\Delta_i\simeq
+\left|\frac{c_i}{c_{\rm EH}}\right|\lambda_H^{p_i}{\cal F}_i ,
+\label{eq:delta-prior}
+\end{equation}
+with weak, moderate, and active-probe targets corresponding approximately to $10^{-6}$--$10^{-4}$, $10^{-4}$--$10^{-2}$, and $10^{-2}$--$5\times10^{-2}$, respectively.  The coefficient cap used by this proposal policy is $|c_I|\le10^{12}$; samples outside the numerically stable or EFT-valid region are rejected by the Solver rather than by hand.  These prescriptions are search priors only; the final ranking remains the real data value of $\chiT$.
+
+\section{FLRW Reduction and Ghost-Free Filtering}
+\label{sec:ghost}
+
+\subsection{Background equations}
+\label{subsec:background-eom}
+
+The first physical filter is applied after reducing the covariant theory on the spatially flat FLRW metric
+\begin{equation}
+\dd s^2=-N(t)^2\dd t^2+a(t)^2\delta_{ij}\dd x^i\dd x^j .
+\label{eq:flrw}
+\end{equation}
+The minisuperspace variation gives
+\begin{equation}
+\delta S=\int \dd t\left(E_N\delta N+E_a\delta a+\sum_iE_{\phi_i}\delta\phi_i\right),
+\label{eq:variation}
+\end{equation}
+where the inactive scalar equations are omitted.  After variation, the equations are evaluated in cosmic-time gauge, $N=1$:
+\begin{equation}
+E_N=0,\qquad E_a=0,\qquad E_{\phi_i}=0 .
+\label{eq:eom-set}
+\end{equation}
+The lapse equation is not discarded.  It is the modified Friedmann equation, while $E_a$ and $E_{\phi_i}$ determine the dynamical evolution.
+
+\subsection{Ostrogradsky danger and background ghost-free relations}
+\label{subsec:ostro}
+
+Higher-curvature and derivative scalar-curvature operators generically produce equations containing third or higher time derivatives of $a(t)$ and $\phi_i(t)$.  If such derivatives represent independent initial data, the theory contains an Ostrogradsky mode: the Hamiltonian is unbounded and the background branch is physically unacceptable \cite{Ostrogradsky1850}.  The pipeline therefore treats the derivative order of the FLRW equations as a hard physical constraint.
+
+Operationally, each candidate Lagrangian is inspected for higher-derivative structures.  The EOM stage solves for coefficient relations that cancel all forbidden higher-derivative terms in the gauge-fixed background equations.  A theory may survive because a special combination of operators is degenerate on FLRW, or it may fail because no such relation exists.  Passing this filter does not prove full nonlinear perturbative stability, but it removes the most immediate background Ostrogradsky instability and defines the theory sector that is eligible for numerical cosmology.
+
+This is analogous in spirit to the way Horndeski and degenerate scalar-tensor theories avoid extra propagating ghost modes through special derivative structures \cite{Horndeski1974,Langlois2016DHOST}.  Our search is less restrictive at the proposal stage: it allows a broad grammar, then lets the symbolic EOM filter identify which combinations have acceptable FLRW derivative order.
+
+\section{The Modified Friedmann Constraint}
+\label{sec:hamiltonian}
+
+\subsection{Residual time diffeomorphism identity}
+\label{subsec:noether}
+
+In ordinary GR, the FLRW lapse $N$ appears without time derivatives after the Einstein--Hilbert boundary term is handled.  The momentum conjugate to $N$ vanishes, and preserving this primary constraint gives the Hamiltonian constraint, which reduces to the Friedmann equation.  In a raw modified-gravity minisuperspace Lagrangian, however, $N$ may appear with derivatives before integrations by parts or before imposing ghost-free relations.  Therefore the simple GR statement ``the lapse is a Lagrange multiplier'' is not always the cleanest way to identify the constraint.
+
+The more robust argument comes from residual time-reparametrization invariance.  Under
+\begin{equation}
+t\rightarrow t-\xi(t),
+\end{equation}
+the minisuperspace variables transform as
+\begin{equation}
+\delta_\xi a=\xi\dot a,\qquad
+\delta_\xi\phi_i=\xi\dot\phi_i,\qquad
+\delta_\xi N=(N\xi)^{\cdot}.
+\label{eq:time-diffeo}
+\end{equation}
+Invariance of the action under this transformation gives the off-shell Noether identity
+\begin{equation}
+N\dot E_N-\dot a\,E_a-\sum_i\dot\phi_i\,E_{\phi_i}=0.
+\label{eq:noether}
+\end{equation}
+This is the minisuperspace form of the Bianchi identity.  It holds before imposing the equations of motion.
+
+\subsection{Why the lapse equation is a constraint}
+\label{subsec:constraint-proof}
+
+After gauge fixing to $N=1$, Eq.~\eqref{eq:noether} becomes
+\begin{equation}
+\dot E_N=\dot a\,E_a+\sum_i\dot\phi_i\,E_{\phi_i}.
+\label{eq:noether-gauge}
+\end{equation}
+Suppose the ghost-free relations have made the dynamical equations $E_a=0$ and $E_{\phi_i}=0$ at most second order in time derivatives.  Then the right-hand side of Eq.~\eqref{eq:noether-gauge} contains no independent third derivatives.
+
+If the gauge-fixed lapse equation $E_N|_{N=1}$ contained an acceleration, schematically
+\begin{equation}
+E_N|_{N=1}=C(a,\dot a,\ddot a,\phi_i,\dot\phi_i,\ddot\phi_i),
+\end{equation}
+then its time derivative would contain independent third derivatives:
+\begin{equation}
+\dot E_N|_{N=1}
+\supset
+\frac{\partial C}{\partial \ddot a}a^{(3)}
++\sum_i
+\frac{\partial C}{\partial \ddot\phi_i}\phi_i^{(3)}.
+\end{equation}
+These terms cannot be matched by the right-hand side of Eq.~\eqref{eq:noether-gauge}.  Since the identity is off shell and holds for arbitrary field profiles, the coefficients of all independent third derivatives must vanish.  Therefore
+\begin{equation}
+E_N|_{N=1}=C_N(a,\dot a,\phi_i,\dot\phi_i),
+\label{eq:first-order-constraint}
+\end{equation}
+and the lapse equation is a first-order constraint on FLRW initial data, not an independent second-order dynamical equation.
+
+\subsection{Constraint preservation}
+\label{subsec:constraint-preservation}
+
+The same identity guarantees propagation of the constraint.  On solutions of the dynamical equations,
+\begin{equation}
+E_a=0,\qquad E_{\phi_i}=0,
+\end{equation}
+Eq.~\eqref{eq:noether-gauge} implies
+\begin{equation}
+\dot E_N=0.
+\end{equation}
+Thus if the initial data satisfy
+\begin{equation}
+E_N(t_0)=0,
+\end{equation}
+then the background evolution preserves
+\begin{equation}
+E_N(t)=0.
+\end{equation}
+This justifies using the lapse equation to solve for one initial velocity and then monitoring the residual constraint throughout numerical integration.
+
+This argument should not be overstated.  It is a background minisuperspace result, not a full ADM/Dirac proof of the complete four-dimensional constraint algebra \cite{Dirac1958,ADM1962}.  What it establishes is precisely what the cosmological Solver needs: in the ghost-free FLRW sector, the lapse equation is the modified Friedmann constraint and is preserved by the accepted dynamical equations.
+
+\section{Dimensionless Cosmological Initial-Value Problem}
+\label{sec:ivp}
+
+The numerical evolution uses e-fold time
+\begin{equation}
+x=\ln a=-\ln(1+z),
+\qquad
+h=\frac{H}{H_0},
+\label{eq:xh}
+\end{equation}
+so that
+\begin{equation}
+\frac{\dd}{\dd t}=H_0h\frac{\dd}{\dd x}.
+\label{eq:chain-rule}
+\end{equation}
+The relevant substitutions include
+\begin{align}
+\dot a&=H_0e^xh,
+&
+\ddot a&=H_0^2e^x(h^2+hh_x),\\
+\dot\phi_1&=\Mp H_0h q_1,
+&
+\ddot\phi_1&=\Mp H_0^2h(h_xq_1+hq_{1x}),\\
+\dot\phi_2&=H_0^2\lambda_H h q_2,
+&
+\ddot\phi_2&=H_0^3\lambda_H h(h_xq_2+hq_{2x}),
+\label{eq:rescalings}
+\end{align}
+where
+\begin{equation}
+q_i=\frac{\dd\varphi_i}{\dd x}.
+\end{equation}
+Masses and decay constants are written as
+\begin{equation}
+m_1=H_0\mu_1,\qquad
+m_2=\Lam\mu_2,\qquad
+f_1=\Mp \bar f_1,\qquad
+f_2=\Lam \bar f_2 .
+\end{equation}
+
+After these substitutions, the Builder forms dimensionless equations
+\begin{equation}
+C_N=0,\qquad C_a=0,\qquad C_{\phi_i}=0.
+\end{equation}
+The constraint $C_N=0$ is imposed at $x=0$ with $h(0)=1$.  The dynamical equations are solved algebraically for the highest e-fold derivatives,
+\begin{equation}
+\bm u=(h_x,q_{1x},q_{2x})^T.
+\end{equation}
+When a regular branch exists, the result is an explicit first-order system,
+\begin{equation}
+\frac{\dd}{\dd x}
+\begin{pmatrix}
+h\\ \varphione\\ q_1\\ \varphitwo\\ q_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+F_h\\ q_1\\ F_1\\ q_2\\ F_2
+\end{pmatrix},
+\label{eq:first-order}
+\end{equation}
+with absent scalar variables omitted.  The trajectory is rejected if the constraint drifts beyond the production tolerance,
+\begin{equation}
+\max_x|C_N(x)|>10^{-4},
+\label{eq:constraint-cut}
+\end{equation}
+or if the solution violates the EFT condition Eq.~\eqref{eq:eft-cut}.
+
+\section{Cosmological Observables}
+\label{sec:observables}
+
+Each accepted solution gives a Hubble history $H(z)=H_0h(z)$.  The supernova distance modulus is computed from
+\begin{equation}
+D_L(z)=(1+z_{\rm hel})\frac{c}{H_0}
+\int_0^{z_{\rm HD}}\frac{\dd z'}{h(z')},
+\label{eq:luminosity-distance}
+\end{equation}
+with an analytically profiled absolute-magnitude offset.  The supernova likelihood therefore mainly constrains the relative shape of the distance-redshift relation.
+
+The BAO observables are computed from the same background solution:
+\begin{align}
+\calD_M(z)&=\int_0^z\frac{\dd z'}{h(z')},\\
+\calD_H(z)&=\frac{1}{h(z)},\\
+\calD_V(z)&=\left[\frac{z\calD_M(z)^2}{h(z)}\right]^{1/3}.
+\label{eq:bao}
+\end{align}
+In the current background-only analysis, the BAO scale is profiled as a nuisance parameter.  Thus the DESI comparison should be interpreted as a relative-distance test of the late-time expansion history, not as a complete early-universe calculation of the sound horizon in each modified-gravity theory.
+
+The primary score is
+\begin{equation}
+\chiT=\chi^2_{\DES\text{-}\SN}+\chi^2_{\DESI\text{-DR2}\,\BAO}.
+\label{eq:chi2}
+\end{equation}
+Models are ranked by $\chiT$, with information criteria recorded only as secondary diagnostics \cite{Akaike1974,Schwarz1978}.
+
+\section{Autonomous Search Strategy}
+\label{sec:search}
+
+The autonomous component follows the same principle as formal-language approaches to particle-physics discovery: generate theories inside a grammar, enforce hard theoretical constraints, compute observables with deterministic code, and reward agreement with data \cite{Alexander2026Albert}.  In the present work the grammar is a modified-gravity Lagrangian grammar rather than a particle-physics gauge grammar.  The hard constraints are covariance of the generated operators, dimension balancing, background ghost-free relations, existence of a regular IVP, Friedmann-constraint preservation, and EFT validity.  The empirical reward is the Solver-written $\chiT$.
+
+The important point is that the search policy is not part of the physics claim.  Different proposal policies can explore the same theory space.  A candidate becomes physically interesting only when it passes the deterministic validation chain and produces an accepted cosmological trajectory.  For that reason we report accepted theories by their complete Lagrangians, coefficient values, scalar initial conditions, constraint residuals, and data-fit metrics rather than by agent prompts or internal training details.
+
+\subsection{Sector-separated discovery runs}
+\label{subsec:sector-separated-search}
+
+To make the search output easier to interpret, the latest batch runs separate proposal memory into three independent sectors.  The first sector is an unbiased open-search control.  It samples the full grammar, subject only to the universal legality, ghost-free, IVP, and likelihood filters described above.  This sector tests whether the agent can rediscover the globally competitive background branches without being told which scalar family should work.  The second sector forces an Einstein--Hilbert anchor and a $\phi_2$-only scalar configuration, with at least one explicit $\phi_2$--curvature operator.  This isolates cutoff-normalized $\phi_2$ new-physics candidates from the easier Planck-normalized $\phi_1$ sector.  The third sector forbids the bare Einstein--Hilbert $R$ operator and searches non-EH-anchored curvature or scalar-curvature theories.
+
+The three sectors share the same deterministic validation pipeline but do not share learned proposal memory.  Thus a successful $\phi_1$-anchored open-search branch cannot directly bias the $\phi_2$-only or non-EH proposal policy.  In a triad batch with 24 candidates per wave, the proposal budget is divided as
+\begin{equation}
+N_{\rm open}:N_{\rm EH+\phi_2}:N_{\rm non\text{-}EH}=8:8:8 .
+\label{eq:triad-budget}
+\end{equation}
+Each sector writes its own attempt history, failure tags, accepted-sample statistics, and best-per-family report.  The final comparison is therefore not a posterior model probability; it is a controlled discovery diagnostic answering three different questions: how well the agent optimizes the full grammar, how well explicitly $\phi_2$-only EH-anchored new physics performs, and whether non-EH-anchored backgrounds can compete when given an equal proposal budget.
+
+\section{Representative Results}
+\label{sec:results}
+
+Recent v5.2.2-agent scans provide a useful snapshot of the current search.  They are not combined into a posterior distribution, since the proposal policies and run budgets differ.  They should instead be read as validated examples of what the pipeline can find and as diagnostics for where the theory space is difficult.
+
+\begin{table*}[t]
+\centering
+\begin{ruledtabular}
+\begin{tabular}{lrrrrl}
+Run & Attempts & Accepted & Families & Best $\chiT$ & Main physical lesson \\
+\hline
+\texttt{graph\_agent\_batch\_1600\_llm\_v3} & 880 & 309 & 49 & 1637.966 & Competitive EH-anchored scalar sectors and some active corrections \\
+\texttt{graph\_agent\_batch\_208\_split\_v4} & 208 & 70 & 20 & 1638.043 & EH-anchored track strongly outperforms non-EH-only track \\
+\texttt{graph\_agent\_oscar\_llm\_strict\_500\_nomem} & 561 & 310 & 18 & 1638.835 & Strict no-memory run rediscovers simple $\phi_1$ sectors \\
+\end{tabular}
+\end{ruledtabular}
+\caption{Representative recent validated agent runs.  ``Families'' denotes the number of best-per-family representatives shown in the human-facing reports; the machine-readable reports keep all accepted attempts.}
+\label{tab:results}
+\end{table*}
+
+The best representative in the 1600-attempt report has
+\begin{equation}
+\chiT=1637.966,
+\qquad
+H_0=65.599~{\rm km\,s^{-1}\,Mpc^{-1}},
+\qquad
+\Omega_{m0}=0.2727,
+\end{equation}
+with $\lambda_H=3916.603$.  Its operator content is an Einstein--Hilbert anchor plus a derivative curvature correction,
+\begin{equation}
+R,\qquad \nabla^cR^{ab}\nabla_cR_{ab},
+\end{equation}
+in a two-scalar axion/axion sector.  The effective correction diagnostic classifies the curvature correction as moderate, with relative size $\Delta_{\rm max}=4.47\times10^{-4}$.
+
+The same scan also finds Einstein--Hilbert plus scalar baselines with nearly identical background quality.  For example, a $\phi_1$ axion model with only the $R$ anchor reaches
+\begin{equation}
+\chiT=1638.021.
+\end{equation}
+This is physically important: the data reward smooth scalar dark-energy expansion histories, and a low background $\chi^2$ by itself does not prove that an additional curvature correction is dynamically important.
+
+The split-track run makes this point even more clearly.  Its best EH-anchored representative is a $\phi_1$ quadratic model with only the $R$ operator and
+\begin{equation}
+\chiT=1638.043.
+\end{equation}
+Several nearby models include corrections such as $\phi_1\Box R$, $R^2$, $\nabla\phi_1\nabla\phi_1R_{\mu\nu}$, and $\phi_1R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}$, with weak-to-active effective sizes.  In the same run, the best non-EH-only and $\phi_2$-dominated representatives have $\chiT\simeq9434$, indicating that these branches are much less successful under the current priors and likelihood.  This should be interpreted as a current-loop empirical signal, not as a theorem excluding those sectors.
+
+\subsection{Three-sector comparison}
+\label{subsec:three-sector-results}
+
+Table~\ref{tab:triad-partial} shows a partial snapshot of the triad run after 888 validated attempts.  The run had not yet completed the final wave when this snapshot was produced, but the sector-level hierarchy was already stable.  The open-search control rediscovers the same competitive EH-anchored scalar basin found in earlier runs, reaching $\chiT=1637.965$.  The forced EH+$\phi_2$ sector produces many accepted trajectories but remains on a higher-$\chi^2$ plateau, with best representative near $\chiT=1942.43$.  The non-EH sector has a lower acceptance rate and its best accepted trajectories remain close to the same $\phi_2$-like plateau, rather than approaching the open-search optimum.
+
+\begin{table}[t]
+\centering
+\begin{ruledtabular}
+\begin{tabular}{lccc}
+Sector & Attempts & Accepted & Best $\chiT$ \\
+\hline
+Open search & 296 & 153 & 1637.965 \\
+EH+$\phi_2$ only & 296 & 85 & 1942.431 \\
+Non-EH anchored & 296 & 31 & 1946.871 \\
+\end{tabular}
+\end{ruledtabular}
+\caption{Partial three-sector triad summary after 888 completed attempts of \texttt{graph\_agent\_batch\_912\_triad\_v1}.  Each sector used an equal proposal budget and independent current-loop memory.  The numbers are discovery diagnostics rather than posterior probabilities.}
+\label{tab:triad-partial}
+\end{table}
+
+The leading representatives are useful to display because the three sectors fail or succeed in different ways.  Table~\ref{tab:representative-fingerprints} gives representative dimension-balanced correction content rather than claiming to reproduce every coefficient-substituted term in the report.  This distinction is important: the complete tested Lagrangian is the validated pickle object plus the accepted Solver row, whereas the table is a compact physics fingerprint for the paper.
+
+\begin{table*}[t]
+\centering
+\begin{ruledtabular}
+\begin{tabular}{lp{0.58\textwidth}c}
+Sector & Representative non-fixed content inside $\sqrt{-g}$ & $\chiT$ \\
+\hline
+Open search &
+$\Mp^2\!\left[\frac12 R+c_1\Lam^{-3}\phi_1R^2\right]
++\Lag_{\rm fixed}^{(1)}+\Lag_{\rm fixed}^{(2)}$ &
+1637.965 \\
+Open search &
+$\Mp^2\!\left[\frac12 R\right]
++\Lag_{\rm fixed}^{(1)}+\Lag_{\rm fixed}^{(2)}$ &
+1638.006 \\
+Open search &
+$\Mp^2\!\left[\frac12 R+c_1\Lam^{-4}R^3
++c_2\Lam^{-4}\phi_1^2R^2\right]
++\Lag_{\rm fixed}^{(1)}+\Lag_{\rm fixed}^{(2)}$ &
+1638.028 \\
+EH+$\phi_2$ &
+$\Mp^2\!\left[\frac12 R+c_1\Lam^{-1}\phi_2R
++c_2\Lam^{-3}\phi_2R_{ab}R^{ab}
++c_3\Lam^{-3}\phi_2R^{bcd}{}_{a}R^{a}{}_{bcd}
++c_4\Lam^{-4}\phi_2^2R^{bcd}{}_{a}R^{a}{}_{bcd}\right]
++\Lag_{\rm fixed}^{(2)}$ &
+1942.431 \\
+Non-EH &
+$\Mp^2\!\left[c_1\Lam^{-2}R^2
++c_2\Lam^{-3}\phi_2R_{ab}R^{ab}
++c_3\Lam^{-3}\phi_2R^{bcd}{}_{a}R^{a}{}_{bcd}
++c_4\Lam^{-3}(\nabla^a\phi_2)(\nabla_aR)
++c_5\Lam^{-3}(\Box\phi_2)R\right]
++\Lag_{\rm fixed}^{(2)}$ &
+1946.871 \\
+Non-EH &
+$\Mp^2\!\left[c_1\Lam^{-1}\phi_2R
++c_2\Lam^{-3}\phi_2R^2\right]
++c_3\Lam^{-1}\phi_2^2\Box\phi_2
++\Lag_{\rm fixed}^{(2)}$ &
+9434.003 \\
+\end{tabular}
+\end{ruledtabular}
+\caption{Representative dimension-balanced theory fingerprints from the triad run.  Gravity and non-minimal scalar-curvature terms appear inside the $\Mp^2(\cdots)$ prefactor with $\Lam^{2-d}$, while generated pure-scalar terms appear outside the $\Mp^2$ prefactor with $\Lam^{4-d}$.  The table intentionally omits numerical coefficient substitutions and some subleading accepted terms; those are stored in the machine-readable report.}
+\label{tab:representative-fingerprints}
+\end{table*}
+
+The open-search sector is therefore dominated by an EH-anchored scalar basin: the best representative includes a $\phi_1R^2$ correction, while the second-best representative is essentially an EH plus two-scalar baseline.  The forced EH+$\phi_2$ sector finds accepted models, but their best background fits are substantially worse and their effective correction labels are weak in the current report, with the best representative having $\Delta_{\rm max}\simeq3.35\times10^{-5}$.  The non-EH sector confirms the same pattern from another direction: removing the bare $R$ anchor makes accepted trajectories rarer and does not produce a competitive low-$\chi^2$ background branch in this run.
+
+\section{Interpretation and limitations}
+\label{sec:interpretation}
+
+The present results should be interpreted as a controlled background-cosmology discovery experiment, not as a final selection of a fundamental theory of gravity.  Passing the current pipeline means that a candidate is grammar legal, satisfies the implemented FLRW derivative-order filter, admits a preserved modified Friedmann constraint, can be written as a regular first-order IVP, remains inside the EFT and constraint-drift cuts, and fits DES-SN plus DESI-DR2 BAO at the quoted $\chiT$.  It does not yet guarantee perturbative no-ghost stability, positive scalar and tensor sound speeds, compatibility with gravitational-wave propagation constraints, viable screening in local environments, or agreement with growth-of-structure data.
+
+The strongest physics conclusion is therefore comparative.  The autonomous search repeatedly rediscovers EH-anchored scalar sectors as the most efficient way to fit the present background data.  Some accepted models contain moderate or active curvature corrections, but many low-$\chi^2$ representatives are either clean EH plus scalar baselines or have non-EH corrections that are weak after cutoff powers and best-fit coefficients are applied.  The effective-correction diagnostic is included precisely to avoid overinterpreting a formally complicated Lagrangian whose additional curvature operators are dynamically negligible.
+
+\section{Reproducibility}
+\label{sec:reproducibility}
+
+Every accepted candidate is stored with its proposal JSON, validated dimension-balanced Lagrangian, ghost-free relations, Builder cache entry, accepted Solver row, constraint residual, $h(z)$ solution, and likelihood outputs.  The human-readable report shows one best representative per coarse theory family, while the machine-readable files retain all accepted samples and all rejection diagnostics.  This separation is useful for publication: the paper summarizes the physics fingerprints, while the released repository can provide the exact coefficient-substituted Lagrangians and parameter values needed to reproduce each accepted trajectory.
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+We have described a physics-centered autonomous search for modified gravity in a two-scalar EFT-like theory space.  The central idea is to let the agent explore a large grammar-constrained set of covariant Lagrangians while the deterministic pipeline enforces the physical requirements: background ghost-free relations, a preserved modified Friedmann constraint, a regular dimensionless IVP, EFT control, constraint stability, and real-data comparison.
+
+The current v5.2.2-agent scans reach $\chiT\simeq1638$ in EH-anchored scalar sectors, while forced EH+$\phi_2$ and non-EH-anchored sectors remain significantly less competitive in the partial triad run.  This pattern is a useful discovery signal, not a proof that other sectors are impossible.  Future validation layers should add perturbation stability, growth observables, gravitational-wave constraints, and local-gravity consistency tests.  The same proposal-and-validation architecture can then be reused with a stricter definition of viability.
+
+
+\bibliographystyle{apsrev4-2}
+\bibliography{main4}
+
+\end{document}

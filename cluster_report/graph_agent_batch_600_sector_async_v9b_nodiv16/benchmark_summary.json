@@ -1,0 +1,200 @@
+{
+  "run_name": "graph_agent_batch_600_sector_async_v9b_nodiv16",
+  "generated_by": "ai_theory_lab.report",
+  "ranking_rule": "chi2_total primary; AIC tie-breaker",
+  "delta_chi2_vs_lcdm_definition": "model_chi2 - lcdm_chi2; negative means better than LCDM",
+  "feedback_total_attempts": 688,
+  "lcdm": {
+    "chi2": 1645.28,
+    "chi2_sn": 1634.06,
+    "chi2_bao": 11.2222,
+    "chi2_per_point": 0.897588,
+    "AIC": 1653.28,
+    "BIC": 1675.33,
+    "sn_offset_hat": -0.007680205052708975,
+    "bao_alpha_hat": 29.719013550052324,
+    "H0": 70.0,
+    "Omega_m0": 0.306,
+    "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_600_sector_async_v9b_nodiv16_task_000313_expanded_refine_slot_01/agent_solver_result/agent_solve/scan_report.txt"
+  },
+  "scheduler": {
+    "scheduler": "async_slots",
+    "target_attempts": 600,
+    "submitted_total": 600,
+    "recorded_total": 600,
+    "expanded_submitted_total": 73,
+    "expanded_recorded_total": 73,
+    "refine_submitted_total": 15,
+    "refine_recorded_total": 15,
+    "failed_total": 0,
+    "completed": true,
+    "latest_event": "scheduler_complete",
+    "latest_timestamp": "2026-06-19T04:02:38-0400"
+  },
+  "proposal_metadata": {
+    "proposal_json_count": 690,
+    "llm_models": {
+      "gpt-5-mini": 675
+    },
+    "proposal_modes": {
+      "llm": 675,
+      "direct_candidate_policy": 13
+    }
+  },
+  "sectors": {
+    "all": {
+      "sector": "all",
+      "attempts": 208,
+      "entered_solver": 208,
+      "entered_solver_rate": 1.0,
+      "accepted": 208,
+      "accept_rate": 1.0,
+      "best_chi2": 1637.9598876000896,
+      "median_accepted_chi2": 1638.6618402916238,
+      "top10_mean_chi2": 1637.9598876000896,
+      "lcdm_chi2": 1645.28,
+      "best_delta_chi2_vs_lcdm": -7.320112399910386,
+      "best_chi2_improvement_over_lcdm": 7.320112399910386,
+      "unique_families": 91,
+      "unique_families_chi2_lt_1640": 37,
+      "unique_families_chi2_lt_1650": 38,
+      "unique_families_chi2_lt_1700": 42,
+      "unique_families_chi2_lt_2000": 47,
+      "active_or_moderate_families": 22,
+      "effective_correction_counts": {
+        "weak": 20,
+        "eh_only": 8,
+        "active": 12,
+        "eh_dominated": 18,
+        "moderate": 10,
+        "not_applicable_non_eh": 23
+      },
+      "scalar_counts": {
+        "phi1_only": 79,
+        "both": 90,
+        "phi2_only": 39
+      },
+      "accepted_scalar_counts": {
+        "phi1_only": 79,
+        "both": 90,
+        "phi2_only": 39
+      },
+      "track_counts": {
+        "eh_anchored": 179,
+        "non_eh": 29
+      },
+      "failure_tag_counts": {
+        "q_initial_root_failure": 208,
+        "h_absurdly_large": 154,
+        "constraint_drift": 190,
+        "integration_failure": 42
+      },
+      "wall_time_hours": 17.62361111111111,
+      "attempts_per_hour": 11.80234849081882,
+      "accepted_per_hour": 11.80234849081882,
+      "api_calls": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": null
+    },
+    "non_eh": {
+      "sector": "non_eh",
+      "attempts": 29,
+      "entered_solver": 29,
+      "entered_solver_rate": 1.0,
+      "accepted": 29,
+      "accept_rate": 1.0,
+      "best_chi2": 1929.3966185519614,
+      "median_accepted_chi2": 9434.00695690269,
+      "top10_mean_chi2": 4939.00832084285,
+      "lcdm_chi2": 1645.28,
+      "best_delta_chi2_vs_lcdm": 284.11661855196144,
+      "best_chi2_improvement_over_lcdm": -284.11661855196144,
+      "unique_families": 23,
+      "unique_families_chi2_lt_1640": 0,
+      "unique_families_chi2_lt_1650": 0,
+      "unique_families_chi2_lt_1700": 0,
+      "unique_families_chi2_lt_2000": 2,
+      "active_or_moderate_families": 0,
+      "effective_correction_counts": {
+        "not_applicable_non_eh": 23
+      },
+      "scalar_counts": {
+        "phi2_only": 24,
+        "both": 5
+      },
+      "accepted_scalar_counts": {
+        "phi2_only": 24,
+        "both": 5
+      },
+      "track_counts": {
+        "non_eh": 29
+      },
+      "failure_tag_counts": {
+        "q_initial_root_failure": 29,
+        "constraint_drift": 28,
+        "integration_failure": 17
+      },
+      "wall_time_hours": 17.62361111111111,
+      "attempts_per_hour": 1.6455197415083933,
+      "accepted_per_hour": 1.6455197415083933,
+      "api_calls": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": null
+    },
+    "open_search": {
+      "sector": "open_search",
+      "attempts": 179,
+      "entered_solver": 179,
+      "entered_solver_rate": 1.0,
+      "accepted": 179,
+      "accept_rate": 1.0,
+      "best_chi2": 1637.9598876000896,
+      "median_accepted_chi2": 1638.4187763722734,
+      "top10_mean_chi2": 1637.9598876000896,
+      "lcdm_chi2": 1645.28,
+      "best_delta_chi2_vs_lcdm": -7.320112399910386,
+      "best_chi2_improvement_over_lcdm": 7.320112399910386,
+      "unique_families": 68,
+      "unique_families_chi2_lt_1640": 37,
+      "unique_families_chi2_lt_1650": 38,
+      "unique_families_chi2_lt_1700": 42,
+      "unique_families_chi2_lt_2000": 45,
+      "active_or_moderate_families": 22,
+      "effective_correction_counts": {
+        "weak": 20,
+        "eh_only": 8,
+        "active": 12,
+        "eh_dominated": 18,
+        "moderate": 10
+      },
+      "scalar_counts": {
+        "phi1_only": 79,
+        "both": 85,
+        "phi2_only": 15
+      },
+      "accepted_scalar_counts": {
+        "phi1_only": 79,
+        "both": 85,
+        "phi2_only": 15
+      },
+      "track_counts": {
+        "eh_anchored": 179
+      },
+      "failure_tag_counts": {
+        "q_initial_root_failure": 179,
+        "h_absurdly_large": 154,
+        "constraint_drift": 162,
+        "integration_failure": 25
+      },
+      "wall_time_hours": 17.62361111111111,
+      "attempts_per_hour": 10.156828749310426,
+      "accepted_per_hour": 10.156828749310426,
+      "api_calls": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": null
+    }
+  }
+}

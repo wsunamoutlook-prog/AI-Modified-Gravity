@@ -48,6 +48,7 @@ Nondimensionalization substitutions:
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 import os
@@ -957,7 +958,71 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
 # LCDM reference
 # =============================================================================
 
+def _lcdm_cache_enabled() -> bool:
+    return os.environ.get("SOLVER_LCDM_CACHE", "1").strip().lower() not in {"0", "false", "no", "off"}
+
+
+def _hash_likelihood_value(hasher: "hashlib._Hash", value: Any) -> None:
+    if isinstance(value, np.ndarray):
+        arr = np.ascontiguousarray(value)
+        hasher.update(b"ndarray")
+        hasher.update(str(arr.shape).encode("utf-8"))
+        hasher.update(str(arr.dtype).encode("utf-8"))
+        hasher.update(arr.tobytes())
+        return
+    if isinstance(value, dict):
+        hasher.update(b"dict")
+        for key in sorted(value):
+            hasher.update(str(key).encode("utf-8"))
+            _hash_likelihood_value(hasher, value[key])
+        return
+    if isinstance(value, (list, tuple)):
+        hasher.update(b"list")
+        for item in value:
+            _hash_likelihood_value(hasher, item)
+        return
+    hasher.update(json.dumps(value, sort_keys=True, default=str).encode("utf-8"))
+
+
+def _lcdm_cache_path(sn_data: dict, bao_data: dict) -> Path:
+    hasher = hashlib.sha256()
+    hasher.update(b"lcdm_fit_reference_v1")
+    _hash_likelihood_value(hasher, sn_data)
+    _hash_likelihood_value(hasher, bao_data)
+    cache_dir = Path(os.environ.get("SOLVER_LCDM_CACHE_DIR", REPO_ROOT / "solver_v5_2" / "cache"))
+    return cache_dir / f"lcdm_reference_{hasher.hexdigest()[:16]}.json"
+
+
+def _read_lcdm_cache(path: Path) -> Dict[str, float] | None:
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and "chi2" in data:
+            return {str(k): float(v) for k, v in data.items()}
+    except Exception:
+        return None
+    return None
+
+
+def _write_lcdm_cache(path: Path, data: Dict[str, float]) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")
+        serializable = {str(k): float(v) for k, v in data.items()}
+        tmp.write_text(json.dumps(serializable, sort_keys=True, indent=2), encoding="utf-8")
+        os.replace(tmp, path)
+    except Exception:
+        return
+
+
 def lcdm_fit_reference(sn_data: dict, bao_data: dict) -> Dict[str, float]:
+    cache_path = _lcdm_cache_path(sn_data, bao_data) if _lcdm_cache_enabled() else None
+    if cache_path is not None:
+        cached = _read_lcdm_cache(cache_path)
+        if cached is not None:
+            return cached
+
     best = {"chi2": math.inf}
     zmax_required = max(float(np.max(sn_data["zHD"])), float(np.max(bao_data["z"])))
     z_grid = np.linspace(0.0, zmax_required * 1.001, 3000)
@@ -986,6 +1051,8 @@ def lcdm_fit_reference(sn_data: dict, bao_data: dict) -> Dict[str, float]:
     k = 4  # H0, Omega_m0, DES-SN M_SN, DESI BAO alpha_BAO
     best["AIC"] = best["chi2"] + 2 * k
     best["BIC"] = best["chi2"] + k * math.log(n)
+    if cache_path is not None:
+        _write_lcdm_cache(cache_path, best)
     return best
 
 

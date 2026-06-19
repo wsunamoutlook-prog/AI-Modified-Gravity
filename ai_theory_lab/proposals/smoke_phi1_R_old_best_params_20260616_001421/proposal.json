@@ -1,0 +1,95 @@
+{
+  "proposal_id": "smoke_phi1_R_old_best_params_20260616_001421",
+  "theory": {
+    "scalar_config": "phi1_only",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      }
+    ],
+    "theory_track": "eh_anchored",
+    "proposal_group": "open_search"
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 66.66213976926392,
+      "Omega_m0": 0.2724851234580281,
+      "lambda_H_Lambda_over_H0": 12375.796400093348,
+      "varphi1_0_phi1_over_Mp": 1.8375817212358285,
+      "mu1_m1_over_H0": 1.0790912126103254,
+      "fbar1_f1_over_Mp": 3.8700394071957693,
+      "\\alpha": 0.5,
+      "alpha": 0.5
+    }
+  ],
+  "parameter_sampling_policy": {
+    "strategy": "structure_conditioned_joint_prior_plus_planned_relative_effect",
+    "agent_exact_fraction": 0.5,
+    "joint_prior_usage_fraction": 0.8,
+    "sample_source_counts": {
+      "learned_random": 500,
+      "agent_exact": 500
+    },
+    "joint_prior_usage_counts": {
+      "none": 1000,
+      "global": 0,
+      "scalar": 0,
+      "coarse": 0,
+      "exact": 0
+    },
+    "mode_counts": {
+      "baseline": 1000,
+      "weak": 0,
+      "moderate": 0,
+      "active_probe": 0
+    },
+    "mode_weights": {
+      "baseline": 0.1,
+      "weak": 0.3,
+      "moderate": 0.3,
+      "active_probe": 0.3
+    },
+    "target_relative_effect": {
+      "baseline": {
+        "low": 0.0,
+        "high": 0.0,
+        "log10": false
+      },
+      "weak": {
+        "low": 1e-06,
+        "high": 0.0001,
+        "log10": true
+      },
+      "moderate": {
+        "low": 0.0001,
+        "high": 0.01,
+        "log10": true
+      },
+      "active_probe": {
+        "low": 0.01,
+        "high": 100.0,
+        "log10": true
+      }
+    },
+    "coefficient_abs_min": 1e-10,
+    "coefficient_abs_max": 1e+20,
+    "notes": "When current-loop joint_parameter_prior has positive reward evidence for the exact, coarse, scalar, or global theory family, common cosmological/scalar parameters are seeded from those joint vectors before coefficients are recomputed for the current operator set. Baseline samples draw raw coefficients from the broad coefficient prior. Non-EH curvature correction coefficients in weak/moderate/active_probe modes are sampled from a target effective size relative to the EH term using lambda_power and scalar field factors. EH R is fixed."
+  },
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "proposal_mode": "smoke_direct_candidate",
+  "target_operator_count": null,
+  "baseline_control": false,
+  "theory_track": "eh_anchored",
+  "proposal_group": "open_search",
+  "catalog_location": {
+    "source_n_terms": 3,
+    "source_local_number": 2
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "proposal_id": "cold_start_token_loop_03_task_000003_complex_lag_1",
+  "theory": {
+    "scalar_config": "both",
+    "potential_types": {
+      "phi1": "quadratic",
+      "phi2": "axion"
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "φ1 · ∇^{a}φ2 · ∇_{a}φ2"
+      }
+    ],
+    "theory_track": "eh_anchored",
+    "proposal_group": "open_search"
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 60.53487288194677,
+      "Omega_m0": 0.24522205075665146,
+      "lambda_H_Lambda_over_H0": 28169.934004662013,
+      "agent_sample_source_code": 0.0,
+      "agent_correction_mode_code": 0.0,
+      "agent_joint_prior_level_code": -1.0,
+      "agent_joint_prior_reward": 0.0,
+      "agent_joint_prior_chi2": -1.0,
+      "agent_joint_prior_rank": -1.0,
+      "varphi1_0_phi1_over_Mp": 0.016152300386978676,
+      "mu1_m1_over_H0": 0.09508162937701281,
+      "fbar1_f1_over_Mp": 46.9210597393244,
+      "varphi2_0_phi2_over_Lambda": 1.8122141069527964,
+      "mu2_m2_over_Lambda": 1232.4249585114428,
+      "fbar2_f2_over_Lambda": 289.09732201023866,
+      "q2_0_dvarphi2_dln_a": -0.003161074198690864,
+      "\\alpha": 0.5,
+      "alpha": 0.5,
+      "\\beta": 3830.4049398779684,
+      "beta": 3830.4049398779684,
+      "\\gamma": -84159528882797.78,
+      "gamma": -84159528882797.78
+    }
+  ],
+  "parameter_sampling_policy": {
+    "strategy": "structure_conditioned_joint_prior_plus_planned_relative_effect",
+    "agent_exact_fraction": 0.5,
+    "joint_prior_usage_fraction": 0.8,
+    "sample_source_counts": {
+      "learned_random": 1,
+      "agent_exact": 0
+    },
+    "joint_prior_usage_counts": {
+      "none": 1,
+      "global": 0,
+      "scalar": 0,
+      "coarse": 0,
+      "exact": 0
+    },
+    "mode_counts": {
+      "baseline": 1,
+      "weak": 0,
+      "moderate": 0,
+      "active_probe": 0
+    },
+    "mode_weights": {
+      "baseline": 0.1,
+      "weak": 0.3,
+      "moderate": 0.3,
+      "active_probe": 0.3
+    },
+    "target_relative_effect": {
+      "baseline": {
+        "low": 0.0,
+        "high": 0.0,
+        "log10": false
+      },
+      "weak": {
+        "low": 1e-06,
+        "high": 0.0001,
+        "log10": true
+      },
+      "moderate": {
+        "low": 0.0001,
+        "high": 0.01,
+        "log10": true
+      },
+      "active_probe": {
+        "low": 0.01,
+        "high": 100.0,
+        "log10": true
+      }
+    },
+    "coefficient_abs_min": 1e-10,
+    "coefficient_abs_max": 1e+20,
+    "notes": "When current-loop joint_parameter_prior has positive reward evidence for the exact, coarse, scalar, or global theory family, common cosmological/scalar parameters are seeded from those joint vectors before coefficients are recomputed for the current operator set. Baseline samples draw raw coefficients from the broad coefficient prior. Non-EH curvature correction coefficients in weak/moderate/active_probe modes are sampled from a target effective size relative to the EH term using lambda_power and scalar field factors. EH R is fixed."
+  },
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "proposal_mode": "direct_candidate_policy",
+  "target_operator_count": 3,
+  "baseline_control": false,
+  "theory_track": "eh_anchored",
+  "proposal_group": "open_search",
+  "proposal_scalar_constraint": "both",
+  "catalog_location": {
+    "source_n_terms": 7,
+    "source_local_number": 189
+  },
+  "batch_wave": 3,
+  "batch_lag_id": "1",
+  "validation_wave": "task_000003_complex",
+  "complexity_bucket": "complex",
+  "complexity_score": 10.6,
+  "scheduler_task_id": "task_000003",
+  "scheduler_lane": "complex",
+  "memory_snapshot_attempt_count": 0,
+  "memory_snapshot_timestamp": "2026-06-15T04:04:49-0400"
+}

@@ -1,0 +1,224 @@
+{
+  "proposal_id": "cold_start_token_loop_01_task_000001_slot_01_lag_1",
+  "theory": {
+    "scalar_config": "none",
+    "potential_types": {
+      "phi1": null,
+      "phi2": null
+    },
+    "operators": [
+      {
+        "coefficient": "\\alpha",
+        "candidate": "R"
+      },
+      {
+        "coefficient": "\\beta",
+        "candidate": "R^{ab} · R_{ab}"
+      },
+      {
+        "coefficient": "\\gamma",
+        "candidate": "R^{b}_{a} · R^{cd} · R^{a}_{cbd}"
+      },
+      {
+        "coefficient": "\\delta",
+        "candidate": "∇^{a}R · ∇_{a}R"
+      },
+      {
+        "coefficient": "\\epsilon",
+        "candidate": "∇^{a}∇^{b}R · R_{ab}"
+      }
+    ],
+    "theory_track": "eh_anchored",
+    "proposal_group": "open_search"
+  },
+  "parameter_samples": [
+    {
+      "H0_km_s_Mpc": 73.50826842773128,
+      "Omega_m0": 0.3087093118545268,
+      "lambda_H_Lambda_over_H0": 44080.81653487095,
+      "agent_sample_source_code": 0.0,
+      "agent_correction_mode_code": 3.0,
+      "agent_joint_prior_level_code": -1.0,
+      "agent_joint_prior_reward": 0.0,
+      "agent_joint_prior_chi2": -1.0,
+      "agent_joint_prior_rank": -1.0,
+      "\\alpha": 0.5,
+      "alpha": 0.5,
+      "\\beta": 190586127.15141255,
+      "beta": 190586127.15141255,
+      "\\gamma": -1.144973348605828e+19,
+      "gamma": -1.144973348605828e+19,
+      "\\delta": 4.4386735042183583e+18,
+      "delta": 4.4386735042183583e+18,
+      "\\epsilon": 1.1181963171997746e+18,
+      "epsilon": 1.1181963171997746e+18
+    },
+    {
+      "H0_km_s_Mpc": 66.25773850015648,
+      "Omega_m0": 0.3332488647342881,
+      "lambda_H_Lambda_over_H0": 3986.358088402148,
+      "agent_sample_source_code": 0.0,
+      "agent_correction_mode_code": 2.0,
+      "agent_joint_prior_level_code": -1.0,
+      "agent_joint_prior_reward": 0.0,
+      "agent_joint_prior_chi2": -1.0,
+      "agent_joint_prior_rank": -1.0,
+      "\\alpha": 0.5,
+      "alpha": 0.5,
+      "\\beta": -18222.6020605266,
+      "beta": -18222.6020605266,
+      "\\gamma": -96095299376.11525,
+      "gamma": -96095299376.11525,
+      "\\delta": 28375605946.07323,
+      "delta": 28375605946.07323,
+      "\\epsilon": -51940341129.65651,
+      "epsilon": -51940341129.65651
+    },
+    {
+      "H0_km_s_Mpc": 60.94465451823015,
+      "Omega_m0": 0.24418856458818014,
+      "lambda_H_Lambda_over_H0": 6519.915636480897,
+      "agent_sample_source_code": 0.0,
+      "agent_correction_mode_code": 3.0,
+      "agent_joint_prior_level_code": -1.0,
+      "agent_joint_prior_reward": 0.0,
+      "agent_joint_prior_chi2": -1.0,
+      "agent_joint_prior_rank": -1.0,
+      "\\alpha": 0.5,
+      "alpha": 0.5,
+      "\\beta": 314028.9620124703,
+      "beta": 314028.9620124703,
+      "\\gamma": -499417857327626.75,
+      "gamma": -499417857327626.75,
+      "\\delta": -14724530135455.316,
+      "delta": -14724530135455.316,
+      "\\epsilon": 2.3130693505840068e+16,
+      "epsilon": 2.3130693505840068e+16
+    },
+    {
+      "H0_km_s_Mpc": 64.02921192850185,
+      "Omega_m0": 0.34065964627590645,
+      "lambda_H_Lambda_over_H0": 987.5474654889864,
+      "agent_sample_source_code": 0.0,
+      "agent_correction_mode_code": 1.0,
+      "agent_joint_prior_level_code": -1.0,
+      "agent_joint_prior_reward": 0.0,
+      "agent_joint_prior_chi2": -1.0,
+      "agent_joint_prior_rank": -1.0,
+      "\\alpha": 0.5,
+      "alpha": 0.5,
+      "\\beta": -3.2729782457123133,
+      "beta": -3.2729782457123133,
+      "\\gamma": -3732457.300476428,
+      "gamma": -3732457.300476428,
+      "\\delta": -3155402.234815923,
+      "delta": -3155402.234815923,
+      "\\epsilon": 2218819.9728855025,
+      "epsilon": 2218819.9728855025
+    },
+    {
+      "H0_km_s_Mpc": 63.270593851556654,
+      "Omega_m0": 0.2281132777257614,
+      "lambda_H_Lambda_over_H0": 13979.410860802047,
+      "agent_sample_source_code": 0.0,
+      "agent_correction_mode_code": 2.0,
+      "agent_joint_prior_level_code": -1.0,
+      "agent_joint_prior_reward": 0.0,
+      "agent_joint_prior_chi2": -1.0,
+      "agent_joint_prior_rank": -1.0,
+      "\\alpha": 0.5,
+      "alpha": 0.5,
+      "\\beta": -168519.7549569602,
+      "beta": -168519.7549569602,
+      "\\gamma": 2126664977047.7344,
+      "gamma": 2126664977047.7344,
+      "\\delta": 154546202581053.38,
+      "delta": 154546202581053.38,
+      "\\epsilon": -8028642221914.596,
+      "epsilon": -8028642221914.596
+    }
+  ],
+  "parameter_sampling_policy": {
+    "strategy": "structure_conditioned_joint_prior_plus_planned_relative_effect",
+    "agent_exact_fraction": 0.5,
+    "joint_prior_usage_fraction": 0.8,
+    "sample_source_counts": {
+      "learned_random": 5,
+      "agent_exact": 0
+    },
+    "joint_prior_usage_counts": {
+      "none": 5,
+      "global": 0,
+      "scalar": 0,
+      "coarse": 0,
+      "exact": 0
+    },
+    "mode_counts": {
+      "baseline": 0,
+      "weak": 1,
+      "moderate": 2,
+      "active_probe": 2
+    },
+    "mode_weights": {
+      "baseline": 0.1,
+      "weak": 0.3,
+      "moderate": 0.3,
+      "active_probe": 0.3
+    },
+    "target_relative_effect": {
+      "baseline": {
+        "low": 0.0,
+        "high": 0.0,
+        "log10": false
+      },
+      "weak": {
+        "low": 1e-06,
+        "high": 0.0001,
+        "log10": true
+      },
+      "moderate": {
+        "low": 0.0001,
+        "high": 0.01,
+        "log10": true
+      },
+      "active_probe": {
+        "low": 0.01,
+        "high": 100.0,
+        "log10": true
+      }
+    },
+    "coefficient_abs_min": 1e-10,
+    "coefficient_abs_max": 1e+20,
+    "notes": "When current-loop joint_parameter_prior has positive reward evidence for the exact, coarse, scalar, or global theory family, common cosmological/scalar parameters are seeded from those joint vectors before coefficients are recomputed for the current operator set. Baseline samples draw raw coefficients from the broad coefficient prior. Non-EH curvature correction coefficients in weak/moderate/active_probe modes are sampled from a target effective size relative to the EH term using lambda_power and scalar field factors. EH R is fixed."
+  },
+  "rationale": "Cold-start proposal generated from token-level Grammar Masker and current-loop memory only. No historical solver_result, top-10 plot, or old best-fit parameter was used.",
+  "cold_start": true,
+  "source": "token_level_grammar",
+  "proposal_mode": "direct_candidate_policy",
+  "target_operator_count": 5,
+  "baseline_control": false,
+  "theory_track": "eh_anchored",
+  "proposal_group": "open_search",
+  "proposal_scalar_constraint": "none",
+  "catalog_location": {
+    "source_n_terms": 5,
+    "source_local_number": 5
+  },
+  "batch_wave": 1,
+  "batch_lag_id": "1",
+  "validation_wave": "task_000001_slot_01",
+  "complexity_bucket": "complex",
+  "structural_complexity_bucket": "complex",
+  "complexity_score": 18.4,
+  "runtime_predicted_seconds": null,
+  "runtime_prior_evidence": null,
+  "runtime_sort_seconds": 1231.2,
+  "runtime_sort_source": "structural_fallback",
+  "runtime_rank_in_pool": null,
+  "runtime_pool_size": null,
+  "runtime_quantile_bucket_policy": null,
+  "scheduler_task_id": "task_000001",
+  "scheduler_lane": "slot_01",
+  "memory_snapshot_attempt_count": 0,
+  "memory_snapshot_timestamp": "2026-06-16T01:31:33-0400"
+}

@@ -1,0 +1,270 @@
+{
+  "source": "current_loop_feedback",
+  "scalar_family_learning": {
+    "principle": "same metrics and soft scoring are applied to none, phi1_only, phi2_only, and both; no scalar family is banned from exploration",
+    "min_exploration_probability_per_family": 0.08,
+    "metrics": {
+      "none": {
+        "attempts": 16,
+        "validated_attempts": 0,
+        "entered_solver_attempts": 16,
+        "validated_attempt_rate": 0.0,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 69000,
+        "accepted_sample_count": 15667,
+        "accepted_sample_rate": 0.22705797101449277,
+        "q_initial_root_failure_count": 0,
+        "q_initial_root_failure_rate": 0.0,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 7799,
+        "no_scalar_constraint_rate": 0.11302898550724638,
+        "constraint_drift_count": 0,
+        "constraint_drift_rate": 0.0,
+        "integration_failure_count": 0,
+        "integration_failure_rate": 0.0,
+        "best_chi2": null,
+        "median_chi2": null,
+        "chi2_quality_counts": {},
+        "operator_family_counts": {
+          "scalar_config=none": 16,
+          "proposal_group=open_search": 16,
+          "is_no_scalar": 16,
+          "theory_track=eh_anchored": 15,
+          "has_R_anchor": 15,
+          "has_high_curvature": 9,
+          "has_derivative_operator": 4,
+          "theory_track=non_eh": 1,
+          "has_box_operator": 1
+        }
+      },
+      "phi1_only": {
+        "attempts": 57,
+        "validated_attempts": 34,
+        "entered_solver_attempts": 57,
+        "validated_attempt_rate": 0.5964912280701754,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 244000,
+        "accepted_sample_count": 54482,
+        "accepted_sample_rate": 0.22328688524590165,
+        "q_initial_root_failure_count": 15829,
+        "q_initial_root_failure_rate": 0.06487295081967213,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 0,
+        "no_scalar_constraint_rate": 0.0,
+        "constraint_drift_count": 5487,
+        "constraint_drift_rate": 0.022487704918032786,
+        "integration_failure_count": 57,
+        "integration_failure_rate": 0.0002336065573770492,
+        "best_chi2": 1637.9757394233536,
+        "median_chi2": 1638.0911289291166,
+        "chi2_quality_counts": {
+          "excellent": 30,
+          "poor_accept": 3,
+          "competitive": 1
+        },
+        "operator_family_counts": {
+          "scalar_config=phi1_only": 57,
+          "proposal_group=open_search": 57,
+          "theory_track=eh_anchored": 57,
+          "has_R_anchor": 57,
+          "has_scalar": 57,
+          "has_phi1": 57,
+          "has_scalar_curvature": 57,
+          "phi1_potential=axion": 49,
+          "has_high_curvature": 30,
+          "has_derivative_operator": 20,
+          "has_pure_scalar_operator": 15,
+          "phi1_potential=quadratic": 8,
+          "has_box_operator": 6
+        }
+      },
+      "phi2_only": {
+        "attempts": 11,
+        "validated_attempts": 3,
+        "entered_solver_attempts": 11,
+        "validated_attempt_rate": 0.2727272727272727,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 47000,
+        "accepted_sample_count": 7294,
+        "accepted_sample_rate": 0.15519148936170213,
+        "q_initial_root_failure_count": 9296,
+        "q_initial_root_failure_rate": 0.1977872340425532,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 0,
+        "no_scalar_constraint_rate": 0.0,
+        "constraint_drift_count": 117,
+        "constraint_drift_rate": 0.0024893617021276597,
+        "integration_failure_count": 222,
+        "integration_failure_rate": 0.004723404255319149,
+        "best_chi2": 9434.007538429356,
+        "median_chi2": 9434.007586944877,
+        "chi2_quality_counts": {
+          "poor_accept": 3
+        },
+        "operator_family_counts": {
+          "scalar_config=phi2_only": 11,
+          "proposal_group=open_search": 11,
+          "theory_track=eh_anchored": 11,
+          "has_R_anchor": 11,
+          "has_scalar": 11,
+          "has_phi2": 11,
+          "has_scalar_curvature": 11,
+          "phi2_potential=axion": 6,
+          "phi2_potential=quadratic": 5,
+          "has_high_curvature": 5,
+          "has_pure_scalar_operator": 2,
+          "has_derivative_operator": 2,
+          "has_box_operator": 1
+        }
+      },
+      "both": {
+        "attempts": 72,
+        "validated_attempts": 42,
+        "entered_solver_attempts": 72,
+        "validated_attempt_rate": 0.5833333333333334,
+        "entered_solver_attempt_rate": 1.0,
+        "sample_count": 329000,
+        "accepted_sample_count": 87981,
+        "accepted_sample_rate": 0.267419452887538,
+        "q_initial_root_failure_count": 22415,
+        "q_initial_root_failure_rate": 0.0681306990881459,
+        "q_not_determined_attempts": 0,
+        "q_not_determined_attempt_rate": 0.0,
+        "no_scalar_constraint_count": 0,
+        "no_scalar_constraint_rate": 0.0,
+        "constraint_drift_count": 1998,
+        "constraint_drift_rate": 0.006072948328267477,
+        "integration_failure_count": 750,
+        "integration_failure_rate": 0.0022796352583586625,
+        "best_chi2": 1637.9727472976124,
+        "median_chi2": 1638.3753769940429,
+        "chi2_quality_counts": {
+          "excellent": 29,
+          "poor_accept": 8,
+          "competitive": 3,
+          "weak_accept": 2
+        },
+        "operator_family_counts": {
+          "scalar_config=both": 72,
+          "proposal_group=open_search": 72,
+          "theory_track=eh_anchored": 72,
+          "has_R_anchor": 72,
+          "has_scalar": 72,
+          "has_phi1": 72,
+          "has_phi2": 72,
+          "has_both_scalars": 72,
+          "has_scalar_curvature": 72,
+          "phi1_potential=axion": 62,
+          "phi2_potential=quadratic": 44,
+          "phi2_potential=axion": 28,
+          "has_pure_scalar_operator": 24,
+          "has_high_curvature": 24,
+          "has_derivative_operator": 18,
+          "phi1_potential=quadratic": 10,
+          "has_box_operator": 5
+        }
+      }
+    }
+  },
+  "accepted_attempt_count": 79,
+  "quality_accepted_attempt_count": 65,
+  "accepted_quality_counts": {
+    "excellent": 59,
+    "poor_accept": 14,
+    "competitive": 4,
+    "weak_accept": 2
+  },
+  "preferred_scalar_configs": {
+    "phi1_only": 28.0,
+    "both": 7.0
+  },
+  "preferred_potentials": {
+    "phi1:axion": 35.0,
+    "phi2:axion": 7.0
+  },
+  "preferred_operators": {
+    "R": 35.0,
+    "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}": 10.5,
+    "φ1 · R^{bcd}_{a} · R^{a}_{bcd}": 7.0,
+    "φ1 · φ2 · R · R": 3.5,
+    "R · R^{ab} · R_{ab}": 3.5,
+    "φ1 · φ1 · R^{ab} · R_{ab}": 3.5,
+    "R^{ab} · R_{ab}": 3.5,
+    "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}": 3.5
+  },
+  "preferred_features": {
+    "proposal_group=open_search": 35.0,
+    "theory_track=eh_anchored": 35.0,
+    "phi1_potential=axion": 35.0,
+    "has_R_anchor": 35.0,
+    "has_scalar": 35.0,
+    "has_phi1": 35.0,
+    "has_scalar_curvature": 35.0,
+    "scalar_config=phi1_only": 28.0,
+    "has_high_curvature": 14.0,
+    "scalar_config=both": 7.0,
+    "phi2_potential=axion": 7.0,
+    "has_phi2": 7.0,
+    "has_both_scalars": 7.0
+  },
+  "avoid_scalar_configs": {
+    "none": 15,
+    "both": 11,
+    "phi1_only": 9,
+    "phi2_only": 8
+  },
+  "avoid_features": {
+    "has_phi1_with_q_failure": 20,
+    "has_phi2_with_q_failure": 19,
+    "is_no_scalar_with_constraint_failure": 15,
+    "high_curvature_with_numerical_failure": 11,
+    "has_both_scalars_with_q_failure": 11,
+    "derivative_with_numerical_failure": 10
+  },
+  "avoid_operators": {},
+  "avoid_failure_tags": {
+    "q_initial_root_failure": 107,
+    "constraint_drift": 83,
+    "no_scalar_constraint": 15,
+    "symbolic_timeout": 11,
+    "integration_failure": 9
+  },
+  "correction_mode_learning": {
+    "source": "current_loop_all_samples_summary",
+    "base_mode_weights": {
+      "baseline": 0.1,
+      "weak": 0.3,
+      "moderate": 0.3,
+      "active_probe": 0.3
+    },
+    "mode_weights": {
+      "baseline": 0.9030086569707244,
+      "weak": 0.012310389304129928,
+      "moderate": 0.07273071536306863,
+      "active_probe": 0.011950238362076966
+    },
+    "sample_counts": {
+      "baseline": 553348,
+      "weak": 27476,
+      "active_probe": 27759,
+      "moderate": 80417
+    },
+    "accepted_counts": {
+      "baseline": 148000,
+      "weak": 3752,
+      "active_probe": 3448,
+      "moderate": 10224
+    },
+    "reward_scores": {
+      "baseline": 365314.50000016385,
+      "weak": 4980.199999999986,
+      "moderate": 29423.400000001373,
+      "active_probe": 4834.499999999952
+    },
+    "note": "Weights are learned softly from accepted current-loop parameter samples. The sampler still applies min_mode_probability floors from config_p.py."
+  },
+  "best_chi2": 1637.9727472976124
+}

@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .bg { fill: #fbfaf6; }
+      .ink { fill: #202124; }
+      .muted { fill: #5f6368; }
+      .title { font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: 700; fill: #202124; }
+      .subtitle { font-family: Helvetica, Arial, sans-serif; font-size: 16px; fill: #555b61; }
+      .h1 { font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 700; }
+      .h2 { font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; }
+      .txt { font-family: Helvetica, Arial, sans-serif; font-size: 15px; fill: #30353a; }
+      .small { font-family: Helvetica, Arial, sans-serif; font-size: 12px; fill: #4b5055; }
+      .micro { font-family: Helvetica, Arial, sans-serif; font-size: 10px; fill: #687079; }
+      .card { fill: #ffffff; stroke-width: 2.2; }
+      .soft { fill: #ffffff; stroke-width: 1.7; }
+      .shadow { filter: url(#shadow); }
+      .teal { stroke: #00897b; }
+      .tealText { fill: #00695c; }
+      .navy { stroke: #2f5597; }
+      .navyText { fill: #24477f; }
+      .gold { stroke: #c58b00; }
+      .goldText { fill: #9a6900; }
+      .violet { stroke: #6d4caa; }
+      .violetText { fill: #53338f; }
+      .red { stroke: #bf3434; }
+      .redText { fill: #a52727; }
+      .green { stroke: #2e7d32; }
+      .greenText { fill: #1b5e20; }
+      .dash { fill: none; stroke: #9aa0a6; stroke-width: 2; stroke-dasharray: 7 7; }
+      .arrow { fill: none; stroke: #2b2f33; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-dark); }
+      .arrowTeal { fill: none; stroke: #00897b; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-teal); }
+      .arrowGold { fill: none; stroke: #c58b00; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-gold); }
+      .arrowViolet { fill: none; stroke: #6d4caa; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-violet); }
+      .arrowRed { fill: none; stroke: #bf3434; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-red); }
+      .arrowGreen { fill: none; stroke: #2e7d32; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow-green); }
+    </style>
+
+    <filter id="shadow" x="-8%" y="-12%" width="116%" height="124%">
+      <feDropShadow dx="0" dy="8" stdDeviation="11" flood-color="#000000" flood-opacity="0.09"/>
+    </filter>
+
+    <marker id="arrow-dark" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#2b2f33"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#00897b"/>
+    </marker>
+    <marker id="arrow-gold" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#c58b00"/>
+    </marker>
+    <marker id="arrow-violet" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#6d4caa"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#bf3434"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#2e7d32"/>
+    </marker>
+
+    <linearGradient id="funnelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff7e2"/>
+      <stop offset="100%" stop-color="#f8fbf2"/>
+    </linearGradient>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="900"/>
+  <text x="70" y="58" class="title">Closed-loop discovery of viable modified-gravity theories</text>
+  <text x="70" y="88" class="subtitle">The agent proposes candidate actions and numerical samples; deterministic physics checks decide consistency and data fit.</text>
+
+  <!-- Scope band -->
+  <rect x="170" y="125" width="1260" height="88" rx="18" fill="#ffffff" stroke="#3c4043" stroke-width="2.2" class="shadow"/>
+  <text x="222" y="162" class="h2 ink">Human-defined physical scope</text>
+  <text x="222" y="190" class="txt">two scalar fields, covariant operator grammar, DES-SN + DESI BAO data, fixed consistency cuts</text>
+  <rect x="980" y="145" width="115" height="43" rx="8" fill="#edf7f6" stroke="#00897b" stroke-width="1.5"/>
+  <text x="1003" y="172" class="small">grammar</text>
+  <rect x="1112" y="145" width="115" height="43" rx="8" fill="#f4f0ff" stroke="#6d4caa" stroke-width="1.5"/>
+  <text x="1136" y="172" class="small">operators</text>
+  <rect x="1244" y="145" width="115" height="43" rx="8" fill="#fff6df" stroke="#c58b00" stroke-width="1.5"/>
+  <text x="1271" y="172" class="small">data</text>
+
+  <!-- Loop boundary -->
+  <path d="M125 515 C125 330 275 245 492 250 H1108 C1345 250 1490 362 1490 545 C1490 742 1320 812 1110 812 H492 C272 812 125 704 125 515 Z" class="dash"/>
+
+  <!-- Agent panel -->
+  <rect x="185" y="300" width="350" height="318" rx="22" class="card shadow teal"/>
+  <text x="230" y="342" class="h1 tealText">Generative agent</text>
+  <text x="230" y="371" class="txt">chooses what to test next</text>
+
+  <circle cx="280" cy="450" r="52" fill="#effaf8" stroke="#00897b" stroke-width="2.2"/>
+  <path d="M280 414 L280 486 M244 450 L316 450 M255 425 L305 475 M305 425 L255 475" stroke="#00897b" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="280" cy="450" r="12" fill="#ffffff" stroke="#00897b" stroke-width="2.1"/>
+
+  <rect x="366" y="412" width="128" height="48" rx="10" fill="#ffffff" stroke="#00897b" stroke-width="1.8"/>
+  <text x="385" y="441" class="small" font-weight="700">candidate action</text>
+  <rect x="366" y="472" width="128" height="48" rx="10" fill="#ffffff" stroke="#00897b" stroke-width="1.8"/>
+  <text x="379" y="501" class="small" font-weight="700">parameter samples</text>
+  <rect x="366" y="532" width="128" height="48" rx="10" fill="#ffffff" stroke="#00897b" stroke-width="1.8"/>
+  <text x="388" y="561" class="small" font-weight="700">search update</text>
+
+  <path d="M333 438 L363 438" class="arrowTeal"/>
+  <path d="M333 462 C350 462 350 496 363 496" class="arrowTeal"/>
+  <path d="M333 480 C344 508 347 554 363 554" class="arrowTeal"/>
+  <text x="230" y="595" class="small">The agent cannot override physics checks</text>
+
+  <!-- Candidate action panel -->
+  <rect x="625" y="285" width="350" height="350" rx="22" class="card shadow violet"/>
+  <text x="675" y="328" class="h1 violetText">Well-defined theory</text>
+  <text x="675" y="357" class="txt">dimension-balanced Lagrangian</text>
+
+  <rect x="670" y="386" width="260" height="78" rx="12" fill="#f7f3ff" stroke="#6d4caa" stroke-width="1.9"/>
+  <text x="702" y="423" class="txt">covariant action</text>
+  <text x="717" y="448" class="small">gravity, scalar, and coupling terms</text>
+
+  <text x="674" y="502" class="small" font-weight="700">grammar-selected operators</text>
+  <g transform="translate(674,516)">
+    <rect x="0" y="0" width="24" height="14" fill="#c8e6c9" stroke="#ffffff"/>
+    <rect x="24" y="0" width="24" height="14" fill="#bbdefb" stroke="#ffffff"/>
+    <rect x="48" y="0" width="24" height="14" fill="#ffe0b2" stroke="#ffffff"/>
+    <rect x="72" y="0" width="24" height="14" fill="#d1c4e9" stroke="#ffffff"/>
+    <rect x="96" y="0" width="24" height="14" fill="#b2dfdb" stroke="#ffffff"/>
+    <rect x="120" y="0" width="24" height="14" fill="#ffcdd2" stroke="#ffffff"/>
+    <rect x="144" y="0" width="24" height="14" fill="#fff9c4" stroke="#ffffff"/>
+    <rect x="168" y="0" width="24" height="14" fill="#bbdefb" stroke="#ffffff"/>
+    <rect x="192" y="0" width="24" height="14" fill="#d7ccc8" stroke="#ffffff"/>
+    <rect x="216" y="0" width="24" height="14" fill="#c8e6c9" stroke="#ffffff"/>
+  </g>
+  <g transform="translate(674,538)">
+    <rect x="0" y="0" width="24" height="14" fill="#bbdefb" stroke="#ffffff"/>
+    <rect x="24" y="0" width="24" height="14" fill="#d1c4e9" stroke="#ffffff"/>
+    <rect x="48" y="0" width="24" height="14" fill="#c8e6c9" stroke="#ffffff"/>
+    <rect x="72" y="0" width="24" height="14" fill="#fff9c4" stroke="#ffffff"/>
+    <rect x="96" y="0" width="24" height="14" fill="#ffe0b2" stroke="#ffffff"/>
+    <rect x="120" y="0" width="24" height="14" fill="#bbdefb" stroke="#ffffff"/>
+    <rect x="144" y="0" width="24" height="14" fill="#b2dfdb" stroke="#ffffff"/>
+    <rect x="168" y="0" width="24" height="14" fill="#ffcdd2" stroke="#ffffff"/>
+    <rect x="192" y="0" width="24" height="14" fill="#d1c4e9" stroke="#ffffff"/>
+    <rect x="216" y="0" width="24" height="14" fill="#c8e6c9" stroke="#ffffff"/>
+  </g>
+
+  <rect x="674" y="578" width="122" height="36" rx="8" fill="#ffffff" stroke="#6d4caa" stroke-width="1.5"/>
+  <text x="690" y="601" class="small">coefficients</text>
+  <rect x="808" y="578" width="122" height="36" rx="8" fill="#ffffff" stroke="#6d4caa" stroke-width="1.5"/>
+  <text x="834" y="601" class="small">cutoff scale</text>
+
+  <!-- Validation funnel -->
+  <rect x="1060" y="285" width="365" height="350" rx="22" class="card shadow gold"/>
+  <text x="1110" y="328" class="h1 goldText">Physics validation funnel</text>
+  <text x="1110" y="357" class="txt">hard consistency filters, then data comparison</text>
+
+  <path d="M1110 395 H1375 L1332 585 H1153 Z" fill="url(#funnelGrad)" stroke="#c58b00" stroke-width="2.2"/>
+  <line x1="1125" y1="443" x2="1360" y2="443" stroke="#c58b00" stroke-width="1.8"/>
+  <line x1="1138" y1="492" x2="1347" y2="492" stroke="#c58b00" stroke-width="1.8"/>
+  <line x1="1150" y1="541" x2="1335" y2="541" stroke="#c58b00" stroke-width="1.8"/>
+  <text x="1162" y="428" class="small" font-weight="700">Grammar validity</text>
+  <text x="1163" y="477" class="small" font-weight="700">EOM and ghost-free check</text>
+  <text x="1184" y="526" class="small" font-weight="700">Numerical model</text>
+  <text x="1194" y="574" class="small" font-weight="700">DES + DESI fit</text>
+
+  <text x="1150" y="616" class="micro">Friedmann constraint imposed and monitored</text>
+
+  <!-- Output -->
+  <rect x="1222" y="690" width="230" height="76" rx="14" class="card shadow green"/>
+  <text x="1253" y="721" class="h2 greenText">Validated theories</text>
+  <text x="1253" y="747" class="small">ranked by total chi-square</text>
+  <path d="M1242 635 C1244 660 1260 678 1294 687" class="arrowGreen"/>
+
+  <!-- Rejection -->
+  <rect x="980" y="700" width="210" height="66" rx="14" fill="#fff5f4" stroke="#bf3434" stroke-width="2"/>
+  <text x="1014" y="728" class="h2 redText">Rejected</text>
+  <text x="1014" y="751" class="small">failed stage recorded</text>
+  <path d="M1160 445 C1050 475 1012 592 1044 696" class="arrowRed"/>
+  <path d="M1188 493 C1105 535 1084 609 1085 696" class="arrowRed"/>
+  <path d="M1223 542 C1180 596 1162 642 1144 696" class="arrowRed"/>
+
+  <!-- Memory lake -->
+  <rect x="470" y="710" width="430" height="92" rx="24" class="card shadow navy"/>
+  <path d="M512 755 C570 730 634 779 696 752 C760 724 812 766 858 746" fill="none" stroke="#2f5597" stroke-width="2.4"/>
+  <text x="530" y="742" class="h1 navyText">Current-loop memory</text>
+  <text x="530" y="775" class="small">attempt history, learned priors, and search reflections</text>
+
+  <!-- Large arrows -->
+  <path d="M535 460 C570 460 590 460 622 460" class="arrowTeal"/>
+  <path d="M975 460 C1010 460 1028 460 1056 460" class="arrowViolet"/>
+  <path d="M1190 732 C1058 825 865 833 806 806" class="arrowRed"/>
+  <path d="M1265 767 C1110 842 884 850 724 804" class="arrowGreen"/>
+  <path d="M470 756 C308 728 224 647 215 620" class="arrowTeal"/>
+  <path d="M650 710 C610 664 540 621 498 586" class="arrowTeal"/>
+
+  <!-- Agent boundary labels -->
+  <rect x="70" y="380" width="88" height="108" rx="12" fill="#ffffff" stroke="#3c4043" stroke-width="1.8"/>
+  <text x="94" y="411" class="small" font-weight="700">inputs</text>
+  <text x="90" y="439" class="micro">rules</text>
+  <text x="90" y="459" class="micro">data</text>
+  <text x="90" y="479" class="micro">memory</text>
+  <path d="M158 435 C168 420 176 413 186 405" class="arrow"/>
+
+  <text x="240" y="265" class="small tealText">agent-controlled proposal step</text>
+  <text x="1104" y="265" class="small goldText">deterministic validation step</text>
+  <text x="76" y="855" class="micro">Dashed contour: one discovery loop. Green path: accepted theories. Red path: failed validation. Teal path: feedback used to propose the next theory.</text>
+</svg>

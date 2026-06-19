@@ -6,6 +6,7 @@ not decide how the proposal agent should update its policy.
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 import json
 import re
 import time
@@ -23,10 +24,31 @@ from .dataset import (
 )
 from .validation_result import ValidationResult
 
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - non-Unix fallback
+    fcntl = None
+
 
 HISTORY_FILENAME = "attempt_history.jsonl"
 SUMMARY_FILENAME = "feedback_summary.json"
 REFLECTION_PROMPT_FILENAME = "reflection_prompt.md"
+
+
+@contextmanager
+def _memory_lock(memory_dir: Path):
+    """Serialize memory rewrites when async validation tasks finish."""
+
+    lock_path = memory_dir / ".memory.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a", encoding="utf-8") as lock_file:
+        if fcntl is not None:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            if fcntl is not None:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
 
 
 def _read_json(path: Path) -> Optional[Any]:
@@ -463,22 +485,23 @@ def record_attempt(
     memory_dir = memory_dir.expanduser().resolve()
     memory_dir.mkdir(parents=True, exist_ok=True)
 
-    attempt = make_attempt_record(result, loop_id=loop_id)
-    history_path = memory_dir / HISTORY_FILENAME
-    with history_path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(attempt, ensure_ascii=False) + "\n")
+    with _memory_lock(memory_dir):
+        attempt = make_attempt_record(result, loop_id=loop_id)
+        history_path = memory_dir / HISTORY_FILENAME
+        with history_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(attempt, ensure_ascii=False) + "\n")
 
-    attempts = _load_attempts(memory_dir)
-    write_training_dataset(attempts, memory_dir / DATASET_FILENAME)
-    training_records = [attempt_to_training_record(attempt) for attempt in attempts]
-    policy_summary = write_policy_summary(training_records, memory_dir / POLICY_SUMMARY_FILENAME)
-    summary = summarize_attempts(attempts)
-    summary["policy"] = policy_summary
-    from .agent_loop import update_agent_loop_state
+        attempts = _load_attempts(memory_dir)
+        write_training_dataset(attempts, memory_dir / DATASET_FILENAME)
+        training_records = [attempt_to_training_record(attempt) for attempt in attempts]
+        policy_summary = write_policy_summary(training_records, memory_dir / POLICY_SUMMARY_FILENAME)
+        summary = summarize_attempts(attempts)
+        summary["policy"] = policy_summary
+        from .agent_loop import update_agent_loop_state
 
-    summary["agent_loop"] = update_agent_loop_state(memory_dir, summary)
-    _write_json(memory_dir / SUMMARY_FILENAME, summary)
-    reflection_prompt_path = write_reflection_prompt(memory_dir, summary)
+        summary["agent_loop"] = update_agent_loop_state(memory_dir, summary)
+        _write_json(memory_dir / SUMMARY_FILENAME, summary)
+        reflection_prompt_path = write_reflection_prompt(memory_dir, summary)
 
     return {
         "memory_dir": str(memory_dir),

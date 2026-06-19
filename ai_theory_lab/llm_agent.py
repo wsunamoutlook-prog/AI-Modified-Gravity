@@ -18,6 +18,7 @@ from .cold_start_runner import (
     _choose_entry,
     _direct_candidate_catalog,
     _direct_entry,
+    _diversity_metadata,
     _entry_score,
     _family_key,
     _sample_operator_policy,
@@ -51,7 +52,8 @@ def _compact_summary(summary: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def _candidate_view(entry: Dict[str, Any], index: int, score: float) -> Dict[str, Any]:
+def _candidate_view(entry: Dict[str, Any], index: int, score: float, summary: Dict[str, Any]) -> Dict[str, Any]:
+    diversity = _diversity_metadata(entry, summary)
     return {
         "index": index,
         "family_key": _family_key(entry),
@@ -61,6 +63,10 @@ def _candidate_view(entry: Dict[str, Any], index: int, score: float) -> Dict[str
         "operator_specs": entry.get("operator_specs") or [],
         "theory_track": entry.get("theory_track") or theory_track_from_operators(entry.get("operators") or []),
         "deterministic_score": round(score, 6),
+        "coarse_family_key": diversity.get("diversity_coarse_family_key"),
+        "diversity_repetition_penalty": diversity.get("diversity_repetition_penalty"),
+        "exact_family_attempts": diversity.get("diversity_exact_family_attempts"),
+        "coarse_family_attempts": diversity.get("diversity_coarse_family_attempts"),
     }
 
 
@@ -248,7 +254,7 @@ def _call_openai_for_choice(
     from openai import OpenAI
 
     candidate_views = [
-        _candidate_view(entry, i, _entry_score(entry, summary, random.Random(12345 + i)))
+        _candidate_view(entry, i, _entry_score(entry, summary, random.Random(12345 + i)), summary)
         for i, entry in enumerate(candidates)
     ]
     system = (
@@ -422,6 +428,7 @@ def propose_entry_with_llm(
     entry["target_operator_count"] = selected.get("target_operator_count")
     entry["baseline_control"] = bool(selected.get("baseline_control", False))
     entry["theory_track"] = track or theory_track_from_operators(entry.get("operators") or [])
+    entry.update(_diversity_metadata(selected, summary))
     if scalar_config:
         entry["proposal_scalar_constraint"] = scalar_config
     if required_operator_substring:

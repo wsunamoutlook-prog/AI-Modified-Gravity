@@ -15,7 +15,12 @@ POLICY_SUMMARY_FILENAME = "policy_summary.json"
 EXCELLENT_CHI2 = 1650.0
 COMPETITIVE_CHI2 = 1700.0
 WEAK_ACCEPT_CHI2 = 2000.0
-NON_EH_ACCEPT_REWARD_FLOOR = 2.0
+NON_EH_WEAK_POSITIVE_CHI2 = 3000.0
+NON_EH_POOR_ACCEPT_CHI2 = 6000.0
+NON_EH_WEAK_POSITIVE_REWARD = 1.0
+NON_EH_MARGINAL_ACCEPT_REWARD = -0.25
+NON_EH_VERY_POOR_ACCEPT_REWARD = -1.0
+NON_EH_UNACCEPTED_REWARD_CEILING = -1.5
 
 
 def _operators(theory: Dict[str, Any]) -> List[str]:
@@ -97,10 +102,28 @@ def _proposal_group(theory: Dict[str, Any]) -> str:
     return str(theory.get("proposal_group") or "")
 
 
+def _non_eh_sector_accepted_reward(chi2: Any, fit_reward: float) -> float:
+    """Reward non-EH accepted attempts by fit quality, not mere survivability."""
+
+    try:
+        value = float(chi2)
+    except (TypeError, ValueError):
+        return fit_reward
+    if value <= WEAK_ACCEPT_CHI2:
+        return fit_reward
+    if value <= NON_EH_WEAK_POSITIVE_CHI2:
+        return NON_EH_WEAK_POSITIVE_REWARD
+    if value <= NON_EH_POOR_ACCEPT_CHI2:
+        return NON_EH_MARGINAL_ACCEPT_REWARD
+    return NON_EH_VERY_POOR_ACCEPT_REWARD
+
+
 def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
     fit_reward = fit_reward_for_chi2(attempt.get("chi2"))
     if fit_reward is not None:
         theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+        if _proposal_group(theory) == "non_eh":
+            return _non_eh_sector_accepted_reward(attempt.get("chi2"), fit_reward)
         track = attempt.get("theory_track") or _theory_track(theory)
         if track == "eh_anchored":
             diagnostics = diagnostics_for_attempt(attempt)
@@ -110,29 +133,16 @@ def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
             if status == "moderate":
                 return fit_reward + 0.1
             return fit_reward
-        diagnostics = diagnostics_for_attempt(attempt)
-        status = diagnostics.get("effective_correction_status")
-        if status == "eh_only":
-            return fit_reward
-        if status == "active":
-            return fit_reward + 1.0
-        if status == "moderate":
-            return fit_reward
-        if status == "weak":
-            reward = fit_reward * 0.35
-            if _proposal_group(theory) == "non_eh":
-                return max(NON_EH_ACCEPT_REWARD_FLOOR, reward)
-            return reward
-        if status in {"tiny", "eh_dominated"}:
-            reward = -1.0
-            if _proposal_group(theory) == "non_eh":
-                return max(NON_EH_ACCEPT_REWARD_FLOOR, reward)
-            return reward
-        if _proposal_group(theory) == "non_eh":
-            return max(NON_EH_ACCEPT_REWARD_FLOOR, fit_reward)
+        # Effective-correction status is defined relative to an EH reference
+        # coefficient. For non-EH / non-gravity tracks there is no such anchor,
+        # so do not use active/moderate/weak/tiny labels for reward shaping.
         return fit_reward
 
-    return failure_reward_for_attempt(attempt)
+    reward = failure_reward_for_attempt(attempt)
+    theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+    if _proposal_group(theory) == "non_eh":
+        return min(reward, NON_EH_UNACCEPTED_REWARD_CEILING)
+    return reward
 
 
 def failure_reward_for_attempt(attempt: Dict[str, Any]) -> float:
@@ -164,6 +174,20 @@ def reward_for_attempt(attempt: Dict[str, Any]) -> float:
 def _effective_diagnostics_for_record(attempt: Dict[str, Any]) -> Dict[str, Any]:
     if attempt.get("chi2") is None:
         return {}
+    theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+    track = attempt.get("theory_track") or _theory_track(theory)
+    if track != "eh_anchored":
+        return {
+            "effective_correction_status": "not_applicable_non_eh",
+            "effective_correction_reason": "EH-relative correction diagnostic applies only to EH-anchored theories",
+            "max_relative_effect_to_EH": None,
+            "active_correction_terms": 0,
+            "moderate_correction_terms": 0,
+            "weak_correction_terms": 0,
+            "tiny_correction_terms": 0,
+            "correction_term_count": 0,
+            "tiny_correction_fraction": None,
+        }
     diagnostics = diagnostics_for_attempt(attempt)
     return {
         key: value

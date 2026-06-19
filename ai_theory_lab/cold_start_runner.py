@@ -63,6 +63,7 @@ DIRECT_MIN_OPERATOR_TERMS = int(os.environ.get("AGENT_MIN_OPERATOR_TERMS", "1"))
 DIRECT_MAX_OPERATOR_TERMS = int(os.environ.get("AGENT_MAX_OPERATOR_TERMS", "8"))
 DIRECT_RANDOM_CANDIDATES_PER_POTENTIAL = int(os.environ.get("AGENT_RANDOM_CANDIDATES_PER_POTENTIAL", "28"))
 DIRECT_OPERATOR_COUNT_FIXED_PROB = float(os.environ.get("AGENT_OPERATOR_COUNT_FIXED_PROB", "0.05"))
+PROPOSAL_DIVERSITY_STRENGTH = float(os.environ.get("AGENT_DIVERSITY_STRENGTH", "0.0"))
 
 
 @contextmanager
@@ -245,6 +246,69 @@ def _coarse_family_attempt_counts(summary: Dict[str, Any]) -> Dict[str, Dict[str
     return counts
 
 
+def _proposal_diversity_strength(summary: Dict[str, Any]) -> float:
+    try:
+        value = summary.get("_proposal_diversity_strength", PROPOSAL_DIVERSITY_STRENGTH)
+        strength = float(value)
+    except (TypeError, ValueError):
+        strength = 0.0
+    if not math.isfinite(strength):
+        return 0.0
+    return min(1.0, max(0.0, strength))
+
+
+def _coarse_best_chi2(row: Optional[Dict[str, Any]]) -> Optional[float]:
+    if not row:
+        return None
+    try:
+        value = float(row.get("best_chi2"))
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(value):
+        return None
+    return value
+
+
+def _diversity_metadata(entry: Dict[str, Any], summary: Dict[str, Any]) -> Dict[str, Any]:
+    """Proposal-time anti-collapse diagnostics; not a training reward."""
+
+    family_key = _family_key(entry)
+    coarse_key = _coarse_family_key(entry)
+    family_attempts = _family_attempt_counts(summary).get(family_key, 0)
+    coarse_row = _coarse_family_attempt_counts(summary).get(coarse_key)
+    try:
+        coarse_attempts = int((coarse_row or {}).get("attempts") or 0)
+    except (TypeError, ValueError):
+        coarse_attempts = 0
+    best_chi2 = _coarse_best_chi2(coarse_row)
+    strength = _proposal_diversity_strength(summary)
+    penalty = 0.0
+    if strength > 0.0:
+        penalty += 0.80 * math.log1p(max(0, family_attempts))
+        penalty += 0.30 * math.log1p(max(0, coarse_attempts))
+        track = entry.get("theory_track") or _entry_track(entry)
+        if best_chi2 is not None and coarse_attempts >= 6:
+            if track == "eh_anchored" and best_chi2 <= 1650.0:
+                penalty += 0.35 * math.log1p(coarse_attempts)
+            elif track == "non_eh" and best_chi2 <= 3000.0:
+                penalty += 0.25 * math.log1p(coarse_attempts)
+        penalty *= strength
+    metadata: Dict[str, Any] = {
+        "diversity_strength": strength,
+        "diversity_repetition_penalty": round(penalty, 6),
+        "diversity_exact_family_attempts": family_attempts,
+        "diversity_coarse_family_attempts": coarse_attempts,
+        "diversity_coarse_family_key": coarse_key,
+    }
+    if best_chi2 is not None:
+        metadata["diversity_coarse_family_best_chi2"] = best_chi2
+    return metadata
+
+
+def _diversity_repetition_penalty(entry: Dict[str, Any], summary: Dict[str, Any]) -> float:
+    return float(_diversity_metadata(entry, summary).get("diversity_repetition_penalty") or 0.0)
+
+
 def _theory_operator_labels(theory: Dict[str, Any]) -> List[str]:
     operators = theory.get("operators")
     if not isinstance(operators, list):
@@ -278,7 +342,7 @@ def _successful_attempts(summary: Dict[str, Any]) -> List[Dict[str, Any]]:
         except (TypeError, ValueError):
             continue
         group = attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")
-        if chi2 < 2000.0 or group == "non_eh":
+        if chi2 < 2000.0 or (group == "non_eh" and chi2 <= 3000.0):
             attempts.append(attempt)
     return attempts
 
@@ -482,6 +546,7 @@ def _entry_score(entry: Dict[str, Any], summary: Dict[str, Any], rng: random.Ran
             int(tag_counts.get("q_initial_root_failure") or 0) + int(tag_counts.get("q_not_determined") or 0)
         ) >= 3:
             score -= 0.8
+    score -= _diversity_repetition_penalty(entry, summary)
     score += rng.uniform(-0.15, 0.15)
     return score
 
@@ -1178,6 +1243,7 @@ def _generate_token_level_entry(
     compiled["target_operator_count"] = target_operator_count
     compiled["baseline_control"] = force_r_only
     compiled["theory_track"] = track or _entry_track(compiled)
+    compiled.update(_diversity_metadata(selected, summary))
     if scalar_config:
         compiled["proposal_scalar_constraint"] = scalar_config
     if required_operator_substring:
@@ -1408,10 +1474,10 @@ def _exact_prior_value(priors: Dict[str, Any], key: str, index: int) -> float:
             positive_weight = float(sign_weights.get("positive", 0.5))
             sign_anchor = _exact_anchor(index, offset + 3)
             sign = 1.0 if sign_anchor < positive_weight else -1.0
-            return sign * (10 ** value)
+            return _clip_to_default(key, sign * (10 ** value))
         if spec.get("log10"):
-            return 10 ** value
-        return value
+            return _clip_to_default(key, 10 ** value)
+        return _clip_to_default(key, value)
     low = float(default["low"])
     high = float(default["high"])
     if default.get("signed_log10"):
@@ -1576,13 +1642,16 @@ def _default_prior(key: str) -> Dict[str, Any]:
 
 def _sample_parameter(rng: random.Random, learned_priors: Dict[str, Any], key: str) -> float:
     default = _default_prior(key)
-    return _sample_prior_value(
-        rng,
-        learned_priors,
+    return _clip_to_default(
         key,
-        default_low=float(default["low"]),
-        default_high=float(default["high"]),
-        default_log=bool(default.get("log10")),
+        _sample_prior_value(
+            rng,
+            learned_priors,
+            key,
+            default_low=float(default["low"]),
+            default_high=float(default["high"]),
+            default_log=bool(default.get("log10")),
+        ),
     )
 
 
@@ -1848,8 +1917,14 @@ def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, sum
 
     if index > 0:
         # Local perturbations within the same cold-start prior, not copied from old results.
-        sample["H0_km_s_Mpc"] += rng.uniform(-2.0, 2.0)
-        sample["Omega_m0"] = min(0.45, max(0.18, sample["Omega_m0"] + rng.uniform(-0.03, 0.03)))
+        sample["H0_km_s_Mpc"] = _clip_to_default(
+            "H0_km_s_Mpc",
+            sample["H0_km_s_Mpc"] + rng.uniform(-2.0, 2.0),
+        )
+        sample["Omega_m0"] = _clip_to_default(
+            "Omega_m0",
+            sample["Omega_m0"] + rng.uniform(-0.03, 0.03),
+        )
     return sample
 
 
@@ -1930,7 +2005,13 @@ def _parameter_samples(entry: Dict[str, Any], rng: random.Random, count: int, su
             if _use_joint_prior_for_sample(rng, i, exact=True)
             else None
         )
-        samples.append(joint_sample if joint_sample is not None else _agent_exact_parameter_sample(entry, i, summary))
+        if joint_sample is not None:
+            samples.append(joint_sample)
+        else:
+            # Without current-loop joint-prior evidence, keep the old cold-start
+            # behavior: all samples are genuine random prior draws. Repeating a
+            # small deterministic anchor set silently halves effective coverage.
+            samples.append(_parameter_sample(entry, rng, len(samples), summary))
     for i in range(random_count):
         joint_sample = (
             _parameter_sample_from_joint_prior(entry, rng, i, summary, exact=False)

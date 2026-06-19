@@ -1,0 +1,13 @@
+{
+  "chi2": 1645.28,
+  "chi2_sn": 1634.06,
+  "chi2_bao": 11.2222,
+  "chi2_per_point": 0.897588,
+  "AIC": 1653.28,
+  "BIC": 1675.33,
+  "sn_offset_hat": -0.007680205052708975,
+  "bao_alpha_hat": 29.719013550052324,
+  "H0": 70.0,
+  "Omega_m0": 0.306,
+  "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/graph_agent_batch_600_sector_async_v9b_nodiv16_task_000313_expanded_refine_slot_01/agent_solver_result/agent_solve/scan_report.txt"
+}

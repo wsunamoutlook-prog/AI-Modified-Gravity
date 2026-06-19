@@ -1,0 +1,105 @@
+{
+  "source": "accepted_all_samples",
+  "active": true,
+  "attempt_count": 156,
+  "accepted_sample_count": 6153,
+  "min_attempts_before_update": 10,
+  "min_accepted_samples": 100,
+  "fixed_parameters": [
+    "H0_km_s_Mpc"
+  ],
+  "parameters": {
+    "Omega_m0": {
+      "low": 0.270434836553052,
+      "high": 0.3375308903706916,
+      "center": 0.3079098112276413,
+      "log10": false,
+      "signed_log10": false,
+      "count": 200
+    },
+    "lambda_H_Lambda_over_H0": {
+      "low": 3.0014956828575503,
+      "high": 3.709735545570075,
+      "center": 3.2613083917906396,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    },
+    "varphi1_0_phi1_over_Mp": {
+      "low": 0.18713419577274504,
+      "high": 0.33562958453038855,
+      "center": 0.3355188486943076,
+      "log10": true,
+      "signed_log10": false,
+      "count": 10
+    },
+    "mu1_m1_over_H0": {
+      "low": -0.03434153092843042,
+      "high": -0.034302088816799185,
+      "center": -0.03432026337365103,
+      "log10": true,
+      "signed_log10": false,
+      "count": 10
+    },
+    "fbar1_f1_over_Mp": {
+      "low": -0.001,
+      "high": 0.001,
+      "center": 0.0,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    },
+    "varphi2_0_phi2_over_Lambda": {
+      "low": -5.0,
+      "high": -2.9417605340641817,
+      "center": -4.926045385526832,
+      "log10": false,
+      "signed_log10": true,
+      "count": 200,
+      "sign_weights": {
+        "positive": 0.84,
+        "negative": 0.16
+      }
+    },
+    "q2_0_dvarphi2_dln_a": {
+      "low": -3.2655005425670525,
+      "high": 0.8910938540594457,
+      "center": -0.19494488104142382,
+      "log10": false,
+      "signed_log10": true,
+      "count": 200,
+      "sign_weights": {
+        "positive": 0.32,
+        "negative": 0.68
+      }
+    },
+    "mu2_m2_over_Lambda": {
+      "low": -5.0,
+      "high": -1.8012945290300388,
+      "center": -4.988627723367356,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    },
+    "fbar2_f2_over_Lambda": {
+      "low": -0.1914354374563252,
+      "high": 0.1856299002959821,
+      "center": 0.0,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    }
+  },
+  "coefficient_log10_abs": {
+    "low": -4.1549836356035,
+    "high": 16.143028608018927,
+    "center": 4.619025789057458,
+    "log10": true,
+    "signed_log10": false,
+    "count": 1348
+  },
+  "coefficient_sign_weights": {
+    "positive": 0.44807121661721067,
+    "negative": 0.5519287833827893
+  }
+}
