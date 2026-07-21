@@ -1,0 +1,1295 @@
+
+
+===== PAGE 1 =====
+
+Dark Energy Autonomous Search from Cosmological Background Data
+Cooper Niu 1 and Wenrong Sun1
+1Department of Physics, Brown University, Providence, Rhode Island 02912, USA
+(Dated: July 9, 2026)
+We present a physics-first autonomous search for two-scalar modified-gravity backgrounds and use
+it to benchmark large-language-model proposal policies under an identical deterministic validation
+pipeline. Candidate theories are generated as covariant, dimension-balanced Lagrangian densities
+built from curvature tensors, covariant derivatives, and two scalar fields. They are then subjected
+to symbolic FLRW equation-of-motion filtering, algebraic cancellation of independent third- and
+higher-time derivatives, Builder conversion into numerical models, and direct comparison with DES
+type-Ia supernovae and DESI Data Release 2 baryon-acoustic-oscillation distances. The AI compo-
+nent affects only the proposal distribution over legal operator combinations and explicit parameter
+samples; ghost filtering, numerical regularity, constraint preservation, and the final ranking byχ2
+tot
+are determined by the physics code. The unified benchmark uses five agents: GPT-5.5, Claude Opus
+4.8, Gemini 3.1 Pro, Qwen 3.7 Plus, and DeepSeek V4 Pro. Qwen obtains the best open-search value,
+χ2
+tot = 1637.930, while DeepSeek obtains the strongest non-EH branch,χ2
+tot = 1693.860. The fixed
+ΛCDM reference givesχ 2
+tot = 1645.28, so all agents locate competitive Einstein–Hilbert-anchored
+backgrounds, whereas genuinely non-EH backgrounds remain substantially less favored. These re-
+sults benchmark proposal policies for background discovery; they do not by themselves establish
+full covariant ghost freedom, perturbation stability, structure-growth viability, gravitational-wave
+consistency, or local-gravity screening.
+I. INTRODUCTION
+The observed acceleration of the Universe is one of the
+clearest indications that either the cosmic energy budget
+or the gravitational sector is not yet fully understood.
+The minimalΛCDM model gives a compact effective de-
+scription of current background data, but it treats the
+late-time vacuum-energy scale as an input and does not
+explain whether the acceleration is produced by a rigid
+cosmologicalconstant, additionalfields, ormodifiedgrav-
+itational dynamics. Scalar-tensor and higher-curvature
+theories offer a controlled language for testing this possi-
+bility, but they also create a search problem: once curva-
+ture invariants, covariant derivatives, and multiple scalar
+fields are allowed, the space of covariant Lagrangians is
+far too large to inspect manually [1–3].
+Most points in this large theory space are not physi-
+cally acceptable. Generic higher-derivative theories con-
+tain Ostrogradsky modes [4]; many proposed covariant
+densities do not admit a regular FLRW initial-value
+problem; many numerically regular branches violate the
+modified Friedmann constraint during integration; and
+most surviving backgrounds fit DES supernova and DESI
+BAO distances poorly. A useful autonomous search must
+therefore be physics-first: an agent may propose struc-
+tures, but deterministic symbolic and numerical code
+must decide whether the proposal is legal, stable at the
+background-filter level, numerically solvable, and empir-
+ically competitive.
+The framework used here follows this division of la-
+bor. A proposal model chooses a scalar configuration, a
+grammar-constrained set of covariant operators, and an
+explicit list of parameter samples. The proposal is then
+compiled into an isolated Lagrangian and passed through
+the same pipeline for every agent: symbolic FLRW vari-
+ation, equation-level cancellation of independent third-
+and higher-time derivatives, Builder construction of a
+dimensionless initial-value problem, Solver integration,
+modified Friedmann-constraint monitoring, and compar-
+ison with DES-SN and DESI-DR2 BAO data [5, 6]. The
+AI system does not estimateχ 2, bypass the grammar,
+or override a failed physics stage. This design is close in
+spirit to formal-language approaches to autonomous the-
+ory discovery, but the grammar and validation stages are
+those ofmodified gravity rather thanparticle interactions
+[7].
+The present paper has two goals. First, it summarizes
+the covariant theory space, FLRW derivative-order fil-
+ter, constraint logic, dimensionless cosmological system,
+and sampling prescription used in the current code base.
+These ingredients define what is meant by an accepted
+background branch. Second, it reports a matched five-
+model benchmark of the proposal layer. We compare
+GPT-5.5, Claude Opus 4.8, Gemini 3.1 Pro, Qwen 3.7
+Plus, and DeepSeek V4 Pro on the same cold-start task,
+with two discovery sectors: an open-search sector that
+may include the Einstein–Hilbert anchor, and a non-
+EH sector that forbids the bareRterm and searches
+for new-physics backgrounds without explicit EH sup-
+port. The comparison is organized around global opti-
+mum quality, new-physics discovery, speed/efficiency, ro-
+bustness/stability, and acceptance rate.
+The results should be interpreted with care. The back-
+ground data strongly favor EH-anchored scalar histories,
+and many low-χ2 operator lists are nearly degenerate
+with simple EH plus scalar baselines on FLRW. Con-
+versely, thenon-EHsectorrepeatedlyfindsarecognizable
+ϕ2 curvature-coupled branch nearχ 2
+tot ≃1946.87, but
+this branch is not competitive with the open-search opti-
+mum. Theseoutcomesareuseful: theyidentifywherethe
+
+===== PAGE 2 =====
+
+2
+currentgrammarandpriorseasilyreproducehigh-quality
+expansion histories, where genuinely non-EH searches re-
+main difficult, and how different proposal models trade
+exploitation, exploration, and wall-clock speed. They are
+not final claims of full theory viability; perturbation sta-
+bility, structure growth, gravitational waves, local tests,
+and a more complete operator-redundancy audit remain
+separate validation layers.
+II. COVARIANT THEORY SPACE
+A. Dimension-balanced effective Lagrangians
+We consider a broad EFT-like space of metric theories
+containing two scalar fields,ϕ 1 andϕ 2, with different
+characteristic scales. A generated theory is stored and
+validated as a Lagrangian density,
+S=
+Z
+d4xL,L= √−gL,(1)
+with the scalar bracket
+L=M 2
+p
+X
+I∈G∪N
+cIΛ2−dI OI+
+X
+J∈S
+cJΛ4−dJ SJ +Lfixed.(2)
+HereGdenotes pure-curvature invariants,Nnon-
+minimal scalar-curvature invariants, andSpure-scalar
+generated invariants. The integerdI is the mass dimen-
+sion of the corresponding covariant scalar. The factors
+ofM 2
+p andΛensure that each term in the densityL
+has the correct mass dimension. Thus a candidate is not
+specifiedbyanoperatorlabelalone; itssector, coefficient,
+cutoff power, Planck-mass prefactor, fixed scalar matter
+terms, and outer√−gare part of the physical theory.
+The candidate building blocks include
+R, R µν, R ρ
+σµν ,∇ µ, ϕ 1, ϕ 2.(3)
+Examples of generated invariants are
+R2, R µνRµν, ϕ 2
+1R,∇ µϕ1∇νϕ1Rµν,□ϕ 1 R.
+(4)
+Up to mass dimension six, there are 141 independent cur-
+vature invariants on the FLRW background. The scalar
+configurations are
+none, ϕ 1 only, ϕ 2 only, ϕ 1 andϕ 2.(5)
+When a scalar is active, the fixed matter sector contains
+a canonical kinetic term and either a quadratic or an
+axion-like potential:
+L(i)
+fixed =− 1
+2 gµν∇µϕi∇νϕi −V i(ϕi),(6)
+Vi(ϕi) = 1
+2 m2
+i ϕ2
+i orm 2
+i f2
+i
+
+1−cos
+ ϕi
+fi
+
+.(7)
+The two scalar fields play different roles in the current
+theory grammar. The first scalar is naturally measured
+in Planck units,
+ϕ1 =M pφ1,(8)
+while the second is measured in cutoff units,
+ϕ2 = Λφ2.(9)
+This hierarchy allows the search to include both Planck-
+normalized scalar-tensor sectors and cutoff-normalized
+EFT scalar structures. The distinction matters because
+a term such asϕ 2Rcarries a different scale fromϕ 1R,
+even when their dimensionless field amplitudes are com-
+parable. It is therefore useful to parameterize the EFT
+cutoff in units of the present Hubble scale,
+λH ≡ Λ
+H0
+.(10)
+Withh≡H/H 0, the dimensionless ratio between the
+background expansion scale and the cutoff is simply
+H/Λ =h/λ H. This quantity enters the validation-stage
+scale-separation cut introduced in Sec. IV.
+III. MINI-SUPERSPACE AND BACKGROUND
+PHYSICAL FILTERING
+A. Background equations
+The first physical filter is applied after reducing the
+covariant theory on the spatially flat FLRW metric
+ds2 =−N(t) 2dt2 +a(t) 2δijdxidxj.(11)
+The minisuperspace variation gives
+δS=
+Z
+dt
+ 
+EN δN+E aδa+
+X
+i
+Eϕi δϕi
+!
+,(12)
+where the inactive scalar equations are omitted. Af-
+ter variation, the equations are evaluated in cosmic-time
+gauge,N= 1:
+EN = 0, E a = 0, E ϕi = 0.(13)
+The lapse equation is not discarded. It is the modified
+Friedmann equation, whileE a andE ϕi determine the
+dynamical evolution.
+B. Equation of motion and Ostrogradsky ghost
+cancellation
+Higher-curvature and derivative scalar-curvature op-
+erators generically produce equations containing third
+or higher time derivatives ofa(t)andϕ i(t). If such
+
+===== PAGE 3 =====
+
+3
+derivatives represent independent initial data, the the-
+ory contains an Ostrogradsky mode: the Hamiltonian is
+unbounded as a physically unacceptable ghost[4]. The
+pipeline therefore treats the derivative order of the
+FLRW equations as a hard physical constraint before any
+likelihood evaluation.
+The proposal grammar is broader than the standard
+Horndeski basis. It can contain operators such asR2,R 3,
+∇R∇R, or mixed scalar-curvature contractions. These
+monomials may contain ghost degrees of freedom. There-
+fore, grammar for ghost cancelling is manipulate at the
+EOM stage. The equation of motion can be written as
+EA =E ≤2
+A +
+X
+B
+X
+r≥3
+A(r)
+AB
+
+N, a, ˙N ,˙a, ϕi, ˙ϕi, . . .;c I
+ dryB
+dtr ,
+(14)
+whereA, Blabels the lapse, scale-factor, and active-
+scalar equations.y B ∈ {N, a, ϕ i}, and theA (r)
+AB are al-
+gebraic functions of the operator coefficients and lower-
+derivative variables. The ghost cancellation filter for
+background metric gives the coefficient constraint
+A(r)
+AB = 0for all independentBandr≥3,(15)
+and substitutes the resulting branch relations before
+gauge fixing and passing the model to the Builder and
+Solver. A model may therefore contain a displayedR2,
+R3, or derivative-curvature operator only as part of a
+coefficient-restricted FLRW-degenerate combination. If
+the required relations force the relevant correction to
+zero, the model is interpreted as the corresponding lower-
+complexity branch rather than as evidence for an active
+higher-curvature correction.
+This condition is Horndeski/DHOST-like in spirit, be-
+cause it removes the would-be Ostrogradsky data by de-
+generacy rather than by assuming small higher deriva-
+tives [3, 8]. It is not identical to imposing the full covari-
+ant Horndeski Lagrangian at the proposal stage. The
+proposal space is broader, while the acceptance condi-
+tion is narrower and equation-level: the accepted branch
+must have FLRW equations with no independent third-
+or higher-time derivatives after the coefficient relations
+are imposed.
+C. The modified Friedmann constraint
+In ordinary GR, the FLRW lapseNappears with-
+out time derivatives after the Einstein–Hilbert boundary
+term is handled. The momentum conjugate toNvan-
+ishes, and preserving this primary constraint gives the
+Hamiltonian constraint, which reduces to the Friedmann
+equation. In a raw modified-gravity minisuperspace La-
+grangian, however,Nmay appear with derivatives be-
+fore integrations by parts or before imposing the back-
+ground derivative-cancellation relations. Therefore the
+simple GR statement “the lapse is a Lagrange multiplier”
+is not always the cleanest way to identify the constraint.
+The more robust argument comes from residual time-
+reparametrization invariance. Under
+t→t−ξ(t),(16)
+the minisuperspace variables transform as
+δξa=ξ˙a, δ ξϕi =ξ ˙ϕi, δ ξN= (N ξ) ·.(17)
+Invariance of the action under this transformation gives
+the off-shell Noether identity
+N ˙EN −˙a Ea −
+X
+i
+˙ϕi Eϕi = 0.(18)
+This is the minisuperspace form of the Bianchi identity.
+It holds before imposing the equations of motion.
+After gauge fixing toN= 1, Eq. (18) becomes
+˙EN = ˙a Ea +
+X
+i
+˙ϕi Eϕi .(19)
+Suppose the background derivative-cancellation relations
+have made the dynamical equationsEa = 0andE ϕi =
+0at most second order in time derivatives. Then the
+right-hand side of Eq. (19) contains no independent third
+derivatives.
+If the gauge-fixed lapse equationEN |N=1 contained an
+acceleration, schematically
+EN |N=1 =C(a,˙a,¨a, ϕi, ˙ϕi, ¨ϕi),(20)
+then its time derivative would contain independent third
+derivatives:
+˙EN |N=1 ⊃ ∂C
+∂¨aa(3) +
+X
+i
+∂C
+∂ ¨ϕi
+ϕ(3)
+i .(21)
+These terms cannot be matched by the right-hand side
+of Eq. (19). Since the identity is off shell and holds for
+arbitrary field profiles, the coefficients of all independent
+third derivatives must vanish. Therefore
+EN |N=1 =C N(a,˙a, ϕi, ˙ϕi),(22)
+and the lapse equation is a first-order constraint on
+FLRW initial data, not an independent second-order dy-
+namical equation.
+The same identity guarantees propagation of the con-
+straint. On solutions of the dynamical equations,
+Ea = 0, E ϕi = 0,(23)
+Eq. (19) implies
+˙EN = 0.(24)
+Thus if the initial data satisfy
+EN(t0) = 0,(25)
+
+===== PAGE 4 =====
+
+4
+then the background evolution preserves
+EN(t) = 0.(26)
+This justifies using the lapse equation to solve for one ini-
+tial velocity and then monitoring the residual constraint
+throughout numerical integration.
+The result is deliberately limited to the background
+construction: within the FLRW derivative-cancelled sec-
+tor, the lapse equation is a first-order modified Fried-
+mann constraint, and the dynamical equations preserve
+it once it is imposed on the initial data. The wider do-
+main of validity of this minisuperspace statement is sum-
+marized next.
+D. Scope of the background filter
+The preceding analysis imposes two distinct
+background-level requirements. First, Eq. (15) re-
+moves all independent third- and higher-time derivatives
+from the gauge-fixed FLRW equations. Second, the
+residual time-reparametrization identity makes the
+lapse equation a preserved first-order constraint on
+the accepted branch. Together these conditions are
+necessary for the background initial-value problem,
+but they are not a sufficient proof of full covariant
+ghost freedom. They do not establish the complete
+ADM/Dirac constraint algebra, the quadratic action for
+scalar and tensor perturbations, the sign of the kinetic
+matrix, gradient stability, the tensor propagation speed,
+or stability on non-FLRW backgrounds. These checks
+are logically separate from the background search. In
+this paper, “accepted” means that a branch has passed
+the FLRW derivative-order filter, admits a regular
+background initial-value problem, preserves the modified
+Friedmann constraint numerically, satisfies the stated
+background EFT cut, and yields a finite DES-SN plus
+DESI-DR2 BAO score. It does not mean that the theory
+is already a fully viable modified-gravity model.
+On this restricted background sector, the modified
+Friedmann constraint can be used to select initial data
+and the remaining equations can be cast as the dimen-
+sionless first-order system constructed next.
+IV. DIMENSIONLESS COSMOLOGICAL
+INITIAL-VALUE PROBLEM
+The numerical evolution uses e-fold time
+x= lna=−ln(1 +z), h= H
+H0
+,(27)
+so that
+d
+dt =H 0h d
+dx .(28)
+The relevant substitutions include
+˙a=H 0exh,¨a=H 2
+0 ex(h2 +hh x),(29)
+˙ϕ1 =M pH0hq1, ¨ϕ1 =M pH2
+0 h(hxq1 +hq 1x),(30)
+˙ϕ2 =H 2
+0 λH hq2, ¨ϕ2 =H 3
+0 λH h(hxq2 +hq 2x),(31)
+where
+qi = dφi
+dx .(32)
+Masses and decay constants are written as
+m1 =H 0µ1, m 2 = Λµ2, f 1 =M p ¯f1, f 2 = Λ ¯f2.
+(33)
+Afterthesesubstitutions, theBuilderformsdimension-
+less equations
+CN = 0, C a = 0, C ϕi = 0.(34)
+The constraintC N = 0is imposed atx= 0withh(0) =
+1. The dynamical equations are solved algebraically for
+the highest e-fold derivatives,
+u= (h x, q1x, q2x)T .(35)
+When a regular branch exists, the result is an explicit
+first-order system,
+d
+dx
+
+
+h
+φ1
+q1
+φ2
+q2
+
+ =
+
+
+Fh
+q1
+F1
+q2
+F2
+
+ ,(36)
+with absent scalar variables omitted. The trajectory is
+rejected if the constraint drifts beyond the production
+tolerance,
+max
+x
+|CN(x)|>10 −4.(37)
+It is also rejected if the background expansion scale
+approaches the cutoff. The validation-stage scale-
+separation cut is
+ϵH ≡max
+x
+|H(x)|
+Λ = max
+x
+|h(x)|
+λH
+<0.1.(38)
+This is a hard background-level rejection criterion. It
+ensures that the accepted trajectory remains below the
+cutoff scale probed by the homogeneous expansion, but it
+should not be read as a complete proof that the full EFT
+expansion is controlled. The stronger field-excursion, ki-
+netic, and operator-hierarchy diagnostics are discussed in
+Sec. VIII.
+V. COSMOLOGICAL OBSERVABLES
+Each accepted solution gives a Hubble historyH(z) =
+H0h(z). The supernova distance modulus is computed
+from
+DL(z) = (1 +z hel) c
+H0
+Z zHD
+0
+dz′
+h(z′) ,(39)
+
+===== PAGE 5 =====
+
+5
+with an analytically profiled absolute-magnitude offset.
+The supernova likelihood therefore mainly constrains the
+relative shape of the distance-redshift relation.
+The BAO observables are computed from the same
+background solution:
+DM(z) =
+Z z
+0
+dz′
+h(z′) ,(40)
+DH(z) = 1
+h(z) ,(41)
+DV (z) =
+ zDM(z)2
+h(z)
+1/3
+.(42)
+In this background-only analysis, the BAO scale is pro-
+filed as a nuisance parameter. Thus the DESI com-
+parison should be interpreted as a relative-distance test
+of the late-time expansion history, not as a complete
+early-universe calculation of the sound horizon in each
+modified-gravity theory.
+The primary score is
+χ2
+tot =χ 2
+DES-SN +χ 2
+DESI-DR2BAO .(43)
+Models are ranked byχ 2
+tot, with information criteria
+recorded only as secondary diagnostics [9, 10].
+VI. AUTONOMOUS SEARCH STRATEGY
+The autonomous component is an outer loop around
+the deterministic physics pipeline. Each proposal is a
+concrete theory JSON plus an explicit list of numeri-
+cal parameter samples. The harness compiles the pro-
+posal into an isolated Lagrangian file, runs the EOM and
+Builder stages, evaluates the supplied samples with the
+Solver, and writes one factual attempt record. The pro-
+posal model then updates only from current-loop mem-
+ory: failuretags, accepted-samplerows,χ 2 values, scalar-
+family statistics, and parameter priors inferred from the
+same run. Historical Solver winners are not used as cold-
+start proposal memory.
+The final benchmark uses two proposal sectors. The
+open-search sector samples the full grammar and may
+include the Einstein–Hilbert anchor. The non-EH sec-
+tor forbids the bareRanchor and therefore searches for
+backgrounds whose gravitational dynamics must be sup-
+plied by curvature-squared, higher-curvature, derivative-
+curvature, or scalar-curvature structures. The target ini-
+tial proposal budget is split equally,
+Nopen :N non-EH = 1 : 1.(44)
+Expanded and refined validations do not count toward
+this initial-theory target; they are repeat evaluations of a
+promising already-proposed family with larger parameter
+budgets.
+A. Proposal parameters and scan ranges
+Table I summarizes the default cold-start ranges for
+the continuous component of the search. They are ex-
+ploration priors rather than physical acceptance condi-
+tions: a sample drawn from these ranges is still rejected
+if it fails the modified Friedmann constraint, violates the
+background EFT cut, produces an irregular trajectory, or
+admits no acceptable real root for the constrained initial
+velocity.
+For higher-dimension curvature corrections, a naive co-
+efficient prior can render the correction effectively in-
+visible because of the associated powers ofΛ. The
+scans therefore record an effective-size diagnostic and, in
+selected proposal modes, choose coefficient magnitudes
+that target weak, moderate, or active fractional correc-
+tions relative to the Einstein–Hilbert term. We estimate
+∆i ≃
+
+ci
+cEH
+ λpi
+H Fi,(45)
+wherep i is the net power ofλ H inherited from the
+dimension-balanced operator andF i denotes the rele-
+vant dimensionless field factor. The weak, moderate, and
+active-probe target intervals are approximately10 −6–
+10−4,10 −4–10−2, and10 −2–102, respectively. The base-
+line correction mode, which carries a default weight of
+0.10, does not use Eq. (45); it samples raw signed-log
+coefficients from the broad prior. The remaining default
+weights are weak0.30, moderate0.30, and active-probe
+0.30.
+The continuous sampler uses a 50/50 hybrid proposal
+policy. Half of the samples are agent-exact anchor points
+and half are stochastic learned-prior draws. Both halves
+may consult the current-loop joint parameter memory
+for up to the configured usage fraction, currently0.80:
+exact samples reuse high-reward parameter vectors from
+the nearest available family level, while stochastic sam-
+ples jitter around such vectors in log space. If no use-
+ful current-loop evidence exists, both branches fall back
+to the learned/default priors with an exploration floor.
+These prescriptions are search priors only. The reported
+ranking remains the real data value ofχ2
+tot written by
+the Solver.
+The final benchmark used asynchronous slots. Each
+CPU slot validates one proposed theory at a time; when
+it finishes, it writes to the shared memory and imme-
+diately requests a new proposal using the latest mem-
+ory. This avoids waiting for an entire wave when a sin-
+gle symbolic or numerical task is slow. Each initial the-
+ory receives 1000 samples. If an initial pass produces a
+promising accepted trajectory, the same family can be
+expanded to 3000 samples. Open-search families with
+χ2
+tot <1638can receive a 5000-sample refinement, while
+non-EH families withχ2
+tot <2000can receive a dedicated
+10000-sample refinement because such hits are rare and
+are evaluated on their own new-physics scale. Structural
+failures such as repeated root failure, missing scalar con-
+straints, dominant constraint drift, integration failure, or
+
+===== PAGE 6 =====
+
+6
+Parameter Dimensionless definition Applies to Default range Sampling scale
+H0 H0 [km s−1 Mpc−1]all sectors58–74linear
+Ωm0 ρm0/(3M 2
+p H 2
+0)all sectors0.22–0.40linear
+λH Λ/H0 all sectors5.0×10 2–8.0×104 log
+φ1,0 ϕ1(t0)/Mp ϕ1 sectors10 −3–101 log
+µ1 m1/H0 ϕ1 sectors10 −2–102 log
+¯f1 f1/Mp ϕ1 axion sectors10 −2–102 log
+φ2,0 ϕ2(t0)/Λϕ 2 sectors10 −5–105 in|φ 2,0|signed log
+q2,0 dφ2/d lna|0 two-scalar sectors10 −5–105 in|q 2,0|signed log
+µ2 m2/Λϕ 2 sectors10 −5–105 log
+¯f2 f2/Λϕ 2 axion sectors10 −5–105 log
+cI non-EH operator coefficients generated operators10 −10–1020 in|c I |log, both signs
+TABLE I. Default continuous proposal ranges. These are broad cold-start exploration priors, not physical acceptance cuts.
+The Einstein–Hilbert coefficient is not scanned: when the plainRanchor is present it is fixed tocR = 1/2. In one-scalar models
+the initial scalar velocity is solved from the modified Friedmann constraint rather than independently sampled. In two-scalar
+modelsq 2,0 is sampled and the constraint solves for the remaining scalar velocity.
+symbolic timeout do not trigger expansion.
+B. Benchmark design and monitoring
+We analyze a unified five-agent benchmark. GPT-5.5,
+Claude Opus 4.8, and Gemini 3.1 Pro are taken from
+the new 1500-target production runs. The GPT-5.5 job
+reached the 72-hour wall-time limit after 1396 recorded
+initial theories, and we keep the censored result as pro-
+duced rather than completing it with an additional run.
+Qwen 3.7 Plus and DeepSeek V4 Pro are taken from the
+earlier 2000-target production runs, truncated to task ids
+not exceeding 1500; expanded and refined validations at-
+tached to those first 1500 initial tasks are retained. We
+treatthesefivedatasetsasonebenchmarkwithoutdraw-
+ing a run-source distinction in the figures.
+All runs use the same grammar cache, proposal
+schema, sector split, parameter ranges, initial sample
+budget, expansion/refinement rules, and ranking byχ2
+tot.
+TheΛCDM reference for the same DES-SN plus DESI-
+DR2 BAO likelihood is
+χ2
+ΛCDM = 1645.28, H 0 = 70.0 km s−1 Mpc−1,Ω m0 = 0.306.
+(46)
+The benchmark axes are global optimum quality, new-
+physics search performance, speed/efficiency, robust-
+ness/stability, and acceptance rate. LangSmith tracing
+was enabled only as a monitoring layer; the paper tables
+and figures are generated from local JSONL and CSV
+artifacts, which are the reproducible source of truth.
+VII. BENCHMARK RESULTS
+The open-search sector is highly stable across agents.
+Every proposal policy finds an Einstein–Hilbert-anchored
+basin below the fixedΛCDM reference valueχ 2
+ΛCDM =
+1645.28. The best open-search value is obtained by Qwen
+3.7, withχ 2
+tot = 1637.930. The spread among the best
+open-search values is small, about 0.082 inχ 2, even
+though the agents differ substantially in accepted medi-
+ans and hit counts. This indicates that the background
+likelihoodcontainsabroadEH-anchoredattractor: many
+operator lists and scalar choices reproduce nearly the
+same late-time expansion history once the Solver is al-
+lowed to scan the explicit parameter samples.
+A. Open-search sector
+Figure 3 shows that the open-search optimum is usu-
+ally found well before the full target budget is exhausted.
+GPT-5.5, Gemini 3.1, Qwen 3.7, and DeepSeek V4 all
+reachχ 2
+tot <1638.1, while Claude Opus 4.8 reaches
+χ2
+tot = 1638.004. The most stable open-search medians
+are obtained by GPT-5.5, Gemini, and Qwen; Claude has
+a competitive best value but a much worse open-search
+median because many of its accepted backgrounds sit on
+the high-χ2 plateau. This distinction is important: the
+best value measures global optimization, whereas the ac-
+cepted median and hit count measure how reliably the
+agent returns to the good basin.
+The representative open-search theories in Appendix A
+show that the optimum is not tied to a single visible oper-
+ator. Some best models are nearly EH plus scalar, while
+others contain curvature corrections such asR2,ϕ 1R2,
+or scalar-coupled Riemann/Ricci-squared terms. At the
+background level these alternatives are largely degener-
+ate. We thereforetreat theopen-search resultas evidence
+for a robust EH-anchored dark-energy basin, not as evi-
+dence that the data uniquely prefer one higher-curvature
+completion.
+
+===== PAGE 7 =====
+
+7
+Qwen 3.7 GPT-5.5
+DeepSeek V4
+Opus 4.8Gemini 3.1
+0
+2
+4
+6
+8
+2
+CDM
+2
+open
+7.35 7.33 7.32 7.28 7.27
+Best open-search improvement
+Qwen 3.7 GPT-5.5
+DeepSeek V4
+Opus 4.8Gemini 3.1
+0
+100
+200
+300
+179
+317
+148
+124
+222
+Open-search hits with 2 < 1650
+Qwen 3.7 GPT-5.5
+DeepSeek V4
+Opus 4.8Gemini 3.1
+1700
+1800
+1900
+2000
+2
+non EH
+1896.0
+1946.9
+1693.9
+1930.9 1939.0
+Best non-EH hit
+Qwen 3.7 GPT-5.5
+DeepSeek V4
+Opus 4.8Gemini 3.1
+0
+10
+20
+3 3
+24
+19
+15
+Non-EH hits with 2 < 2000
+Five-agent autonomous background search
+FIG. 1. Unified five-agent benchmark. The panels show the positive open-search improvement relative to the fixedΛCDM
+reference, the number of high-quality open-search hits, the best non-EH background in theχ2 <2000display range, and the
+number of non-EH hits below that threshold. The dashed reference line in the non-EH best panel isΛCDM, whileχ2 = 2000
+is used only as a display and hit-count threshold.
+TABLE II. Unified benchmark metrics. GPT-5.5 is wall-time censored at 1396 recorded initial theories; Qwen 3.7 and DeepSeek
+V4 use the first 1500 task ids from the earlier 2000-target run. “Open” denotes the full grammar sector, while “non-EH” denotes
+the sector without a bare Einstein–HilbertRanchor.
+Agent Initial Open best Open median Open<1650non-EH best non-EH<2000Acc. rate open/non-EH
+Qwen 3.7 1500/1500 1637.930 1639.022 179 1896.001 3 0.371 / 0.142
+GPT-5.5 1396/1500 1637.953 1638.035 317 1946.871 3 0.451 / 0.091
+DeepSeek V4 1500/1500 1637.962 1644.949 148 1693.860 24 0.352 / 0.164
+Opus 4.8 1500/1500 1638.004 3035.050 124 1930.880 19 0.343 / 0.165
+Gemini 3.1 1500/1500 1638.012 1638.889 222 1939.014 15 0.361 / 0.095
+B. Non-EH sector
+The non-EH sector remains the harder new-physics
+test because the bare Einstein–Hilbert anchor is absent.
+In this sector, the best result is obtained by DeepSeek V4
+withχ 2
+tot = 1693.860. The corresponding structure is a
+two-scalar branch containingϕ 2
+2Rand derivative scalar
+interactions. Qwen finds a distinctϕ 2-only curvature
+branch atχ 2
+tot = 1896.001, while Claude and Gemini
+find non-EH branches nearχ2
+tot = 1930.880andχ 2
+tot =
+1939.014. GPT-5.5 reaches the familiarχ2
+tot ≃1946.871
+plateau but finds only three hits below 2000 in the cen-
+sored run.
+The contrast between open search and non-EH search
+is the main physics message of the benchmark. All agents
+can locate a good EH-anchored expansion history, but
+only a subset repeatedly finds non-EH backgrounds be-
+lowχ 2 = 2000. Even the best such background remains
+worse thanΛCDM by roughly 48.6 inχ2 and worse than
+the best open-search branch by roughly 55.9. Thus the
+non-EH candidates are interesting as discovered runnable
+structures, not as competitive replacements for the EH-
+anchored basin on DES-SN plus DESI-DR2 BAO back-
+
+===== PAGE 8 =====
+
+8
+1.0
+1.5
+2.0
+2.5
+3.0
+3.5h(z) = H(z)/H0
+DeepSeek #L537 ( 2 = 1637.95)
+Gemini #L352 ( 2 = 1637.97)
+Opus #L561 ( 2 = 1638.00)
+Qwen #L583 ( 2 = 1638.04)
+GPT-5.5 #L267 ( 2 = 1638.13)
+CDM ( 2 = 1645.28)
+0.0 0.5 1.0 1.5 2.0
+z
+0
+1
+2100[h/h CDM 1]
+FIG. 2. Replayed best-agent background histories compared with the same fixedΛCDM reference used in Eq. (46). The upper
+panel showsh(z) =H(z)/H 0 for the best representative background from each agent, and the lower panel shows the percent
+residual relative toΛCDM. This diagnostic uses the dedicated Solver replay curves because the production JSONL pull stores
+rankings and accepted samples but not every solution-curve CSV.
+ground data.
+C. Agent-level behavior
+The five agents separate along different axes. Qwen
+gives the best open-search minimum in the unified data
+set. DeepSeek gives the strongest non-EH discovery and
+the largest number of non-EH hits below 2000. GPT-5.5
+gives a very stable open-search basin, with a low median
+and many hits below 1650, but its non-EH performance
+is weak and the job was wall-time censored. Claude has
+the highest non-EH acceptance rate among the three new
+1500-target agents, but its open-search accepted median
+is poor. Gemini is balanced: it reaches a competitive
+open-search optimum and finds a non-EH branch below
+2000, though it does not match DeepSeek’s non-EH dis-
+covery.
+VIII. VALIDATION BOUNDARIES AND
+PHYSICAL INTERPRETATION
+The validation performed here is a background-level
+filter, not a complete proof of covariant viability. The
+symbolic stage removes independent higher-time deriva-
+tivesinthehomogeneousFLRWequationsandtheSolver
+enforcesregularintegration, themodifiedFriedmanncon-
+straint, and the data likelihood. A fully viable theory
+must still pass perturbation-level tests: after solving non-
+dynamical constraints, the scalar and tensor quadratic
+actions must have positive kinetic eigenvalues, accept-
+able sound speeds, no rapid gradient instabilities, and a
+regular constraint structure. The present DES-SN plus
+DESI-DR2 BAO likelihood also does not include struc-
+ture growth, weak lensing, redshift-space distortions,
+gravitational-wave propagation, or local-gravity screen-
+ing.
+The EFT interpretation is likewise diagnostic rather
+than automatic. The trajectory-level cut controls|H|/Λ,
+but broad coefficient and scalar priors can still produce
+branches whose fitted corrections are large compared
+with the EH term. Accepted operator lists also need not
+be inequivalent covariant theories: integration by parts,
+
+===== PAGE 9 =====
+
+9
+0 100 200 300 400 500 600 700
+completed open-search initial records
+1638
+1640
+1642
+1644best-so-far 2
+Best-so-far open-search trajectory
+GPT-5.5
+Opus 4.8
+Gemini 3.1
+Qwen 3.7
+DeepSeek V4
+CDM
+FIG. 3. Best-so-far open-search value as a function of completed open-search initial records. The dashed line is the fixedΛCDM
+reference.
+DeepSeek V4Qwen 3.7Opus 4.8Gemini 3.1 GPT-5.5
+1700
+1800
+1900
+2000
+2
+non EH
+1693.9
+1896.0
+1930.9 1939.0 1946.9
+Best non-EH background
+DeepSeek V4Qwen 3.7Opus 4.8Gemini 3.1 GPT-5.5
+0
+5
+10
+15
+20
+25 24
+3
+19
+15
+3
+Hits below 2 = 2000
+FIG. 4. Non-EH search summary. The left panel shows the best non-EH background found by each agent, restricted to the
+display range belowχ 2 = 2000; the dashed reference line is the fixedΛCDM value from Eq. (46). The right panel counts
+non-EH hits belowχ2 = 2000.
+field redefinitions, curvature identities, and FLRW de-
+generacies can map different raw operator lists to the
+same background equations. The results should therefore
+be read as best-per-family background representatives,
+pending a full operator-basis and perturbation audit.
+IX. DISCUSSION AND CONCLUSIONS
+The unified benchmark shows that autonomous pro-
+posal agents can reliably recover high-quality EH-
+anchored dark-energy backgrounds under a determinis-
+tic modified-gravity validation pipeline. The best open-
+search backgrounds improve the fixedΛCDM reference
+by∆χ 2 ≃7.2–7.35, and the differences among the best
+agents are small compared with the gap between open
+search and the non-EH sector.
+The non-EH results are more discriminating.
+DeepSeek’sχ2
+tot = 1693.860branch is the most in-
+teresting new-physics candidate found in these data: it
+is substantially better than the recurringχ2
+tot ≃1946.87
+plateau and is structurally simple. Nevertheless, it is still
+worse than theΛCDM reference and much worse than
+the EH-anchored basin. The current background data
+and priors therefore favor EH-anchored scalar histories,
+while non-EH backgrounds remain useful diagnostic
+targets for further search.
+At the agent level, no single metric captures perfor-
+mance. The relevant axes are global optimum, new-
+physics discovery, speed/efficiency, robustness/stability,
+
+===== PAGE 10 =====
+
+10
+100 200 300 400 500 600 700
+completed non-eh initial records
+1700
+1800
+1900
+2000best-so-far 2
+Best-so-far non-EH trajectory
+GPT-5.5
+Opus 4.8
+Gemini 3.1
+Qwen 3.7
+DeepSeek V4
+CDM
+FIG. 5. Best-so-far non-EH value as a function of completed non-EH initial records, plotted only after the best-so-far value
+enters theχ 2 <2000display range. The dashed reference line is the fixedΛCDM value, not the non-EH refinement threshold.
+Qwen 3.7 GPT-5.5
+DeepSeek V4
+Opus 4.8 Gemini 3.1
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5accepted / validation records
+0.37
+0.45
+0.35 0.34 0.36
+0.14
+0.09
+0.16 0.17
+0.09
+Sector acceptance rate
+open search
+non-EH
+FIG. 6. Accepted fraction by sector. Acceptance is a robust-
+ness diagnostic: it measures how often an agent reaches a
+Solver-evaluable background, not whether the resulting back-
+ground has a lowχ2.
+and acceptance rate. For future production searches,
+a practical strategy is to use a strong global optimizer
+for EH-anchored basins and a separate explorer tuned
+for the non-EH sector. Follow-up work should add
+perturbation-level stability, growth and lensing likeli-
+hoods, gravitational-wave propagation constraints, local-
+gravity screening checks, and an operator-basis audit
+that removes FLRW-equivalent representatives.
+Appendix A: Representative Accepted Theories
+This appendix lists compact coefficient-substituted
+representativesforthebestopen-searchandnon-EHfam-
+ilies used in the unified benchmark. Coefficients whose
+recovered value is exactly zero are omitted. For GPT-5.5,
+Claude Opus 4.8, and Gemini 3.1 Pro the coefficients are
+read from the pulled Solver CSV files. For Qwen and
+DeepSeek, which are taken from the earlier truncated
+20 25 30 35 40
+initial theories per wall hour
+1638
+1639
+1640
+1641
+1642
+1643
+1644
+1645best open-search 2
+Speed and global optimum
+GPT-5.5
+Opus 4.8
+Gemini 3.1
+Qwen 3.7
+DeepSeek V4
+CDM
+FIG. 7. Speed and global optimum. The horizontal axis gives
+initial theories per wall hour; the vertical axis gives the best
+open-searchχ 2. GPT-5.5 is shown as a censored run because
+it reached the wall-time limit before recording all 1500 initial
+theories.
+2000-run artifacts, the exact per-task Solver CSV files
+were not pulled; when necessary we use the recovered
+current-loop parameter memory and mark this explicitly.
+We use the abbreviations
+R3a =R cd
+abRaf h
+cRb
+f dh,R 3b =R bd
+acRagh
+bRc
+dgh,
+(A1)
+R3c =R b
+aRcdRa
+cbd,R 3d =R abRadef Rb
+def .
+(A2)
+
+===== PAGE 11 =====
+
+11
+1. Open-search representatives
+Qwen 3.7 1.Scheduler id
+task_000847_expanded_slot_01_lag_1, scalar family
+phi1_only,χ 2
+tot = 1637.930. The coefficient vector is the
+nearest recovered joint-prior vector; its stored sample
+hasχ 2 = 1637.930.
+Lqwen,open,1 = √−g
+
+M2
+p
+
+αR+βΛ −3ϕ1Rbcd
+a Ra
+bcd +γΛ −4ϕ1ϕ1Rbcd
+a Ra
+bcd
+
+− 1
+2(∇ϕ1)2 −m 2
+1f2
+1 [1−cos(ϕ 1/f1)]
+
+.
+(A3)
+Nonzero recovered coefficients:α= 0.5, β=−4.67×
+1013, γ= 9.69×10 14. Representative operator content:
+R;ϕ 1Rbcd
+a Ra
+bcd;ϕ 1ϕ1Rbcd
+a Ra
+bcd.
+GPT-5.5 2.Scheduler id
+task_000347_expanded_refine_slot_05_lag_1, scalar
+family phi1_only,χ2
+tot = 1637.953.
+Lopenai,open,2 = √−g
+
+M2
+p
+
+αR+βΛ −2R2 +γΛ −3ϕ1RR
+
+− 1
+2(∇ϕ1)2 − 1
+2 m2
+1ϕ2
+1
+
+.(A4)
+Nonzero recovered coefficients:α= 0.5, β= 1.4×
+1013, γ=−443.3. Representative operator content:
+R;R 2;ϕ 1RR.
+DeepSeek V4 3.Scheduler id
+task_001266_slot_03_lag_1, scalar family phi1_only,
+χ2
+tot = 1637.962. The coefficient vector is the nearest
+recovered joint-prior vector; its stored sample has
+χ2 = 1637.962.
+Ldeepseek,open,3 = √−g
+
+M2
+p
+
+αR+βΛ −2RµνRµν +γΛ −4ϕ1ϕ1RabRab
+
+− 1
+2(∇ϕ1)2 −m 2
+1f2
+1 [1−cos(ϕ 1/f1)]
+
+.(A5)
+Nonzero recovered coefficients:α= 0.5, β=
+−9134, γ=−7.01×10 8. Representative operator con-
+tent:R;R µνRµν;ϕ 1ϕ1RabRab.
+Opus 4.8 4.Scheduler id
+task_001106_slot_04_lag_1, scalar family phi1_only,
+χ2
+tot = 1638.004.
+Lclaude,open,4 = √−g
+
+M2
+p [αR]− 1
+2(∇ϕ1)2 −m 2
+1f2
+1 [1−cos(ϕ 1/f1)]
+
+.(A6)
+Nonzero recovered coefficients:α= 0.5. Representative
+operator content:R.
+Gemini 3.1 5.Scheduler id
+task_000281_slot_03_lag_1, scalar family both,
+χ2
+tot = 1638.012.
+Lgemini,open,5 = √−g
+
+M2
+p [αR]− 1
+2(∇ϕ1)2 − 1
+2 m2
+1ϕ2
+1 − 1
+2(∇ϕ2)2 −m 2
+2f2
+2 [1−cos(ϕ 2/f2)]
+
+.(A7)
+Nonzero recovered coefficients:α= 0.5. Representative operator content:R.
+
+===== PAGE 12 =====
+
+12
+2. Non-EH representatives
+DeepSeek V4 1.Scheduler id
+task_000425_expanded_refine_slot_08_lag_1, scalar
+family both,χ 2
+tot = 1693.860. The coefficient vector
+is the nearest recovered joint-prior vector; its stored
+sample hasχ 2 = 1702.424.
+Ldeepseek,nonEH,1 = √−g
+
+M2
+p
+
+αΛ−2ϕ2ϕ2R
+
++βΛ −1ϕ1□ϕ1ϕ2 +γΛ −2ϕ1□ϕ1ϕ2ϕ2 − 1
+2(∇ϕ1)2 −m 2
+1f2
+1 [1−cos(ϕ 1/f1)]− 1
+2(∇ϕ2)2 − 1
+2 m2
+2ϕ2
+2
+
+.
+(A8)
+Nonzero recovered coefficients:α=−7251, β=
+−57.47, γ= 3.64×10 11. Representative operator con-
+tent:ϕ 2ϕ2R;ϕ 1□ϕ1ϕ2;ϕ 1□ϕ1ϕ2ϕ2.
+Qwen 3.7 2.Scheduler id
+task_000809_expanded_refine_slot_03_lag_1, scalar
+family phi2_only,χ 2
+tot = 1896.001. The coefficient
+vector is the exact from pulled terminal summary; its
+stored sample hasχ2 = 1896.001.
+Lqwen,nonEH,2 = √−g
+
+M2
+p
+
+αΛ−2□R+βΛ −4R3a +γΛ −2ϕ2ϕ2R+δΛ −3ϕ2RabRab +ϵΛ −3ϕ2Rbcd
+a Ra
+bcd +ζΛ −4ϕ2□ϕ2R
+
++ηϕ 2□ϕ2 +θΛ −2ϕ2ϕ2∇aϕ2∇aϕ2 − 1
+2(∇ϕ2)2 − 1
+2 m2
+2ϕ2
+2
+
+.
+(A9)
+Nonzero recovered coefficients:α= 4.11×10 5, β=
+−3.51×10 −6, γ=−8845, δ=−0.03089, ϵ=
+4.12×10 7, ζ=−6384, η= 5.28×10 15, θ=
+1.42×10 −10. Representative operator content:
+□R;R 3a;ϕ 2ϕ2R;ϕ 2RabRab;ϕ 2Rbcd
+a Ra
+bcd;ϕ 2□ϕ2R;ϕ 2□ϕ2;ϕ 2ϕ2∇aϕ2∇aϕ2.
+Opus 4.8 3.Scheduler id
+task_001247_expanded_refine_slot_07_lag_1, scalar
+family phi2_only,χ2
+tot = 1930.880.
+Lclaude,nonEH,3 = √−g
+
+M2
+p
+
+αΛ−2R2 +βΛ −2RµνRµν +γΛ −4R3c +δΛ −4R3a +ϵΛ −4R□R+ζΛ −4ϕ2ϕ2ϕ2ϕ2R+ηΛ −4ϕ2ϕ2RabRab +θΛ −4ϕ2ϕ2Rbcd
+a Ra
+bcd
+
+− 1
+2(∇ϕ2)2 − 1
+2 m2
+2ϕ2
+2
+
+.
+(A10)
+Nonzero recovered coefficients:α= 1.87×10 −9, β=
+−1.09×10 12, γ= 1.9×10 −10, δ=−2.58×10 11, ϵ=
+−1.62×10 15, ζ=−170.1, η= 4.54×10 −5, θ=
+6.11×10 7. Representative operator content:
+R2;R µνRµν;R 3c;R 3a;R□R;ϕ 2ϕ2ϕ2ϕ2R;ϕ 2ϕ2RabRab;ϕ 2ϕ2Rbcd
+a Ra
+bcd.
+Gemini 3.1 4.Scheduler id
+task_001067_expanded_refine_slot_04_lag_1, scalar
+family phi2_only,χ2
+tot = 1939.014.
+Lgemini,nonEH,4 = √−g
+
+M2
+p
+
+αΛ−2Rµνρσ Rµνρσ +βΛ −4R3b +γΛ −3ϕ2ϕ2ϕ2R+δΛ −3ϕ2RabRab +ϵΛ −4ϕ2ϕ2RabRab +ζΛ −4ϕ2ϕ2Rbcd
+a Ra
+bcd
+
++ηΛ 1□ϕ2 +θΛ −2ϕ2ϕ2∇aϕ2∇aϕ2 − 1
+2(∇ϕ2)2 − 1
+2 m2
+2ϕ2
+2
+
+.
+(A11)
+Nonzero recovered coefficients:α=−1.07×10 4, β=
+−6×10 −10, γ= 3.47×10 8, δ= 0.001309, ϵ=
+−4.88×10 14, ζ=−4.48×10 13, η= 3.36×10 −9, θ=
+0.004467. Representative operator content:
+Rµνρσ Rµνρσ;R 3b;ϕ 2ϕ2ϕ2R;ϕ 2RabRab;ϕ 2ϕ2RabRab;ϕ 2ϕ2Rbcd
+a Ra
+bcd;□ϕ 2;ϕ 2ϕ2∇aϕ2∇aϕ2.
+GPT-5.5 5.Scheduler id
+task_001346_expanded_slot_04_lag_1, scalar family
+both,χ 2
+tot = 1946.871.
+
+===== PAGE 13 =====
+
+13
+Lopenai,nonEH,5 = √−g
+
+M2
+p
+
+αΛ−4ϕ2ϕ2RabRab +βΛ −4ϕ2ϕ2Rbcd
+a Ra
+bcd
+
+− 1
+2(∇ϕ1)2 − 1
+2 m2
+1ϕ2
+1 − 1
+2(∇ϕ2)2 − 1
+2 m2
+2ϕ2
+2
+
+.
+(A12)
+Nonzero recovered coefficients:α=−7699, β= 2232. Representative operator content:
+ϕ2ϕ2RabRab;ϕ 2ϕ2Rbcd
+a Ra
+bcd.
+[1] T. Clifton, P. G. Ferreira, A. Padilla, and C. Sko-
+rdis, Phys. Rept.513, 1 (2012), arXiv:1106.2476 [astro-
+ph.CO].
+[2] T. P. Sotiriou and V. Faraoni, Rev. Mod. Phys.82, 451
+(2010), arXiv:0805.1726 [gr-qc].
+[3] G. W. Horndeski, Int. J. Theor. Phys.10, 363 (1974).
+[4] M. Ostrogradsky, Mem. Acad. St. Petersbourg6, 385
+(1850).
+[5] DES Collaboration, (2024), arXiv:2401.02929 [astro-
+ph.CO].
+[6] DESI Collaboration, (2025), arXiv:2503.14738 [astro-
+ph.CO].
+[7] S. Alexander, B. Bradley, L. Gouskos, and C. Niu,
+(2026), arXiv:2603.28935 [hep-ph].
+[8] D. Langlois and K. Noui, JCAP02, 034,
+arXiv:1510.06930 [gr-qc].
+[9] H. Akaike, IEEE Trans. Automat. Control19, 716
+(1974).
+[10] G. Schwarz, Ann. Statist.6, 461 (1978).

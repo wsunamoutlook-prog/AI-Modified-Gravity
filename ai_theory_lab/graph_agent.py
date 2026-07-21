@@ -49,7 +49,10 @@ class GraphAgentState(TypedDict, total=False):
     grammar_generation_timeout: int
     use_token_context_cache: bool
     proposal_mode: str
+    llm_provider: str
     llm_model: str
+    llm_base_url: str
+    llm_api_key_env: str
     llm_fallback: str
     llm_proposal_timeout: int
     llm_api_timeout: int
@@ -196,7 +199,10 @@ def propose_theory(state: GraphAgentState) -> Dict[str, Any]:
                         proposal_summary,
                         rng,
                         seed + loop_index * 7919,
+                        provider=str(state.get("llm_provider") or "openai"),
                         model=str(state.get("llm_model") or "") or None,
+                        base_url=str(state.get("llm_base_url") or "") or None,
+                        api_key_env=str(state.get("llm_api_key_env") or ""),
                         api_timeout=float(state.get("llm_api_timeout", 120)),
                         debug_dir=proposal_dir / "llm_proposal_debug",
                         loop_id=f"loop_{loop_index:02d}",
@@ -676,7 +682,10 @@ def run_graph_agent(
     grammar_generation_timeout: int = 0,
     use_token_context_cache: bool = True,
     proposal_mode: str = "deterministic",
+    llm_provider: str = "openai",
     llm_model: str = "",
+    llm_base_url: str = "",
+    llm_api_key_env: str = "",
     llm_fallback: str = "deterministic",
     llm_proposal_timeout: int = 600,
     llm_api_timeout: int = 120,
@@ -694,7 +703,10 @@ def run_graph_agent(
         "grammar_generation_timeout": grammar_generation_timeout,
         "use_token_context_cache": use_token_context_cache,
         "proposal_mode": proposal_mode,
+        "llm_provider": llm_provider,
         "llm_model": llm_model,
+        "llm_base_url": llm_base_url,
+        "llm_api_key_env": llm_api_key_env,
         "llm_fallback": llm_fallback,
         "llm_proposal_timeout": llm_proposal_timeout,
         "llm_api_timeout": llm_api_timeout,
@@ -728,12 +740,35 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--proposal-mode",
         choices=("deterministic", "llm"),
         default="deterministic",
-        help="Select theories deterministically or via OpenAI API choice from grammar-generated candidates.",
+        help="Select theories deterministically or via LLM API choice from grammar-generated candidates.",
+    )
+    parser.add_argument(
+        "--llm-provider",
+        choices=("openai", "openai_compatible", "anthropic"),
+        default="openai",
+        help=(
+            "LLM API backend. openai uses native OpenAI Responses API; "
+            "anthropic uses Claude Messages API; openai_compatible uses Chat Completions with --llm-base-url."
+        ),
     )
     parser.add_argument(
         "--llm-model",
         default="",
-        help="OpenAI model for --proposal-mode llm. Defaults to OPENAI_MODEL or gpt-5-mini.",
+        help="Model for --proposal-mode llm. Defaults to LLM_MODEL or the selected provider default.",
+    )
+    parser.add_argument(
+        "--llm-base-url",
+        default="",
+        help=(
+            "Base URL for openai_compatible providers such as Gemini, DashScope/Qwen, "
+            "Requesty, OpenRouter, DeepSeek, or Ollama. For anthropic this may point "
+            "to an Anthropic-compatible /v1 endpoint."
+        ),
+    )
+    parser.add_argument(
+        "--llm-api-key-env",
+        default="",
+        help="Environment variable containing the API key for the selected LLM provider.",
     )
     parser.add_argument(
         "--llm-fallback",
@@ -751,7 +786,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--llm-api-timeout",
         type=int,
         default=120,
-        help="HTTP timeout for the OpenAI API candidate-selection call.",
+        help="HTTP timeout for the LLM API candidate-selection call.",
     )
     parser.add_argument(
         "--no-proposal-memory",
@@ -772,7 +807,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         grammar_generation_timeout=args.grammar_generation_timeout,
         use_token_context_cache=not args.no_token_context_cache,
         proposal_mode=args.proposal_mode,
+        llm_provider=args.llm_provider,
         llm_model=args.llm_model,
+        llm_base_url=args.llm_base_url,
+        llm_api_key_env=args.llm_api_key_env,
         llm_fallback=args.llm_fallback,
         llm_proposal_timeout=args.llm_proposal_timeout,
         llm_api_timeout=args.llm_api_timeout,
@@ -788,7 +826,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         "messages": state.get("messages", []),
         "orchestrator": "langgraph",
         "proposal_mode": args.proposal_mode,
+        "llm_provider": args.llm_provider,
         "llm_model": args.llm_model,
+        "llm_base_url": args.llm_base_url,
+        "llm_api_key_env": args.llm_api_key_env,
         "llm_fallback": args.llm_fallback,
         "proposal_memory_enabled": not args.no_proposal_memory,
     }

@@ -37,6 +37,7 @@ from .cold_start_runner import (
 from .harness import ROOT, _run_stage, read_best_result, solver_feedback_paths, summarize_reject_reasons
 from .memory import record_attempt
 from .report import generate_report
+from .tracing import trace_event
 from .validation_result import StageResult, ValidationResult
 
 
@@ -642,7 +643,10 @@ def _proposal_entry(
     rng: random.Random,
     seed: int,
     proposal_mode: str,
+    llm_provider: str,
     llm_model: str,
+    llm_base_url: str,
+    llm_api_key_env: str,
     llm_fallback: str,
     llm_api_timeout: int,
     debug_dir: Path,
@@ -661,7 +665,10 @@ def _proposal_entry(
                 summary,
                 rng,
                 seed,
+                provider=llm_provider,
                 model=llm_model or None,
+                base_url=llm_base_url or None,
+                api_key_env=llm_api_key_env or "",
                 api_timeout=llm_api_timeout,
                 debug_dir=debug_dir,
                 loop_id=loop_id,
@@ -818,7 +825,10 @@ def _generate_entries_for_batch(
     seed: int,
     desired_count: int,
     proposal_mode: str,
+    llm_provider: str,
     llm_model: str,
+    llm_base_url: str,
+    llm_api_key_env: str,
     llm_fallback: str,
     llm_api_timeout: int,
     debug_dir: Path,
@@ -866,7 +876,10 @@ def _generate_entries_for_batch(
                     rng=rng,
                     seed=seed + attempts * 37,
                     proposal_mode=proposal_mode,
+                    llm_provider=llm_provider,
                     llm_model=llm_model,
+                    llm_base_url=llm_base_url,
+                    llm_api_key_env=llm_api_key_env,
                     llm_fallback=llm_fallback,
                     llm_api_timeout=llm_api_timeout,
                     debug_dir=debug_dir,
@@ -916,6 +929,15 @@ def _append_jsonl(path: Path, payload: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(payload, ensure_ascii=False, default=str) + "\n")
+
+
+def _log_scheduler_event(path: Path, payload: Dict[str, Any], *, run_name: str) -> None:
+    _append_jsonl(path, payload)
+    trace_event(
+        f"ai_theory_lab.{payload.get('scheduler', 'scheduler')}.{payload.get('event', 'event')}",
+        payload,
+        run_name=run_name,
+    )
 
 
 def _estimated_bucket_seconds(entries: List[Dict[str, Any]]) -> float:
@@ -1156,7 +1178,10 @@ def _run_async_lane_scheduler(
     initial_parameter_samples: int,
     timeout_setup: int,
     proposal_mode: str,
+    llm_provider: str,
     llm_model: str,
+    llm_base_url: str,
+    llm_api_key_env: str,
     llm_fallback: str,
     llm_api_timeout: int,
     group_mode: str,
@@ -1212,7 +1237,12 @@ def _run_async_lane_scheduler(
             "max_submit_overshoot": max_submit_overshoot,
             "max_queue_per_lane": max_queue_per_lane,
             "diversity_strength": diversity_strength,
+            "llm_provider": llm_provider,
+            "llm_model": llm_model,
+            "llm_base_url": llm_base_url,
+            "llm_api_key_env": llm_api_key_env,
         },
+        run_name=name,
     )
 
     submitted_by_lane = {lane: 0 for lane in ASYNC_LANES}
@@ -1330,7 +1360,10 @@ def _run_async_lane_scheduler(
             seed=seed + pool_sequence * 1009,
             desired_count=batch_size,
             proposal_mode=proposal_mode,
+            llm_provider=llm_provider,
             llm_model=llm_model,
+            llm_base_url=llm_base_url,
+            llm_api_key_env=llm_api_key_env,
             llm_fallback=llm_fallback,
             llm_api_timeout=llm_api_timeout,
             debug_dir=proposal_dir / "llm_proposal_debug",
@@ -1653,7 +1686,10 @@ def _generate_slot_entry(
     submitted_by_group: Dict[str, int],
     proposal_dir: Path,
     proposal_mode: str,
+    llm_provider: str,
     llm_model: str,
+    llm_base_url: str,
+    llm_api_key_env: str,
     llm_fallback: str,
     llm_api_timeout: int,
     seed: int,
@@ -1691,7 +1727,10 @@ def _generate_slot_entry(
                     rng=rng,
                     seed=seed + attempt * 37,
                     proposal_mode=proposal_mode,
+                    llm_provider=llm_provider,
                     llm_model=llm_model,
+                    llm_base_url=llm_base_url,
+                    llm_api_key_env=llm_api_key_env,
                     llm_fallback=llm_fallback,
                     llm_api_timeout=llm_api_timeout,
                     debug_dir=proposal_dir / "llm_proposal_debug",
@@ -1742,7 +1781,10 @@ def _run_async_slot_scheduler(
     non_eh_refine_chi2_threshold: float,
     timeout_setup: int,
     proposal_mode: str,
+    llm_provider: str,
     llm_model: str,
+    llm_base_url: str,
+    llm_api_key_env: str,
     llm_fallback: str,
     llm_api_timeout: int,
     group_mode: str,
@@ -1797,7 +1839,7 @@ def _run_async_slot_scheduler(
     def active_slot_names() -> List[str]:
         return sorted(str(info["slot"]) for info in futures.values())
 
-    _append_jsonl(
+    _log_scheduler_event(
         scheduler_log,
         {
             "event": "scheduler_start",
@@ -1813,7 +1855,12 @@ def _run_async_slot_scheduler(
             "refine_parameter_samples": refine_parameter_samples,
             "refine_chi2_threshold": refine_chi2_threshold,
             "diversity_strength": diversity_strength,
+            "llm_provider": llm_provider,
+            "llm_model": llm_model,
+            "llm_base_url": llm_base_url,
+            "llm_api_key_env": llm_api_key_env,
         },
+        run_name=name,
     )
 
     def submit_validation_task(
@@ -1861,7 +1908,10 @@ def _run_async_slot_scheduler(
             submitted_by_group=submitted_by_group,
             proposal_dir=proposal_dir,
             proposal_mode=proposal_mode,
+            llm_provider=llm_provider,
             llm_model=llm_model,
+            llm_base_url=llm_base_url,
+            llm_api_key_env=llm_api_key_env,
             llm_fallback=llm_fallback,
             llm_api_timeout=llm_api_timeout,
             seed=seed_for_task,
@@ -1873,7 +1923,7 @@ def _run_async_slot_scheduler(
         if entry is None or entry_summary is None or family is None:
             available_slots.append(slot)
             empty_generation_rounds += 1
-            _append_jsonl(
+            _log_scheduler_event(
                 scheduler_log,
                 {
                     "event": "slot_waiting_for_entry",
@@ -1886,6 +1936,7 @@ def _run_async_slot_scheduler(
                     "target_attempts": target_attempts,
                     "active_slots": active_slot_names(),
                 },
+                run_name=name,
             )
             return False
 
@@ -1922,11 +1973,17 @@ def _run_async_slot_scheduler(
             "memory_snapshot_timestamp": entry.get("memory_snapshot_timestamp"),
             "parameter_memory_attempt_count": int((entry_summary or {}).get("total_attempts") or 0),
             "estimated_elapsed_sec": _estimated_bucket_seconds([entry]),
+            "proposal_mode": entry.get("proposal_mode"),
+            "llm_provider": entry.get("llm_provider"),
+            "llm_model": entry.get("llm_model"),
+            "llm_base_url": entry.get("llm_base_url"),
+            "llm_api_key_env": entry.get("llm_api_key_env"),
+            "llm_latency_sec": entry.get("llm_latency_sec"),
             "_entries": [entry],
             "_submitted_monotonic": time.monotonic(),
             "_last_slow_signal_elapsed_sec": 0.0,
         }
-        _append_jsonl(
+        _log_scheduler_event(
             scheduler_log,
             {
                 "event": "submitted",
@@ -1945,6 +2002,7 @@ def _run_async_slot_scheduler(
                 "recorded_by_group": dict(recorded_by_group),
                 "active_slots": active_slot_names(),
             },
+            run_name=name,
         )
         submit_validation_task(
             executor,
@@ -1979,7 +2037,7 @@ def _run_async_slot_scheduler(
                 weight=0.25,
             )
             task_info["_last_slow_signal_elapsed_sec"] = elapsed
-            _append_jsonl(
+            _log_scheduler_event(
                 scheduler_log,
                 {
                     "event": "runtime_slow_signal",
@@ -1992,6 +2050,7 @@ def _run_async_slot_scheduler(
                     "failed_total": failed_total,
                     "target_attempts": target_attempts,
                 },
+                run_name=name,
             )
 
     with ThreadPoolExecutor(max_workers=slot_count) as executor:
@@ -2066,7 +2125,7 @@ def _run_async_slot_scheduler(
                         f"Async slot {slot} {task_info['task_id']} {validation_stage} complete; "
                         f"best_chi2={best}."
                     )
-                    _append_jsonl(
+                    _log_scheduler_event(
                         scheduler_log,
                         {
                             "event": "recorded",
@@ -2092,6 +2151,7 @@ def _run_async_slot_scheduler(
                             "recorded_by_group": dict(recorded_by_group),
                             "active_slots": active_slot_names(),
                         },
+                        run_name=name,
                     )
                     if should_expand:
                         expanded_submitted_total += 1
@@ -2137,7 +2197,7 @@ def _run_async_slot_scheduler(
                             "_submitted_monotonic": time.monotonic(),
                             "_last_slow_signal_elapsed_sec": 0.0,
                         }
-                        _append_jsonl(
+                        _log_scheduler_event(
                             scheduler_log,
                             {
                                 "event": "expanded_submitted",
@@ -2158,6 +2218,7 @@ def _run_async_slot_scheduler(
                                 "recorded_by_group": dict(recorded_by_group),
                                 "active_slots": active_slot_names(),
                             },
+                            run_name=name,
                         )
                         messages.append(
                             f"Async slot {slot} {task_info['task_id']} triggered expanded "
@@ -2219,7 +2280,7 @@ def _run_async_slot_scheduler(
                             "_submitted_monotonic": time.monotonic(),
                             "_last_slow_signal_elapsed_sec": 0.0,
                         }
-                        _append_jsonl(
+                        _log_scheduler_event(
                             scheduler_log,
                             {
                                 "event": "refine_submitted",
@@ -2245,6 +2306,7 @@ def _run_async_slot_scheduler(
                                 "recorded_by_group": dict(recorded_by_group),
                                 "active_slots": active_slot_names(),
                             },
+                            run_name=name,
                         )
                         messages.append(
                             f"Async slot {slot} {task_info['task_id']} triggered refine "
@@ -2265,7 +2327,7 @@ def _run_async_slot_scheduler(
                     messages.append(
                         f"Async slot {slot} {task_info['task_id']} failed: {type(exc).__name__}: {exc}"
                     )
-                    _append_jsonl(
+                    _log_scheduler_event(
                         scheduler_log,
                         {
                             "event": "failed",
@@ -2285,6 +2347,7 @@ def _run_async_slot_scheduler(
                             "recorded_by_group": dict(recorded_by_group),
                             "active_slots": active_slot_names(),
                         },
+                        run_name=name,
                     )
                 finally:
                     if release_slot:
@@ -2293,7 +2356,7 @@ def _run_async_slot_scheduler(
                     family = task_info.get("family")
                     if family and release_slot:
                         reserved_families.discard(str(family))
-        _append_jsonl(
+        _log_scheduler_event(
             scheduler_log,
             {
                 "event": "scheduler_complete",
@@ -2313,6 +2376,7 @@ def _run_async_slot_scheduler(
                 "recorded_by_group": dict(recorded_by_group),
                 "active_slots": active_slot_names(),
             },
+            run_name=name,
         )
     return messages
 
@@ -2332,7 +2396,10 @@ def run_batch_agent(
     non_eh_refine_chi2_threshold: float = 2000.0,
     timeout_setup: int,
     proposal_mode: str,
-    llm_model: str,
+    llm_provider: str = "openai",
+    llm_model: str = "",
+    llm_base_url: str = "",
+    llm_api_key_env: str = "",
     llm_fallback: str,
     llm_api_timeout: int,
     use_token_context_cache: bool,
@@ -2399,7 +2466,10 @@ def run_batch_agent(
                 seed=seed + wave_index * 1009,
                 desired_count=batch_size,
                 proposal_mode=proposal_mode,
+                llm_provider=llm_provider,
                 llm_model=llm_model,
+                llm_base_url=llm_base_url,
+                llm_api_key_env=llm_api_key_env,
                 llm_fallback=llm_fallback,
                 llm_api_timeout=llm_api_timeout,
                 debug_dir=proposal_dir / "llm_proposal_debug",
@@ -2468,7 +2538,10 @@ def run_batch_agent(
             initial_parameter_samples=initial_parameter_samples,
             timeout_setup=timeout_setup,
             proposal_mode=proposal_mode,
+            llm_provider=llm_provider,
             llm_model=llm_model,
+            llm_base_url=llm_base_url,
+            llm_api_key_env=llm_api_key_env,
             llm_fallback=llm_fallback,
             llm_api_timeout=llm_api_timeout,
             group_mode=group_mode,
@@ -2517,7 +2590,10 @@ def run_batch_agent(
             non_eh_refine_chi2_threshold=non_eh_refine_chi2_threshold,
             timeout_setup=timeout_setup,
             proposal_mode=proposal_mode,
+            llm_provider=llm_provider,
             llm_model=llm_model,
+            llm_base_url=llm_base_url,
+            llm_api_key_env=llm_api_key_env,
             llm_fallback=llm_fallback,
             llm_api_timeout=llm_api_timeout,
             group_mode=group_mode,
@@ -2549,6 +2625,10 @@ def run_batch_agent(
         "messages": messages,
         "orchestrator": "batch",
         "batch_size": batch_size,
+        "llm_provider": llm_provider,
+        "llm_model": llm_model,
+        "llm_base_url": llm_base_url,
+        "llm_api_key_env": llm_api_key_env,
         "initial_parameter_samples": initial_parameter_samples,
         "expanded_parameter_samples": expanded_parameter_samples,
         "expanded_chi2_threshold": expanded_chi2_threshold,
@@ -2655,7 +2735,31 @@ def main(argv: Optional[List[str]] = None) -> int:
     )
     parser.add_argument("--timeout-setup", type=int, default=1200)
     parser.add_argument("--proposal-mode", choices=("deterministic", "llm"), default="deterministic")
+    parser.add_argument(
+        "--llm-provider",
+        choices=("openai", "openai_compatible", "anthropic"),
+        default="openai",
+        help=(
+            "LLM API backend for --proposal-mode llm. openai uses the native "
+            "OpenAI Responses API; anthropic uses the Claude Messages API; "
+            "openai_compatible uses Chat Completions with --llm-base-url."
+        ),
+    )
     parser.add_argument("--llm-model", default="")
+    parser.add_argument(
+        "--llm-base-url",
+        default="",
+        help=(
+            "Base URL for openai_compatible providers such as Gemini, DashScope/Qwen, "
+            "Requesty, OpenRouter, DeepSeek, or Ollama. For anthropic this may point "
+            "to an Anthropic-compatible /v1 endpoint."
+        ),
+    )
+    parser.add_argument(
+        "--llm-api-key-env",
+        default="",
+        help="Environment variable containing the API key for the selected LLM provider.",
+    )
     parser.add_argument("--llm-fallback", choices=("deterministic", "fail"), default="deterministic")
     parser.add_argument("--llm-api-timeout", type=int, default=120)
     parser.add_argument("--no-token-context-cache", action="store_true")
@@ -2757,7 +2861,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         non_eh_refine_chi2_threshold=args.non_eh_refine_chi2_threshold,
         timeout_setup=args.timeout_setup,
         proposal_mode=args.proposal_mode,
+        llm_provider=args.llm_provider,
         llm_model=args.llm_model,
+        llm_base_url=args.llm_base_url,
+        llm_api_key_env=args.llm_api_key_env,
         llm_fallback=args.llm_fallback,
         llm_api_timeout=args.llm_api_timeout,
         use_token_context_cache=not args.no_token_context_cache,

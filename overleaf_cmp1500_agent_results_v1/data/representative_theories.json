@@ -1,0 +1,212 @@
+[
+  {
+    "key": "openai",
+    "label": "GPT-5.5",
+    "sector": "open_search",
+    "loop_id": "task_000347_expanded_refine_slot_05_lag_1",
+    "chi2": 1637.9532940154131,
+    "sample_chi2": 1637.9532940154131,
+    "sample_source": "exact Solver CSV",
+    "scalar": "phi1_only",
+    "operators": [
+      "R",
+      "R · R",
+      "φ1 · R · R"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha R + \\beta \\Lambda^{-2} R^2 + \\gamma \\Lambda^{-3} \\phi_1 R R\\right] - \\frac12(\\nabla\\phi_1)^2 - \\frac12m_1^2\\phi_1^2\\right\\}",
+    "coefficients": "\\alpha=0.5,\\; \\beta=1.4\\times 10^{13},\\; \\gamma=-443.3",
+    "H0": "65.44975589015466",
+    "Omega_m0": "0.2716294874456706",
+    "lambda_H": "4615.374351052511"
+  },
+  {
+    "key": "openai",
+    "label": "GPT-5.5",
+    "sector": "non_eh",
+    "loop_id": "task_001346_expanded_slot_04_lag_1",
+    "chi2": 1946.8708510178353,
+    "sample_chi2": 1946.8708510178353,
+    "sample_source": "exact Solver CSV",
+    "scalar": "both",
+    "operators": [
+      "φ2 · φ2 · R^{ab} · R_{ab}",
+      "φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha \\Lambda^{-4} \\phi_2 \\phi_2 R^{ab} R_{ab} + \\beta \\Lambda^{-4} \\phi_2 \\phi_2 R^{bcd}_{a} R^{a}_{bcd}\\right] - \\frac12(\\nabla\\phi_1)^2 - \\frac12m_1^2\\phi_1^2 - \\frac12(\\nabla\\phi_2)^2 - \\frac12m_2^2\\phi_2^2\\right\\}",
+    "coefficients": "\\alpha=-7699,\\; \\beta=2232",
+    "H0": "59.92325861062287",
+    "Omega_m0": "0.29364077093609603",
+    "lambda_H": "2139.26573563985"
+  },
+  {
+    "key": "claude",
+    "label": "Opus 4.8",
+    "sector": "open_search",
+    "loop_id": "task_001106_slot_04_lag_1",
+    "chi2": 1638.0040807520418,
+    "sample_chi2": 1638.0040807520418,
+    "sample_source": "exact Solver CSV",
+    "scalar": "phi1_only",
+    "operators": [
+      "R"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha R\\right] - \\frac12(\\nabla\\phi_1)^2 - m_1^2f_1^2\\left[1-\\cos(\\phi_1/f_1)\\right]\\right\\}",
+    "coefficients": "\\alpha=0.5",
+    "H0": "60.26849724660608",
+    "Omega_m0": "0.30123649138720626",
+    "lambda_H": "3816.7944946791154"
+  },
+  {
+    "key": "claude",
+    "label": "Opus 4.8",
+    "sector": "non_eh",
+    "loop_id": "task_001247_expanded_refine_slot_07_lag_1",
+    "chi2": 1930.8795517061778,
+    "sample_chi2": 1930.8795517061778,
+    "sample_source": "exact Solver CSV",
+    "scalar": "phi2_only",
+    "operators": [
+      "R · R",
+      "R^{ab} · R_{ab}",
+      "R^{b}_{a} · R^{cd} · R^{a}_{cbd}",
+      "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+      "∇^{a}∇_{a}R · R^{c}_{c}",
+      "φ2 · φ2 · φ2 · φ2 · R",
+      "φ2 · φ2 · R^{ab} · R_{ab}",
+      "φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha \\Lambda^{-2} R^2 + \\beta \\Lambda^{-2} R_{\\mu\\nu}R^{\\mu\\nu} + \\gamma \\Lambda^{-4} {\\cal R}_{3c} + \\delta \\Lambda^{-4} {\\cal R}_{3a} + \\epsilon \\Lambda^{-4} R\\Box R + \\zeta \\Lambda^{-4} \\phi_2 \\phi_2 \\phi_2 \\phi_2 R + \\eta \\Lambda^{-4} \\phi_2 \\phi_2 R^{ab} R_{ab} + \\theta \\Lambda^{-4} \\phi_2 \\phi_2 R^{bcd}_{a} R^{a}_{bcd}\\right] - \\frac12(\\nabla\\phi_2)^2 - \\frac12m_2^2\\phi_2^2\\right\\}",
+    "coefficients": "\\alpha=1.87\\times 10^{-9},\\; \\beta=-1.09\\times 10^{12},\\; \\gamma=1.9\\times 10^{-10},\\; \\delta=-2.58\\times 10^{11},\\; \\epsilon=-1.62\\times 10^{15},\\; \\zeta=-170.1,\\; \\eta=4.54\\times 10^{-5},\\; \\theta=6.11\\times 10^{7}",
+    "H0": "60.11933979869943",
+    "Omega_m0": "0.30416499836339167",
+    "lambda_H": "3127.213516858198"
+  },
+  {
+    "key": "gemini",
+    "label": "Gemini 3.1",
+    "sector": "open_search",
+    "loop_id": "task_000281_slot_03_lag_1",
+    "chi2": 1638.0122954295432,
+    "sample_chi2": 1638.0122954295432,
+    "sample_source": "exact Solver CSV",
+    "scalar": "both",
+    "operators": [
+      "R"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha R\\right] - \\frac12(\\nabla\\phi_1)^2 - \\frac12m_1^2\\phi_1^2 - \\frac12(\\nabla\\phi_2)^2 - m_2^2f_2^2\\left[1-\\cos(\\phi_2/f_2)\\right]\\right\\}",
+    "coefficients": "\\alpha=0.5",
+    "H0": "63.19317402840827",
+    "Omega_m0": "0.26620032153613554",
+    "lambda_H": "4662.8690994699755"
+  },
+  {
+    "key": "gemini",
+    "label": "Gemini 3.1",
+    "sector": "non_eh",
+    "loop_id": "task_001067_expanded_refine_slot_04_lag_1",
+    "chi2": 1939.0139555847763,
+    "sample_chi2": 1939.0139555847763,
+    "sample_source": "exact Solver CSV",
+    "scalar": "phi2_only",
+    "operators": [
+      "R^{bcd}_{a} · R^{a}_{bcd}",
+      "R^{bd}_{ac} · R^{agh}_{b} · R^{c}_{dgh}",
+      "φ2 · φ2 · φ2 · R",
+      "φ2 · R^{ab} · R_{ab}",
+      "φ2 · φ2 · R^{ab} · R_{ab}",
+      "φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "∇^{a}∇_{a}φ2",
+      "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha \\Lambda^{-2} R_{\\mu\\nu\\rho\\sigma}R^{\\mu\\nu\\rho\\sigma} + \\beta \\Lambda^{-4} {\\cal R}_{3b} + \\gamma \\Lambda^{-3} \\phi_2 \\phi_2 \\phi_2 R + \\delta \\Lambda^{-3} \\phi_2 R^{ab} R_{ab} + \\epsilon \\Lambda^{-4} \\phi_2 \\phi_2 R^{ab} R_{ab} + \\zeta \\Lambda^{-4} \\phi_2 \\phi_2 R^{bcd}_{a} R^{a}_{bcd}\\right] + \\eta \\Lambda^{1} \\Box\\phi_2 + \\theta \\Lambda^{-2} \\phi_2 \\phi_2 \\nabla^{a}\\phi_2 \\nabla_{a}\\phi_2 - \\frac12(\\nabla\\phi_2)^2 - \\frac12m_2^2\\phi_2^2\\right\\}",
+    "coefficients": "\\alpha=-1.07\\times 10^{4},\\; \\beta=-6\\times 10^{-10},\\; \\gamma=3.47\\times 10^{8},\\; \\delta=0.001309,\\; \\epsilon=-4.88\\times 10^{14},\\; \\zeta=-4.48\\times 10^{13},\\; \\eta=3.36\\times 10^{-9},\\; \\theta=0.004467",
+    "H0": "58.0",
+    "Omega_m0": "0.3303387726935859",
+    "lambda_H": "5330.778710802126"
+  },
+  {
+    "key": "qwen",
+    "label": "Qwen 3.7",
+    "sector": "open_search",
+    "loop_id": "task_000847_expanded_slot_01_lag_1",
+    "chi2": 1637.9303413864234,
+    "sample_chi2": 1637.9303413864234,
+    "sample_source": "nearest recovered joint-prior vector",
+    "scalar": "phi1_only",
+    "operators": [
+      "R",
+      "φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "φ1 · φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha R + \\beta \\Lambda^{-3} \\phi_1 R^{bcd}_{a} R^{a}_{bcd} + \\gamma \\Lambda^{-4} \\phi_1 \\phi_1 R^{bcd}_{a} R^{a}_{bcd}\\right] - \\frac12(\\nabla\\phi_1)^2 - m_1^2f_1^2\\left[1-\\cos(\\phi_1/f_1)\\right]\\right\\}",
+    "coefficients": "\\alpha=0.5,\\; \\beta=-4.67\\times 10^{13},\\; \\gamma=9.69\\times 10^{14}",
+    "H0": 61.732017007835836,
+    "Omega_m0": 0.2843605834429667,
+    "lambda_H": 18761.819231209647
+  },
+  {
+    "key": "qwen",
+    "label": "Qwen 3.7",
+    "sector": "non_eh",
+    "loop_id": "task_000809_expanded_refine_slot_03_lag_1",
+    "chi2": 1896.0008809383469,
+    "sample_chi2": 1896.0008809383469,
+    "sample_source": "exact from pulled terminal summary",
+    "scalar": "phi2_only",
+    "operators": [
+      "∇^{a}∇_{a}R",
+      "R^{cd}_{ab} · R^{afh}_{c} · R^{b}_{fdh}",
+      "φ2 · φ2 · R",
+      "φ2 · R^{ab} · R_{ab}",
+      "φ2 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "φ2 · ∇^{a}∇_{a}φ2 · R",
+      "φ2 · ∇^{a}∇_{a}φ2",
+      "φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha \\Lambda^{-2} \\Box R + \\beta \\Lambda^{-4} {\\cal R}_{3a} + \\gamma \\Lambda^{-2} \\phi_2 \\phi_2 R + \\delta \\Lambda^{-3} \\phi_2 R^{ab} R_{ab} + \\epsilon \\Lambda^{-3} \\phi_2 R^{bcd}_{a} R^{a}_{bcd} + \\zeta \\Lambda^{-4} \\phi_2 \\Box\\phi_2 R\\right] + \\eta \\phi_2 \\Box\\phi_2 + \\theta \\Lambda^{-2} \\phi_2 \\phi_2 \\nabla^{a}\\phi_2 \\nabla_{a}\\phi_2 - \\frac12(\\nabla\\phi_2)^2 - \\frac12m_2^2\\phi_2^2\\right\\}",
+    "coefficients": "\\alpha=4.11\\times 10^{5},\\; \\beta=-3.51\\times 10^{-6},\\; \\gamma=-8845,\\; \\delta=-0.03089,\\; \\epsilon=4.12\\times 10^{7},\\; \\zeta=-6384,\\; \\eta=5.28\\times 10^{15},\\; \\theta=1.42\\times 10^{-10}",
+    "H0": 61.2619903618848,
+    "Omega_m0": 0.3253939201479154,
+    "lambda_H": 1481.7333000734354
+  },
+  {
+    "key": "deepseek",
+    "label": "DeepSeek V4",
+    "sector": "open_search",
+    "loop_id": "task_001266_slot_03_lag_1",
+    "chi2": 1637.961667545958,
+    "sample_chi2": 1637.961667545958,
+    "sample_source": "nearest recovered joint-prior vector",
+    "scalar": "phi1_only",
+    "operators": [
+      "R",
+      "R^{ab} · R_{ab}",
+      "φ1 · φ1 · R^{ab} · R_{ab}"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha R + \\beta \\Lambda^{-2} R_{\\mu\\nu}R^{\\mu\\nu} + \\gamma \\Lambda^{-4} \\phi_1 \\phi_1 R^{ab} R_{ab}\\right] - \\frac12(\\nabla\\phi_1)^2 - m_1^2f_1^2\\left[1-\\cos(\\phi_1/f_1)\\right]\\right\\}",
+    "coefficients": "\\alpha=0.5,\\; \\beta=-9134,\\; \\gamma=-7.01\\times 10^{8}",
+    "H0": 65.4098880290315,
+    "Omega_m0": 0.3025242640837316,
+    "lambda_H": 2244.282200626429
+  },
+  {
+    "key": "deepseek",
+    "label": "DeepSeek V4",
+    "sector": "non_eh",
+    "loop_id": "task_000425_expanded_refine_slot_08_lag_1",
+    "chi2": 1693.8599013955957,
+    "sample_chi2": 1702.4235907201007,
+    "sample_source": "nearest recovered joint-prior vector",
+    "scalar": "both",
+    "operators": [
+      "φ2 · φ2 · R",
+      "φ1 · ∇^{a}∇_{a}φ1 · φ2",
+      "φ1 · ∇^{a}∇_{a}φ1 · φ2 · φ2"
+    ],
+    "lagrangian": "\\sqrt{-g}\\left\\{\\Mp^2\\left[\\alpha \\Lambda^{-2} \\phi_2 \\phi_2 R\\right] + \\beta \\Lambda^{-1} \\phi_1 \\Box\\phi_1 \\phi_2 + \\gamma \\Lambda^{-2} \\phi_1 \\Box\\phi_1 \\phi_2 \\phi_2 - \\frac12(\\nabla\\phi_1)^2 - m_1^2f_1^2\\left[1-\\cos(\\phi_1/f_1)\\right] - \\frac12(\\nabla\\phi_2)^2 - \\frac12m_2^2\\phi_2^2\\right\\}",
+    "coefficients": "\\alpha=-7251,\\; \\beta=-57.47,\\; \\gamma=3.64\\times 10^{11}",
+    "H0": 66.30162456694669,
+    "Omega_m0": 0.33680532732634194,
+    "lambda_H": 10085.033917077908
+  }
+]

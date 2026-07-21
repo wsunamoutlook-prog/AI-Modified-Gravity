@@ -171,6 +171,81 @@ Replay experiments may use historical Solver results, but replay is not cold-sta
 - It is not yet specified how large the direct candidate-combination search beam should be once this runs on a cluster.
 - It is not yet specified whether the external API agent should output a complete operator combination directly or rank a proposed beam generated from the current candidate pool.
 
+## LLM Provider Settings
+
+For LLM-driven proposal selection, batch and graph entrypoints accept:
+
+```bash
+--proposal-mode llm
+--llm-provider openai|anthropic|openai_compatible
+--llm-model <model_name_or_gateway_slug>
+--llm-base-url <optional_base_url>
+--llm-api-key-env <optional_env_var_name>
+```
+
+`openai` uses the native OpenAI Responses API. `anthropic` uses the native Claude Messages API. `openai_compatible` uses the Chat Completions API shape for gateways or local servers such as Gemini, DashScope/Qwen, Requesty, OpenRouter, DeepSeek-compatible endpoints, and Ollama. Examples:
+
+```bash
+# Native OpenAI
+--llm-provider openai \
+--llm-model gpt-5.5 \
+--llm-api-key-env OPENAI_API_KEY
+
+# Native Anthropic Claude
+--llm-provider anthropic \
+--llm-model claude-opus-4-8 \
+--llm-api-key-env ANTHROPIC_API_KEY
+
+# Gemini OpenAI-compatible endpoint
+--llm-provider openai_compatible \
+--llm-base-url https://generativelanguage.googleapis.com/v1beta/openai/ \
+--llm-model gemini-3.1-pro-preview \
+--llm-api-key-env GEMINI_API_KEY
+
+# DashScope / Qwen OpenAI-compatible endpoint
+--llm-provider openai_compatible \
+--llm-base-url https://dashscope-us.aliyuncs.com/compatible-mode/v1 \
+--llm-model qwen3.7-plus \
+--llm-api-key-env DASHSCOPE_API_KEY
+
+# Requesty / OpenRouter / DeepSeek-style gateway
+--llm-provider openai_compatible \
+--llm-base-url https://<gateway-host>/v1 \
+--llm-model <gateway-model-slug> \
+--llm-api-key-env REQUESTY_API_KEY
+
+# Local Ollama
+--llm-provider openai_compatible \
+--llm-base-url http://127.0.0.1:11434/v1 \
+--llm-model qwen3:32b
+```
+
+LLM proposal records must include the selected provider/model/base URL metadata and latency/usage when available so later model-comparison tables can distinguish native APIs from gateways.
+
+## Optional Tracing
+
+LangSmith tracing is optional and disabled by default. To mirror scheduler events to a LangSmith project, set:
+
+```bash
+export LANGSMITH_TRACING=true
+export LANGSMITH_API_KEY="<key>"
+export LANGSMITH_PROJECT="modified-gravity-api-benchmark"
+```
+
+Tracing records monitoring metadata only. It does not change proposal scoring, parameter sampling, validation, Solver ranking, or local report generation. Local files such as `scheduler_tasks.jsonl` and `attempt_history.jsonl` remain authoritative.
+
+## Model Comparison Tables
+
+For cross-API/model comparisons, generate tables from local artifacts:
+
+```bash
+python -m ai_theory_lab.compare_benchmarks \
+  --runs 'cmp600_*_v1' \
+  --output-dir ai_theory_lab/reports/cmp600_model_benchmark_v1
+```
+
+The output files are `comparison_metrics.csv`, `comparison_by_axis.csv`, and `comparison_summary.json`. The comparison uses four fixed axes: global optimum, new-physics search, speed/efficiency, and robustness/stability.
+
 ## Parameter Samples
 
 `parameter_samples` is a list. Each object is one agent-chosen numerical sample.

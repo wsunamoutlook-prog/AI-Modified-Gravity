@@ -2035,7 +2035,7 @@ def _proposal_for(
     )
     if entry.get("proposal_mode") == "llm":
         rationale = (
-            "OpenAI API selected this proposal from a batch of token-level Grammar Masker legal candidates. "
+            "An LLM API selected this proposal from a batch of token-level Grammar Masker legal candidates. "
             f"LLM rationale: {entry.get('llm_rationale')}"
         )
     elif entry.get("proposal_mode") == "deterministic_fallback":
@@ -2088,7 +2088,12 @@ def _proposal_for(
         ),
         **(
             {
+                "llm_provider": entry.get("llm_provider"),
                 "llm_model": entry.get("llm_model"),
+                "llm_base_url": entry.get("llm_base_url"),
+                "llm_api_key_env": entry.get("llm_api_key_env"),
+                "llm_latency_sec": entry.get("llm_latency_sec"),
+                "llm_usage": entry.get("llm_usage"),
                 "llm_choice": entry.get("llm_choice"),
             }
             if entry.get("proposal_mode") == "llm"

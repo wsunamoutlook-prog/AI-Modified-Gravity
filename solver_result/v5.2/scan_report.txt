@@ -104,7 +104,8 @@ Top models by chi2
   10. L#823: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=0.061074752412779244, alpha_BAO_hat=32.35807363752685, AIC=1964.87, BIC=2014.49, k=9, maxC=2.88e-07
       General: √(-g) [ M_p² ( \epsilon Λ^{-2} · R^{ab} · R_{ab}  +  \zeta · R  +  \theta Λ^{-4} · ∇^{c}R^{ab} · ∇_{c}R_{ab}  +  \alpha Λ^{-4} · φ2 · φ2 · ∇^{a}∇_{a}R  +  \beta Λ^{-4} · ∇^{a}φ2 · ∇^{b}φ2 · R_{ab}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \eta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]
       Config: phi2_only
-      GF: \alpha = 0.0  (determined); \beta = 0.0  (determined); \gamma = 0.0  (determined); \delta = -\eta  (determined); \epsilon = 0.0  (determined); \zeta = \zeta  (free); \eta = \eta  (free); \theta = 0.0  (determined)
+
+
   11. L#434: chi2_total=1946.87, chi2_DES_SN=1759.78, chi2_DESI_BAO=187.092, M_SN_hat=0.19811068424899506, alpha_BAO_hat=32.358073638840594, AIC=1964.87, BIC=2014.49, k=9, maxC=1.24e-07
       General: √(-g) [ M_p² ( \beta Λ^{-4} · φ2 · φ2 · R^{bcd}_{a} · R^{a}_{bcd}  +  \gamma Λ^{-4} · φ2 · φ2 · R^{ab} · R_{ab}  +  \delta Λ^{-4} · φ2 · ∇^{a}∇_{a}φ2 · R )  +  \alpha Λ^{-2} · φ2 · φ2 · ∇^{a}φ2 · ∇_{a}φ2  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]
       Config: phi2_only

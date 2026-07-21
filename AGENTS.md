@@ -73,6 +73,56 @@ read grammar rules
 
 The agent may exploit its own current-loop memory after feedback is produced. The memory should record facts such as failed stages, rejection reasons, stage reachability, theory fingerprints, parameter sample counts, and chi-square values. The memory should not hard-code policy updates. The proposal agent should read those facts, write its own reflection, and then decide the next theory/parameter proposal.
 
+## LLM Provider Interface
+
+LLM proposal mode is provider-aware. Use `--proposal-mode llm` together with:
+
+```bash
+--llm-provider openai|anthropic|openai_compatible
+--llm-model <model_name_or_gateway_slug>
+--llm-base-url <optional_base_url>
+--llm-api-key-env <optional_env_var_name>
+```
+
+`openai` uses the native OpenAI Responses API and defaults to `OPENAI_API_KEY`, `LLM_MODEL`, `OPENAI_MODEL`, or `gpt-5.5`. `anthropic` uses the native Claude Messages API and defaults to `ANTHROPIC_API_KEY`, `LLM_MODEL`, `ANTHROPIC_MODEL`, or `claude-opus-4-8`. `openai_compatible` uses the Chat Completions API shape and is intended for Gemini's OpenAI-compatible endpoint, DashScope/Qwen, Requesty, OpenRouter, DeepSeek-compatible endpoints, Ollama, or similar gateways. For `openai_compatible`, provide `--llm-base-url` and either `--llm-api-key-env` or one of the endpoint-specific environment variables such as `GEMINI_API_KEY`, `DASHSCOPE_API_KEY`, `REQUESTY_API_KEY`, `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY`, or `OPENAI_COMPATIBLE_API_KEY`. The recommended flagship comparison set is `gpt-5.5`, `claude-opus-4-8`, `gemini-3.1-pro-preview`, and `qwen3.7-plus`.
+
+Every LLM-selected proposal should record `llm_provider`, `llm_model`, `llm_base_url`, `llm_api_key_env`, `llm_latency_sec`, optional `llm_usage`, and `llm_choice` in the proposal JSON. This provenance is required for cross-model/API comparison tables.
+
+## Optional LangSmith Tracing
+
+Discovery runs may emit best-effort LangSmith traces for live monitoring. Tracing is disabled by default and must not affect proposal, validation, scheduler, or Solver behavior. Enable it only by setting:
+
+```bash
+export LANGSMITH_TRACING=true
+export LANGSMITH_API_KEY="<key>"
+export LANGSMITH_PROJECT="modified-gravity-api-benchmark"
+```
+
+When enabled, async scheduler events such as `scheduler_start`, `submitted`, `recorded`, `expanded_submitted`, `refine_submitted`, `runtime_slow_signal`, `failed`, and `scheduler_complete` are mirrored to LangSmith with run name, provider/model metadata when present, sector, scalar family, validation stage, elapsed time, best chi-square, sample budget, and scheduler progress. If LangSmith is unavailable or misconfigured, tracing silently no-ops and the local JSONL logs remain the source of truth.
+
+## Cross-Model Benchmark Outputs
+
+Use local JSONL artifacts, not LangSmith screenshots, for paper comparison tables. After running comparable jobs for multiple LLM providers, generate the benchmark table with:
+
+```bash
+python -m ai_theory_lab.compare_benchmarks \
+  --runs 'cmp600_*_v1' \
+  --output-dir ai_theory_lab/reports/cmp600_model_benchmark_v1
+```
+
+The comparison script writes:
+
+- `comparison_metrics.csv`: one row per model/run with all metrics.
+- `comparison_by_axis.csv`: compact rows for the four paper axes.
+- `comparison_summary.json`: complete machine-readable provenance.
+
+The default comparison axes are:
+
+- `global_optimum`: best total chi-square, first-hit speed for `chi2 < 1650`, and capped best-chi-square AUC.
+- `new_physics_search`: best `non_eh` chi-square, number of `non_eh` hits below `chi2 < 2000`, and unique viable `non_eh` families.
+- `speed_efficiency`: initial attempts per wall-hour, accepted attempts per wall-hour, task elapsed time, and LLM latency/token metadata when available.
+- `robustness_stability`: global and per-sector acceptance rates, Solver reachability, duplicate-family rate, LLM retry/debug failures, and failure-tag counts.
+
 ## Pipeline Order
 
 Run stages in this order:

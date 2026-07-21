@@ -1,0 +1,1032 @@
+[
+  {
+    "family": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · φ1 · R · R",
+    "agents": [
+      "claude",
+      "deepseek",
+      "gemini",
+      "openai",
+      "qwen"
+    ],
+    "best_agent": "qwen",
+    "best_row": {
+      "timestamp": "2026-06-27T15:17:30-0400",
+      "loop_id": "task_001542_slot_04_lag_1",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "1",
+      "chi2": 1637.9303413864234,
+      "aic": 1651.9303413864234,
+      "bic": 1690.5263061213013,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_1542_task_001542_slot_04_lag_1",
+        "proposal_group": "open_search",
+        "source_n_terms": 4,
+        "source_local_number": 49,
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": null
+        },
+        "operators": [
+          "R",
+          "φ1 · φ1 · R · R"
+        ],
+        "theory_track": "eh_anchored",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "eh_anchored",
+      "proposal_group": "open_search",
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · φ1 · R · R",
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+high_curvature+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "h_absurdly_large",
+        "constraint_drift"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "178",
+          "total_rejected_or_skipped": "258",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "1",
+          "count": "74",
+          "total_rejected_or_skipped": "258",
+          "reason": "H(z) absurdly large"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "258",
+          "reason": "constraint drift too large: max|C|=1.508e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "258",
+          "reason": "constraint drift too large: max|C|=1.528e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "258",
+          "reason": "constraint drift too large: max|C|=1.060e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "258",
+          "reason": "constraint drift too large: max|C|=2.126e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "258",
+          "reason": "constraint drift too large: max|C|=1.159e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "258",
+          "reason": "constraint drift too large: max|C|=1.154e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/cmp2000_qwen3_7_plus_cheap_v1/task_001542_slot_04_lag_1.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001542_slot_04/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "task_001542_slot_04_lag_1",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 4,
+        "source_local_number": 49,
+        "batch_lag_id": "1",
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": null
+        },
+        "operators": [
+          "R",
+          "φ1 · φ1 · R · R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "φ1 · φ1 · R · R",
+            "coefficient": "\\beta"
+          }
+        ],
+        "theory_track": "eh_anchored",
+        "proposal_group": "open_search",
+        "validation_wave": "task_001542_slot_04",
+        "complexity_bucket": "medium",
+        "structural_complexity_bucket": "medium",
+        "complexity_score": 4.1,
+        "runtime_predicted_seconds": 206.181,
+        "runtime_prior_evidence": 33.0,
+        "runtime_sort_seconds": 206.181,
+        "runtime_sort_source": "current_loop_runtime_prior",
+        "runtime_rank_in_pool": null,
+        "runtime_pool_size": null,
+        "runtime_quantile_bucket_policy": null,
+        "scheduler_task_id": "task_001542",
+        "scheduler_lane": "slot_04",
+        "memory_snapshot_attempt_count": 1663,
+        "memory_snapshot_timestamp": "2026-06-27T15:14:07-0400",
+        "general": "√(-g) [ M_p² ( \\alpha · R  +  \\beta Λ^{-4} · φ1 · φ1 · R · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+        "lagrangian": {
+          "n_terms": 4,
+          "general": "√(-g) [ M_p² ( \\alpha · R  +  \\beta Λ^{-4} · φ1 · φ1 · R · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R",
+              "mass_dim": 2,
+              "lambda_power": 0,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "φ1 · φ1 · R · R",
+              "mass_dim": 6,
+              "lambda_power": -4,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_1² f_1² (1 - cos(φ1/f_1))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "phi1_only",
+          "potential_types": {
+            "phi1": "axion",
+            "phi2": null
+          }
+        }
+      }
+    },
+    "best_chi2": 1637.9303413864234,
+    "operator_content": [
+      "R",
+      "φ1 · φ1 · R · R"
+    ],
+    "scalar": "phi1_only"
+  },
+  {
+    "family": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+    "agents": [
+      "claude",
+      "deepseek",
+      "gemini",
+      "openai",
+      "qwen"
+    ],
+    "best_agent": "qwen",
+    "best_row": {
+      "timestamp": "2026-06-26T10:59:15-0400",
+      "loop_id": "task_001166_slot_06_lag_1",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "1",
+      "chi2": 1637.9303413864234,
+      "aic": 1651.9303413864234,
+      "bic": 1690.5263061213013,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_1166_task_001166_slot_06_lag_1",
+        "proposal_group": "open_search",
+        "source_n_terms": 4,
+        "source_local_number": 44,
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": null
+        },
+        "operators": [
+          "R",
+          "φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+        ],
+        "theory_track": "eh_anchored",
+        "parameter_sample_count": 1000
+      },
+      "theory_track": "eh_anchored",
+      "proposal_group": "open_search",
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R+φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "h_absurdly_large",
+        "constraint_drift"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "181",
+          "total_rejected_or_skipped": "276",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "1",
+          "count": "88",
+          "total_rejected_or_skipped": "276",
+          "reason": "H(z) absurdly large"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "276",
+          "reason": "constraint drift too large: max|C|=1.001e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "276",
+          "reason": "constraint drift too large: max|C|=1.090e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "276",
+          "reason": "constraint drift too large: max|C|=1.135e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "276",
+          "reason": "constraint drift too large: max|C|=1.660e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "276",
+          "reason": "constraint drift too large: max|C|=1.560e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "276",
+          "reason": "constraint drift too large: max|C|=1.019e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/cmp2000_qwen3_7_plus_cheap_v1/task_001166_slot_06_lag_1.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_001166_slot_06/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "task_001166_slot_06_lag_1",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 4,
+        "source_local_number": 44,
+        "batch_lag_id": "1",
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": null
+        },
+        "operators": [
+          "R",
+          "φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+            "coefficient": "\\beta"
+          }
+        ],
+        "theory_track": "eh_anchored",
+        "proposal_group": "open_search",
+        "validation_wave": "task_001166_slot_06",
+        "complexity_bucket": "medium",
+        "structural_complexity_bucket": "medium",
+        "complexity_score": 2.9,
+        "runtime_predicted_seconds": 75.641,
+        "runtime_prior_evidence": 33.0,
+        "runtime_sort_seconds": 75.641,
+        "runtime_sort_source": "current_loop_runtime_prior",
+        "runtime_rank_in_pool": null,
+        "runtime_pool_size": null,
+        "runtime_quantile_bucket_policy": null,
+        "scheduler_task_id": "task_001166",
+        "scheduler_lane": "slot_06",
+        "memory_snapshot_attempt_count": 1224,
+        "memory_snapshot_timestamp": "2026-06-26T10:48:44-0400",
+        "general": "√(-g) [ M_p² ( \\alpha · R  +  \\beta Λ^{-3} · φ1 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+        "lagrangian": {
+          "n_terms": 4,
+          "general": "√(-g) [ M_p² ( \\alpha · R  +  \\beta Λ^{-3} · φ1 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R",
+              "mass_dim": 2,
+              "lambda_power": 0,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "φ1 · R^{bcd}_{a} · R^{a}_{bcd}",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_1² f_1² (1 - cos(φ1/f_1))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "phi1_only",
+          "potential_types": {
+            "phi1": "axion",
+            "phi2": null
+          }
+        }
+      }
+    },
+    "best_chi2": 1637.9303413864234,
+    "operator_content": [
+      "R",
+      "φ1 · R^{bcd}_{a} · R^{a}_{bcd}"
+    ],
+    "scalar": "phi1_only"
+  },
+  {
+    "family": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R",
+    "agents": [
+      "claude",
+      "deepseek",
+      "gemini",
+      "openai",
+      "qwen"
+    ],
+    "best_agent": "qwen",
+    "best_row": {
+      "timestamp": "2026-06-25T18:10:21-0400",
+      "loop_id": "task_000830_expanded_refine_slot_07_lag_1",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "1",
+      "chi2": 1637.937113582935,
+      "aic": 1651.937113582935,
+      "bic": 1690.5330783178129,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_830_task_000830_expanded_refine_slot_07_lag_1",
+        "proposal_group": "open_search",
+        "source_n_terms": 3,
+        "source_local_number": 3,
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": null
+        },
+        "operators": [
+          "R"
+        ],
+        "theory_track": "eh_anchored",
+        "parameter_sample_count": 5000
+      },
+      "theory_track": "eh_anchored",
+      "proposal_group": "open_search",
+      "family_key": "scalar=phi1_only|potential={'phi1': 'axion', 'phi2': None}|operators=R",
+      "coarse_family_key": "scalar=phi1_only|phi1_potential=axion|phi2_potential=None|operator_bucket=R_anchor",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "h_absurdly_large",
+        "constraint_drift"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "770",
+          "total_rejected_or_skipped": "1122",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "1",
+          "count": "311",
+          "total_rejected_or_skipped": "1122",
+          "reason": "H(z) absurdly large"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "1122",
+          "reason": "constraint drift too large: max|C|=1.241e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "1122",
+          "reason": "constraint drift too large: max|C|=1.178e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "1122",
+          "reason": "constraint drift too large: max|C|=1.286e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "1122",
+          "reason": "constraint drift too large: max|C|=1.118e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "1122",
+          "reason": "constraint drift too large: max|C|=1.428e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "1122",
+          "reason": "constraint drift too large: max|C|=1.200e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/cmp2000_qwen3_7_plus_cheap_v1/task_000830_expanded_refine_slot_07_lag_1.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000830_expanded_refine_slot_07/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "task_000830_expanded_refine_slot_07_lag_1",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 3,
+        "source_local_number": 3,
+        "batch_lag_id": "1",
+        "scalar_config": "phi1_only",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": null
+        },
+        "operators": [
+          "R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R",
+            "coefficient": "\\alpha"
+          }
+        ],
+        "theory_track": "eh_anchored",
+        "proposal_group": "open_search",
+        "validation_wave": "task_000830_expanded_refine_slot_07",
+        "complexity_bucket": "simple",
+        "structural_complexity_bucket": "simple",
+        "complexity_score": 0.0,
+        "runtime_predicted_seconds": 72.612,
+        "runtime_prior_evidence": 42.0,
+        "runtime_sort_seconds": 72.612,
+        "runtime_sort_source": "current_loop_runtime_prior",
+        "runtime_rank_in_pool": null,
+        "runtime_pool_size": null,
+        "runtime_quantile_bucket_policy": null,
+        "scheduler_task_id": "task_000830_expanded_refine",
+        "scheduler_lane": "slot_07",
+        "memory_snapshot_attempt_count": 878,
+        "memory_snapshot_timestamp": "2026-06-25T17:55:02-0400",
+        "general": "√(-g) [ M_p² ( \\alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+        "lagrangian": {
+          "n_terms": 3,
+          "general": "√(-g) [ M_p² ( \\alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R",
+              "mass_dim": 2,
+              "lambda_power": 0,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_1² f_1² (1 - cos(φ1/f_1))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "phi1_only",
+          "potential_types": {
+            "phi1": "axion",
+            "phi2": null
+          }
+        }
+      }
+    },
+    "best_chi2": 1637.937113582935,
+    "operator_content": [
+      "R"
+    ],
+    "scalar": "phi1_only"
+  },
+  {
+    "family": "scalar=both|potential={'phi1': 'axion', 'phi2': 'axion'}|operators=R",
+    "agents": [
+      "claude",
+      "deepseek",
+      "gemini",
+      "openai",
+      "qwen"
+    ],
+    "best_agent": "qwen",
+    "best_row": {
+      "timestamp": "2026-06-25T17:14:49-0400",
+      "loop_id": "task_000820_expanded_slot_01_lag_1",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "1",
+      "chi2": 1637.949611101166,
+      "aic": 1661.949611101166,
+      "bic": 1728.1141220752424,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_820_task_000820_expanded_slot_01_lag_1",
+        "proposal_group": "open_search",
+        "source_n_terms": 5,
+        "source_local_number": 9,
+        "scalar_config": "both",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": "axion"
+        },
+        "operators": [
+          "R"
+        ],
+        "theory_track": "eh_anchored",
+        "parameter_sample_count": 3000
+      },
+      "theory_track": "eh_anchored",
+      "proposal_group": "open_search",
+      "family_key": "scalar=both|potential={'phi1': 'axion', 'phi2': 'axion'}|operators=R",
+      "coarse_family_key": "scalar=both|phi1_potential=axion|phi2_potential=axion|operator_bucket=R_anchor",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "h_absurdly_large",
+        "constraint_drift"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "550",
+          "total_rejected_or_skipped": "932",
+          "reason": "no acceptable real q1_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "1",
+          "count": "356",
+          "total_rejected_or_skipped": "932",
+          "reason": "H(z) absurdly large"
+        },
+        {
+          "lag_id": "1",
+          "count": "2",
+          "total_rejected_or_skipped": "932",
+          "reason": "constraint drift too large: max|C|=1.326e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "932",
+          "reason": "constraint drift too large: max|C|=1.433e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "932",
+          "reason": "constraint drift too large: max|C|=1.378e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "932",
+          "reason": "constraint drift too large: max|C|=1.109e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "932",
+          "reason": "constraint drift too large: max|C|=1.494e-04"
+        },
+        {
+          "lag_id": "1",
+          "count": "1",
+          "total_rejected_or_skipped": "932",
+          "reason": "constraint drift too large: max|C|=1.274e-04"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/cmp2000_qwen3_7_plus_cheap_v1/task_000820_expanded_slot_01_lag_1.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_qwen3_7_plus_cheap_v1_task_000820_expanded_slot_01/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "task_000820_expanded_slot_01_lag_1",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 5,
+        "source_local_number": 9,
+        "batch_lag_id": "1",
+        "scalar_config": "both",
+        "potential_types": {
+          "phi1": "axion",
+          "phi2": "axion"
+        },
+        "operators": [
+          "R"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "R",
+            "coefficient": "\\alpha"
+          }
+        ],
+        "theory_track": "eh_anchored",
+        "proposal_group": "open_search",
+        "validation_wave": "task_000820_expanded_slot_01",
+        "complexity_bucket": "medium",
+        "structural_complexity_bucket": "medium",
+        "complexity_score": 1.5,
+        "runtime_predicted_seconds": 111.722,
+        "runtime_prior_evidence": 45.0,
+        "runtime_sort_seconds": 111.722,
+        "runtime_sort_source": "current_loop_runtime_prior",
+        "runtime_rank_in_pool": null,
+        "runtime_pool_size": null,
+        "runtime_quantile_bucket_policy": null,
+        "scheduler_task_id": "task_000820_expanded",
+        "scheduler_lane": "slot_01",
+        "memory_snapshot_attempt_count": 856,
+        "memory_snapshot_timestamp": "2026-06-25T17:04:53-0400",
+        "general": "√(-g) [ M_p² ( \\alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1))  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+        "lagrangian": {
+          "n_terms": 5,
+          "general": "√(-g) [ M_p² ( \\alpha · R )  +  -½ g^{μν} ∇_μφ1 ∇_νφ1  +  -m_1² f_1² (1 - cos(φ1/f_1))  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -m_2² f_2² (1 - cos(φ2/f_2)) ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "R",
+              "mass_dim": 2,
+              "lambda_power": 0,
+              "sector": "gravity"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ1 ∇_νφ1",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_1² f_1² (1 - cos(φ1/f_1))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-m_2² f_2² (1 - cos(φ2/f_2))",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "axion"
+            }
+          ],
+          "scalar_config": "both",
+          "potential_types": {
+            "phi1": "axion",
+            "phi2": "axion"
+          }
+        }
+      }
+    },
+    "best_chi2": 1637.949611101166,
+    "operator_content": [
+      "R"
+    ],
+    "scalar": "both"
+  },
+  {
+    "family": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=φ2 · R^{ab} · R_{ab}+φ2 · R^{bcd}_{a} · R^{a}_{bcd}",
+    "agents": [
+      "deepseek",
+      "openai"
+    ],
+    "best_agent": "deepseek",
+    "best_row": {
+      "timestamp": "2026-06-26T16:18:52-0400",
+      "loop_id": "task_001296_expanded_slot_02_lag_1",
+      "validated": true,
+      "failed_stage": null,
+      "entered_stages": [
+        "EOM",
+        "Builder",
+        "Solver"
+      ],
+      "entered_solver": true,
+      "best_lag_id": "1",
+      "chi2": 1946.8708572686576,
+      "aic": 1962.8708572686576,
+      "bic": 2006.9805312513752,
+      "solver_output_dir": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_solver_result/agent_solve",
+      "model_ranking_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_solver_result/agent_solve/model_ranking.csv",
+      "scan_report_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_solver_result/agent_solve/scan_report.txt",
+      "theory": {
+        "proposal_id": "cold_start_token_loop_1296_task_001296_expanded_slot_02_lag_1",
+        "proposal_group": "non_eh",
+        "source_n_terms": 4,
+        "source_local_number": 68,
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "φ2 · R^{ab} · R_{ab}",
+          "φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+        ],
+        "theory_track": "non_eh",
+        "parameter_sample_count": 3000
+      },
+      "theory_track": "non_eh",
+      "proposal_group": "non_eh",
+      "family_key": "scalar=phi2_only|potential={'phi1': None, 'phi2': 'quadratic'}|operators=φ2 · R^{ab} · R_{ab}+φ2 · R^{bcd}_{a} · R^{a}_{bcd}",
+      "coarse_family_key": "scalar=phi2_only|phi1_potential=None|phi2_potential=quadratic|operator_bucket=high_curvature+scalar_curvature",
+      "failure_tags": [
+        "q_initial_root_failure",
+        "constraint_drift"
+      ],
+      "top_reject_reasons": [
+        {
+          "lag_id": "1",
+          "count": "1344",
+          "total_rejected_or_skipped": "1559",
+          "reason": "no acceptable real q2_0 root from E_N(x=0)=0"
+        },
+        {
+          "lag_id": "1",
+          "count": "90",
+          "total_rejected_or_skipped": "1559",
+          "reason": "|varphi2| trajectory too large"
+        },
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "1559",
+          "reason": "constraint drift too large: max|C|=9.808e-01"
+        },
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "1559",
+          "reason": "constraint drift too large: max|C|=6.101e-01"
+        },
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "1559",
+          "reason": "constraint drift too large: max|C|=1.168e+00"
+        },
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "1559",
+          "reason": "constraint drift too large: max|C|=7.454e-01"
+        },
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "1559",
+          "reason": "constraint drift too large: max|C|=1.170e-01"
+        },
+        {
+          "lag_id": "1",
+          "count": "3",
+          "total_rejected_or_skipped": "1559",
+          "reason": "constraint drift too large: max|C|=7.397e-01"
+        }
+      ],
+      "all_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_solver_result/agent_solve/all_samples_summary.csv",
+      "accepted_samples_summary_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_solver_result/agent_solve/accepted_samples_summary.csv",
+      "reject_reasons_by_model_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_solver_result/agent_solve/reject_reasons_by_model.csv",
+      "diagnostic_message": null,
+      "agent_lagrangian": {
+        "proposal_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/proposals/cmp2000_deepseek_ali_v4_pro_cheap_v1/task_001296_expanded_slot_02_lag_1.json",
+        "agent_lagrangians_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_lagrangians.pkl",
+        "agent_parameter_samples_path": "/oscar/home/wsun47/Modify_GR/ai_theory_lab/runs/cmp2000_deepseek_ali_v4_pro_cheap_v1_task_001296_expanded_slot_02/agent_parameter_samples_by_lag_id.json",
+        "proposal_id": "task_001296_expanded_slot_02_lag_1",
+        "source": "batch_token_level_grammar",
+        "source_n_terms": 4,
+        "source_local_number": 68,
+        "batch_lag_id": "1",
+        "scalar_config": "phi2_only",
+        "potential_types": {
+          "phi1": null,
+          "phi2": "quadratic"
+        },
+        "operators": [
+          "φ2 · R^{ab} · R_{ab}",
+          "φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+        ],
+        "operator_specs": [
+          {
+            "candidate": "φ2 · R^{ab} · R_{ab}",
+            "coefficient": "\\alpha"
+          },
+          {
+            "candidate": "φ2 · R^{bcd}_{a} · R^{a}_{bcd}",
+            "coefficient": "\\beta"
+          }
+        ],
+        "theory_track": "non_eh",
+        "proposal_group": "non_eh",
+        "validation_wave": "task_001296_expanded_slot_02",
+        "complexity_bucket": "medium",
+        "structural_complexity_bucket": "medium",
+        "complexity_score": 4.8,
+        "runtime_predicted_seconds": 97.181,
+        "runtime_prior_evidence": 35.0,
+        "runtime_sort_seconds": 97.181,
+        "runtime_sort_source": "current_loop_runtime_prior",
+        "runtime_rank_in_pool": null,
+        "runtime_pool_size": null,
+        "runtime_quantile_bucket_policy": null,
+        "scheduler_task_id": "task_001296_expanded",
+        "scheduler_lane": "slot_02",
+        "memory_snapshot_attempt_count": 1377,
+        "memory_snapshot_timestamp": "2026-06-26T15:59:26-0400",
+        "general": "√(-g) [ M_p² ( \\alpha Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \\beta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+        "lagrangian": {
+          "n_terms": 4,
+          "general": "√(-g) [ M_p² ( \\alpha Λ^{-3} · φ2 · R^{ab} · R_{ab}  +  \\beta Λ^{-3} · φ2 · R^{bcd}_{a} · R^{a}_{bcd} )  +  -½ g^{μν} ∇_μφ2 ∇_νφ2  +  -½ m_2² φ2² ]",
+          "terms": [
+            {
+              "coeff_symbol": "\\alpha",
+              "coeff_token": "COEFF_0",
+              "candidate": "φ2 · R^{ab} · R_{ab}",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "\\beta",
+              "coeff_token": "COEFF_1",
+              "candidate": "φ2 · R^{bcd}_{a} · R^{a}_{bcd}",
+              "mass_dim": 5,
+              "lambda_power": -3,
+              "sector": "non-minimal"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ g^{μν} ∇_μφ2 ∇_νφ2",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter"
+            },
+            {
+              "coeff_symbol": "1",
+              "coeff_token": "COEFF_FIXED_1",
+              "candidate": "-½ m_2² φ2²",
+              "mass_dim": 4,
+              "lambda_power": 0,
+              "fixed": true,
+              "sector": "matter",
+              "potential_type": "quadratic"
+            }
+          ],
+          "scalar_config": "phi2_only",
+          "potential_types": {
+            "phi1": null,
+            "phi2": "quadratic"
+          }
+        }
+      }
+    },
+    "best_chi2": 1946.8708572686576,
+    "operator_content": [
+      "φ2 · R^{ab} · R_{ab}",
+      "φ2 · R^{bcd}_{a} · R^{a}_{bcd}"
+    ],
+    "scalar": "phi2_only"
+  }
+]

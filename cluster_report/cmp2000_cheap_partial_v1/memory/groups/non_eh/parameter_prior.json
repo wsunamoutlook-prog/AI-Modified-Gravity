@@ -1,0 +1,91 @@
+{
+  "source": "accepted_all_samples",
+  "active": true,
+  "attempt_count": 832,
+  "accepted_sample_count": 31249,
+  "min_attempts_before_update": 10,
+  "min_accepted_samples": 100,
+  "fixed_parameters": [
+    "H0_km_s_Mpc"
+  ],
+  "parameters": {
+    "Omega_m0": {
+      "low": 0.2795606910336559,
+      "high": 0.32853285836306517,
+      "center": 0.2956009493484221,
+      "log10": false,
+      "signed_log10": false,
+      "count": 200
+    },
+    "lambda_H_Lambda_over_H0": {
+      "low": 3.1162244544742808,
+      "high": 3.6034387280599054,
+      "center": 3.3196030640055314,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    },
+    "varphi1_0_phi1_over_Mp": null,
+    "mu1_m1_over_H0": null,
+    "fbar1_f1_over_Mp": {
+      "low": -0.001,
+      "high": 0.001,
+      "center": 0.0,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    },
+    "varphi2_0_phi2_over_Lambda": {
+      "low": -5.0,
+      "high": -4.631293096019776,
+      "center": -4.795205352960895,
+      "log10": false,
+      "signed_log10": true,
+      "count": 200,
+      "sign_weights": {
+        "positive": 0.115,
+        "negative": 0.885
+      }
+    },
+    "q2_0_dvarphi2_dln_a": {
+      "low": -2.1512588781085538,
+      "high": 0.5508397860906101,
+      "center": 0.25207368837385635,
+      "log10": false,
+      "signed_log10": true,
+      "count": 200,
+      "sign_weights": {
+        "positive": 0.885,
+        "negative": 0.115
+      }
+    },
+    "mu2_m2_over_Lambda": {
+      "low": -4.5967074057276,
+      "high": -4.0727405518061985,
+      "center": -4.314554314400685,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    },
+    "fbar2_f2_over_Lambda": {
+      "low": -0.24821846844789974,
+      "high": 0.3647767427153509,
+      "center": 0.0012587622111409806,
+      "log10": true,
+      "signed_log10": false,
+      "count": 200
+    }
+  },
+  "coefficient_log10_abs": {
+    "low": -8.5,
+    "high": 17.92077167483218,
+    "center": 5.0,
+    "log10": true,
+    "signed_log10": false,
+    "count": 3200
+  },
+  "coefficient_sign_weights": {
+    "positive": 0.528125,
+    "negative": 0.471875
+  }
+}

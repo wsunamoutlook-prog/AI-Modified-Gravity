@@ -1,4 +1,4 @@
-"""OpenAI-backed proposal helpers for the LangGraph cold-start loop.
+"""LLM-backed proposal helpers for the LangGraph cold-start loop.
 
 The LLM does not inject arbitrary symbolic expressions. It selects from a
 batch of token-level Grammar Masker candidates that are already legal enough to
@@ -11,6 +11,8 @@ import json
 import os
 import random
 import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
@@ -27,7 +29,12 @@ from .cold_start_runner import (
 )
 
 
-DEFAULT_OPENAI_MODEL = "gpt-5-mini"
+DEFAULT_OPENAI_MODEL = "gpt-5.5"
+DEFAULT_ANTHROPIC_MODEL = "claude-opus-4-8"
+DEFAULT_LLM_PROVIDER = "openai"
+OPENAI_COMPATIBLE_PROVIDER = "openai_compatible"
+ANTHROPIC_PROVIDER = "anthropic"
+SUPPORTED_LLM_PROVIDERS = (DEFAULT_LLM_PROVIDER, OPENAI_COMPATIBLE_PROVIDER, ANTHROPIC_PROVIDER)
 MAX_LLM_CANDIDATES = 12
 DEFAULT_LLM_MAX_RETRIES = 2
 DEFAULT_LLM_MAX_OUTPUT_TOKENS = 1800
@@ -111,6 +118,9 @@ def _response_debug_payload(response: Any, text: str = "") -> Dict[str, Any]:
         "extracted_text": text,
         "response_type": type(response).__name__,
     }
+    if isinstance(response, dict):
+        payload["response"] = response
+        return payload
     for name in ("id", "model", "status", "finish_reason"):
         value = getattr(response, name, None)
         if value is not None:
@@ -126,6 +136,214 @@ def _response_debug_payload(response: Any, text: str = "") -> Dict[str, Any]:
         payload["response_repr"] = repr(response)
         payload["response_dump_error"] = f"{type(exc).__name__}: {exc}"
     return payload
+
+
+def _choice_prompt(
+    candidates: Sequence[Dict[str, Any]],
+    summary: Dict[str, Any],
+) -> Tuple[str, Dict[str, Any], Dict[str, Any]]:
+    candidate_views = [
+        _candidate_view(entry, i, _entry_score(entry, summary, random.Random(12345 + i)), summary)
+        for i, entry in enumerate(candidates)
+    ]
+    system = (
+        "You are a cautious modified-gravity theory proposal agent. "
+        "Choose exactly one candidate from the provided grammar-generated list. "
+        "Do not invent operators, coefficients, fields, parameter values, or historical results. "
+        "Prefer candidates that can survive EOM/Builder/Solver and improve chi-square, while preserving exploration. "
+        "Return only a JSON object matching the requested schema."
+    )
+    user = {
+        "task": "Select one candidate index for the next cold-start validation attempt.",
+        "current_loop_feedback": _compact_summary(summary),
+        "candidates": candidate_views,
+        "output_schema": {
+            "candidate_index": "integer index from candidates",
+            "rationale": "one concise paragraph using only current-loop feedback and candidate features",
+        },
+    }
+    schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "candidate_index": {
+                "type": "integer",
+                "description": "Index of the selected candidate from the candidates array.",
+            },
+            "rationale": {
+                "type": "string",
+                "description": "One concise paragraph using only current-loop feedback and candidate features.",
+            },
+        },
+        "required": ["candidate_index", "rationale"],
+    }
+    return system, user, schema
+
+
+def _provider_key(provider: str) -> str:
+    normalized = provider.strip().lower().replace("-", "_")
+    aliases = {
+        "openai_native": "openai",
+        "responses": "openai",
+        "compatible": OPENAI_COMPATIBLE_PROVIDER,
+        "openai_compat": OPENAI_COMPATIBLE_PROVIDER,
+        "openrouter": OPENAI_COMPATIBLE_PROVIDER,
+        "requesty": OPENAI_COMPATIBLE_PROVIDER,
+        "deepseek": OPENAI_COMPATIBLE_PROVIDER,
+        "ollama": OPENAI_COMPATIBLE_PROVIDER,
+        "claude": ANTHROPIC_PROVIDER,
+        "anthropic_native": ANTHROPIC_PROVIDER,
+    }
+    normalized = aliases.get(normalized, normalized)
+    if normalized not in SUPPORTED_LLM_PROVIDERS:
+        raise ValueError(
+            f"Unsupported llm_provider={provider!r}; supported providers are {', '.join(SUPPORTED_LLM_PROVIDERS)}."
+        )
+    return normalized
+
+
+def _default_api_key_env(provider: str, base_url: Optional[str]) -> str:
+    if provider == "openai":
+        return "OPENAI_API_KEY"
+    if provider == ANTHROPIC_PROVIDER:
+        return "ANTHROPIC_API_KEY"
+    url = (base_url or os.getenv("LLM_BASE_URL") or os.getenv("OPENAI_BASE_URL") or "").lower()
+    if "generativelanguage.googleapis.com" in url or "googleapis.com" in url:
+        return "GEMINI_API_KEY"
+    if "dashscope" in url or "aliyuncs.com/compatible-mode" in url:
+        return "DASHSCOPE_API_KEY"
+    if "openrouter" in url:
+        return "OPENROUTER_API_KEY"
+    if "requesty" in url:
+        return "REQUESTY_API_KEY"
+    if "deepseek" in url:
+        return "DEEPSEEK_API_KEY"
+    if "localhost" in url or "127.0.0.1" in url:
+        return "OLLAMA_API_KEY"
+    return "OPENAI_COMPATIBLE_API_KEY"
+
+
+def _resolved_api_key(api_key_env: str, provider: str, base_url: Optional[str]) -> Optional[str]:
+    env_names = [api_key_env] if api_key_env else []
+    fallback = _default_api_key_env(provider, base_url)
+    if fallback not in env_names:
+        env_names.append(fallback)
+    if provider == OPENAI_COMPATIBLE_PROVIDER:
+        for name in (
+            "OPENAI_COMPATIBLE_API_KEY",
+            "OPENROUTER_API_KEY",
+            "REQUESTY_API_KEY",
+            "GEMINI_API_KEY",
+            "DASHSCOPE_API_KEY",
+            "DEEPSEEK_API_KEY",
+            "OPENAI_API_KEY",
+        ):
+            if name not in env_names:
+                env_names.append(name)
+    if provider == ANTHROPIC_PROVIDER and "ANTHROPIC_API_KEY" not in env_names:
+        env_names.append("ANTHROPIC_API_KEY")
+    for name in env_names:
+        value = os.getenv(name)
+        if value:
+            return value
+    if provider == OPENAI_COMPATIBLE_PROVIDER:
+        url = (base_url or "").lower()
+        if "localhost" in url or "127.0.0.1" in url:
+            return "ollama"
+    return None
+
+
+def _default_model(provider: str) -> str:
+    if provider == ANTHROPIC_PROVIDER:
+        return os.getenv("ANTHROPIC_MODEL") or DEFAULT_ANTHROPIC_MODEL
+    if provider == OPENAI_COMPATIBLE_PROVIDER:
+        return os.getenv("OPENAI_COMPATIBLE_MODEL") or os.getenv("LLM_MODEL") or DEFAULT_OPENAI_MODEL
+    return os.getenv("OPENAI_MODEL") or DEFAULT_OPENAI_MODEL
+
+
+def _openai_compatible_text(response: Any) -> str:
+    choices = getattr(response, "choices", None) or []
+    if not choices:
+        return ""
+    message = getattr(choices[0], "message", None)
+    content = getattr(message, "content", None)
+    if isinstance(content, str):
+        return content
+    return _content_text(content)
+
+
+def _anthropic_endpoint(base_url: Optional[str]) -> str:
+    url = (base_url or os.getenv("ANTHROPIC_BASE_URL") or "https://api.anthropic.com/v1").rstrip("/")
+    if url.endswith("/messages"):
+        return url
+    return f"{url}/messages"
+
+
+def _call_anthropic_messages(
+    *,
+    system: str,
+    user: Dict[str, Any],
+    model: str,
+    base_url: Optional[str],
+    api_key: str,
+    api_timeout: float,
+    max_output_tokens: int,
+) -> Tuple[str, Dict[str, Any]]:
+    body = {
+        "model": model,
+        "max_tokens": max_output_tokens,
+        "system": system,
+        "messages": [
+            {
+                "role": "user",
+                "content": (
+                    json.dumps(user, ensure_ascii=False)
+                    + "\n\nReturn only valid JSON. Do not wrap it in markdown fences."
+                ),
+            }
+        ],
+    }
+    request = urllib.request.Request(
+        _anthropic_endpoint(base_url),
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=api_timeout) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Anthropic API HTTP {exc.code}: {detail[:1000]}") from exc
+    content = payload.get("content") or []
+    pieces = []
+    for block in content:
+        if isinstance(block, dict) and block.get("type") == "text":
+            pieces.append(str(block.get("text") or ""))
+    return "\n".join(pieces), payload
+
+
+def _response_usage_payload(response: Any) -> Optional[Dict[str, Any]]:
+    if isinstance(response, dict):
+        usage = response.get("usage")
+        return dict(usage) if isinstance(usage, dict) else None
+    usage = getattr(response, "usage", None)
+    if usage is None:
+        return None
+    try:
+        if hasattr(usage, "model_dump"):
+            return usage.model_dump(mode="json")
+        if hasattr(usage, "to_dict"):
+            return usage.to_dict()
+    except Exception:
+        return {"repr": repr(usage)}
+    if isinstance(usage, dict):
+        return dict(usage)
+    return {"repr": repr(usage)}
 
 
 def _write_llm_debug(
@@ -240,81 +458,109 @@ def _generate_candidate_entries(
     return selected
 
 
-def _call_openai_for_choice(
+def _call_llm_for_choice(
     *,
     candidates: Sequence[Dict[str, Any]],
     summary: Dict[str, Any],
+    provider: str,
     model: str,
+    base_url: Optional[str],
+    api_key_env: str,
     api_timeout: float,
     max_output_tokens: int,
     debug_dir: Optional[Path],
     loop_id: str,
     attempt: int,
-) -> Tuple[int, str, Dict[str, Any]]:
+) -> Tuple[int, str, Dict[str, Any], Dict[str, Any]]:
     from openai import OpenAI
 
-    candidate_views = [
-        _candidate_view(entry, i, _entry_score(entry, summary, random.Random(12345 + i)), summary)
-        for i, entry in enumerate(candidates)
-    ]
-    system = (
-        "You are a cautious modified-gravity theory proposal agent. "
-        "Choose exactly one candidate from the provided grammar-generated list. "
-        "Do not invent operators, coefficients, fields, parameter values, or historical results. "
-        "Prefer candidates that can survive EOM/Builder/Solver and improve chi-square, while preserving exploration."
-    )
-    user = {
-        "task": "Select one candidate index for the next cold-start validation attempt.",
-        "current_loop_feedback": _compact_summary(summary),
-        "candidates": candidate_views,
-        "output_schema": {
-            "candidate_index": "integer index from candidates",
-            "rationale": "one concise paragraph using only current-loop feedback and candidate features",
-        },
+    provider = _provider_key(provider)
+    system, user, schema = _choice_prompt(candidates, summary)
+    resolved_key_env = api_key_env or _default_api_key_env(provider, base_url)
+    api_key = _resolved_api_key(resolved_key_env, provider, base_url)
+    metadata: Dict[str, Any] = {
+        "provider": provider,
+        "model": model,
+        "base_url": base_url,
+        "api_key_env": resolved_key_env,
     }
-    schema = {
-        "type": "object",
-        "additionalProperties": False,
-        "properties": {
-            "candidate_index": {
-                "type": "integer",
-                "description": "Index of the selected candidate from the candidates array.",
+    start = time.monotonic()
+    if provider == "openai":
+        client_kwargs: Dict[str, Any] = {"timeout": api_timeout}
+        if api_key:
+            client_kwargs["api_key"] = api_key
+        response = OpenAI(**client_kwargs).responses.create(
+            model=model,
+            input=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": json.dumps(user, ensure_ascii=False)},
+            ],
+            text={
+                "format": {
+                    "type": "json_schema",
+                    "name": "candidate_choice",
+                    "strict": True,
+                    "schema": schema,
+                }
             },
-            "rationale": {
-                "type": "string",
-                "description": "One concise paragraph using only current-loop feedback and candidate features.",
-            },
-        },
-        "required": ["candidate_index", "rationale"],
-    }
-    client = OpenAI(timeout=api_timeout)
-    response = client.responses.create(
-        model=model,
-        input=[
-            {"role": "system", "content": system},
-            {"role": "user", "content": json.dumps(user, ensure_ascii=False)},
-        ],
-        text={
-            "format": {
-                "type": "json_schema",
-                "name": "candidate_choice",
-                "strict": True,
-                "schema": schema,
-            }
-        },
-        max_output_tokens=max_output_tokens,
-    )
-    text = _extract_text(response)
+            max_output_tokens=max_output_tokens,
+        )
+        text = _extract_text(response)
+    elif provider == OPENAI_COMPATIBLE_PROVIDER:
+        if not base_url:
+            raise ValueError("llm_provider=openai_compatible requires --llm-base-url or LLM_BASE_URL.")
+        if not api_key:
+            raise ValueError(
+                f"Missing API key for openai_compatible provider. Set {resolved_key_env} "
+                "or pass --llm-api-key-env with a populated environment variable."
+            )
+        client = OpenAI(api_key=api_key, base_url=base_url, timeout=api_timeout)
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system},
+                {
+                    "role": "user",
+                    "content": (
+                        json.dumps(user, ensure_ascii=False)
+                        + "\n\nReturn only valid JSON. Do not wrap it in markdown fences."
+                    ),
+                },
+            ],
+            max_tokens=max_output_tokens,
+        )
+        text = _openai_compatible_text(response)
+    elif provider == ANTHROPIC_PROVIDER:
+        if not api_key:
+            raise ValueError(
+                f"Missing API key for anthropic provider. Set {resolved_key_env} "
+                "or pass --llm-api-key-env with a populated environment variable."
+            )
+        text, response = _call_anthropic_messages(
+            system=system,
+            user=user,
+            model=model,
+            base_url=base_url,
+            api_key=api_key,
+            api_timeout=api_timeout,
+            max_output_tokens=max_output_tokens,
+        )
+    else:
+        raise ValueError(f"Unsupported llm_provider={provider!r}")
+    metadata["latency_sec"] = round(time.monotonic() - start, 3)
+    usage = _response_usage_payload(response)
+    if usage is not None:
+        metadata["usage"] = usage
     if not text.strip():
         debug_path = _write_llm_debug(
             debug_dir,
             loop_id=loop_id,
             attempt=attempt,
             event="empty_output",
-            payload=_response_debug_payload(response, text),
+            payload={**metadata, **_response_debug_payload(response, text)},
         )
         suffix = f"; debug={debug_path}" if debug_path else ""
-        raise RuntimeError(f"OpenAI response contained no output_text{suffix}")
+        raise RuntimeError(f"{provider} response contained no output_text{suffix}")
     try:
         data = _parse_json_object(text)
     except json.JSONDecodeError as exc:
@@ -324,6 +570,7 @@ def _call_openai_for_choice(
             attempt=attempt,
             event="json_decode_error",
             payload={
+                **metadata,
                 **_response_debug_payload(response, text),
                 "error": f"{type(exc).__name__}: {exc}",
             },
@@ -334,7 +581,7 @@ def _call_openai_for_choice(
     if index < 0 or index >= len(candidates):
         raise ValueError(f"LLM candidate_index out of range: {index}")
     rationale = str(data.get("rationale") or "LLM selected this grammar-generated candidate.")
-    return index, rationale, data
+    return index, rationale, data, metadata
 
 
 def propose_entry_with_llm(
@@ -343,7 +590,10 @@ def propose_entry_with_llm(
     rng: random.Random,
     seed: int,
     *,
+    provider: str = DEFAULT_LLM_PROVIDER,
     model: Optional[str] = None,
+    base_url: Optional[str] = None,
+    api_key_env: str = "",
     max_candidate_batches: int = 3,
     api_timeout: float = 120.0,
     max_retries: int = DEFAULT_LLM_MAX_RETRIES,
@@ -355,13 +605,16 @@ def propose_entry_with_llm(
     required_operator_substring: Optional[str] = None,
     required_operator_contains_curvature: bool = False,
 ) -> Dict[str, Any]:
-    """Generate legal candidates and let the OpenAI API select one.
+    """Generate legal candidates and let an LLM API select one.
 
     Raises on missing credentials, API failures, or invalid responses so the
     caller can fall back to deterministic proposal generation.
     """
 
-    selected_model = model or os.getenv("OPENAI_MODEL") or DEFAULT_OPENAI_MODEL
+    selected_provider = _provider_key(provider or os.getenv("LLM_PROVIDER") or DEFAULT_LLM_PROVIDER)
+    selected_base_url = base_url or os.getenv("LLM_BASE_URL") or os.getenv("OPENAI_BASE_URL") or None
+    selected_key_env = api_key_env or os.getenv("LLM_API_KEY_ENV") or _default_api_key_env(selected_provider, selected_base_url)
+    selected_model = model or os.getenv("LLM_MODEL") or _default_model(selected_provider)
     candidates = _generate_candidate_entries(
         context,
         summary,
@@ -380,10 +633,13 @@ def propose_entry_with_llm(
     total_attempts = max(1, int(max_retries) + 1)
     for attempt in range(1, total_attempts + 1):
         try:
-            index, rationale, raw_choice = _call_openai_for_choice(
+            index, rationale, raw_choice, api_metadata = _call_llm_for_choice(
                 candidates=candidates,
                 summary=summary,
+                provider=selected_provider,
                 model=selected_model,
+                base_url=selected_base_url,
+                api_key_env=selected_key_env,
                 api_timeout=api_timeout,
                 max_output_tokens=max_output_tokens,
                 debug_dir=debug_path,
@@ -402,7 +658,10 @@ def propose_entry_with_llm(
                 event="failure",
                 payload={
                     "error": message,
+                    "provider": selected_provider,
                     "model": selected_model,
+                    "base_url": selected_base_url,
+                    "api_key_env": selected_key_env,
                     "api_timeout": api_timeout,
                     "max_output_tokens": max_output_tokens,
                     "candidate_count": len(candidates),
@@ -423,7 +682,13 @@ def propose_entry_with_llm(
         local_number=int(selected["local_number"]),
     )
     entry["proposal_mode"] = "llm"
+    entry["llm_provider"] = selected_provider
     entry["llm_model"] = selected_model
+    entry["llm_base_url"] = selected_base_url
+    entry["llm_api_key_env"] = selected_key_env
+    entry["llm_latency_sec"] = api_metadata.get("latency_sec")
+    if api_metadata.get("usage") is not None:
+        entry["llm_usage"] = api_metadata.get("usage")
     entry["llm_rationale"] = rationale
     entry["target_operator_count"] = selected.get("target_operator_count")
     entry["baseline_control"] = bool(selected.get("baseline_control", False))
@@ -441,6 +706,7 @@ def propose_entry_with_llm(
         "raw_choice": raw_choice,
         "attempts_used": attempt,
         "retry_errors": errors,
+        "api_metadata": api_metadata,
     }
     required = ("scalar_config", "potential_types", "operators", "operator_specs", "n_terms", "lagrangian")
     missing = [key for key in required if key not in entry]
