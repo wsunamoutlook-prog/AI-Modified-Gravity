@@ -12,7 +12,14 @@ from statistics import median
 from typing import Any, Dict, Iterable, List, Optional
 
 from .config_p import CORRECTION_SAMPLING, PARAMETER_PRIOR_UPDATE
-from .dataset import chi2_quality_tier, theory_features
+from .dataset import (
+    chi2_quality_tier,
+    consolidate_structure_attempts,
+    structure_quality_tier,
+    structure_reward_for_attempt,
+    structure_score_for_attempt,
+    theory_features,
+)
 from .joint_parameter_prior import JOINT_PARAMETER_PRIOR_FILENAME, build_joint_parameter_prior
 
 
@@ -301,27 +308,28 @@ def _correction_mode_learning(attempts: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict[str, Any]) -> Dict[str, Any]:
-    accepted = [attempt for attempt in attempts if attempt.get("chi2") is not None]
-    accepted.sort(key=lambda attempt: float(attempt["chi2"]))
+    structure_attempts = consolidate_structure_attempts(attempts)
+    accepted = [
+        attempt
+        for attempt in structure_attempts
+        if attempt.get("validated") and structure_score_for_attempt(attempt) is not None
+    ]
+    accepted.sort(key=lambda attempt: float(structure_score_for_attempt(attempt)))
     quality_accepted = [
         attempt
         for attempt in accepted
-        if chi2_quality_tier(attempt.get("chi2")) in {"excellent", "competitive", "weak_accept"}
-        or (attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")) == "non_eh"
+        if structure_reward_for_attempt(attempt) > 0.0
     ]
     scalar_counts = Counter()
     operator_counts = Counter()
     potential_counts = Counter()
     accepted_feature_counts = Counter()
-    quality_counts = Counter(chi2_quality_tier(attempt.get("chi2")) for attempt in accepted)
+    quality_counts = Counter(structure_quality_tier(attempt) for attempt in accepted)
     for attempt in quality_accepted[:10]:
-        tier = chi2_quality_tier(attempt.get("chi2"))
+        tier = structure_quality_tier(attempt)
         weight = {"excellent": 3.5, "competitive": 2.5, "weak_accept": 1.5}.get(tier, 0.0)
-        if (
-            weight <= 0.0
-            and (attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")) == "non_eh"
-        ):
-            weight = 1.0
+        if weight <= 0.0:
+            weight = min(1.5, max(0.0, structure_reward_for_attempt(attempt)))
         if weight <= 0.0:
             continue
         theory = attempt.get("theory") or {}
@@ -357,12 +365,16 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
             "integration_failure_count": 0,
             "q_not_determined_attempts": 0,
             "best_chi2": None,
+            "best_aic": None,
+            "best_structure_score": None,
             "chi2_values": [],
+            "aic_values": [],
+            "structure_score_values": [],
             "operator_family_counts": Counter(),
         }
         for family in SCALAR_FAMILIES
     }
-    for attempt in attempts:
+    for attempt in structure_attempts:
         theory = attempt.get("theory") or {}
         tags = set(attempt.get("failure_tags") or [])
         features = theory_features(theory)
@@ -380,7 +392,11 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
                 "integration_failure_count": 0,
                 "q_not_determined_attempts": 0,
                 "best_chi2": None,
+                "best_aic": None,
+                "best_structure_score": None,
                 "chi2_values": [],
+                "aic_values": [],
+                "structure_score_values": [],
                 "operator_family_counts": Counter(),
             }
         stats = scalar_family_stats[scalar_config]
@@ -394,13 +410,16 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
             stats["chi2_values"].append(chi2)
             if stats["best_chi2"] is None or chi2 < float(stats["best_chi2"]):
                 stats["best_chi2"] = chi2
-        sample_counts = _attempt_sample_counts(attempt)
-        stats["sample_count"] += sample_counts["total"]
-        stats["accepted_sample_count"] += sample_counts["accepted"]
-        stats["q_initial_root_failure_count"] += sample_counts["q_initial_root_failure"]
-        stats["no_scalar_constraint_count"] += sample_counts["no_scalar_constraint"]
-        stats["constraint_drift_count"] += sample_counts["constraint_drift"]
-        stats["integration_failure_count"] += sample_counts["integration_failure"]
+        aic = _safe_float(attempt.get("aic"))
+        if aic is not None:
+            stats["aic_values"].append(aic)
+            if stats["best_aic"] is None or aic < float(stats["best_aic"]):
+                stats["best_aic"] = aic
+        structure_score = structure_score_for_attempt(attempt)
+        if structure_score is not None:
+            stats["structure_score_values"].append(structure_score)
+            if stats["best_structure_score"] is None or structure_score < float(stats["best_structure_score"]):
+                stats["best_structure_score"] = structure_score
         if "q_not_determined" in tags:
             stats["q_not_determined_attempts"] += 1
         for name, value in features.items():
@@ -442,11 +461,31 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
             if features.get("has_high_curvature"):
                 failed_features["high_curvature_with_numerical_failure"] += 1
 
+    # A structure contributes one AIC-based policy update, but every numerical
+    # stage contributes distinct parameter-sample evidence. Keep the initial,
+    # expanded, and refined CSV counts here instead of discarding all but the
+    # best structural representative.
+    for attempt in attempts:
+        theory = attempt.get("theory") or {}
+        scalar_config = str(theory.get("scalar_config"))
+        stats = scalar_family_stats.get(scalar_config)
+        if stats is None:
+            continue
+        sample_counts = _attempt_sample_counts(attempt)
+        stats["sample_count"] += sample_counts["total"]
+        stats["accepted_sample_count"] += sample_counts["accepted"]
+        stats["q_initial_root_failure_count"] += sample_counts["q_initial_root_failure"]
+        stats["no_scalar_constraint_count"] += sample_counts["no_scalar_constraint"]
+        stats["constraint_drift_count"] += sample_counts["constraint_drift"]
+        stats["integration_failure_count"] += sample_counts["integration_failure"]
+
     scalar_family_metrics: Dict[str, Dict[str, Any]] = {}
     for family, stats in scalar_family_stats.items():
         sample_count = int(stats["sample_count"])
         attempts_count = int(stats["attempts"])
         chi2_values = sorted(float(value) for value in stats["chi2_values"])
+        aic_values = sorted(float(value) for value in stats["aic_values"])
+        structure_score_values = sorted(float(value) for value in stats["structure_score_values"])
         scalar_family_metrics[family] = {
             "attempts": attempts_count,
             "validated_attempts": int(stats["validated_attempts"]),
@@ -469,6 +508,13 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
             "best_chi2": stats["best_chi2"],
             "median_chi2": median(chi2_values) if chi2_values else None,
             "chi2_quality_counts": dict(Counter(chi2_quality_tier(value) for value in chi2_values).most_common()),
+            "best_aic": stats["best_aic"],
+            "median_aic": median(aic_values) if aic_values else None,
+            "best_structure_score": stats["best_structure_score"],
+            "median_structure_score": median(structure_score_values) if structure_score_values else None,
+            "structure_quality_counts": dict(
+                Counter(chi2_quality_tier(value) for value in structure_score_values).most_common()
+            ),
             "operator_family_counts": dict(stats["operator_family_counts"].most_common(20)),
         }
     return {
@@ -481,6 +527,7 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
         "accepted_attempt_count": len(accepted),
         "quality_accepted_attempt_count": len(quality_accepted),
         "accepted_quality_counts": dict(quality_counts.most_common()),
+        "structure_reward_metric": "AIC-2*k_LCDM",
         "preferred_scalar_configs": dict(scalar_counts.most_common()),
         "preferred_potentials": dict(potential_counts.most_common()),
         "preferred_operators": dict(operator_counts.most_common(20)),
@@ -493,6 +540,7 @@ def _structure_prior_from_attempts(attempts: List[Dict[str, Any]], summary: Dict
         },
         "correction_mode_learning": _correction_mode_learning(attempts),
         "best_chi2": summary.get("best_chi2"),
+        "best_structure_score": summary.get("best_structure_score"),
     }
 
 
@@ -509,6 +557,7 @@ def _reflection(
         f"total_attempts={summary.get('total_attempts', 0)}",
         f"validated_count={summary.get('validated_count', 0)}",
         f"best_chi2={summary.get('best_chi2')}",
+        f"best_structure_score={summary.get('best_structure_score')}",
         f"last_loop_id={last.get('loop_id')}",
         f"last_tags={tags}",
     ]

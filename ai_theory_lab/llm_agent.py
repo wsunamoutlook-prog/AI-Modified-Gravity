@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import random
+import re
 import time
 import urllib.error
 import urllib.request
@@ -29,8 +30,8 @@ from .cold_start_runner import (
 )
 
 
-DEFAULT_OPENAI_MODEL = "gpt-5.5"
-DEFAULT_ANTHROPIC_MODEL = "claude-opus-4-8"
+DEFAULT_OPENAI_MODEL = "gpt-5.6-sol"
+DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5"
 DEFAULT_LLM_PROVIDER = "openai"
 OPENAI_COMPATIBLE_PROVIDER = "openai_compatible"
 ANTHROPIC_PROVIDER = "anthropic"
@@ -43,10 +44,17 @@ DEFAULT_LLM_MAX_OUTPUT_TOKENS = 1800
 def _compact_summary(summary: Dict[str, Any]) -> Dict[str, Any]:
     agent_loop = summary.get("agent_loop") if isinstance(summary.get("agent_loop"), dict) else {}
     structure_prior = agent_loop.get("structure_prior") if isinstance(agent_loop.get("structure_prior"), dict) else {}
+    policy = summary.get("policy") if isinstance(summary.get("policy"), dict) else {}
     return {
         "total_attempts": summary.get("total_attempts", 0),
         "validated_count": summary.get("validated_count", 0),
         "best_chi2": summary.get("best_chi2"),
+        "best_structure_score": summary.get("best_structure_score"),
+        "structure_learning_metric": (
+            structure_prior.get("structure_reward_metric")
+            or policy.get("reward_metric")
+            or "AIC-2*k_LCDM"
+        ),
         "failure_tag_counts": summary.get("failure_tag_counts") or {},
         "preferred_scalar_configs": structure_prior.get("preferred_scalar_configs") or {},
         "preferred_potentials": structure_prior.get("preferred_potentials") or {},
@@ -150,7 +158,8 @@ def _choice_prompt(
         "You are a cautious modified-gravity theory proposal agent. "
         "Choose exactly one candidate from the provided grammar-generated list. "
         "Do not invent operators, coefficients, fields, parameter values, or historical results. "
-        "Prefer candidates that can survive EOM/Builder/Solver and improve chi-square, while preserving exploration. "
+        "Prefer candidates that can survive EOM/Builder/Solver and improve the AIC-adjusted cross-Lagrangian "
+        "structure score, while preserving exploration. Raw chi-square remains the parameter-search signal. "
         "Return only a JSON object matching the requested schema."
     )
     user = {
@@ -218,6 +227,8 @@ def _default_api_key_env(provider: str, base_url: Optional[str]) -> str:
         return "REQUESTY_API_KEY"
     if "deepseek" in url:
         return "DEEPSEEK_API_KEY"
+    if "moonshot" in url or "kimi" in url:
+        return "MOONSHOT_API_KEY"
     if "localhost" in url or "127.0.0.1" in url:
         return "OLLAMA_API_KEY"
     return "OPENAI_COMPATIBLE_API_KEY"
@@ -236,6 +247,8 @@ def _resolved_api_key(api_key_env: str, provider: str, base_url: Optional[str]) 
             "GEMINI_API_KEY",
             "DASHSCOPE_API_KEY",
             "DEEPSEEK_API_KEY",
+            "MOONSHOT_API_KEY",
+            "KIMI_API_KEY",
             "OPENAI_API_KEY",
         ):
             if name not in env_names:
@@ -272,6 +285,31 @@ def _openai_compatible_text(response: Any) -> str:
     return _content_text(content)
 
 
+def _openai_compatible_request_options(
+    *,
+    model: str,
+    base_url: str,
+    max_output_tokens: int,
+) -> Dict[str, Any]:
+    """Keep short candidate-selection calls out of expensive reasoning mode."""
+
+    model_key = model.lower()
+    url_key = base_url.lower()
+    options: Dict[str, Any] = {}
+    if "aliyuncs.com" in url_key or "dashscope" in url_key:
+        options["max_completion_tokens"] = max_output_tokens
+        options["extra_body"] = {"enable_thinking": False}
+    elif "googleapis.com" in url_key or "generativelanguage" in url_key:
+        options["max_completion_tokens"] = max_output_tokens
+        options["reasoning_effort"] = "low"
+    elif "moonshot" in url_key or model_key.startswith("kimi"):
+        options["max_completion_tokens"] = max_output_tokens
+        options["reasoning_effort"] = "low"
+    else:
+        options["max_tokens"] = max_output_tokens
+    return options
+
+
 def _anthropic_endpoint(base_url: Optional[str]) -> str:
     url = (base_url or os.getenv("ANTHROPIC_BASE_URL") or "https://api.anthropic.com/v1").rstrip("/")
     if url.endswith("/messages"):
@@ -292,6 +330,7 @@ def _call_anthropic_messages(
     body = {
         "model": model,
         "max_tokens": max_output_tokens,
+        "thinking": {"type": "disabled"},
         "system": system,
         "messages": [
             {
@@ -379,6 +418,25 @@ def _parse_json_object(text: str) -> Dict[str, Any]:
     if not isinstance(data, dict):
         raise TypeError("LLM response must be a JSON object")
     return data
+
+
+def _parse_candidate_choice(text: str) -> Dict[str, Any]:
+    """Parse a choice, recovering an explicit index from truncated rationale."""
+
+    stripped = text.strip()
+    if re.fullmatch(r"-?\d+", stripped):
+        return {"candidate_index": int(stripped), "parse_recovered": True}
+    try:
+        return _parse_json_object(stripped)
+    except json.JSONDecodeError:
+        match = re.search(r'["\']?candidate_index["\']?\s*:\s*(-?\d+)', stripped)
+        if match is None:
+            raise
+        return {
+            "candidate_index": int(match.group(1)),
+            "parse_recovered": True,
+            "raw_truncated_output": stripped,
+        }
 
 
 def _generate_candidate_entries(
@@ -515,6 +573,11 @@ def _call_llm_for_choice(
                 "or pass --llm-api-key-env with a populated environment variable."
             )
         client = OpenAI(api_key=api_key, base_url=base_url, timeout=api_timeout)
+        request_options = _openai_compatible_request_options(
+            model=model,
+            base_url=base_url,
+            max_output_tokens=max_output_tokens,
+        )
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -527,7 +590,7 @@ def _call_llm_for_choice(
                     ),
                 },
             ],
-            max_tokens=max_output_tokens,
+            **request_options,
         )
         text = _openai_compatible_text(response)
     elif provider == ANTHROPIC_PROVIDER:
@@ -562,7 +625,7 @@ def _call_llm_for_choice(
         suffix = f"; debug={debug_path}" if debug_path else ""
         raise RuntimeError(f"{provider} response contained no output_text{suffix}")
     try:
-        data = _parse_json_object(text)
+        data = _parse_candidate_choice(text)
     except json.JSONDecodeError as exc:
         debug_path = _write_llm_debug(
             debug_dir,
@@ -580,7 +643,7 @@ def _call_llm_for_choice(
     index = int(data["candidate_index"])
     if index < 0 or index >= len(candidates):
         raise ValueError(f"LLM candidate_index out of range: {index}")
-    rationale = str(data.get("rationale") or "LLM selected this grammar-generated candidate.")
+    rationale = str(data.get("rationale") or "LLM selected this grammar-generated candidate index.")
     return index, rationale, data, metadata
 
 

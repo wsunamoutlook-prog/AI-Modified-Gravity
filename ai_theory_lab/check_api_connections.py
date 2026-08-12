@@ -25,9 +25,46 @@ class ApiSpec:
     key_env: str
     base_url_env: str | None = None
     default_base_url: str | None = None
+    model_env: str | None = None
 
 
-DEFAULT_SPECS = [
+FRONTIER6_SPECS = [
+    ApiSpec("openai", "openai", "gpt-5.6-sol", "OPENAI_API_KEY"),
+    ApiSpec("claude", "anthropic", "claude-sonnet-5", "ANTHROPIC_API_KEY"),
+    ApiSpec(
+        "gemini",
+        "openai_compatible",
+        "gemini-3.6-flash",
+        "GEMINI_API_KEY",
+        "GEMINI_BASE_URL",
+        "https://generativelanguage.googleapis.com/v1beta/openai/",
+    ),
+    ApiSpec(
+        "qwen",
+        "openai_compatible",
+        "qwen3.7-max",
+        "DASHSCOPE_API_KEY",
+        "QWEN_BASE_URL",
+    ),
+    ApiSpec(
+        "deepseek_ali",
+        "openai_compatible",
+        "deepseek-v4-pro",
+        "DASHSCOPE_API_KEY",
+        "QWEN_BASE_URL",
+    ),
+    ApiSpec(
+        "kimi",
+        "openai_compatible",
+        "kimi-k3",
+        "MOONSHOT_API_KEY",
+        "KIMI_BASE_URL",
+        "https://api.moonshot.ai/v1",
+        model_env="KIMI_MODEL",
+    ),
+]
+
+LEGACY5_SPECS = [
     ApiSpec("openai", "openai", "gpt-5.4-mini", "OPENAI_API_KEY"),
     ApiSpec("claude", "anthropic", "claude-sonnet-4-6", "ANTHROPIC_API_KEY"),
     ApiSpec(
@@ -54,6 +91,11 @@ DEFAULT_SPECS = [
     ),
 ]
 
+API_PRESETS = {
+    "frontier6": FRONTIER6_SPECS,
+    "legacy5": LEGACY5_SPECS,
+}
+
 OPTIONAL_SPECS = [
     ApiSpec(
         "deepseek_official",
@@ -76,6 +118,12 @@ def _base_url(spec: ApiSpec) -> str | None:
     return spec.default_base_url
 
 
+def _model(spec: ApiSpec) -> str:
+    if spec.model_env and os.getenv(spec.model_env):
+        return str(os.getenv(spec.model_env))
+    return spec.model
+
+
 def _redacted_env_status(name: str | None) -> str:
     if not name:
         return "n/a"
@@ -87,7 +135,7 @@ def _call_openai_native(spec: ApiSpec, timeout: float) -> str:
 
     client = OpenAI(api_key=os.environ[spec.key_env], timeout=timeout)
     response = client.responses.create(
-        model=spec.model,
+        model=_model(spec),
         input="Return exactly: ok",
         max_output_tokens=16,
     )
@@ -102,41 +150,33 @@ def _call_openai_compatible(spec: ApiSpec, timeout: float) -> str:
     if not base_url:
         raise RuntimeError(f"missing base URL env {spec.base_url_env}")
     client = OpenAI(api_key=os.environ[spec.key_env], base_url=base_url, timeout=timeout)
-    response = client.chat.completions.create(
-        model=spec.model,
-        messages=[{"role": "user", "content": "Return exactly: ok"}],
-        max_tokens=16,
-    )
+    model = _model(spec)
+    request_kwargs: dict[str, Any] = {
+        "model": model,
+        "messages": [{"role": "user", "content": "Return exactly: ok"}],
+    }
+    if model == "kimi-k3":
+        request_kwargs["reasoning_effort"] = "low"
+        request_kwargs["max_completion_tokens"] = 64
+    else:
+        request_kwargs["max_tokens"] = 16
+    response = client.chat.completions.create(**request_kwargs)
     return (response.choices[0].message.content or "").strip()
 
 
 def _call_anthropic(spec: ApiSpec, timeout: float) -> str:
-    try:
-        import anthropic
-    except Exception:
-        anthropic = None
+    model = _model(spec)
+    body: dict[str, Any] = {
+        "model": model,
+        "max_tokens": 64,
+        "messages": [{"role": "user", "content": "Return exactly: ok"}],
+    }
+    # Sonnet 5 enables adaptive thinking by default. Disable it for this tiny
+    # connectivity probe so its output budget is used only for the response.
+    if model == "claude-sonnet-5":
+        body["thinking"] = {"type": "disabled"}
 
-    if anthropic is not None:
-        client = anthropic.Anthropic(api_key=os.environ[spec.key_env], timeout=timeout)
-        response = client.messages.create(
-            model=spec.model,
-            max_tokens=16,
-            messages=[{"role": "user", "content": "Return exactly: ok"}],
-        )
-        parts = []
-        for block in getattr(response, "content", []) or []:
-            text = getattr(block, "text", None)
-            if text:
-                parts.append(text)
-        return "\n".join(parts).strip()
-
-    payload = json.dumps(
-        {
-            "model": spec.model,
-            "max_tokens": 16,
-            "messages": [{"role": "user", "content": "Return exactly: ok"}],
-        }
-    ).encode("utf-8")
+    payload = json.dumps(body).encode("utf-8")
     request = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=payload,
@@ -147,8 +187,12 @@ def _call_anthropic(spec: ApiSpec, timeout: float) -> str:
         },
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        data = json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Anthropic API HTTP {exc.code}: {detail[:1000]}") from exc
     return "\n".join(block.get("text", "") for block in data.get("content", [])).strip()
 
 
@@ -190,7 +234,8 @@ def check_spec(spec: ApiSpec, live: bool, timeout: float) -> dict[str, Any]:
     result: dict[str, Any] = {
         "name": spec.name,
         "provider": spec.provider,
-        "model": spec.model,
+        "model": _model(spec),
+        "model_env": spec.model_env or "",
         "key_env": spec.key_env,
         "key_status": _redacted_env_status(spec.key_env),
         "base_url_env": spec.base_url_env or "",
@@ -216,13 +261,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--timeout", type=float, default=30.0)
     parser.add_argument("--json", action="store_true", help="Print JSON instead of a compact table.")
     parser.add_argument(
+        "--preset",
+        choices=sorted(API_PRESETS),
+        default="frontier6",
+        help="API/model set to check. frontier6 is current; legacy5 reproduces the previous comparison set.",
+    )
+    parser.add_argument(
         "--include-official-deepseek",
         action="store_true",
         help="Also check a separate official DeepSeek endpoint via DEEPSEEK_API_KEY.",
     )
     args = parser.parse_args(argv)
 
-    specs = [*DEFAULT_SPECS, *(OPTIONAL_SPECS if args.include_official_deepseek else [])]
+    specs = [*API_PRESETS[args.preset], *(OPTIONAL_SPECS if args.include_official_deepseek else [])]
     results = [check_spec(spec, live=args.live, timeout=args.timeout) for spec in specs]
     results.append(_check_langsmith(live=args.live, timeout=args.timeout))
 
@@ -233,7 +284,9 @@ def main(argv: list[str] | None = None) -> int:
             status = "OK" if row.get("ready") else "MISSING"
             live = row.get("live_status")
             suffix = f" live={live}" if live else ""
-            print(f"{row['name']:17s} {status:7s}{suffix}")
+            model = row.get("model")
+            model_suffix = f" model={model}" if model else ""
+            print(f"{row['name']:17s} {status:7s}{suffix}{model_suffix}")
             if row.get("error"):
                 print(f"  error: {row['error']}")
             if row.get("response_preview"):
@@ -241,7 +294,10 @@ def main(argv: list[str] | None = None) -> int:
     missing = [row["name"] for row in results if not row.get("ready")]
     if missing:
         print("missing:", ", ".join(missing), file=sys.stderr)
-    return 1 if missing else 0
+    live_errors = [row["name"] for row in results if row.get("live_status") == "error"]
+    if live_errors:
+        print("live errors:", ", ".join(live_errors), file=sys.stderr)
+    return 1 if missing or live_errors else 0
 
 
 if __name__ == "__main__":

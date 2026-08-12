@@ -104,17 +104,10 @@ def _sample_reward(row: Dict[str, str]) -> Tuple[float, str]:
     chi2 = _safe_float(row.get("chi2"))
     if _is_success(row) and chi2 is not None:
         reward = fit_reward_for_chi2(chi2)
-        value = float(reward if reward is not None else 0.0)
-        status = str(row.get("effective_correction_status") or "").strip().lower()
-        if status == "active":
-            value += 1.0
-        elif status == "moderate":
-            value += 0.2
-        elif status == "weak":
-            value *= 0.35
-        elif status in {"tiny", "eh_dominated"}:
-            value = min(value, -1.0)
-        return (value, chi2_quality_tier(chi2))
+        # Parameter vectors within one fixed Lagrangian are compared by raw
+        # fit quality.  AIC and effective-correction diagnostics belong to the
+        # structure policy and must not change this sample-level ordering.
+        return (float(reward if reward is not None else 0.0), chi2_quality_tier(chi2))
     return (_failure_penalty(row), "rejected")
 
 

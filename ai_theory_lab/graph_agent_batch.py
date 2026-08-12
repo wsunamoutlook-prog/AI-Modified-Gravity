@@ -16,11 +16,12 @@ import math
 import os
 import pickle
 import random
+import re
 import sys
 import time
 from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from gr_grammar_masker_v3_2.runner import _register_dynamic_functions_for_pickle
 
@@ -45,6 +46,7 @@ GROUP_SPECS: Dict[str, Dict[str, Any]] = {
     "open_search": {"track": None, "scalar_config": None},
     "non_eh": {"track": "non_eh", "scalar_config": None},
 }
+OPEN_ONLY_GROUP_MODES = {"open_only", "mixed"}
 
 COMPLEXITY_BUCKET_ORDER = ("simple", "medium", "complex", "very_complex")
 NON_EH_SCALAR_FAMILIES = ("phi1_only", "phi2_only", "both", "none")
@@ -622,12 +624,22 @@ def _validation_for_entry(
             stages=stages,
             diagnostics={**diagnostics, "message": f"No accepted ranking row for lag_id={lag_id}."},
         )
+    chi2 = float(row["chi2"])
+    aic = float(row["AIC"])
+    try:
+        k_params = int(float(row.get("k_params")))
+    except (TypeError, ValueError):
+        k_params = max(0, int(round((aic - chi2) / 2.0)))
     return ValidationResult(
         validated=True,
         best_lag_id=str(lag_id),
-        chi2=float(row["chi2"]),
-        aic=float(row["AIC"]),
+        chi2=chi2,
+        aic=aic,
         bic=float(row["BIC"]),
+        k_params=k_params,
+        k_parameter_names=[
+            name for name in str(row.get("k_parameter_names") or "").split(";") if name
+        ],
         solver_output_dir=str(solver_output_dir),
         model_ranking_path=str(solver_output_dir / "model_ranking.csv"),
         scan_report_path=str(solver_output_dir / "scan_report.txt"),
@@ -678,7 +690,7 @@ def _proposal_entry(
                 required_operator_contains_curvature=required_operator_contains_curvature,
             )
         except Exception:
-            if llm_fallback == "fail":
+            if llm_fallback in {"fail", "skip"}:
                 raise
     return _generate_token_level_entry(
         context,
@@ -782,7 +794,12 @@ def _group_targets(batch_size: int, group_mode: str, eh_track_fraction: float, r
         return targets
     if group_mode == "track_split":
         return _track_targets(batch_size, "split", eh_track_fraction, rng)
-    targets = _track_targets(batch_size, "mixed", eh_track_fraction, rng)
+    if group_mode not in OPEN_ONLY_GROUP_MODES:
+        raise ValueError(f"Unknown proposal group mode: {group_mode}")
+    targets = [
+        {"group": "open_search", "track": None, "scalar_config": None}
+        for _ in range(batch_size)
+    ]
     rng.shuffle(targets)
     return targets
 
@@ -929,6 +946,158 @@ def _append_jsonl(path: Path, payload: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(payload, ensure_ascii=False, default=str) + "\n")
+
+
+def _read_jsonl_rows(path: Path) -> List[Dict[str, Any]]:
+    if not path.exists():
+        return []
+    rows: List[Dict[str, Any]] = []
+    lines = [
+        (line_number, line)
+        for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1)
+        if line.strip()
+    ]
+    for index, (line_number, line) in enumerate(lines):
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError as exc:
+            if index == len(lines) - 1:
+                # A killed writer can leave one incomplete final record.
+                continue
+            raise ValueError(f"Malformed JSONL record at {path}:{line_number}") from exc
+        if isinstance(value, dict):
+            rows.append(value)
+    return rows
+
+
+def _attempt_validation_stage(attempt: Dict[str, Any]) -> str:
+    stage = str(attempt.get("validation_stage") or "").strip().lower()
+    if stage:
+        return stage
+    loop_id = str(attempt.get("loop_id") or "").lower()
+    if "_refine_" in loop_id or "_refine" in loop_id:
+        return "refine"
+    if "_expanded_" in loop_id or "_expanded" in loop_id:
+        return "expanded"
+    return "initial"
+
+
+def _task_sequence_number(value: Any) -> int:
+    match = re.search(r"task_(\d+)", str(value or ""))
+    return int(match.group(1)) if match else 0
+
+
+def _async_slot_resume_state(
+    *,
+    proposal_dir: Path,
+    memory_dir: Path,
+    group_names: Iterable[str],
+) -> Dict[str, Any]:
+    attempts = _read_jsonl_rows(memory_dir / "attempt_history.jsonl")
+    events = _read_jsonl_rows(proposal_dir / "scheduler_tasks.jsonl")
+    recorded_by_group = {str(group): 0 for group in group_names}
+    stage_counts = {"initial": 0, "expanded": 0, "refine": 0}
+    task_sequence = 0
+
+    for attempt in attempts:
+        stage = _attempt_validation_stage(attempt)
+        stage_counts[stage] = stage_counts.get(stage, 0) + 1
+        task_sequence = max(
+            task_sequence,
+            _task_sequence_number(attempt.get("scheduler_task_id")),
+            _task_sequence_number(attempt.get("loop_id")),
+        )
+        if stage == "initial":
+            theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+            group = str(attempt.get("proposal_group") or theory.get("proposal_group") or "open_search")
+            recorded_by_group[group] = recorded_by_group.get(group, 0) + 1
+
+    historical_submitted_total = stage_counts["initial"]
+    expanded_submitted_total = stage_counts["expanded"]
+    refine_submitted_total = stage_counts["refine"]
+    failed_total = 0
+    for event in events:
+        task_sequence = max(task_sequence, _task_sequence_number(event.get("task_id")))
+        historical_submitted_total = max(
+            historical_submitted_total,
+            int(event.get("submitted_total") or 0),
+        )
+        expanded_submitted_total = max(
+            expanded_submitted_total,
+            int(event.get("expanded_submitted_total") or 0),
+        )
+        refine_submitted_total = max(
+            refine_submitted_total,
+            int(event.get("refine_submitted_total") or 0),
+        )
+        failed_total = max(failed_total, int(event.get("failed_total") or 0))
+
+    for path in proposal_dir.glob("task_*.json"):
+        task_sequence = max(task_sequence, _task_sequence_number(path.name))
+
+    return {
+        # Only completed initial validations count toward the resumed target.
+        "submitted_total": stage_counts["initial"],
+        "recorded_total": stage_counts["initial"],
+        "historical_submitted_total": historical_submitted_total,
+        "expanded_submitted_total": expanded_submitted_total,
+        "expanded_recorded_total": stage_counts["expanded"],
+        "refine_submitted_total": refine_submitted_total,
+        "refine_recorded_total": stage_counts["refine"],
+        "failed_total": failed_total,
+        "task_sequence": task_sequence,
+        "submitted_by_group": dict(recorded_by_group),
+        "recorded_by_group": dict(recorded_by_group),
+        "attempt_count": len(attempts),
+    }
+
+
+def _validate_async_slot_resume_configuration(
+    *,
+    proposal_dir: Path,
+    target_attempts: int,
+    llm_provider: str,
+    llm_model: str,
+    llm_base_url: str,
+    llm_api_key_env: str,
+) -> None:
+    events = _read_jsonl_rows(proposal_dir / "scheduler_tasks.jsonl")
+    starts = [
+        event
+        for event in events
+        if event.get("event") in {"scheduler_start", "scheduler_resume"}
+    ]
+    if not starts:
+        return
+    original = starts[0]
+    expected = {
+        "target_attempts": int(target_attempts),
+        "llm_provider": str(llm_provider or ""),
+        "llm_model": str(llm_model or ""),
+        "llm_base_url": str(llm_base_url or "").rstrip("/"),
+        "llm_api_key_env": str(llm_api_key_env or ""),
+    }
+    mismatches: List[str] = []
+    for field, current in expected.items():
+        previous = original.get(field)
+        if previous is None:
+            continue
+        if field == "target_attempts":
+            try:
+                previous = int(previous)
+            except (TypeError, ValueError):
+                pass
+        else:
+            previous = str(previous or "")
+            if field == "llm_base_url":
+                previous = previous.rstrip("/")
+        if previous != current:
+            mismatches.append(f"{field}: existing={previous!r}, requested={current!r}")
+    if mismatches:
+        raise ValueError(
+            "Resume configuration does not match the original scheduler: "
+            + "; ".join(mismatches)
+        )
 
 
 def _log_scheduler_event(path: Path, payload: Dict[str, Any], *, run_name: str) -> None:
@@ -1116,11 +1285,39 @@ def _record_validation_task_result(
     wave_records = []
     for item in task_result.get("result_items") or []:
         entry = item["entry"]
-        memory_info = record_attempt(item["result"], memory_dir, loop_id=item["loop_id"])
+        scheduler_task_id = entry.get("scheduler_task_id")
+        structure_trial_base = (
+            entry.get("expanded_from_task_id")
+            or entry.get("refine_from_task_id")
+            or scheduler_task_id
+            or item["loop_id"]
+        )
+        if entry.get("expanded_from_task_id"):
+            structure_trial_base = entry.get("expanded_from_task_id")
+        lag_id = item["result"].best_lag_id or "unknown"
+        structure_trial_id = f"{structure_trial_base}|lag_{lag_id}"
+        attempt_context = {
+            "validation_stage": entry.get("validation_stage") or "initial",
+            "structure_trial_id": structure_trial_id,
+            "scheduler_task_id": scheduler_task_id,
+            "expanded_from_task_id": entry.get("expanded_from_task_id"),
+            "refine_from_task_id": entry.get("refine_from_task_id"),
+        }
+        memory_info = record_attempt(
+            item["result"],
+            memory_dir,
+            loop_id=item["loop_id"],
+            attempt_context=attempt_context,
+        )
         entry_group = str(entry.get("proposal_group") or "open_search")
         group_dir = group_memory_dirs.get(entry_group)
         if group_dir is not None:
-            record_attempt(item["result"], group_dir, loop_id=item["loop_id"])
+            record_attempt(
+                item["result"],
+                group_dir,
+                loop_id=item["loop_id"],
+                attempt_context=attempt_context,
+            )
         wave_records.append(memory_info["attempt"])
     trace = {
         key: value
@@ -1673,7 +1870,9 @@ def _target_for_slot_group(
         eh_count = submitted_by_group.get("eh_anchored", 0)
         name = "eh_anchored" if eh_count <= eh_target else "non_eh"
         return {"group": name, "track": name, "scalar_config": None}
-    return {"group": "open_search", "track": None, "scalar_config": None}
+    if group_mode in OPEN_ONLY_GROUP_MODES:
+        return {"group": "open_search", "track": None, "scalar_config": None}
+    raise ValueError(f"Unknown proposal group mode: {group_mode}")
 
 
 def _generate_slot_entry(
@@ -1777,8 +1976,6 @@ def _run_async_slot_scheduler(
     expanded_chi2_threshold: float,
     refine_parameter_samples: int,
     refine_chi2_threshold: float,
-    non_eh_refine_parameter_samples: int,
-    non_eh_refine_chi2_threshold: float,
     timeout_setup: int,
     proposal_mode: str,
     llm_provider: str,
@@ -1794,6 +1991,7 @@ def _run_async_slot_scheduler(
     slot_workers: int,
     total_workers: int,
     diversity_strength: float = 0.0,
+    resume: bool = False,
 ) -> List[str]:
     scheduler_log = proposal_dir / "scheduler_tasks.jsonl"
     target_attempts = max(0, int(target_attempts))
@@ -1807,8 +2005,6 @@ def _run_async_slot_scheduler(
         f"expand_if_chi2_below={expanded_chi2_threshold}, "
         f"refine_samples={refine_parameter_samples}, "
         f"refine_if_expanded_chi2_below={refine_chi2_threshold}, "
-        f"non_eh_refine_samples={non_eh_refine_parameter_samples}, "
-        f"non_eh_refine_if_expanded_chi2_below={non_eh_refine_chi2_threshold}, "
         f"diversity_strength={diversity_strength}."
     ]
     worker_sum = slot_count * slot_workers
@@ -1818,17 +2014,41 @@ def _run_async_slot_scheduler(
             f"above total n_workers={total_workers}; cluster CPU oversubscription is possible."
         )
 
-    submitted_total = 0
-    recorded_total = 0
-    expanded_submitted_total = 0
-    expanded_recorded_total = 0
-    refine_submitted_total = 0
-    refine_recorded_total = 0
-    failed_total = 0
-    task_sequence = 0
+    resume_state = (
+        _async_slot_resume_state(
+            proposal_dir=proposal_dir,
+            memory_dir=memory_dir,
+            group_names=group_memory_dirs,
+        )
+        if resume
+        else {}
+    )
+    if resume:
+        _validate_async_slot_resume_configuration(
+            proposal_dir=proposal_dir,
+            target_attempts=target_attempts,
+            llm_provider=llm_provider,
+            llm_model=llm_model,
+            llm_base_url=llm_base_url,
+            llm_api_key_env=llm_api_key_env,
+        )
+    submitted_total = int(resume_state.get("submitted_total") or 0)
+    recorded_total = int(resume_state.get("recorded_total") or 0)
+    expanded_submitted_total = int(resume_state.get("expanded_submitted_total") or 0)
+    expanded_recorded_total = int(resume_state.get("expanded_recorded_total") or 0)
+    refine_submitted_total = int(resume_state.get("refine_submitted_total") or 0)
+    refine_recorded_total = int(resume_state.get("refine_recorded_total") or 0)
+    failed_total = int(resume_state.get("failed_total") or 0)
+    task_sequence = int(resume_state.get("task_sequence") or 0)
     empty_generation_rounds = 0
-    submitted_by_group = {group: 0 for group in group_memory_dirs}
-    recorded_by_group = {group: 0 for group in group_memory_dirs}
+    submitted_by_group = {
+        group: int((resume_state.get("submitted_by_group") or {}).get(group) or 0)
+        for group in group_memory_dirs
+    }
+    recorded_by_group = {
+        group: int((resume_state.get("recorded_by_group") or {}).get(group) or 0)
+        for group in group_memory_dirs
+    }
     reserved_families: set[str] = set()
     available_slots = [f"slot_{index:02d}" for index in range(1, slot_count + 1)]
     futures: Dict[Future, Dict[str, Any]] = {}
@@ -1839,17 +2059,30 @@ def _run_async_slot_scheduler(
     def active_slot_names() -> List[str]:
         return sorted(str(info["slot"]) for info in futures.values())
 
+    if resume:
+        messages.append(
+            f"Resuming async_slots from recorded_total={recorded_total}, "
+            f"historical_submitted_total={int(resume_state.get('historical_submitted_total') or 0)}, "
+            f"next_task_sequence={task_sequence + 1}."
+        )
+
     _log_scheduler_event(
         scheduler_log,
         {
-            "event": "scheduler_start",
+            "event": "scheduler_resume" if resume else "scheduler_start",
             "scheduler": "async_slots",
             "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+            "resume": resume,
+            "resume_attempt_count": int(resume_state.get("attempt_count") or 0),
+            "historical_submitted_total": int(resume_state.get("historical_submitted_total") or 0),
             "target_attempts": target_attempts,
             "slot_count": slot_count,
             "slot_workers": slot_workers,
             "total_workers": total_workers,
+            "submitted_total": submitted_total,
+            "recorded_total": recorded_total,
             "submitted_by_group": dict(submitted_by_group),
+            "recorded_by_group": dict(recorded_by_group),
             "expanded_parameter_samples": expanded_parameter_samples,
             "expanded_chi2_threshold": expanded_chi2_threshold,
             "refine_parameter_samples": refine_parameter_samples,
@@ -1859,6 +2092,7 @@ def _run_async_slot_scheduler(
             "llm_model": llm_model,
             "llm_base_url": llm_base_url,
             "llm_api_key_env": llm_api_key_env,
+            "group_mode": group_mode,
         },
         run_name=name,
     )
@@ -2097,16 +2331,9 @@ def _run_async_slot_scheduler(
                     if validation_stage == "initial":
                         recorded_by_group[group] = recorded_by_group.get(group, 0) + record_count
                     best = min((r.get("chi2") for r in wave_records if r.get("chi2") is not None), default=None)
-                    refine_threshold = (
-                        non_eh_refine_chi2_threshold
-                        if group == "non_eh"
-                        else refine_chi2_threshold
-                    )
-                    refine_samples = (
-                        non_eh_refine_parameter_samples
-                        if group == "non_eh"
-                        else refine_parameter_samples
-                    )
+                    refine_threshold = float(refine_chi2_threshold)
+                    refine_samples = int(refine_parameter_samples)
+                    refine_policy_basis = "uniform_all_theory_tracks"
                     should_expand = (
                         validation_stage == "initial"
                         and expanded_parameter_samples > initial_parameter_samples
@@ -2137,6 +2364,7 @@ def _run_async_slot_scheduler(
                             "best_chi2": best,
                             "refine_chi2_threshold_applied": refine_threshold,
                             "refine_parameter_samples_applied": refine_samples,
+                            "refine_policy_basis": refine_policy_basis,
                             "expanded_triggered": should_expand,
                             "refine_triggered": should_refine,
                             "submitted_total": submitted_total,
@@ -2290,10 +2518,9 @@ def _run_async_slot_scheduler(
                                 "trigger_best_chi2": best,
                                 "refine_chi2_threshold": refine_threshold,
                                 "refine_parameter_samples": refine_samples,
+                                "refine_policy_basis": refine_policy_basis,
                                 "refine_chi2_threshold_default": refine_chi2_threshold,
                                 "refine_parameter_samples_default": refine_parameter_samples,
-                                "non_eh_refine_chi2_threshold": non_eh_refine_chi2_threshold,
-                                "non_eh_refine_parameter_samples": non_eh_refine_parameter_samples,
                                 "submitted_total": submitted_total,
                                 "recorded_total": recorded_total,
                                 "expanded_submitted_total": expanded_submitted_total,
@@ -2311,7 +2538,7 @@ def _run_async_slot_scheduler(
                         messages.append(
                             f"Async slot {slot} {task_info['task_id']} triggered refine "
                             f"{refine_samples} samples because expanded best_chi2={best} "
-                            f"< {refine_threshold} for group={group}."
+                            f"< {refine_threshold} ({refine_policy_basis}, group={group})."
                         )
                         submit_validation_task(
                             executor,
@@ -2392,8 +2619,6 @@ def run_batch_agent(
     expanded_chi2_threshold: float = 2000.0,
     refine_parameter_samples: int = 5000,
     refine_chi2_threshold: float = 1638.0,
-    non_eh_refine_parameter_samples: int = 10000,
-    non_eh_refine_chi2_threshold: float = 2000.0,
     timeout_setup: int,
     proposal_mode: str,
     llm_provider: str = "openai",
@@ -2404,7 +2629,7 @@ def run_batch_agent(
     llm_api_timeout: int,
     use_token_context_cache: bool,
     n_workers: int,
-    group_mode: str = "sector_split",
+    group_mode: str = "open_only",
     track_mode: str = "split",
     eh_track_fraction: float = 0.5,
     complexity_split: bool = True,
@@ -2427,14 +2652,22 @@ def run_batch_agent(
     slot_count: int = DEFAULT_ASYNC_SLOT_COUNT,
     slot_workers: int = DEFAULT_ASYNC_SLOT_WORKERS,
     diversity_strength: float = 0.0,
+    resume: bool = False,
 ) -> Dict[str, Any]:
     name = run_name or f"graph_agent_batch_{waves}x{batch_size}_{time.strftime('%Y%m%d_%H%M%S')}"
     proposal_dir = ROOT / "ai_theory_lab" / "proposals" / name
     memory_dir = ROOT / "ai_theory_lab" / "memory" / name
     if scheduler in {"async_lanes", "async_slots"} and not complexity_split:
         raise ValueError(f"{scheduler} scheduler requires complexity_split; remove --no-complexity-split.")
-    proposal_dir.mkdir(parents=True, exist_ok=False)
-    memory_dir.mkdir(parents=True, exist_ok=False)
+    if resume:
+        if scheduler != "async_slots":
+            raise ValueError("--resume is supported only with --scheduler async_slots.")
+        missing = [str(path) for path in (proposal_dir, memory_dir) if not path.is_dir()]
+        if missing:
+            raise FileNotFoundError(f"Cannot resume {name}; missing run directories: {', '.join(missing)}")
+    else:
+        proposal_dir.mkdir(parents=True, exist_ok=False)
+        memory_dir.mkdir(parents=True, exist_ok=False)
     group_names = (
         list(GROUP_SPECS)
         if group_mode in {"sector_split", "triad"}
@@ -2586,8 +2819,6 @@ def run_batch_agent(
             expanded_chi2_threshold=expanded_chi2_threshold,
             refine_parameter_samples=refine_parameter_samples,
             refine_chi2_threshold=refine_chi2_threshold,
-            non_eh_refine_parameter_samples=non_eh_refine_parameter_samples,
-            non_eh_refine_chi2_threshold=non_eh_refine_chi2_threshold,
             timeout_setup=timeout_setup,
             proposal_mode=proposal_mode,
             llm_provider=llm_provider,
@@ -2603,6 +2834,7 @@ def run_batch_agent(
             slot_workers=slot_workers,
             total_workers=n_workers,
             diversity_strength=diversity_strength,
+            resume=resume,
         )
         messages.extend(async_messages)
     else:
@@ -2634,8 +2866,6 @@ def run_batch_agent(
         "expanded_chi2_threshold": expanded_chi2_threshold,
         "refine_parameter_samples": refine_parameter_samples,
         "refine_chi2_threshold": refine_chi2_threshold,
-        "non_eh_refine_parameter_samples": non_eh_refine_parameter_samples,
-        "non_eh_refine_chi2_threshold": non_eh_refine_chi2_threshold,
         "group_mode": group_mode,
         "track_mode": track_mode,
         "eh_track_fraction": eh_track_fraction,
@@ -2665,6 +2895,7 @@ def run_batch_agent(
         "slot_count": slot_count or n_workers,
         "slot_workers": slot_workers,
         "diversity_strength": diversity_strength,
+        "resume": resume,
     }
     (proposal_dir / "run_summary.json").write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
     return output
@@ -2711,26 +2942,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         help=(
             "For async_slots, trigger 5000-sample refinement only when expanded "
             "validation has best chi2 below this threshold. This is the default "
-            "threshold used outside the dedicated non_eh sector."
-        ),
-    )
-    parser.add_argument(
-        "--non-eh-refine-parameter-samples",
-        type=int,
-        default=10000,
-        help=(
-            "For async_slots, rerun a dedicated non_eh expanded theory with this "
-            "many samples when it passes the non-EH refine chi2 threshold. "
-            "Set <= expanded samples to disable the non-EH-specific refinement."
-        ),
-    )
-    parser.add_argument(
-        "--non-eh-refine-chi2-threshold",
-        type=float,
-        default=2000.0,
-        help=(
-            "For async_slots, trigger non-EH-specific refinement for dedicated non_eh "
-            "expanded validations below this chi2 threshold."
+            "threshold for theories not classified as non_eh."
         ),
     )
     parser.add_argument("--timeout-setup", type=int, default=1200)
@@ -2760,15 +2972,26 @@ def main(argv: Optional[List[str]] = None) -> int:
         default="",
         help="Environment variable containing the API key for the selected LLM provider.",
     )
-    parser.add_argument("--llm-fallback", choices=("deterministic", "fail"), default="deterministic")
+    parser.add_argument(
+        "--llm-fallback",
+        choices=("deterministic", "skip", "fail"),
+        default="deterministic",
+        help=(
+            "After exhausted LLM retries: deterministic uses the local policy, skip omits "
+            "that proposal and keeps filling the target, and fail aborts the run."
+        ),
+    )
     parser.add_argument("--llm-api-timeout", type=int, default=120)
     parser.add_argument("--no-token-context-cache", action="store_true")
     parser.add_argument("--n-workers", type=int, default=8)
     parser.add_argument(
         "--group-mode",
-        choices=("sector_split", "triad", "track_split", "mixed"),
-        default="sector_split",
-        help="Proposal sector schedule. sector_split uses 50%% open_search and 50%% non_eh; triad is a legacy alias.",
+        choices=("open_only", "sector_split", "triad", "track_split", "mixed"),
+        default="open_only",
+        help=(
+            "Proposal sector schedule. open_only sends every initial theory to unrestricted open_search; "
+            "sector_split uses 50%% open_search and 50%% dedicated non_eh; mixed is a legacy alias for open_only."
+        ),
     )
     parser.add_argument("--track-mode", choices=("split", "mixed"), default="split")
     parser.add_argument("--eh-track-fraction", type=float, default=0.5)
@@ -2845,6 +3068,14 @@ def main(argv: Optional[List[str]] = None) -> int:
         action="store_true",
         help="Disable runtime validation buckets and validate each proposal wave as one batch.",
     )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help=(
+            "Resume an existing async_slots run in place. Completed initial attempts are "
+            "recounted from attempt_history.jsonl; crash-boundary unrecorded tasks are replaced."
+        ),
+    )
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args(argv)
     output = run_batch_agent(
@@ -2857,8 +3088,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         expanded_chi2_threshold=args.expanded_chi2_threshold,
         refine_parameter_samples=args.refine_parameter_samples,
         refine_chi2_threshold=args.refine_chi2_threshold,
-        non_eh_refine_parameter_samples=args.non_eh_refine_parameter_samples,
-        non_eh_refine_chi2_threshold=args.non_eh_refine_chi2_threshold,
         timeout_setup=args.timeout_setup,
         proposal_mode=args.proposal_mode,
         llm_provider=args.llm_provider,
@@ -2892,6 +3121,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         slot_count=args.slot_count,
         slot_workers=args.slot_workers,
         diversity_strength=args.diversity_strength,
+        resume=args.resume,
     )
     print(json.dumps(output, indent=2 if args.pretty else None, ensure_ascii=False, default=str))
     return 0

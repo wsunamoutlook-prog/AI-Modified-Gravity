@@ -47,7 +47,7 @@ Ranking order:
 (chi2_total, AIC)
 ```
 
-This means chi-square is the main criterion. AIC is only a tie-breaker and remains in output files for reference.
+This means chi-square is the main criterion for parameter samples within one fixed Lagrangian and for human-facing Solver reports. The outer discovery agent uses AIC when it compares different Lagrangian structures, while preserving raw chi-square in every output. Expansion and refinement decisions remain chi-square based.
 
 Important reported metrics:
 
@@ -58,8 +58,11 @@ Important reported metrics:
 - `AIC`
 - `BIC`
 - `k_params`
+- `k_parameter_names`
 - `max_abs_constraint`
 - `reject_reason`
+
+`k_params` is the nominal effective parameter count after EOM ghost-cancellation substitutions and Builder reduction. It includes free parameters that actually enter the current background likelihood. Cancelled or fixed coefficients and constraint-solved initial velocities are excluded. The analytically profiled DES-SN offset and DESI BAO scale are included. `H0` is included only if it survives in the dimensionless dynamics; when it is merely an absolute scale removed by the profiled likelihood it is not counted. The flat-LCDM reference has `k=3`: `Omega_m0`, `M_SN`, and `alpha_BAO`. This is an algebraic AIC/BIC count, not a numerical Fisher-rank calculation.
 
 ## Agent Responsibilities
 
@@ -70,7 +73,7 @@ The agent may:
 - Read `reject_reasons_by_model.csv` to learn why parameter samples fail.
 - Propose explicit numerical parameter samples through `PARAMETER_SAMPLES_PATH`.
 - Suggest parameter-prior changes, sample-budget changes, or optimizer upgrades when running random or hybrid scans.
-- Compare theories primarily by `chi2`, while still recording AIC/BIC.
+- Compare parameter vectors within one theory by `chi2`; expose chi-square, AIC/BIC, and effective `k` so the outer agent can compare different structures by AIC.
 
 For cold-start discovery, the agent may read Solver outputs only after the current proposal has been validated. It must not inspect historical `solver_result/` rankings or copied top-fit parameters before generating its initial proposals.
 
@@ -81,7 +84,7 @@ The agent must:
 - When reporting accepted agent theories, include the complete dimension-balanced Lagrangian from the actual validated pkl object and the numerical best-fit coefficient values from Solver output. The report must preserve `√(-g)`, `M_p²`, `Λ` powers, and fixed scalar matter terms. An operator-only or bare `coefficient * operator` summary is not sufficient.
 - Treat low chi2 with large constraint drift as invalid.
 - Distinguish between structural failure and parameter-search failure.
-- Use the real Solver output `chi2` as the primary signal for whether a completed theory is better or worse.
+- Use the real Solver output `chi2` for parameter optimization and sampling decisions; use AIC only in the outer cross-Lagrangian structure policy.
 - Use isolated Solver output directories for agent validation so one-theory runs do not overwrite or confuse batch results.
 - Treat agent-proposed parameter samples as part of the theory experiment. Learn which parameter regions produce accepted samples and lower chi-square.
 - Label any use of historical Solver winners as replay/regression testing, not discovery.
@@ -89,7 +92,7 @@ The agent must:
 The agent must not:
 
 - Relax constraints only to improve chi2.
-- Rank theories by AIC unless explicitly requested.
+- Replace the raw Solver/report chi-square ranking with AIC. AIC belongs to the outer structure-learning policy and must not erase or overwrite chi-square output.
 - Hide rejected samples or remove failure reasons.
 - Interpret a failed random scan as a proof that the theory is impossible.
 - Use historical Solver top results as initial memory in a cold-start theory-generation loop.
@@ -165,7 +168,8 @@ For cold-start discovery, the default agent parameter policy is:
 
 - Apply a 120s wall-time limit to Solver setup/lambdify before parameter sampling begins.
 - Propose 1000 explicit parameter samples for each theory.
-- Stop the solve early if any sample reaches `chi2 <= 1650`.
+- Do not stop the solve early when a sample reaches low chi-square; complete the
+  configured sample budget so parameter-memory statistics remain comparable.
 - If the first 1000 samples fail to produce `chi2 < 2000`, test 3000 explicit samples for the same theory before moving on.
 - Use `all_samples_summary.csv` to learn from every accepted and rejected sample, not only the best model ranking.
 

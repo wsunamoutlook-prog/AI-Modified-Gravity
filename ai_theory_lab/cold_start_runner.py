@@ -36,6 +36,7 @@ from .config_p import (
     PARAMETER_PRIORS,
     PARAMETER_SAMPLE_POLICY,
 )
+from .dataset import structure_reward_for_attempt, structure_score_for_attempt
 from .harness import ROOT, validate_agent_sample_pipeline
 from .memory import record_attempt
 from .policy_model import score_entry_from_policy
@@ -257,11 +258,11 @@ def _proposal_diversity_strength(summary: Dict[str, Any]) -> float:
     return min(1.0, max(0.0, strength))
 
 
-def _coarse_best_chi2(row: Optional[Dict[str, Any]]) -> Optional[float]:
+def _coarse_best_structure_score(row: Optional[Dict[str, Any]]) -> Optional[float]:
     if not row:
         return None
     try:
-        value = float(row.get("best_chi2"))
+        value = float(row.get("best_structure_score"))
     except (TypeError, ValueError):
         return None
     if not math.isfinite(value):
@@ -280,17 +281,17 @@ def _diversity_metadata(entry: Dict[str, Any], summary: Dict[str, Any]) -> Dict[
         coarse_attempts = int((coarse_row or {}).get("attempts") or 0)
     except (TypeError, ValueError):
         coarse_attempts = 0
-    best_chi2 = _coarse_best_chi2(coarse_row)
+    best_structure_score = _coarse_best_structure_score(coarse_row)
     strength = _proposal_diversity_strength(summary)
     penalty = 0.0
     if strength > 0.0:
         penalty += 0.80 * math.log1p(max(0, family_attempts))
         penalty += 0.30 * math.log1p(max(0, coarse_attempts))
         track = entry.get("theory_track") or _entry_track(entry)
-        if best_chi2 is not None and coarse_attempts >= 6:
-            if track == "eh_anchored" and best_chi2 <= 1650.0:
+        if best_structure_score is not None and coarse_attempts >= 6:
+            if track == "eh_anchored" and best_structure_score <= 1650.0:
                 penalty += 0.35 * math.log1p(coarse_attempts)
-            elif track == "non_eh" and best_chi2 <= 3000.0:
+            elif track == "non_eh" and best_structure_score <= 3000.0:
                 penalty += 0.25 * math.log1p(coarse_attempts)
         penalty *= strength
     metadata: Dict[str, Any] = {
@@ -300,8 +301,8 @@ def _diversity_metadata(entry: Dict[str, Any], summary: Dict[str, Any]) -> Dict[
         "diversity_coarse_family_attempts": coarse_attempts,
         "diversity_coarse_family_key": coarse_key,
     }
-    if best_chi2 is not None:
-        metadata["diversity_coarse_family_best_chi2"] = best_chi2
+    if best_structure_score is not None:
+        metadata["diversity_coarse_family_best_structure_score"] = best_structure_score
     return metadata
 
 
@@ -336,13 +337,8 @@ def _operator_is_scalar_derivative_curvature_coupling(label: str) -> bool:
 
 def _successful_attempts(summary: Dict[str, Any]) -> List[Dict[str, Any]]:
     attempts = []
-    for attempt in summary.get("top_chi2_attempts") or []:
-        try:
-            chi2 = float(attempt.get("chi2"))
-        except (TypeError, ValueError):
-            continue
-        group = attempt.get("proposal_group") or (attempt.get("theory") or {}).get("proposal_group")
-        if chi2 < 2000.0 or (group == "non_eh" and chi2 <= 3000.0):
+    for attempt in summary.get("top_structure_attempts") or []:
+        if structure_score_for_attempt(attempt) is not None and structure_reward_for_attempt(attempt) > 0.0:
             attempts.append(attempt)
     return attempts
 
@@ -386,7 +382,7 @@ def _score_scalar_family_from_metrics(scalar_config: str, summary: Dict[str, Any
         return 0.0
 
     score = 0.0
-    best_chi2 = _float_metric(metrics, "best_chi2")
+    best_structure_score = _float_metric(metrics, "best_structure_score")
     accepted_rate = _float_metric(metrics, "accepted_sample_rate")
     validated_rate = _float_metric(metrics, "validated_attempt_rate")
     q_root_rate = _float_metric(metrics, "q_initial_root_failure_rate")
@@ -395,15 +391,15 @@ def _score_scalar_family_from_metrics(scalar_config: str, summary: Dict[str, Any
     drift_rate = _float_metric(metrics, "constraint_drift_rate")
     integration_rate = _float_metric(metrics, "integration_failure_rate")
 
-    if best_chi2 is not None:
-        if best_chi2 <= 1650.0:
+    if best_structure_score is not None:
+        if best_structure_score <= 1650.0:
             score += 1.4
-        elif best_chi2 <= 1700.0:
+        elif best_structure_score <= 1700.0:
             score += 1.0
-        elif best_chi2 <= 2000.0:
+        elif best_structure_score <= 2000.0:
             score += 0.55
         else:
-            score -= min(0.8, (best_chi2 - 2000.0) / 5000.0)
+            score -= min(0.8, (best_structure_score - 2000.0) / 5000.0)
     if accepted_rate is not None:
         if accepted_rate >= 0.25:
             score += 0.25
@@ -923,15 +919,15 @@ def _operator_count_stats(summary: Dict[str, Any]) -> Dict[int, Dict[str, float]
         count = _operator_count_from_family_key(str(row.get("family_key") or ""))
         if count is None:
             continue
-        bucket = stats.setdefault(count, {"attempts": 0.0, "validated": 0.0, "best_chi2": math.inf})
+        bucket = stats.setdefault(count, {"attempts": 0.0, "validated": 0.0, "best_structure_score": math.inf})
         bucket["attempts"] += float(row.get("attempts") or 0)
         bucket["validated"] += float(row.get("validated") or 0)
         try:
-            chi2 = float(row.get("best_chi2"))
+            structure_score = float(row.get("best_structure_score"))
         except (TypeError, ValueError):
-            chi2 = math.inf
-        if math.isfinite(chi2):
-            bucket["best_chi2"] = min(bucket["best_chi2"], chi2)
+            structure_score = math.inf
+        if math.isfinite(structure_score):
+            bucket["best_structure_score"] = min(bucket["best_structure_score"], structure_score)
     return stats
 
 
@@ -952,14 +948,14 @@ def _policy_operator_count_reward(summary: Dict[str, Any], count: int) -> float:
     return 1.0 / (1.0 + math.exp(-reward / 3.0))
 
 
-def _chi2_quality_weight(best_chi2: float) -> float:
-    if not math.isfinite(best_chi2):
+def _structure_quality_weight(best_structure_score: float) -> float:
+    if not math.isfinite(best_structure_score):
         return 0.4
-    if best_chi2 <= 1650.0:
+    if best_structure_score <= 1650.0:
         return 2.5
-    if best_chi2 <= 1700.0:
+    if best_structure_score <= 1700.0:
         return 1.8
-    if best_chi2 <= 2000.0:
+    if best_structure_score <= 2000.0:
         return 1.0
     return 0.35
 
@@ -985,9 +981,9 @@ def _sample_operator_policy(summary: Dict[str, Any], rng: random.Random) -> tupl
         attempts = float(bucket.get("attempts") or 0.0)
         accepted = float(bucket.get("validated") or 0.0)
         accept_rate = (accepted + prior_accepts) / (attempts + prior_attempts)
-        chi2_weight = _chi2_quality_weight(float(bucket.get("best_chi2", math.inf)))
+        structure_weight = _structure_quality_weight(float(bucket.get("best_structure_score", math.inf)))
         reward_weight = _policy_operator_count_reward(summary, count)
-        learned_score = accept_rate * chi2_weight * (0.5 + reward_weight)
+        learned_score = accept_rate * structure_weight * (0.5 + reward_weight)
         complexity_penalty = 1.0 / math.sqrt(max(float(count), 1.0))
         weights.append(max(1e-6, learned_score * complexity_penalty))
     return rng.choices(counts, weights=weights, k=1)[0], False
@@ -2330,7 +2326,15 @@ def run(
                 "SOLVER_SETUP_TIMEOUT_SECONDS": str(pre_sampling_timeout),
             },
         )
-        memory_info = record_attempt(result, memory_dir, loop_id=f"loop_{loop_index:02d}")
+        memory_info = record_attempt(
+            result,
+            memory_dir,
+            loop_id=f"loop_{loop_index:02d}",
+            attempt_context={
+                "validation_stage": "initial",
+                "structure_trial_id": f"loop_{loop_index:02d}",
+            },
+        )
         proposal_summary = memory_info["summary"]
         attempt = memory_info["attempt"]
         loop_record = {
@@ -2383,7 +2387,15 @@ def run(
                     "SOLVER_SETUP_TIMEOUT_SECONDS": str(pre_sampling_timeout),
                 },
             )
-            expanded_memory_info = record_attempt(expanded_result, memory_dir, loop_id=f"loop_{loop_index:02d}_expanded")
+            expanded_memory_info = record_attempt(
+                expanded_result,
+                memory_dir,
+                loop_id=f"loop_{loop_index:02d}_expanded",
+                attempt_context={
+                    "validation_stage": "expanded",
+                    "structure_trial_id": f"loop_{loop_index:02d}",
+                },
+            )
             expanded_attempt = expanded_memory_info["attempt"]
             results.append(
                 {

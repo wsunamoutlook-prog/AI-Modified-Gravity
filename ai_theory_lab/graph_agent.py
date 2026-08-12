@@ -32,7 +32,7 @@ from .harness import ROOT, validate_agent_sample_pipeline
 from .memory import record_attempt
 from .report import generate_report
 from .validation_result import ValidationResult
-from .dataset import chi2_quality_tier
+from .dataset import chi2_quality_tier, structure_score_for_attempt
 
 
 class GraphAgentState(TypedDict, total=False):
@@ -97,6 +97,10 @@ def _result_row(
         "validated": result.validated,
         "failed_stage": result.failed_stage,
         "chi2": result.chi2,
+        "aic": result.aic,
+        "bic": result.bic,
+        "k_params": result.k_params,
+        "structure_score": structure_score_for_attempt(attempt),
         "family_key": attempt["family_key"],
         "coarse_family_key": attempt.get("coarse_family_key"),
         "failure_tags": attempt["failure_tags"],
@@ -328,7 +332,15 @@ def validate_initial(state: GraphAgentState) -> Dict[str, Any]:
             "SOLVER_SETUP_TIMEOUT_SECONDS": str(state["pre_sampling_timeout"]),
         },
     )
-    memory_info = record_attempt(result, memory_dir, loop_id=f"loop_{loop_index:02d}")
+    memory_info = record_attempt(
+        result,
+        memory_dir,
+        loop_id=f"loop_{loop_index:02d}",
+        attempt_context={
+            "validation_stage": "initial",
+            "structure_trial_id": f"loop_{loop_index:02d}",
+        },
+    )
     attempt = memory_info["attempt"]
     row = _result_row(
         loop_index=loop_index,
@@ -390,7 +402,15 @@ def validate_expanded(state: GraphAgentState) -> Dict[str, Any]:
             "SOLVER_SETUP_TIMEOUT_SECONDS": str(state["pre_sampling_timeout"]),
         },
     )
-    memory_info = record_attempt(result, memory_dir, loop_id=f"loop_{loop_index:02d}_expanded")
+    memory_info = record_attempt(
+        result,
+        memory_dir,
+        loop_id=f"loop_{loop_index:02d}_expanded",
+        attempt_context={
+            "validation_stage": "expanded",
+            "structure_trial_id": f"loop_{loop_index:02d}",
+        },
+    )
     attempt = memory_info["attempt"]
     row = _result_row(
         loop_index=loop_index,
@@ -421,25 +441,31 @@ def reflect_after_validation(state: GraphAgentState) -> Dict[str, Any]:
     summary = state.get("summary") or {}
     tags = list(record.get("failure_tags") or [])
     chi2 = record.get("chi2")
-    quality_tier = chi2_quality_tier(chi2)
+    chi2_tier = chi2_quality_tier(chi2)
+    structure_score = record.get("structure_score")
+    structure_tier = chi2_quality_tier(structure_score)
     validated = bool(record.get("validated"))
     observations: List[str] = [
         f"loop={record.get('loop')}",
         f"stage={record.get('stage')}",
         f"validated={validated}",
         f"chi2={chi2}",
-        f"chi2_quality_tier={quality_tier}",
+        f"chi2_quality_tier={chi2_tier}",
+        f"aic={record.get('aic')}",
+        f"k_params={record.get('k_params')}",
+        f"structure_score={structure_score}",
+        f"structure_quality_tier={structure_tier}",
         f"tags={tags}",
     ]
     if record.get("coarse_family_key"):
         observations.append(f"coarse_family={record.get('coarse_family_key')}")
 
-    if validated and quality_tier == "excellent":
-        interpretation = "excellent accepted Solver fit; strongly reinforce shared features"
-    elif validated and quality_tier == "competitive":
-        interpretation = "competitive accepted Solver fit; reinforce shared features moderately"
+    if validated and structure_tier == "excellent":
+        interpretation = "excellent AIC-adjusted structure; strongly reinforce shared features"
+    elif validated and structure_tier == "competitive":
+        interpretation = "competitive AIC-adjusted structure; reinforce shared features moderately"
     elif validated:
-        interpretation = "Solver accepted but chi-square is weak; record as viable but do not strongly reinforce"
+        interpretation = "Solver accepted but AIC-adjusted structure quality is weak; do not strongly reinforce"
     elif "q_initial_root_failure" in tags:
         interpretation = "initial scalar-velocity root did not exist for many samples"
     elif "q_not_determined" in tags:

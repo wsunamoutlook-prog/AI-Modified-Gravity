@@ -124,11 +124,23 @@ def read_best_result(output_dir: Path) -> Dict[str, object]:
 
     rows = sorted(rows, key=lambda r: (float(r["chi2"]), float(r.get("AIC", "inf"))))
     best = rows[0]
+    chi2 = float(best["chi2"])
+    aic = float(best["AIC"])
+    try:
+        k_params = int(float(best.get("k_params")))
+    except (TypeError, ValueError):
+        # Older Solver outputs predate the explicit k_params column, but AIC
+        # still contains the same information.
+        k_params = max(0, int(round((aic - chi2) / 2.0)))
     return {
         "best_lag_id": best["lag_id"],
-        "chi2": float(best["chi2"]),
-        "aic": float(best["AIC"]),
+        "chi2": chi2,
+        "aic": aic,
         "bic": float(best["BIC"]),
+        "k_params": k_params,
+        "k_parameter_names": [
+            name for name in str(best.get("k_parameter_names") or "").split(";") if name
+        ],
         "model_ranking_path": str(ranking_path),
         "scan_report_path": str(output_dir / "scan_report.txt"),
     }
@@ -344,6 +356,8 @@ def validate_current_pipeline(
         chi2=float(best["chi2"]),
         aic=float(best["aic"]),
         bic=float(best["bic"]),
+        k_params=int(best["k_params"]),
+        k_parameter_names=list(best["k_parameter_names"]),
         solver_output_dir=str(output_dir),
         model_ranking_path=str(best["model_ranking_path"]),
         scan_report_path=str(best["scan_report_path"]),
@@ -520,6 +534,8 @@ def validate_agent_sample_pipeline(
         chi2=float(best["chi2"]),
         aic=float(best["aic"]),
         bic=float(best["bic"]),
+        k_params=int(best["k_params"]),
+        k_parameter_names=list(best["k_parameter_names"]),
         solver_output_dir=str(solver_output_dir),
         model_ranking_path=str(best["model_ranking_path"]),
         scan_report_path=str(best["scan_report_path"]),
@@ -551,6 +567,8 @@ def read_existing_output(output_dir: Path) -> ValidationResult:
         chi2=float(best["chi2"]),
         aic=float(best["aic"]),
         bic=float(best["bic"]),
+        k_params=int(best["k_params"]),
+        k_parameter_names=list(best["k_parameter_names"]),
         solver_output_dir=str(output_dir),
         model_ranking_path=str(best["model_ranking_path"]),
         scan_report_path=str(best["scan_report_path"]),

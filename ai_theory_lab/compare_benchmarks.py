@@ -4,7 +4,7 @@ This script reads the reproducible local artifacts written by graph_agent_batch:
 
 * ai_theory_lab/memory/<run>/attempt_history.jsonl
 * ai_theory_lab/proposals/<run>/scheduler_tasks.jsonl
-* ai_theory_lab/proposals/<run>/task_*.json / wave_*.json
+* ai_theory_lab/proposals/<run>/task_*.json / wave_*.json for legacy runs
 
 It is intentionally independent of LangSmith. LangSmith can monitor a live run,
 but paper tables should be generated from these local artifacts.
@@ -145,10 +145,22 @@ def _median(rows: Iterable[dict[str, Any]]) -> float | None:
 
 
 def _wall_seconds(events: list[dict[str, Any]], rows: list[dict[str, Any]]) -> float | None:
-    timestamps = [_parse_timestamp(event.get("timestamp")) for event in events]
-    timestamps = [ts for ts in timestamps if ts is not None]
-    if len(timestamps) >= 2:
-        return max(0.0, (max(timestamps) - min(timestamps)).total_seconds())
+    elapsed = 0.0
+    segment_start: datetime | None = None
+    segment_last: datetime | None = None
+    for event in events:
+        timestamp = _parse_timestamp(event.get("timestamp"))
+        if timestamp is None:
+            continue
+        if event.get("event") in {"scheduler_start", "scheduler_resume"}:
+            if segment_start is not None and segment_last is not None:
+                elapsed += max(0.0, (segment_last - segment_start).total_seconds())
+            segment_start = timestamp
+        segment_last = timestamp
+    if segment_start is not None and segment_last is not None:
+        elapsed += max(0.0, (segment_last - segment_start).total_seconds())
+    if elapsed > 0.0:
+        return elapsed
     timestamps = [_parse_timestamp(row.get("timestamp")) for row in rows]
     timestamps = [ts for ts in timestamps if ts is not None]
     if len(timestamps) >= 2:
@@ -174,11 +186,86 @@ def _latest_progress(events: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def _proposal_stats(run_name: str) -> dict[str, Any]:
-    proposal_dir = Path("ai_theory_lab") / "proposals" / run_name
-    files = sorted(proposal_dir.glob("task_*.json")) + sorted(proposal_dir.glob("wave_*.json"))
+def _proposal_stats_from_events(
+    events: list[dict[str, Any]],
+    *,
+    proposal_json_count: int,
+    debug_file_count: int,
+) -> dict[str, Any] | None:
+    submitted: dict[str, dict[str, Any]] = {}
+    for index, event in enumerate(events):
+        if event.get("event") != "submitted":
+            continue
+        if str(event.get("validation_stage") or "initial") != "initial":
+            continue
+        task_id = str(event.get("task_id") or f"event_{index}")
+        submitted.setdefault(task_id, event)
+    if not submitted:
+        return None
+
     provider_counts: Counter[str] = Counter()
     model_counts: Counter[str] = Counter()
+    proposal_mode_counts: Counter[str] = Counter()
+    latencies: list[float] = []
+    for event in submitted.values():
+        provider = event.get("llm_provider")
+        model = event.get("llm_model")
+        proposal_mode = event.get("proposal_mode")
+        if provider:
+            provider_counts[str(provider)] += 1
+        if model:
+            model_counts[str(model)] += 1
+        if proposal_mode:
+            proposal_mode_counts[str(proposal_mode)] += 1
+        latency = _float(event.get("llm_latency_sec"))
+        if latency is not None:
+            latencies.append(latency)
+
+    # Scheduler events intentionally omit prompt bodies, token usage, and retry
+    # details. Keep those fields unavailable instead of parsing multi-megabyte
+    # proposal JSON files or reporting a misleading zero.
+    return {
+        "proposal_json_count": proposal_json_count,
+        "llm_successful_proposal_count": len(submitted),
+        "llm_api_call_count": None,
+        "llm_provider": provider_counts.most_common(1)[0][0] if provider_counts else None,
+        "llm_model": model_counts.most_common(1)[0][0] if model_counts else None,
+        "llm_provider_counts": dict(provider_counts),
+        "llm_model_counts": dict(model_counts),
+        "proposal_mode_counts": dict(proposal_mode_counts),
+        "llm_retry_error_count": None,
+        "llm_retry_attempt_count": None,
+        "llm_retry_stats_available": False,
+        "mean_llm_latency_sec": statistics.mean(latencies) if latencies else None,
+        "median_llm_latency_sec": statistics.median(latencies) if latencies else None,
+        "llm_input_tokens": None,
+        "llm_output_tokens": None,
+        "llm_total_tokens": None,
+        "llm_debug_failure_files": debug_file_count,
+        "proposal_stats_source": "scheduler_tasks.jsonl",
+    }
+
+
+def _proposal_stats(run_name: str, events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    proposal_dir = Path("ai_theory_lab") / "proposals" / run_name
+    files = sorted(proposal_dir.glob("task_*.json")) + sorted(proposal_dir.glob("wave_*.json"))
+    initial_files = [
+        path
+        for path in files
+        if "_expanded" not in path.stem and "_refine" not in path.stem
+    ]
+    debug_files = list((proposal_dir / "llm_proposal_debug").glob("*.json")) if proposal_dir.exists() else []
+    event_stats = _proposal_stats_from_events(
+        events or [],
+        proposal_json_count=len(files),
+        debug_file_count=len(debug_files),
+    )
+    if event_stats is not None:
+        return event_stats
+
+    provider_counts: Counter[str] = Counter()
+    model_counts: Counter[str] = Counter()
+    proposal_mode_counts: Counter[str] = Counter()
     retry_errors = 0
     retry_attempts = 0
     latencies: list[float] = []
@@ -186,7 +273,7 @@ def _proposal_stats(run_name: str) -> dict[str, Any]:
     usage_output = 0
     usage_total = 0
 
-    for path in files:
+    for path in initial_files:
         data = _read_json(path)
         if not data:
             continue
@@ -196,6 +283,9 @@ def _proposal_stats(run_name: str) -> dict[str, Any]:
             provider_counts[str(provider)] += 1
         if model:
             model_counts[str(model)] += 1
+        proposal_mode = data.get("proposal_mode")
+        if proposal_mode:
+            proposal_mode_counts[str(proposal_mode)] += 1
         latency = _float(data.get("llm_latency_sec"))
         if latency is not None:
             latencies.append(latency)
@@ -220,21 +310,25 @@ def _proposal_stats(run_name: str) -> dict[str, Any]:
             if isinstance(value, int):
                 usage_total += value
 
-    debug_files = list((proposal_dir / "llm_proposal_debug").glob("*.json")) if proposal_dir.exists() else []
     return {
         "proposal_json_count": len(files),
+        "llm_successful_proposal_count": len(initial_files),
+        "llm_api_call_count": None,
         "llm_provider": provider_counts.most_common(1)[0][0] if provider_counts else None,
         "llm_model": model_counts.most_common(1)[0][0] if model_counts else None,
         "llm_provider_counts": dict(provider_counts),
         "llm_model_counts": dict(model_counts),
+        "proposal_mode_counts": dict(proposal_mode_counts),
         "llm_retry_error_count": retry_errors,
         "llm_retry_attempt_count": retry_attempts,
+        "llm_retry_stats_available": True,
         "mean_llm_latency_sec": statistics.mean(latencies) if latencies else None,
         "median_llm_latency_sec": statistics.median(latencies) if latencies else None,
         "llm_input_tokens": usage_input or None,
         "llm_output_tokens": usage_output or None,
         "llm_total_tokens": usage_total or (usage_input + usage_output) or None,
         "llm_debug_failure_files": len(debug_files),
+        "proposal_stats_source": "proposal_json",
     }
 
 
@@ -326,12 +420,17 @@ def _robustness_metrics(rows: list[dict[str, Any]], proposal_stats: dict[str, An
     for row in rows:
         for tag in row.get("failure_tags") or []:
             failure_tags[str(tag)] += 1
+    retry_attempts = proposal_stats.get("llm_retry_attempt_count")
+    proposal_count = proposal_stats.get("proposal_json_count")
+    retry_rate = None
+    if isinstance(retry_attempts, int) and isinstance(proposal_count, int) and proposal_count:
+        retry_rate = retry_attempts / proposal_count
     return {
         "accepted_rate": len(accepted) / len(rows) if rows else None,
         "entered_solver_rate": entered / len(rows) if rows else None,
         "duplicate_family_rate": 1.0 - (unique_families / len(rows)) if rows else None,
         "unique_family_count": unique_families,
-        "llm_retry_rate": proposal_stats["llm_retry_attempt_count"] / proposal_stats["proposal_json_count"] if proposal_stats["proposal_json_count"] else None,
+        "llm_retry_rate": retry_rate,
         "llm_debug_failure_files": proposal_stats["llm_debug_failure_files"],
         "failure_tag_counts_json": json.dumps(dict(failure_tags.most_common(20)), ensure_ascii=False),
     }
@@ -342,7 +441,7 @@ def summarize_run(run_name: str, chi2_cap: float = DEFAULT_CHI2_CAP) -> dict[str
     sched_path = Path("ai_theory_lab") / "proposals" / run_name / "scheduler_tasks.jsonl"
     rows = _read_jsonl(hist_path)
     events = _read_jsonl(sched_path)
-    proposal_stats = _proposal_stats(run_name)
+    proposal_stats = _proposal_stats(run_name, events)
     accepted = _accepted(rows)
     initial_rows = [row for row in rows if _stage_of(row) == "initial"]
     wall_seconds = _wall_seconds(events, rows)
@@ -367,6 +466,9 @@ def summarize_run(run_name: str, chi2_cap: float = DEFAULT_CHI2_CAP) -> dict[str
         "run_name": run_name,
         "llm_provider": proposal_stats["llm_provider"],
         "llm_model": proposal_stats["llm_model"],
+        "proposal_stats_source": proposal_stats["proposal_stats_source"],
+        "llm_successful_proposal_count": proposal_stats["llm_successful_proposal_count"],
+        "llm_api_call_count": proposal_stats["llm_api_call_count"],
         "records": len(rows),
         "initial_records": len(initial_rows),
         "accepted": len(accepted),

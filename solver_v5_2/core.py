@@ -170,6 +170,9 @@ RHS_SIMPLIFY_MODE = os.environ.get("RHS_SIMPLIFY_MODE", "cancel").strip().lower(
 N_GRID = int(os.environ.get("N_GRID", "150"))
 RTOL = float(os.environ.get("RTOL", "1e-6"))
 ATOL = float(os.environ.get("ATOL", "1e-8"))
+SAMPLE_INTEGRATION_TIMEOUT_SECONDS = float(
+    os.environ.get("SAMPLE_INTEGRATION_TIMEOUT_SECONDS", "0")
+)
 MAX_ABS_CONSTRAINT = float(os.environ.get("MAX_ABS_CONSTRAINT", "1e-4"))
 
 PRIORS = {
@@ -304,6 +307,7 @@ class SampleResult:
     aic: float = math.inf
     bic: float = math.inf
     k_params: int = 0
+    k_parameter_names: Optional[List[str]] = None
     params: Optional[Dict[str, float]] = None
     max_abs_constraint: Optional[float] = None
     x_grid: Optional[np.ndarray] = None
@@ -328,6 +332,76 @@ def get_param_symbols(model: Model) -> List[sp.Symbol]:
         syms = [s for s in syms if s != model.eh_symbol]
     syms = sorted(set(syms), key=lambda s: s.name)
     return syms
+
+
+PROFILED_LIKELIHOOD_PARAMETER_NAMES = ("M_SN", "alpha_BAO")
+LCDM_EFFECTIVE_PARAMETER_NAMES = ("Omega_m0", *PROFILED_LIKELIHOOD_PARAMETER_NAMES)
+
+
+def _model_dynamic_expressions(model: Model) -> List[sp.Expr]:
+    """Return the post-Builder expressions that define the numerical model."""
+
+    expressions: List[sp.Expr] = []
+    for mapping in (model.dimless_exprs, model.rhs_exprs):
+        if not isinstance(mapping, dict):
+            continue
+        expressions.extend(expr for expr in mapping.values() if isinstance(expr, sp.Expr))
+    return expressions
+
+
+def effective_parameter_names(
+    model: Model,
+    param_syms: List[sp.Symbol],
+    mode: str,
+) -> List[str]:
+    """Count nominal effective fit parameters after ghost relations are applied.
+
+    ``model.free_symbols`` is produced from the final ghost-free EOM, so
+    determined or cancelled operator coefficients are absent already.  H0 is
+    counted only when ``eps_HM = H0/Mp`` survives in the dimensionless
+    dynamics: the DES-SN offset and DESI BAO scale are profiled separately, so
+    they otherwise remove the absolute H0 scale from this likelihood.  This is
+    an algebraic parameter count for AIC/BIC, not a numerical Fisher-rank test.
+    """
+
+    normalized_mode = "eft" if mode.lower().strip() in {"eft", "physical"} else "phenomenological"
+    expressions = _model_dynamic_expressions(model)
+
+    def uses(symbol: sp.Symbol) -> bool:
+        return any(expr.has(symbol) for expr in expressions)
+
+    names: List[str] = []
+    if normalized_mode == "eft" and uses(eps_HM_sym):
+        names.append("H0_km_s_Mpc")
+    names.append("Omega_m0")
+    if uses(lambda_H_sym):
+        names.append("lambda_H_Lambda_over_H0")
+
+    # Builder can retain bookkeeping symbols that disappear after substitutions.
+    # Such coefficients do not change the numerical likelihood and are not fit
+    # parameters for AIC/BIC.
+    names.extend(str(symbol) for symbol in param_syms if uses(symbol))
+
+    if model.has_phi1 and uses(varphi1_sym):
+        names.append("varphi1_0_phi1_over_Mp")
+    if model.has_phi1:
+        if uses(mu1_sym):
+            names.append("mu1_m1_over_H0")
+        if uses(fbar1_sym):
+            names.append("fbar1_f1_over_Mp")
+    if model.has_phi2 and uses(varphi2_sym):
+        names.append("varphi2_0_phi2_over_Lambda")
+    if model.has_phi2:
+        if uses(mu2_sym):
+            names.append("mu2_m2_over_Lambda")
+        if uses(fbar2_sym):
+            names.append("fbar2_f2_over_Lambda")
+    if model.has_phi1 and model.has_phi2 and (uses(q2_sym) or uses(varphi2_sym)):
+        # q2_0 is sampled independently; q1_0 is constraint-solved.
+        names.append("q2_0_dvarphi2_dln_a")
+
+    names.extend(PROFILED_LIKELIHOOD_PARAMETER_NAMES)
+    return list(dict.fromkeys(names))
 
 
 AgentParameterSamples = Union[List[Dict[str, float]], Dict[str, List[Dict[str, float]]]]
@@ -515,8 +589,9 @@ def lambdify_model(model: Model, mode: str):
     hx_func = sp.lambdify(args_common, hx_expr, modules="numpy")
     q1x_func = sp.lambdify(args_common, q1x_expr, modules="numpy") if q1x_expr is not None else None
     q2x_func = sp.lambdify(args_common, q2x_expr, modules="numpy") if q2x_expr is not None else None
+    k_parameter_names = effective_parameter_names(model, param_syms, mode)
 
-    return C_func, hx_func, q1x_func, q2x_func, param_syms
+    return C_func, hx_func, q1x_func, q2x_func, param_syms, k_parameter_names
 
 
 def robust_float(val: Any) -> float:
@@ -601,7 +676,9 @@ def find_q0_root(
 
 
 def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
-                    compiled: Optional[Tuple[Any, Any, Any, Any, List[sp.Symbol]]] = None,
+                    compiled: Optional[
+                        Tuple[Any, Any, Any, Any, List[sp.Symbol], List[str]]
+                    ] = None,
                     sn_data: Optional[dict] = None,
                     bao_data: Optional[dict] = None,
                     agent_sample: Optional[Dict[str, float]] = None,
@@ -611,11 +688,25 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         return SampleResult(model.lag_id, False, model.reject_reason)
     if compiled is None:
         try:
-            C_func, hx_func, q1x_func, q2x_func, param_syms = lambdify_model(model, mode)
+            (
+                C_func,
+                hx_func,
+                q1x_func,
+                q2x_func,
+                param_syms,
+                k_parameter_names,
+            ) = lambdify_model(model, mode)
         except Exception as exc:
             return SampleResult(model.lag_id, False, f"lambdify failed: {type(exc).__name__}: {exc}")
     else:
-        C_func, hx_func, q1x_func, q2x_func, param_syms = compiled
+        (
+            C_func,
+            hx_func,
+            q1x_func,
+            q2x_func,
+            param_syms,
+            k_parameter_names,
+        ) = compiled
 
     try:
         H0_km = _agent_or_random_linear(agent_sample, ["H0_km_s_Mpc", "H0"], rng, "H0_km_s_Mpc")
@@ -783,8 +874,18 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         ci += 2
     y0 = np.array(y0_list, dtype=float)
     n_state = len(y0)
+    integration_deadline = (
+        time.monotonic() + SAMPLE_INTEGRATION_TIMEOUT_SECONDS
+        if SAMPLE_INTEGRATION_TIMEOUT_SECONDS > 0
+        else None
+    )
 
     def rhs(xx, yy):
+        if integration_deadline is not None and time.monotonic() >= integration_deadline:
+            raise TimeoutError(
+                "single-sample integration exceeded "
+                f"{SAMPLE_INTEGRATION_TIMEOUT_SECONDS:g}s"
+            )
         try:
             hh = float(yy[idx_h])
             v1 = float(yy[idx_v1]) if idx_v1 is not None else 0.0
@@ -801,12 +902,16 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
                 dydt[idx_v2] = qq2
                 dydt[idx_q2] = robust_float(q2x_func(*args))
             return dydt
+        except TimeoutError:
+            raise
         except Exception:
             return np.full(n_state, np.nan, dtype=float)
 
     try:
         sol = solve_ivp(rhs, (0.0, xmin), y0, t_eval=x_eval, dense_output=True,
                         method="DOP853", rtol=RTOL, atol=ATOL)
+    except TimeoutError as exc:
+        return SampleResult(model.lag_id, False, f"integration timeout: {exc}")
     except Exception as exc:
         return SampleResult(model.lag_id, False, f"solve_ivp exception: {type(exc).__name__}: {exc}")
     if not sol.success:
@@ -894,27 +999,7 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     chi2 = chi2_sn + chi2_bao
     n = len(sn_data["mu"]) + len(bao_data["value"])
 
-    # Count free sampled parameters
-    uses_lambda = any(expr.has(lambda_H_sym) for expr in model.dimless_exprs.values())
-    n_scalar_params = 0
-    if model.has_phi1:
-        n_scalar_params += 2  # varphi1_0, mu1
-    if model.has_phi2:
-        n_scalar_params += 2  # varphi2_0, mu2
-    # fbar1/fbar2 only count if the dimless EOM actually uses them
-    uses_fbar1 = any(expr.has(fbar1_sym) for expr in model.dimless_exprs.values())
-    uses_fbar2 = any(expr.has(fbar2_sym) for expr in model.dimless_exprs.values())
-    if uses_fbar1:
-        n_scalar_params += 1
-    if uses_fbar2:
-        n_scalar_params += 1
-    # In two-field models, q2_0 is sampled freely while q1_0 is solved from the constraint.
-    # Count this extra initial-condition parameter in AIC/BIC.
-    if model.has_phi1 and model.has_phi2:
-        n_scalar_params += 1
-
-    k = 2 + (1 if uses_lambda else 0) + len(param_syms) + n_scalar_params
-    k += 2  # DES-SN M_SN and DESI BAO alpha_BAO analytically profiled
+    k = len(k_parameter_names)
     aic = chi2 + 2.0 * k
     bic = chi2 + k * math.log(n)
 
@@ -946,6 +1031,7 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         sn_offset_hat=sn_offset_hat, bao_alpha_hat=bao_alpha_hat,
         n_sn=len(sn_data["mu"]), n_bao=len(bao_data["value"]),
         chi2_per_point=chi2 / n, aic=aic, bic=bic, k_params=k,
+        k_parameter_names=k_parameter_names,
         params=params, max_abs_constraint=maxC,
         x_grid=x_eval, z_grid=z_grid, h_grid=h_grid, H_grid=H_grid_phys,
         varphi1_grid=varphi1_grid, q1_grid=q1_grid,
@@ -986,7 +1072,7 @@ def _hash_likelihood_value(hasher: "hashlib._Hash", value: Any) -> None:
 
 def _lcdm_cache_path(sn_data: dict, bao_data: dict) -> Path:
     hasher = hashlib.sha256()
-    hasher.update(b"lcdm_fit_reference_v1")
+    hasher.update(b"lcdm_fit_reference_v2_identifiable_k")
     _hash_likelihood_value(hasher, sn_data)
     _hash_likelihood_value(hasher, bao_data)
     cache_dir = Path(os.environ.get("SOLVER_LCDM_CACHE_DIR", REPO_ROOT / "solver_v5_2" / "cache"))
@@ -1048,7 +1134,11 @@ def lcdm_fit_reference(sn_data: dict, bao_data: dict) -> Dict[str, float]:
                 "bao_alpha_hat": alpha_hat,
                 "chi2_per_point": c2 / n,
             }
-    k = 4  # H0, Omega_m0, DES-SN M_SN, DESI BAO alpha_BAO
+    # H0 is fixed here and, after profiling the SN offset and BAO scale, is not
+    # an independent likelihood direction. Omega_m0 and the two profiled
+    # nuisance parameters remain in the nominal AIC/BIC count.
+    k = len(LCDM_EFFECTIVE_PARAMETER_NAMES)
+    best["k_params"] = float(k)
     best["AIC"] = best["chi2"] + 2 * k
     best["BIC"] = best["chi2"] + k * math.log(n)
     if cache_path is not None:
@@ -1068,6 +1158,7 @@ def result_row(r: SampleResult) -> Dict[str, Any]:
         "sn_offset_hat": r.sn_offset_hat, "bao_alpha_hat": r.bao_alpha_hat,
         "N_SN": r.n_sn, "N_BAO": r.n_bao,
         "AIC": r.aic, "BIC": r.bic, "k_params": r.k_params,
+        "k_parameter_names": ";".join(r.k_parameter_names or []),
         "max_abs_constraint": r.max_abs_constraint,
     }
     if r.params:
@@ -1078,7 +1169,7 @@ def result_row(r: SampleResult) -> Dict[str, Any]:
 RESULT_SUMMARY_COLUMNS = [
     "lag_id", "success", "reason", "chi2", "chi2_per_point",
     "chi2_hz", "chi2_sn", "chi2_bao", "sn_offset_hat", "bao_alpha_hat",
-    "N_SN", "N_BAO", "AIC", "BIC", "k_params", "max_abs_constraint",
+    "N_SN", "N_BAO", "AIC", "BIC", "k_params", "k_parameter_names", "max_abs_constraint",
 ]
 
 

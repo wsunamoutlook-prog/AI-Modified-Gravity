@@ -14,14 +14,14 @@ For cold-start theory discovery, proposals must be generated from Grammar Masker
 
 For genuine cold-start discovery, the theory structure should be generated from the token-level Grammar Masker candidate pool. Matching against an existing `lagrangians.pkl` entry is allowed for replay, smoke tests, or compatibility checks, but it should not be the source of new cold-start theory choices.
 
-Mini-batch cold-start proposal runs use two default proposal sectors with equal budget:
+Mini-batch cold-start proposal runs now default to unrestricted open search:
 
 ```text
-open_search: 0.50
-non_eh:      0.50
+open_search: 1.00
+dedicated non_eh: 0.00
 ```
 
-There is no separate default `EH + phi2_only` sector. EH/scalar `phi2_only` theories can still appear through `open_search` and scalar-family exploration.
+Use `--group-mode open_only` for this policy. `open_search` has no theory-track constraint, so EH-anchored, non-EH, and non-gravity structures can still arise organically. `--group-mode sector_split` remains available only for explicit legacy or ablation experiments and reserves half of the initial-theory budget for forced non-EH proposals. There is no separate default `EH + phi2_only` sector.
 
 The `open_search` sector uses a light scalar-family exploration floor before reward learning:
 
@@ -33,9 +33,9 @@ none:      8% fixed baseline
 reward-weighted choice among the four families: 68%
 ```
 
-The reward-weighted portion uses only current-loop reward evidence from the `open_search` sector. If no scalar family has positive reward evidence yet, it is uniform over the four families.
+The reward-weighted portion uses only current-loop AIC-based structure-reward evidence from the `open_search` sector. If no scalar family has positive reward evidence yet, it is uniform over the four families.
 
-The `non_eh` sector has a stronger scalar-family exploration rule. For non-EH proposals, scalar family is selected as:
+When `sector_split` is requested explicitly, its dedicated `non_eh` sector retains the stronger scalar-family exploration rule:
 
 ```text
 phi1_only: 15% fixed baseline
@@ -45,11 +45,20 @@ none:      15% fixed baseline
 reward-weighted choice among the four families: 40%
 ```
 
-The reward-weighted portion uses only current-loop reward evidence from the `non_eh` sector. If no scalar family has positive reward evidence yet, it is uniform over the four families. The fixed baselines keep every scalar family alive while preventing the non-EH search from collapsing into one family such as `none`.
+The reward-weighted portion uses only current-loop AIC-based structure-reward evidence from the `non_eh` sector. If no scalar family has positive reward evidence yet, it is uniform over the four families. The fixed baselines keep every scalar family alive while preventing the non-EH search from collapsing into one family such as `none`.
 
 The optional `--diversity-strength` setting is a proposal-time anti-collapse control, not a reward change. The default is `0.0`, so ordinary discovery runs disable diversity pressure and prioritize convergence. As it approaches `1.0`, exact and coarse families that have already appeared many times in the current loop are down-ranked before proposal selection, with extra pressure away from already-successful basins. This preserves scalar-family exploration floors and does not change Solver `chi2` ranking, accepted-sample parameter memory, or `discovery_reward`.
 
-Mini-batch validation waves are split into `simple`, `medium`, `complex`, and `very_complex` runtime lanes before EOM/Builder/Solver. The runner estimates runtime for the current proposal pool, sorts the pool, and assigns runtime quartiles to those four lanes. Each bucket is written to a separate isolated run directory, `wave_trace.jsonl` records a bucket-specific `validation_wave`, and proposal JSON records `complexity_bucket`, `structural_complexity_bucket`, and `complexity_score`. When current-loop runtime evidence exists, proposal JSON may also record `runtime_predicted_seconds` and `runtime_prior_evidence`; every scheduled proposal records `runtime_sort_seconds`, `runtime_sort_source`, `runtime_rank_in_pool`, `runtime_pool_size`, and `runtime_quantile_bucket_policy`. These fields come from `runtime_complexity_prior.json` or the structural fallback and affect scheduling only. With `--scheduler async_lanes`, proposal JSON also records `scheduler_task_id`, `scheduler_lane`, and the memory snapshot count/timestamp used when that lane was filled. Async scheduler events record `target_policy`, resolved `lane_min_attempts`, and live `lane_floor_shortfalls`; the default policy is `balanced_lane_floors`, while `global_recorded_total` is available for throughput-only runs. This is a scheduling choice only; accepted theories are still ranked by Solver `chi2`.
+Production cluster runs use `--scheduler async_slots`. Each slot validates one theory at a time in an isolated run directory; as soon as that theory, including any triggered expanded/refined pass, finishes, its records are written to shared current-loop memory and the freed slot generates a replacement from the updated memory. A slow theory therefore occupies only its own slot. With eight CPUs, use eight slots and one Solver worker per slot. Complexity and predicted-runtime fields remain diagnostics and runtime-prior inputs; they do not partition the production queue. The older `wave` and `async_lanes` schedulers remain available for reproduction and scheduler ablations, including their `simple`, `medium`, `complex`, and `very_complex` runtime buckets. Scheduling never changes Solver `chi2` ranking or the AIC-based structure reward.
+
+If an `async_slots` process exits before reaching its initial-theory target,
+restart it with the identical run configuration and `--resume`. The resume
+path reads completed initial records from current-loop memory, uses a new task
+number above all existing artifacts, and replaces crash-boundary tasks that
+were submitted but never recorded. It appends to the same memory and proposal
+logs; it does not overwrite accepted results or restart learning. A
+`scheduler_resume` event separates active wall-time segments for speed
+reporting. Resume is intentionally unavailable for the legacy schedulers.
 
 Current harness command:
 
@@ -133,7 +142,7 @@ Reports must keep accepted theories sorted by Solver `chi2`, but each accepted e
 relative_effect_i ~= |c_i / c_EH| * lambda_H^(lambda_power_i) * field_factor_i
 ```
 
-The status thresholds are `active >= 1e-2`, `moderate >= 1e-4`, `weak >= 1e-6`, and `tiny`/`eh_dominated < 1e-6`. `eh_only` means the theory is a clean EH/scalar baseline with no extra modified-gravity correction terms, and should keep its normal chi-square-derived reward. This helps the agent avoid treating an `EH + scalar + effectively-zero correction terms` fit as a strong modified-gravity discovery signal.
+The status thresholds are `active >= 1e-2`, `moderate >= 1e-4`, `weak >= 1e-6`, and `tiny`/`eh_dominated < 1e-6`. `eh_only` means the theory is a clean EH/scalar baseline with no extra modified-gravity correction terms, and should keep its normal AIC-derived structure reward. This helps the agent avoid treating an `EH + scalar + effectively-zero correction terms` fit as a strong modified-gravity discovery signal.
 
 For report figures, use publication-readable plotting defaults: LaTeX-style `$\chi^2$` labels and titles, compact representative labels such as `#L313`, high-resolution output at 300 dpi, colorblind-safe color legends for sector/track/group comparisons, hatch or line-style differences for grayscale readability, and horizontal mathtext chi-square values above bars when space allows. Dense bar charts should cap the plotted representatives at a readable count, currently 15, while markdown, CSV, and JSON retain the complete requested top list. For sector-comparison figures, readability takes priority over showing every poor accepted tail. `top_by_group_chi2_bar.png`, `top_by_track_chi2_bar.png`, `top_by_group_h_overlay.png`, `top_by_track_h_overlay.png`, and dense `top_h_overlay_topn.png` should include only accepted family representatives with `chi2 < 2000`. Hubble-overlay comparison legends should identify individual curves with compact representative labels and their concrete chi-square values. High-chi-square representatives remain available in markdown, CSV, and JSON report files.
 
@@ -141,7 +150,7 @@ Current cold-start compiler behavior:
 
 - `graph_agent.py` and `cold_start_runner.py` build or load the token-level Grammar Masker candidate context once.
 - The agent constructs a theory by choosing scalar configuration, potential type, and a combination of legal `CandidateScalar` operators from that candidate pool.
-- For each proposal, the cold-start generator first samples the number of non-fixed Grammar Masker operators, defaulting to 1 through 8. Each operator count receives a fixed 5% exploration probability. The remaining probability mass is learned from current-loop feedback by combining operator-count accepted rate, chi-square quality, and the policy `discovery_reward`, which already downweights tiny/`eh_dominated` corrections while preserving clean `eh_only` baselines. When the fixed exploration draw selects count 1, the generator forces an `R`-only baseline/control operator set. Fixed scalar kinetic/potential terms are added afterward according to `scalar_config`.
+- For each proposal, the cold-start generator first samples the number of non-fixed Grammar Masker operators, defaulting to 1 through 8. Each operator count receives a fixed 5% exploration probability. The remaining probability mass is learned from current-loop feedback by combining operator-count accepted rate, AIC-based structure quality, and the policy `discovery_reward`, which already downweights tiny/`eh_dominated` corrections while preserving clean `eh_only` baselines. When the fixed exploration draw selects count 1, the generator forces an `R`-only baseline/control operator set. Fixed scalar kinetic/potential terms are added afterward according to `scalar_config`.
 - The selected candidate combination is compiled directly into a full dimension-balanced `agent_lagrangians.pkl` entry with the same `M_p²`, `Λ`, sector, fixed scalar-matter, and coefficient-token conventions used by Grammar Masker.
 - The cold-start agent must not call Grammar Masker's random `generate_lagrangians(... n_samples=...)` batch generator as its proposal source.
 - Replay and compatibility checks may still match proposal JSON against `lagrangians.pkl`, but that is not cold-start discovery.
@@ -188,25 +197,31 @@ For LLM-driven proposal selection, batch and graph entrypoints accept:
 ```bash
 # Native OpenAI
 --llm-provider openai \
---llm-model gpt-5.5 \
+--llm-model gpt-5.6-sol \
 --llm-api-key-env OPENAI_API_KEY
 
 # Native Anthropic Claude
 --llm-provider anthropic \
---llm-model claude-opus-4-8 \
+--llm-model claude-sonnet-5 \
 --llm-api-key-env ANTHROPIC_API_KEY
 
 # Gemini OpenAI-compatible endpoint
 --llm-provider openai_compatible \
 --llm-base-url https://generativelanguage.googleapis.com/v1beta/openai/ \
---llm-model gemini-3.1-pro-preview \
+--llm-model gemini-3.6-flash \
 --llm-api-key-env GEMINI_API_KEY
 
 # DashScope / Qwen OpenAI-compatible endpoint
 --llm-provider openai_compatible \
 --llm-base-url https://dashscope-us.aliyuncs.com/compatible-mode/v1 \
---llm-model qwen3.7-plus \
+--llm-model qwen3.7-max \
 --llm-api-key-env DASHSCOPE_API_KEY
+
+# Moonshot / Kimi OpenAI-compatible endpoint
+--llm-provider openai_compatible \
+--llm-base-url https://api.moonshot.ai/v1 \
+--llm-model "${KIMI_MODEL:-kimi-k3}" \
+--llm-api-key-env MOONSHOT_API_KEY
 
 # Requesty / OpenRouter / DeepSeek-style gateway
 --llm-provider openai_compatible \
@@ -220,7 +235,9 @@ For LLM-driven proposal selection, batch and graph entrypoints accept:
 --llm-model qwen3:32b
 ```
 
-LLM proposal records must include the selected provider/model/base URL metadata and latency/usage when available so later model-comparison tables can distinguish native APIs from gateways.
+LLM proposal records must include the selected provider/model/base URL metadata and latency/usage when available so later model-comparison tables can distinguish native APIs from gateways. Production comparisons use `--llm-fallback skip`: exhausted API failures are recorded and omitted while the scheduler refills the target, because silently replacing a failed API selection with the deterministic policy would contaminate model attribution. The response requests `candidate_index` plus a concise rationale, but the explicit index is authoritative and may be recovered if only the trailing rationale is truncated. Extended reasoning is disabled or minimized for this short selection call.
+
+The production `frontier6` preset also includes `deepseek-v4-pro` through the configured DashScope-compatible endpoint. `cheap5` and `expensive3` remain available only for reproducing earlier experiments.
 
 ## Optional Tracing
 
@@ -293,6 +310,7 @@ After validation, the agent should learn from:
 
 - `validated`
 - `chi2`
+- `aic`, `bic`, `k_params`, and `k_parameter_names`
 - `failed_stage`
 - `model_ranking.csv`
 - `reject_reasons_by_model.csv`
@@ -311,17 +329,27 @@ python -m ai_theory_lab.harness \
   --pretty
 ```
 
-The memory layer records facts only. It summarizes failures, successful Solver entry, chi-square values, parameter sample counts, and theory-family fingerprints. It does not decide that any class of theory should be preferred or avoided.
+The memory layer records facts only. It summarizes failures, successful Solver entry, chi-square/AIC/BIC values, effective parameter counts, parameter sample counts, validation-stage lineage, and theory-family fingerprints. It does not decide that any class of theory should be preferred or avoided.
 
 Before generating the next proposal, the agent should read `reflection_prompt.md` and write a reflection using current-loop facts only. The next `proposal.json` should be based on that reflection, not on historical `solver_result/` outputs or copied old best-fit parameters.
 
 The agent should also read Solver's `all_samples_summary.csv` when present. This file gives one row per parameter sample, including rejected samples, so the agent can learn parameter regions from both finite chi-square values and failure reasons.
 
-Cold-start runs should use a 120s wall-time limit for EOM, Builder, and Solver setup/lambdify. Do not apply this wall to token-level Grammar Masker candidate discovery while building the independent-scalar space. Build the independent-scalar space once per cold-start run and reuse it for all proposal loops in that run. The wall is not the sampling budget; the 1000/3000/5000 parameter sampling policy, the dedicated non-EH 10000-sample refinement budget, and structural skip rules control numerical sampling. A low chi-square such as `chi2 <= 1650` is a quality label and learning signal, not an early-stop condition for the agent run. The 3000-sample expansion should be skipped when the first 1000 samples have no accepted chi-square and are dominated by `q_initial_root_failure`, `q_not_determined`, `no_scalar_constraint`, high-count `constraint_drift`, or high-count `integration_failure`. It should also be skipped for `scalar=none` empty-ranking failures and for no-accepted first passes tagged with `constraint_drift` or `integration_failure`. In async-slot mini-batch runs, a 3000-sample expanded theory whose best chi-square remains below `1638` should receive one final 5000-sample refinement; in the dedicated `non_eh` sector, use the separate default threshold `chi2 < 2000` and the separate default budget of 10000 samples for this refinement. Expanded and refined attempts are extra validation records and do not count toward the global initial-theory target.
+Cold-start runs should use a 120s wall-time limit for EOM, Builder, and Solver setup/lambdify. Do not apply this wall to token-level Grammar Masker candidate discovery while building the independent-scalar space. Build the independent-scalar space once per cold-start run and reuse it for all proposal loops in that run. The wall is not the sampling budget; the 1000/3000/5000 parameter sampling policy and structural skip rules control numerical sampling. A low chi-square such as `chi2 <= 1650` is a quality label and learning signal, not an early-stop condition for the agent run. The 3000-sample expansion should be skipped when the first 1000 samples have no accepted chi-square and are dominated by `q_initial_root_failure`, `q_not_determined`, `no_scalar_constraint`, high-count `constraint_drift`, or high-count `integration_failure`. It should also be skipped for `scalar=none` empty-ranking failures and for no-accepted first passes tagged with `constraint_drift` or `integration_failure`. In async-slot mini-batch runs, any 3000-sample expanded theory whose best chi-square remains below `1638` should receive one final 5000-sample refinement. This rule is uniform across actual theory tracks; an organically discovered `non_eh` theory receives no separate threshold or sampling budget. Expanded and refined attempts are extra validation records and do not count toward the global initial-theory target.
 
 Repeated `q_not_determined` feedback should be treated as structural feedback, not a parameter-only failure. The current-loop policy may softly downweight exact operators and operator families that repeatedly cause this tag, especially scalar derivative and scalar-derivative-curvature couplings, while preserving some exploration.
 
-When learning from accepted proposals, treat chi-square quality as part of the label. `chi2 <= 1650` is an excellent accepted signal, `1650 < chi2 <= 1700` is competitive, `1700 < chi2 <= 2000` is acceptable positive feedback, and `chi2 > 2000` should not strongly reinforce the structure. The final learning signal is `discovery_reward`: it starts from the chi-square-based `fit_reward`, keeps clean `eh_only` EH/scalar baselines as valid baselines, downweights `weak` corrections, and penalizes `tiny` or `eh_dominated` extra correction terms. In the dedicated `non_eh` proposal sector only, accepted attempts are quality-gated rather than rewarded just for surviving: `chi2 <= 2000` stays positive, `2000 < chi2 <= 3000` is weak positive, `3000 < chi2 <= 6000` is marginal/near-zero negative, and `chi2 > 6000` is negative. A non-EH attempt with no accepted chi-square receives a stronger penalty than a very poor accepted non-EH attempt. Solver and reports still rank by `chi2`.
+The project separates parameter learning from structure learning. Parameter vectors within one fixed Lagrangian are rewarded by raw `chi2`; AIC would add the same constant to every vector and cannot change their ordering. Expansion/refinement decisions also remain the raw-chi-square thresholds described above. Different Lagrangian structures are compared by
+
+```text
+structure_score = AIC - 2*k_LCDM = chi2 + 2*(k_model-k_LCDM),  k_LCDM=3.
+```
+
+The constant subtraction preserves exact AIC ordering while retaining the existing quality-scale interpretation. `structure_score <= 1650` is excellent, `1650 < score <= 1700` is competitive, `1700 < score <= 2000` is acceptable positive feedback, and `score > 2000` should not strongly reinforce the structure. The final structure signal is `discovery_reward`: it starts from this AIC-based score, keeps clean `eh_only` EH/scalar baselines as valid baselines, downweights `weak` corrections, and penalizes `tiny` or `eh_dominated` extra correction terms. In the dedicated `non_eh` proposal sector only, accepted structures are quality-gated rather than rewarded just for surviving: `score <= 2000` stays positive, `2000 < score <= 3000` is weak positive, `3000 < score <= 6000` is marginal/near-zero negative, and `score > 6000` is negative. A non-EH trial with no accepted sample receives a stronger penalty than a very poor accepted non-EH structure.
+
+Initial, expanded, and refined evaluations of the same proposal are kept as separate raw validation records, but only the best validated AIC stage is the representative for one structure-policy update. This prevents a promising theory from receiving two or three rewards merely because it was allocated more parameter samples. Solver and reports still rank by raw `chi2`, and all chi-square values remain in JSONL, CSV, JSON, and markdown outputs.
+
+The nominal effective `k_model` is counted after EOM ghost-cancellation relations and Builder reduction. Cancelled, fixed, and constraint-solved quantities are excluded; parameters that remain free and actually enter the background likelihood are included. The profiled DES-SN offset and DESI BAO scale count as fitted nuisance parameters. `H0` counts only if it survives in the dimensionless dynamics, rather than when it is merely an absolute scale removed by those profiled likelihoods. This is the algebraic parameter count used by AIC/BIC, not a numerical Fisher-rank estimate.
 
 Parameter sampling should treat each sample as one coherent physical setup. After choosing `lambda_H` and scalar initial values, non-EH curvature correction coefficients should be sampled from a planned effective size relative to the EH term:
 
@@ -346,7 +374,7 @@ moderate:     1e-4 <= relative_effect < 1e-2
 active_probe: 1e-2 <= relative_effect <= 1e2
 ```
 
-The sampler uses a 50/50 split between agent-exact samples and learned-prior random samples. Both halves can check `joint_parameter_prior.json`, which stores high-reward parameter vectors from the current loop grouped by exact theory family, coarse theory family, scalar family, and global fallback. The default `joint_prior_usage_fraction` is `0.80`: agent-exact samples in that fraction reuse the nearest matching high-reward vectors, and learned-prior random samples in that fraction jitter around those vectors in log space. The remaining sample budget keeps using the learned/default priors as an exploration floor. If no matching positive current-loop evidence exists, agent-exact samples fall back to current learned/default prior centers, low/high quantile anchors, and boundary probes, while learned-prior random samples draw stochastically from the current prior. The agent may softly adjust correction-mode weights from current-loop `all_samples_summary.csv` feedback while preserving exploration floors. Generated samples include numeric agent metadata such as `agent_sample_source_code`, `agent_correction_mode_code`, `agent_joint_prior_level_code`, and `agent_joint_prior_reward` so the memory layer can learn which source, correction mode, and family-level memory produced accepted or rejected samples; this metadata is not a physical coupling used by the EOM.
+The sampler uses a 50/50 split between agent-exact samples and learned-prior random samples. Both halves can check `joint_parameter_prior.json`, which stores parameter vectors rewarded strictly by raw chi-square from the current loop and groups them by exact theory family, coarse theory family, scalar family, and global fallback. The default `joint_prior_usage_fraction` is `0.80`: agent-exact samples in that fraction reuse the nearest matching high-reward vectors, and learned-prior random samples in that fraction jitter around those vectors in log space. The remaining sample budget keeps using the learned/default priors as an exploration floor. If no matching positive current-loop evidence exists, agent-exact samples fall back to current learned/default prior centers, low/high quantile anchors, and boundary probes, while learned-prior random samples draw stochastically from the current prior. The agent may softly adjust correction-mode weights from current-loop `all_samples_summary.csv` feedback while preserving exploration floors. Generated samples include numeric agent metadata such as `agent_sample_source_code`, `agent_correction_mode_code`, `agent_joint_prior_level_code`, and `agent_joint_prior_reward` so the memory layer can learn which source, correction mode, and family-level memory produced accepted or rejected samples; this metadata is not a physical coupling used by the EOM.
 
 The coefficient cap from `config_p.py` is only a proposal-time exploration bound. Large coefficients are allowed up to that cap so `Lambda`-suppressed higher-dimension operators can actually be tested; numerical instability, constraint drift, or EFT rejection should come from the real Solver feedback.
 

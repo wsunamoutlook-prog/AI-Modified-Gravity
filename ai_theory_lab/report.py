@@ -134,11 +134,11 @@ def _lcdm_scan_report_path(attempt: dict[str, Any]) -> Path | None:
     return None
 
 
-def _parse_lcdm_reference(path: Path) -> dict[str, float] | None:
+def _parse_lcdm_reference(path: Path) -> dict[str, Any] | None:
     text = path.read_text(encoding="utf-8", errors="replace")
     if "Flat-LambdaCDM reference fit" not in text:
         return None
-    values: dict[str, float] = {}
+    values: dict[str, Any] = {}
     patterns = {
         "chi2": r"chi2_total=([0-9.eE+-]+)",
         "chi2_sn": r"chi2_DES_SN=([0-9.eE+-]+)",
@@ -146,6 +146,7 @@ def _parse_lcdm_reference(path: Path) -> dict[str, float] | None:
         "chi2_per_point": r"chi2/N=([0-9.eE+-]+)",
         "AIC": r"AIC=([0-9.eE+-]+)",
         "BIC": r"BIC=([0-9.eE+-]+)",
+        "k_params": r"(?:^|[,\s])k=([0-9]+)",
         "sn_offset_hat": r"M_SN_hat=([0-9.eE+-]+)",
         "bao_alpha_hat": r"alpha_BAO_hat=([0-9.eE+-]+)",
         "H0": r"H0=([0-9.eE+-]+)",
@@ -155,6 +156,17 @@ def _parse_lcdm_reference(path: Path) -> dict[str, float] | None:
         match = re.search(pattern, text)
         if match:
             values[key] = float(match.group(1))
+    parameter_match = re.search(
+        r"^\s*Effective parameters:\s*(.+?)(?:\s*\(|\s*$)",
+        text,
+        flags=re.MULTILINE,
+    )
+    if parameter_match:
+        values["k_parameter_names"] = [
+            name.strip().rstrip(".")
+            for name in parameter_match.group(1).split(",")
+            if name.strip()
+        ]
     return values if "chi2" in values else None
 
 
@@ -816,6 +828,7 @@ def _write_summary(
         f"| chi2/N | {_fmt(lcdm.get('chi2_per_point') if lcdm else None, 6)} |",
         f"| AIC | {_fmt(lcdm.get('AIC') if lcdm else None, 6)} |",
         f"| BIC | {_fmt(lcdm.get('BIC') if lcdm else None, 6)} |",
+        f"| k_params | {_fmt(lcdm.get('k_params') if lcdm else None, 0)} |",
         f"| H0 | {_fmt(lcdm.get('H0') if lcdm else None, 6)} |",
         f"| Omega_m0 | {_fmt(lcdm.get('Omega_m0') if lcdm else None, 6)} |",
         "",
@@ -934,6 +947,8 @@ def _write_lagrangian_reports(
         "lcdm_improvement_chi2",
         "aic",
         "bic",
+        "k_params",
+        "k_parameter_names",
         "delta_aic_vs_lcdm",
         "delta_bic_vs_lcdm",
         "scalar_config",
@@ -1006,6 +1021,8 @@ def _write_lagrangian_reports(
                 "lcdm_improvement_chi2": lcdm_delta.get("lcdm_improvement_chi2"),
                 "aic": attempt.get("aic"),
                 "bic": attempt.get("bic"),
+                "k_params": attempt.get("k_params", row.get("k_params")),
+                "k_parameter_names": ";".join(attempt.get("k_parameter_names") or []),
                 "delta_aic_vs_lcdm": lcdm_delta.get("delta_aic_vs_lcdm"),
                 "delta_bic_vs_lcdm": lcdm_delta.get("delta_bic_vs_lcdm"),
                 "scalar_config": theory.get("scalar_config"),
@@ -1044,6 +1061,8 @@ def _write_lagrangian_reports(
             f"- delta_chi2_vs_LCDM: `{_fmt(lcdm_delta.get('delta_chi2_vs_lcdm'), 8)}`",
             f"- delta_AIC_vs_LCDM: `{_fmt(lcdm_delta.get('delta_aic_vs_lcdm'), 8)}`",
             f"- delta_BIC_vs_LCDM: `{_fmt(lcdm_delta.get('delta_bic_vs_lcdm'), 8)}`",
+            f"- k_params: `{attempt.get('k_params', row.get('k_params', ''))}`",
+            f"- k_parameter_names: `{', '.join(attempt.get('k_parameter_names') or [])}`",
             f"- scalar_config: `{theory.get('scalar_config', '')}`",
             f"- proposal_group: `{_proposal_group(attempt)}`",
             f"- theory_track: `{_theory_track(attempt)}`",
@@ -1396,6 +1415,9 @@ def _write_benchmark_outputs(
         "run_name": run_name,
         "generated_by": "ai_theory_lab.report",
         "ranking_rule": "chi2_total primary; AIC tie-breaker",
+        "agent_structure_learning_metric": "AIC - 2*k_LCDM",
+        "agent_parameter_learning_metric": "chi2_total",
+        "lcdm_effective_k": (lcdm or {}).get("k_params"),
         "delta_chi2_vs_lcdm_definition": "model_chi2 - lcdm_chi2; negative means better than LCDM",
         "feedback_total_attempts": feedback.get("total_attempts"),
         "lcdm": lcdm or {},

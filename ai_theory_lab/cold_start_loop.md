@@ -145,33 +145,41 @@ The harness memory layer records facts. It should not hard-code what the agent m
 The memory files are:
 
 - `attempt_history.jsonl`: one structured record per proposal attempt.
-- `feedback_summary.json`: aggregate facts such as failed-stage counts, failure-tag counts, solver-entry counts, best chi-square so far, and theory-family summaries.
+- `feedback_summary.json`: aggregate facts such as failed-stage counts, failure-tag counts, solver-entry counts, best chi-square, best AIC-equivalent structure score, and theory-family summaries.
 - `reflection_prompt.md`: the prompt the agent should read before producing the next proposal.
-- `training_dataset.jsonl`: one learning record per attempt, including theory features, result, reward, failure tags, chi-square, and feedback paths.
+- `training_dataset.jsonl`: one record per validation stage, including theory features, result, raw chi-square, AIC/BIC, effective `k`, parameter reward, structure reward, failure tags, stage lineage, and feedback paths.
 - `policy_summary.json`: empirical feature/operator/family rewards learned from the current loop.
 - `agent_reflections.jsonl`: reflection records produced after validation attempts.
 - `structure_prior.json`: structure preferences learned from current-loop accepted and failed attempts.
 - `parameter_prior.json`: parameter ranges learned from accepted Solver sample rows.
 - `joint_parameter_prior.json`: structure-conditioned parameter vectors learned from current-loop sample rows.
 
-`structure_prior.json` records scalar-family learning with the same diagnostics for `none`, `phi1_only`, `phi2_only`, and `both`: Solver reachability, accepted-sample rate, q-root failure rate, `q_not_determined` rate, numerical-failure rates, best/median chi-square, and operator-family counts. These diagnostics are used for soft, current-loop sampling adjustments. They are not a manual rule to privilege or punish `phi2` or any other scalar family, and every legal scalar family keeps a nonzero exploration floor.
+`structure_prior.json` records scalar-family learning with the same diagnostics for `none`, `phi1_only`, `phi2_only`, and `both`: Solver reachability, accepted-sample rate, q-root failure rate, `q_not_determined` rate, numerical-failure rates, best/median chi-square, best/median AIC-equivalent structure score, and operator-family counts. These diagnostics are used for soft, current-loop sampling adjustments. They are not a manual rule to privilege or punish `phi2` or any other scalar family, and every legal scalar family keeps a nonzero exploration floor.
 
-`joint_parameter_prior.json` is the first memory layer that couples theory structure and numerical parameters. It groups sample-level reward records by exact theory family, coarse theory family, scalar family, and global fallback. When a later proposal matches one of those levels, the sampler can seed `H0`, `Omega_m0`, `lambda_H`, scalar initial values, scalar masses/decay constants, and sampled scalar velocities from high-reward vectors before recomputing free correction coefficients for the current operator set. Exact samples reuse stored vectors; random samples jitter around them in log space. The configured `joint_prior_usage_fraction`, currently `0.80`, keeps part of the sample budget on the ordinary learned/default priors as an exploration floor. If the matching groups have no positive current-loop evidence, the sampler falls back to the ordinary learned/default priors.
+`joint_parameter_prior.json` is the first memory layer that couples theory structure and numerical parameters. It groups sample-level reward records by exact theory family, coarse theory family, scalar family, and global fallback. These sample-level rewards use raw chi-square only: within a fixed Lagrangian, `k` is constant and AIC cannot change the parameter-vector ordering. When a later proposal matches one of those levels, the sampler can seed `H0`, `Omega_m0`, `lambda_H`, scalar initial values, scalar masses/decay constants, and sampled scalar velocities from high-reward vectors before recomputing free correction coefficients for the current operator set. Exact samples reuse stored vectors; random samples jitter around them in log space. The configured `joint_prior_usage_fraction`, currently `0.80`, keeps part of the sample budget on the ordinary learned/default priors as an exploration floor. If the matching groups have no positive current-loop evidence, the sampler falls back to the ordinary learned/default priors.
 
 The agent should use these files to infer its own next proposal policy. For example, it may notice repeated Builder failures or repeated no-scalar constraint failures, but the decision about what to change belongs in the agent's reflection.
 
-When current-loop memory contains accepted low-chi-square theories, the next proposal policy should raise the probability of their shared features. If low-chi-square attempts share `phi1_only`, an `R` anchor, and a simple scalar-curvature coupling, the agent should sample more from that neighborhood while preserving some exploration. This uses only current-loop feedback; historical `solver_result/` outputs remain out of scope for cold-start discovery.
+When current-loop memory contains accepted low-AIC theories, the next proposal policy should raise the probability of their shared features. If AIC-competitive attempts share `phi1_only`, an `R` anchor, and a simple scalar-curvature coupling, the agent should sample more from that neighborhood while preserving some exploration. This uses only current-loop feedback; historical `solver_result/` outputs remain out of scope for cold-start discovery.
 
-Accepted attempts are quality-tiered by chi-square before they are used as positive feedback:
+Different Lagrangian structures are compared with
 
-- `chi2 <= 1650`: excellent signal.
-- `1650 < chi2 <= 1700`: competitive signal.
-- `1700 < chi2 <= 2000`: acceptable positive signal.
-- `chi2 > 2000`: poor accepted signal, with weaker or negative reinforcement depending on distance from 2000.
+```text
+structure_score = AIC - 2*k_LCDM = chi2 + 2*(k_model-k_LCDM),  k_LCDM=3.
+```
 
-Excellent and competitive accepted attempts should have the strongest influence on structure priors. Acceptable attempts up to `chi2 <= 2000` should still provide useful positive feedback, but they should not dominate over lower-chi-square models.
+Subtracting the constant reference penalty leaves exact AIC ordering unchanged. Accepted structures are quality-tiered by this score before they are used as positive feedback:
 
-Accepted attempts also carry an effective-correction diagnostic. Reports and Solver rankings remain sorted by `chi2`, but the learned proposal policy uses `discovery_reward`, which downweights low-chi-square fits whose non-EH curvature corrections are negligible relative to the Einstein-Hilbert term. Count modified-gravity corrections such as `R²`, `Riemann²`, `φR`, `φ²R`, `□φ R`, and derivative-curvature terms. Do not count pure scalar/self terms such as standalone `φ²` or standalone `□φ` as active modified-gravity corrections. For each counted correction, estimate
+- `structure_score <= 1650`: excellent signal.
+- `1650 < structure_score <= 1700`: competitive signal.
+- `1700 < structure_score <= 2000`: acceptable positive signal.
+- `structure_score > 2000`: poor accepted signal, with weaker or negative reinforcement depending on distance from 2000.
+
+Excellent and competitive accepted attempts should have the strongest influence on structure priors. Acceptable attempts up to `structure_score <= 2000` should still provide useful positive feedback, but they should not dominate over lower-AIC models. Raw chi-square remains the parameter-learning metric, the expansion/refinement trigger, and the primary human-facing ranking. Initial, expanded, and refined stages stay in history, but the best validated AIC stage represents that lineage exactly once in structural learning.
+
+`k_model` is the effective free-parameter count after ghost-cancellation substitutions and Builder reduction. Cancelled coefficients, fixed normalizations, and constraint-solved initial velocities are excluded. The profiled DES-SN offset and DESI BAO scale are included. `H0` is included only when it remains in the dimensionless dynamics; it is not counted when it appears solely as an absolute distance scale removed by the profiled likelihood. The current flat-LCDM reference therefore has `k_LCDM=3`: `Omega_m0`, `M_SN`, and `alpha_BAO`.
+
+Accepted attempts also carry an effective-correction diagnostic. Reports and Solver rankings remain sorted by `chi2`, but the learned structure policy uses AIC-based `discovery_reward`, which downweights competitive structures whose non-EH curvature corrections are negligible relative to the Einstein-Hilbert term. Count modified-gravity corrections such as `R²`, `Riemann²`, `φR`, `φ²R`, `□φ R`, and derivative-curvature terms. Do not count pure scalar/self terms such as standalone `φ²` or standalone `□φ` as active modified-gravity corrections. For each counted correction, estimate
 
 ```text
 relative_effect_i ~= |c_i / c_EH| * lambda_H^(lambda_power_i) * field_factor_i
@@ -183,7 +191,7 @@ The report should show `effective_correction_status`, `max_relative_effect_to_EH
 
 The runner now has a lightweight learned policy layer. It converts current-loop attempts into `training_dataset.jsonl`, summarizes empirical rewards in `policy_summary.json`, and adds the learned score to candidate-theory selection. This is a small interpretable policy model, not an LLM fine-tune.
 
-For mini-batch runs, proposal sectors are split evenly between `open_search` and `non_eh`. `open_search` remains broad and may still produce EH/scalar baselines, including `phi2_only`, while `non_eh` explicitly spends half the budget on modified-gravity correction structures. There is no separate default `EH + phi2_only` sector.
+Mini-batch runs default to `--group-mode open_only`: every initial-theory slot is assigned to unrestricted `open_search`, and no budget is reserved for a dedicated `non_eh` proposal sector. This is not an EH-only restriction. The generated theory is classified after proposal and may still be `eh_anchored`, `non_eh`, or `non_gravity`. Use `--group-mode sector_split` only for an explicit legacy reproduction or ablation experiment; that mode retains the old 50/50 allocation between unrestricted `open_search` and forced `non_eh`. There is no separate default `EH + phi2_only` sector.
 
 Scalar-family selection uses sector-specific exploration floors before applying reward learning. In `open_search`, each proposal first selects a scalar family from this schedule:
 
@@ -197,7 +205,7 @@ reward-weighted choice among the four families: 68%
 
 The reward-weighted 68% uses current-loop `policy_summary.json` evidence from the same `open_search` sector. If no scalar family has positive reward evidence yet, that portion falls back to a uniform draw.
 
-Inside the `non_eh` sector, each proposal uses a stronger scalar-family exploration floor:
+When legacy `sector_split` is requested explicitly, each proposal in its dedicated `non_eh` sector uses a stronger scalar-family exploration floor:
 
 ```text
 phi1_only: 15% fixed baseline
@@ -207,11 +215,18 @@ none:      15% fixed baseline
 reward-weighted choice among the four families: 40%
 ```
 
-The reward-weighted 40% uses current-loop `policy_summary.json` evidence from the same `non_eh` sector. If no scalar family has positive reward evidence yet, that 40% falls back to a uniform draw. EH-anchored track-split proposal modes continue to use the ordinary broad proposal policy unless they are run through `open_search`.
+The reward-weighted 40% uses current-loop `policy_summary.json` evidence from the same `non_eh` sector. If no scalar family has positive reward evidence yet, that 40% falls back to a uniform draw. This rule is dormant in the default `open_only` mode. EH-anchored track-split proposal modes continue to use the ordinary broad proposal policy unless they are run through `open_search`.
 
-Mini-batch validation is also split by expected runtime. After a proposal wave is generated, the runner assigns each Lagrangian a structural fallback `complexity_score`, estimates its runtime from current-loop evidence when available, sorts the proposal pool by estimated runtime, and assigns runtime quartiles to `simple`, `medium`, `complex`, and `very_complex`. The learned runtime evidence lives in `runtime_complexity_prior.json` and is updated from actual bucket wall time, plus lower-bound slow-running signals from active async tasks. The buckets are scheduling lanes, not physical complexity labels: a high-curvature structure that runs quickly can move into a faster quartile, while a compact structure that stalls Solver can move into a slower quartile. The runner writes separate isolated run directories per bucket, such as `_wave_0001_simple` and `_wave_0001_very_complex`, and runs EOM -> Builder -> Solver independently for each bucket. `wave_trace.jsonl` records a bucket-specific `validation_wave` such as `wave_0001_simple`. The split is enabled by default; `--no-complexity-split` restores the old single-batch wave behavior.
+Production cluster discovery uses `--scheduler async_slots`. Each slot validates a batch of one theory in an isolated run directory. As soon as its initial validation and any triggered expanded/refined pass finish, the records are committed under `.memory.lock` to the shared current-loop memory, and the freed slot proposes a replacement using that updated memory. Other slots keep running throughout, so one slow theory cannot hold back a wave or a runtime class. The global `--target-attempts` counts initial theories; expanded and refined passes are recorded separately and do not consume that target. On an 8-CPU job, the production setting is `--slot-count 8 --slot-workers 1`.
 
-The default `--scheduler wave` preserves wave-by-wave learning semantics: a full proposal wave is generated, all buckets are validated, memory is updated, and only then is the next wave generated. For asynchronous cluster discovery, `--scheduler async_lanes` keeps one task in each runtime lane in flight. Whenever a lane finishes, its records are written to common current-loop memory and that same lane is replenished from the updated memory, without waiting for the other lanes. The default async target policy is `balanced_lane_floors`: it treats `--target-attempts` as a global goal, but it will not stop until each non-exhausted lane has recorded at least `--async-lane-min-fraction` of that global target, currently `0.20`, or a larger explicit `--lane-min-attempts-<lane>` value. This gives slower `complex` and `very_complex` lanes enough current-loop feedback to influence later proposals instead of letting fast lanes dominate early memory. For pure throughput tests, pass `--async-target-policy global_recorded_total`; then fast tasks may supply most of the completed attempts while slower lanes contribute opportunistically. The async scheduler generates mixed proposal pools and queues every generated proposal by complexity, so slower-lane proposals produced while refilling a fast lane are reused later instead of thrown away. Its default async task granularity is two Lagrangians per lane with two workers per lane (`2/2/2/2` on an 8-CPU job), which avoids one very slow model holding back a batch of eight. It records lane events in `scheduler_tasks.jsonl` with `target_policy`, `lane_min_attempts`, `lane_floor_shortfalls`, per-lane diagnostics, and global `recorded_total`; it relies on `.memory.lock` around `record_attempt` so concurrent lane completions cannot corrupt `attempt_history.jsonl`, `policy_summary.json`, or `feedback_summary.json`.
+For a crashed or externally interrupted production run, pass `--resume` with
+the same run name and scientific settings. The runner recounts completed
+initial attempts from `attempt_history.jsonl`, preserves the learned priors,
+skips all existing task numbers, and generates replacements for work that was
+in flight but never recorded. Monitoring treats each resume as a new active
+segment and excludes the stopped interval from throughput.
+
+The runner still records structural complexity and a learned expected-runtime estimate in proposal and scheduler logs. Under `async_slots` these are diagnostic fields and runtime-prior inputs, not hard queues. The legacy `wave` scheduler retains wave-level runtime quartiles, while `async_lanes` retains independently replenished `simple`, `medium`, `complex`, and `very_complex` queues with optional balanced lane floors. Keep those modes only for reproduction or scheduler ablations. All schedulers rely on `.memory.lock` around `record_attempt` so concurrent completions cannot corrupt `attempt_history.jsonl`, `policy_summary.json`, or `feedback_summary.json`.
 
 ## Agent Loop
 
@@ -226,7 +241,7 @@ generate theory
 -> generate next theory
 ```
 
-The structure prior is learned from accepted low-chi-square attempts and repeated structural failures. It should learn both exact fingerprints and coarse families, but scalar-family feedback must be symmetric: the same accepted-rate, q-root, `q_not_determined`, numerical-failure, and chi-square diagnostics are computed for `none`, `phi1_only`, `phi2_only`, and `both`. Repeated bad evidence may softly downweight a nearby family/operator bucket, while successful low-chi-square evidence may softly raise it, but no legal scalar family should be eliminated. Repeated `q_not_determined` should also be summarized at the operator level; exact operators and coarse structures that often lead to unusable `q1_x` or `q2_x` RHS extraction may receive a soft downweight, especially scalar derivative and scalar-derivative-curvature couplings. The parameter prior is learned from accepted rows in Solver's `all_samples_summary.csv`; it estimates quantile ranges for common cosmological, scalar, and coefficient parameters. The next proposal should sample from these priors when enough accepted current-loop data exists, and fall back to the broad cold-start prior otherwise.
+The structure prior is learned from accepted low-AIC attempts and repeated structural failures. It should learn both exact fingerprints and coarse families, but scalar-family feedback must be symmetric: the same accepted-rate, q-root, `q_not_determined`, numerical-failure, chi-square, AIC, and effective-parameter-count diagnostics are computed for `none`, `phi1_only`, `phi2_only`, and `both`. Repeated bad evidence may softly downweight a nearby family/operator bucket, while successful low-AIC evidence may softly raise it, but no legal scalar family should be eliminated. Repeated `q_not_determined` should also be summarized at the operator level; exact operators and coarse structures that often lead to unusable `q1_x` or `q2_x` RHS extraction may receive a soft downweight, especially scalar derivative and scalar-derivative-curvature couplings. The parameter prior is learned from accepted rows in Solver's `all_samples_summary.csv` using raw chi-square; it estimates quantile ranges for common cosmological, scalar, and coefficient parameters. The next proposal should sample from these priors when enough accepted current-loop data exists, and fall back to the broad cold-start prior otherwise.
 
 Parameter-prior updates are intentionally delayed. `H0_km_s_Mpc` remains fixed to the default `config_p.py` range. Other parameters use the broad default range until the loop has at least 10 attempts and at least 100 accepted Solver sample rows; only then may `parameter_prior.json` become active. `joint_parameter_prior.json` is separate: it can record and reuse positive current-loop sample vectors earlier, but only through the exact/coarse/scalar/global fallback hierarchy and only as proposal-time seeding.
 

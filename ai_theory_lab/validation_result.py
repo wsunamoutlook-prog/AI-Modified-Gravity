@@ -33,6 +33,8 @@ class ValidationResult:
     chi2: Optional[float] = None
     aic: Optional[float] = None
     bic: Optional[float] = None
+    k_params: Optional[int] = None
+    k_parameter_names: List[str] = field(default_factory=list)
     solver_output_dir: Optional[str] = None
     model_ranking_path: Optional[str] = None
     scan_report_path: Optional[str] = None
@@ -41,4 +43,3 @@ class ValidationResult:
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
-

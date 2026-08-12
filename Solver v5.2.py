@@ -50,6 +50,7 @@ RUN_SETTINGS = {
     "SN_INTEGRATION_GRID": "2000",
     "RTOL": "1e-6",
     "ATOL": "1e-8",
+    "SAMPLE_INTEGRATION_TIMEOUT_SECONDS": "0",
     "MAX_ABS_CONSTRAINT": "1e-4",
 
     # Parameter priors

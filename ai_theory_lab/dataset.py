@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import math
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
@@ -21,6 +23,7 @@ NON_EH_WEAK_POSITIVE_REWARD = 1.0
 NON_EH_MARGINAL_ACCEPT_REWARD = -0.25
 NON_EH_VERY_POOR_ACCEPT_REWARD = -1.0
 NON_EH_UNACCEPTED_REWARD_CEILING = -1.5
+AIC_REFERENCE_K = 3
 
 
 def _operators(theory: Dict[str, Any]) -> List[str]:
@@ -98,6 +101,41 @@ def fit_reward_for_chi2(chi2: Any) -> Optional[float]:
     return max(-4.0, -1.0 - (value - WEAK_ACCEPT_CHI2) / 400.0)
 
 
+def aic_equivalent_chi2(aic: Any, *, reference_k: int = AIC_REFERENCE_K) -> Optional[float]:
+    """Express AIC on the existing chi-square quality scale.
+
+    Subtracting the constant ``2 * reference_k`` preserves the exact AIC
+    ordering across Lagrangians while keeping the existing 1650/1700/2000
+    quality thresholds interpretable. ``reference_k`` is the nominal effective
+    flat-LCDM parameter count for the current profiled likelihood.
+    """
+
+    try:
+        value = float(aic)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(value):
+        return None
+    return value - 2.0 * float(reference_k)
+
+
+def structure_score_for_attempt(attempt: Dict[str, Any]) -> Optional[float]:
+    score = aic_equivalent_chi2(attempt.get("aic"))
+    if score is not None:
+        return score
+    # Backward compatibility for current-loop memories written before AIC was
+    # propagated through ValidationResult.  New runs always take the AIC path.
+    try:
+        value = float(attempt.get("chi2"))
+    except (TypeError, ValueError):
+        return None
+    return value if math.isfinite(value) else None
+
+
+def structure_quality_tier(attempt: Dict[str, Any]) -> str:
+    return chi2_quality_tier(structure_score_for_attempt(attempt))
+
+
 def _proposal_group(theory: Dict[str, Any]) -> str:
     return str(theory.get("proposal_group") or "")
 
@@ -118,12 +156,22 @@ def _non_eh_sector_accepted_reward(chi2: Any, fit_reward: float) -> float:
     return NON_EH_VERY_POOR_ACCEPT_REWARD
 
 
-def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
+def parameter_reward_for_attempt(attempt: Dict[str, Any]) -> float:
+    """Parameter-memory reward: raw fit quality within one fixed theory."""
+
     fit_reward = fit_reward_for_chi2(attempt.get("chi2"))
+    return fit_reward if fit_reward is not None else failure_reward_for_attempt(attempt)
+
+
+def structure_reward_for_attempt(attempt: Dict[str, Any]) -> float:
+    """Structure-memory reward: AIC quality plus physical diagnostics."""
+
+    structure_score = structure_score_for_attempt(attempt)
+    fit_reward = fit_reward_for_chi2(structure_score)
     if fit_reward is not None:
         theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
         if _proposal_group(theory) == "non_eh":
-            return _non_eh_sector_accepted_reward(attempt.get("chi2"), fit_reward)
+            return _non_eh_sector_accepted_reward(structure_score, fit_reward)
         track = attempt.get("theory_track") or _theory_track(theory)
         if track == "eh_anchored":
             diagnostics = diagnostics_for_attempt(attempt)
@@ -143,6 +191,10 @@ def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
     if _proposal_group(theory) == "non_eh":
         return min(reward, NON_EH_UNACCEPTED_REWARD_CEILING)
     return reward
+
+
+def discovery_reward_for_attempt(attempt: Dict[str, Any]) -> float:
+    return structure_reward_for_attempt(attempt)
 
 
 def failure_reward_for_attempt(attempt: Dict[str, Any]) -> float:
@@ -168,7 +220,78 @@ def failure_reward_for_attempt(attempt: Dict[str, Any]) -> float:
 
 
 def reward_for_attempt(attempt: Dict[str, Any]) -> float:
-    return discovery_reward_for_attempt(attempt)
+    return structure_reward_for_attempt(attempt)
+
+
+def validation_stage_for_attempt(attempt: Dict[str, Any]) -> str:
+    explicit = attempt.get("validation_stage")
+    if explicit:
+        return str(explicit)
+    loop_id = str(attempt.get("loop_id") or "")
+    if "refine" in loop_id:
+        return "refine"
+    if "expanded" in loop_id:
+        return "expanded"
+    return "initial"
+
+
+def structure_trial_id_for_attempt(attempt: Dict[str, Any]) -> str:
+    explicit = attempt.get("structure_trial_id")
+    if explicit:
+        return str(explicit)
+    loop_id = str(attempt.get("loop_id") or "")
+    if loop_id:
+        normalized = re.sub(r"_(?:expanded_refine|expanded|refine)(?=_|$)", "", loop_id)
+        return normalized
+    theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+    proposal_id = theory.get("proposal_id")
+    if proposal_id:
+        return str(proposal_id)
+    return f"{attempt.get('timestamp')}|{attempt.get('family_key')}"
+
+
+def _attempt_record_key(attempt: Dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        str(attempt.get("loop_id") or ""),
+        str(attempt.get("timestamp") or ""),
+        str(attempt.get("solver_output_dir") or ""),
+    )
+
+
+def consolidate_structure_attempts(attempts: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Return one structural learning record per initial/expanded/refine lineage."""
+
+    grouped: Dict[tuple[str, str], List[Dict[str, Any]]] = defaultdict(list)
+    for attempt in attempts:
+        theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
+        group = str(attempt.get("proposal_group") or theory.get("proposal_group") or "unknown")
+        grouped[(group, structure_trial_id_for_attempt(attempt))].append(attempt)
+
+    representatives: List[Dict[str, Any]] = []
+    for (_group, trial_id), lineage in grouped.items():
+        successful = [
+            attempt
+            for attempt in lineage
+            if attempt.get("validated") and structure_score_for_attempt(attempt) is not None
+        ]
+        if successful:
+            chosen = min(successful, key=lambda attempt: float(structure_score_for_attempt(attempt)))
+        else:
+            chosen = lineage[-1]
+        representative = dict(chosen)
+        representative["structure_trial_id"] = trial_id
+        representative["structure_stage_count"] = len(lineage)
+        representative["structure_validation_stages"] = dict(
+            Counter(validation_stage_for_attempt(attempt) for attempt in lineage)
+        )
+        representative["structure_lineage_loop_ids"] = [attempt.get("loop_id") for attempt in lineage]
+        representative["structure_representative_record_key"] = list(_attempt_record_key(chosen))
+        representative["failure_tags"] = list(
+            dict.fromkeys(tag for attempt in lineage for tag in (attempt.get("failure_tags") or []))
+        )
+        representative["entered_solver"] = any(bool(attempt.get("entered_solver")) for attempt in lineage)
+        representatives.append(representative)
+    return representatives
 
 
 def _effective_diagnostics_for_record(attempt: Dict[str, Any]) -> Dict[str, Any]:
@@ -196,14 +319,23 @@ def _effective_diagnostics_for_record(attempt: Dict[str, Any]) -> Dict[str, Any]
     }
 
 
-def attempt_to_training_record(attempt: Dict[str, Any]) -> Dict[str, Any]:
+def attempt_to_training_record(
+    attempt: Dict[str, Any],
+    *,
+    is_structure_representative: bool = True,
+) -> Dict[str, Any]:
     theory = attempt.get("theory") if isinstance(attempt.get("theory"), dict) else {}
     fit_reward = fit_reward_for_chi2(attempt.get("chi2"))
+    structure_score = structure_score_for_attempt(attempt)
+    structure_fit_reward = fit_reward_for_chi2(structure_score)
+    structure_reward = structure_reward_for_attempt(attempt)
     effective_diagnostics = _effective_diagnostics_for_record(attempt)
     return {
         "loop_id": attempt.get("loop_id"),
         "timestamp": attempt.get("timestamp"),
         "family_key": attempt.get("family_key"),
+        "structure_trial_id": structure_trial_id_for_attempt(attempt),
+        "validation_stage": validation_stage_for_attempt(attempt),
         "features": theory_features(theory),
         "theory": theory,
         "result": {
@@ -215,9 +347,19 @@ def attempt_to_training_record(attempt: Dict[str, Any]) -> Dict[str, Any]:
             "chi2_quality_tier": chi2_quality_tier(attempt.get("chi2")),
             "aic": attempt.get("aic"),
             "bic": attempt.get("bic"),
+            "k_params": attempt.get("k_params"),
+            "k_parameter_names": attempt.get("k_parameter_names") or [],
             "fit_reward": fit_reward,
-            "reward": reward_for_attempt(attempt),
-            "discovery_reward": discovery_reward_for_attempt(attempt),
+            "parameter_reward": parameter_reward_for_attempt(attempt),
+            "structure_score": structure_score,
+            "structure_metric": "AIC-2*k_LCDM" if attempt.get("aic") is not None else "chi2_fallback",
+            "structure_reference_k": AIC_REFERENCE_K,
+            "structure_quality_tier": structure_quality_tier(attempt),
+            "structure_fit_reward": structure_fit_reward,
+            "structure_reward": structure_reward,
+            "is_structure_representative": bool(is_structure_representative),
+            "reward": structure_reward,
+            "discovery_reward": structure_reward,
             "effective_correction": effective_diagnostics,
             "top_reject_reasons": attempt.get("top_reject_reasons") or [],
         },
@@ -230,8 +372,23 @@ def attempt_to_training_record(attempt: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def training_records_for_attempts(attempts: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    attempt_list = list(attempts)
+    representative_keys = {
+        tuple(attempt.get("structure_representative_record_key") or _attempt_record_key(attempt))
+        for attempt in consolidate_structure_attempts(attempt_list)
+    }
+    return [
+        attempt_to_training_record(
+            attempt,
+            is_structure_representative=_attempt_record_key(attempt) in representative_keys,
+        )
+        for attempt in attempt_list
+    ]
+
+
 def write_training_dataset(attempts: Iterable[Dict[str, Any]], path: Path) -> Path:
-    records = [attempt_to_training_record(attempt) for attempt in attempts]
+    records = training_records_for_attempts(attempts)
     text = "".join(json.dumps(record, ensure_ascii=False) + "\n" for record in records)
     path.write_text(text, encoding="utf-8")
     return path
@@ -249,7 +406,12 @@ def summarize_policy(records: List[Dict[str, Any]]) -> Dict[str, Any]:
     excellent_features = Counter()
     competitive_features = Counter()
 
-    for record in records:
+    structure_records = [
+        record
+        for record in records
+        if (record.get("result") or {}).get("is_structure_representative", True)
+    ]
+    for record in structure_records:
         reward = float((record.get("result") or {}).get("reward") or 0.0)
         features = record.get("features") if isinstance(record.get("features"), dict) else {}
         for name, value in features.items():
@@ -261,28 +423,28 @@ def summarize_policy(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         if family_key:
             family_rewards[str(family_key)].append(reward)
         result = record.get("result") or {}
-        accepted_for_features = result.get("validated") and (
-            result.get("chi2_quality_tier") in {"excellent", "competitive"}
-            or features.get("proposal_group") == "non_eh"
-        )
+        accepted_for_features = result.get("validated") and reward > 0.0
         if accepted_for_features:
             for name, value in features.items():
                 if isinstance(value, bool) and value:
                     accepted_features[name] += 1
-                    if result.get("chi2_quality_tier") == "excellent":
+                    if result.get("structure_quality_tier") == "excellent":
                         excellent_features[name] += 1
-                    elif result.get("chi2_quality_tier") == "competitive":
+                    elif result.get("structure_quality_tier") == "competitive":
                         competitive_features[name] += 1
                 elif isinstance(value, str) and value not in {"None", ""}:
                     accepted_features[f"{name}={value}"] += 1
-                    if result.get("chi2_quality_tier") == "excellent":
+                    if result.get("structure_quality_tier") == "excellent":
                         excellent_features[f"{name}={value}"] += 1
-                    elif result.get("chi2_quality_tier") == "competitive":
+                    elif result.get("structure_quality_tier") == "competitive":
                         competitive_features[f"{name}={value}"] += 1
 
     return {
-        "record_count": len(records),
-        "global_mean_reward": _mean([float((r.get("result") or {}).get("reward") or 0.0) for r in records]),
+        "record_count": len(structure_records),
+        "raw_stage_record_count": len(records),
+        "reward_metric": "AIC-2*k_LCDM",
+        "aic_reference_k": AIC_REFERENCE_K,
+        "global_mean_reward": _mean([float((r.get("result") or {}).get("reward") or 0.0) for r in structure_records]),
         "by_feature": {
             name: {
                 value: {"count": len(values), "mean_reward": _mean(values)}

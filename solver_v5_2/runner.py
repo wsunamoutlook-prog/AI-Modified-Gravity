@@ -137,7 +137,8 @@ def run_solve_from_cache():
         f"agent_parameter_samples={samples_per_model_label if agent_parameter_samples is not None else 0}, "
         f"parallel={SOLVER_PARALLEL}, workers={N_WORKERS}, "
         f"parallel_threshold={PARALLEL_SAMPLE_THRESHOLD}, likelihood=DES-SN+DESI-DR2-BAO, "
-        f"N_GRID={N_GRID}, RTOL={RTOL:g}, ATOL={ATOL:g}",
+        f"N_GRID={N_GRID}, RTOL={RTOL:g}, ATOL={ATOL:g}, "
+        f"sample_integration_timeout={SAMPLE_INTEGRATION_TIMEOUT_SECONDS:g}s",
         flush=True,
     )
     all_results: List[SampleResult] = []
@@ -331,7 +332,12 @@ def run_solve_from_cache():
     lines.append(
         f"  chi2_total={lcdm['chi2']:.6g}, chi2_DES_SN={lcdm['chi2_sn']:.6g}, "
         f"chi2_DESI_BAO={lcdm['chi2_bao']:.6g}, chi2/N={lcdm['chi2_per_point']:.6g}, "
-        f"AIC={lcdm['AIC']:.6g}, BIC={lcdm['BIC']:.6g}"
+        f"AIC={lcdm['AIC']:.6g}, BIC={lcdm['BIC']:.6g}, k={int(lcdm['k_params'])}"
+    )
+    lines.append(
+        "  Effective parameters: "
+        + ", ".join(LCDM_EFFECTIVE_PARAMETER_NAMES)
+        + " (H0 is not an independent fit direction after profiling)."
     )
     lines.append(f"  M_SN_hat={lcdm['sn_offset_hat']}, alpha_BAO_hat={lcdm['bao_alpha_hat']}")
     lines.append(f"  H0={lcdm['H0']:.6g}, Omega_m0={lcdm['Omega_m0']:.6g}")
