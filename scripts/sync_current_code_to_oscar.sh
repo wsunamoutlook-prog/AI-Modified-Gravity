@@ -33,6 +33,8 @@ rsync -avc --itemize-changes --relative \
   ./tests/test_compare_benchmarks.py \
   ./tests/test_hybrid_model_selection.py \
   ./tests/test_open_only_scheduler.py \
+  ./run_cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5.slurm \
+  ./run_cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5.slurm \
   ./scripts/sync_current_code_to_oscar.sh \
   ./scripts/preflight_frontier6_on_oscar.sh \
   ./scripts/package_frontier6_openonly_results.sh \

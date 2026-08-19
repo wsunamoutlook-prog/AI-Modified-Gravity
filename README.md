@@ -32,6 +32,17 @@ python -m ai_theory_lab.submit_final_runs --preset frontier6 --attempts 600
 
 The second command is a dry run unless `--submit` is added. Generated jobs default to `--group-mode open_only` and fail immediately when a required API key or compatible endpoint is missing. The older `cheap5` and `expensive3` presets are retained only for historical reproduction.
 
+The matched Claude 5 extension uses the same open-only 1000/3000/5000
+parameter-sampling schedule for Opus 5 and Fable 5:
+
+```bash
+python -m ai_theory_lab.check_api_connections --preset claude5 --live --timeout 60
+python -m ai_theory_lab.submit_final_runs \
+  --preset claude5 --attempts 1000 --cpus 8 --mem 32G --time 72:00:00 \
+  --group-mode open_only --run-label frontier6_openonly_aic_v4_claude5 \
+  --submit
+```
+
 To avoid partial uploads or shell-glob mistakes, sync and verify the current production files with:
 
 ```bash

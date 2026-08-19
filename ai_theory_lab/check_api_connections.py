@@ -91,8 +91,14 @@ LEGACY5_SPECS = [
     ),
 ]
 
+CLAUDE5_SPECS = [
+    ApiSpec("claude_opus5", "anthropic", "claude-opus-5", "ANTHROPIC_API_KEY"),
+    ApiSpec("claude_fable5", "anthropic", "claude-fable-5", "ANTHROPIC_API_KEY"),
+]
+
 API_PRESETS = {
     "frontier6": FRONTIER6_SPECS,
+    "claude5": CLAUDE5_SPECS,
     "legacy5": LEGACY5_SPECS,
 }
 
@@ -165,16 +171,15 @@ def _call_openai_compatible(spec: ApiSpec, timeout: float) -> str:
 
 
 def _call_anthropic(spec: ApiSpec, timeout: float) -> str:
+    from ai_theory_lab.llm_agent import _anthropic_request_options
+
     model = _model(spec)
     body: dict[str, Any] = {
         "model": model,
         "max_tokens": 64,
         "messages": [{"role": "user", "content": "Return exactly: ok"}],
+        **_anthropic_request_options(model),
     }
-    # Sonnet 5 enables adaptive thinking by default. Disable it for this tiny
-    # connectivity probe so its output budget is used only for the response.
-    if model == "claude-sonnet-5":
-        body["thinking"] = {"type": "disabled"}
 
     payload = json.dumps(body).encode("utf-8")
     request = urllib.request.Request(
@@ -193,6 +198,11 @@ def _call_anthropic(spec: ApiSpec, timeout: float) -> str:
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"Anthropic API HTTP {exc.code}: {detail[:1000]}") from exc
+    if data.get("stop_reason") == "refusal":
+        details = data.get("stop_details") or {}
+        category = details.get("category") if isinstance(details, dict) else None
+        suffix = f" ({category})" if category else ""
+        raise RuntimeError(f"Anthropic API refused connectivity probe{suffix}")
     return "\n".join(block.get("text", "") for block in data.get("content", [])).strip()
 
 
@@ -264,7 +274,11 @@ def main(argv: list[str] | None = None) -> int:
         "--preset",
         choices=sorted(API_PRESETS),
         default="frontier6",
-        help="API/model set to check. frontier6 is current; legacy5 reproduces the previous comparison set.",
+        help=(
+            "API/model set to check. frontier6 is the six-model production set; "
+            "claude5 checks the matched Opus 5/Fable 5 extension; legacy5 "
+            "reproduces the previous comparison set."
+        ),
     )
     parser.add_argument(
         "--include-official-deepseek",

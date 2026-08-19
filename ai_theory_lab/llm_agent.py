@@ -317,6 +317,19 @@ def _anthropic_endpoint(base_url: Optional[str]) -> str:
     return f"{url}/messages"
 
 
+def _anthropic_request_options(model: str) -> Dict[str, Any]:
+    """Use the cheapest supported reasoning mode for candidate selection."""
+
+    if model.lower() == "claude-fable-5":
+        # Fable 5 does not accept disabled thinking. Candidate selection is a
+        # short, pre-ranked choice, so low adaptive effort is sufficient.
+        return {
+            "thinking": {"type": "adaptive", "display": "omitted"},
+            "output_config": {"effort": "low"},
+        }
+    return {"thinking": {"type": "disabled"}}
+
+
 def _call_anthropic_messages(
     *,
     system: str,
@@ -327,10 +340,10 @@ def _call_anthropic_messages(
     api_timeout: float,
     max_output_tokens: int,
 ) -> Tuple[str, Dict[str, Any]]:
+    request_options = _anthropic_request_options(model)
     body = {
         "model": model,
         "max_tokens": max_output_tokens,
-        "thinking": {"type": "disabled"},
         "system": system,
         "messages": [
             {
@@ -341,6 +354,7 @@ def _call_anthropic_messages(
                 ),
             }
         ],
+        **request_options,
     }
     request = urllib.request.Request(
         _anthropic_endpoint(base_url),
@@ -358,6 +372,11 @@ def _call_anthropic_messages(
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"Anthropic API HTTP {exc.code}: {detail[:1000]}") from exc
+    if payload.get("stop_reason") == "refusal":
+        details = payload.get("stop_details") or {}
+        category = details.get("category") if isinstance(details, dict) else None
+        suffix = f" ({category})" if category else ""
+        raise RuntimeError(f"Anthropic API refused candidate selection{suffix}")
     content = payload.get("content") or []
     pieces = []
     for block in content:
@@ -608,6 +627,7 @@ def _call_llm_for_choice(
             api_timeout=api_timeout,
             max_output_tokens=max_output_tokens,
         )
+        metadata["request_controls"] = _anthropic_request_options(model)
     else:
         raise ValueError(f"Unsupported llm_provider={provider!r}")
     metadata["latency_sec"] = round(time.monotonic() - start, 3)

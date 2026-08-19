@@ -15,14 +15,15 @@ from ai_theory_lab.graph_agent_batch import (
     _validate_async_slot_resume_configuration,
     run_batch_agent,
 )
-from ai_theory_lab.check_api_connections import FRONTIER6_SPECS, _call_anthropic
+from ai_theory_lab.check_api_connections import CLAUDE5_SPECS, FRONTIER6_SPECS, _call_anthropic
 from ai_theory_lab.llm_agent import (
+    _anthropic_request_options,
     _call_anthropic_messages,
     _choice_prompt,
     _openai_compatible_request_options,
     _parse_candidate_choice,
 )
-from ai_theory_lab.submit_final_runs import CHEAP5_RUNS, FRONTIER6_RUNS, _slurm_text
+from ai_theory_lab.submit_final_runs import CLAUDE5_RUNS, CHEAP5_RUNS, FRONTIER6_RUNS, _slurm_text
 from ai_theory_lab.langsmith_live_monitor import _elapsed_hours
 from ai_theory_lab.compare_benchmarks import _wall_seconds
 
@@ -349,6 +350,49 @@ class SubmissionTemplateTests(unittest.TestCase):
         self.assertIn('https://api.moonshot.ai/v1', kimi_text)
         self.assertNotIn("KIMI_BASE_URL is required", kimi_text)
 
+    def test_claude5_models_match_api_preflight(self) -> None:
+        self.assertEqual(
+            [run.model for run in CLAUDE5_RUNS],
+            [spec.model for spec in CLAUDE5_SPECS],
+        )
+        self.assertEqual(
+            [run.model for run in CLAUDE5_RUNS],
+            ["claude-opus-5", "claude-fable-5"],
+        )
+
+    def test_claude5_jobs_have_identical_numerical_setup(self) -> None:
+        texts = [
+            _slurm_text(
+                run,
+                run_name=f"cmp1000_{run.run_slug}_matched",
+                attempts=1000,
+                cpus=8,
+                mem="32G",
+                time_limit="72:00:00",
+                run_label="matched",
+                group_mode="open_only",
+            )
+            for run in CLAUDE5_RUNS
+        ]
+        required = [
+            "#SBATCH --cpus-per-task=8",
+            "#SBATCH --mem=32G",
+            "#SBATCH --time=72:00:00",
+            "--target-attempts 1000",
+            "--initial-parameter-samples 1000",
+            "--expanded-parameter-samples 3000",
+            "--refine-parameter-samples 5000",
+            "--llm-fallback skip",
+            "--group-mode open_only",
+            "--scheduler async_slots",
+            "--slot-count \"$SLURM_CPUS_PER_TASK\"",
+        ]
+        for text in texts:
+            for value in required:
+                self.assertIn(value, text)
+        self.assertIn("--llm-model claude-opus-5", texts[0])
+        self.assertIn("--llm-model claude-fable-5", texts[1])
+
 
 class ApiPreflightTests(unittest.TestCase):
     def test_sonnet5_probe_disables_adaptive_thinking(self) -> None:
@@ -368,6 +412,22 @@ class ApiPreflightTests(unittest.TestCase):
         self.assertEqual(body["model"], "claude-sonnet-5")
         self.assertEqual(body["thinking"], {"type": "disabled"})
         self.assertEqual(body["max_tokens"], 64)
+
+    def test_fable5_probe_uses_low_adaptive_thinking(self) -> None:
+        response = mock.MagicMock()
+        response.__enter__.return_value.read.return_value = json.dumps(
+            {"stop_reason": "end_turn", "content": [{"type": "text", "text": "ok"}]}
+        ).encode("utf-8")
+
+        with mock.patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}), mock.patch(
+            "urllib.request.urlopen", return_value=response
+        ) as urlopen:
+            text = _call_anthropic(CLAUDE5_SPECS[1], timeout=1.0)
+
+        body = json.loads(urlopen.call_args.args[0].data.decode("utf-8"))
+        self.assertEqual(text, "ok")
+        self.assertEqual(body["thinking"], {"type": "adaptive", "display": "omitted"})
+        self.assertEqual(body["output_config"], {"effort": "low"})
 
 
 class ProposalApiTests(unittest.TestCase):
@@ -398,6 +458,41 @@ class ProposalApiTests(unittest.TestCase):
         body = json.loads(request.data.decode("utf-8"))
         self.assertEqual(text, '{"candidate_index": 2}')
         self.assertEqual(body["thinking"], {"type": "disabled"})
+
+    def test_opus5_and_fable5_use_supported_request_controls(self) -> None:
+        self.assertEqual(
+            _anthropic_request_options("claude-opus-5"),
+            {"thinking": {"type": "disabled"}},
+        )
+        self.assertEqual(
+            _anthropic_request_options("claude-fable-5"),
+            {
+                "thinking": {"type": "adaptive", "display": "omitted"},
+                "output_config": {"effort": "low"},
+            },
+        )
+
+    def test_anthropic_refusal_is_not_parsed_as_a_candidate(self) -> None:
+        response = mock.MagicMock()
+        response.__enter__.return_value.read.return_value = json.dumps(
+            {
+                "stop_reason": "refusal",
+                "stop_details": {"category": "reasoning_extraction"},
+                "content": [],
+            }
+        ).encode("utf-8")
+
+        with mock.patch("urllib.request.urlopen", return_value=response):
+            with self.assertRaisesRegex(RuntimeError, "refused candidate selection"):
+                _call_anthropic_messages(
+                    system="system",
+                    user={"candidates": []},
+                    model="claude-fable-5",
+                    base_url=None,
+                    api_key="test-key",
+                    api_timeout=1.0,
+                    max_output_tokens=64,
+                )
 
     def test_provider_options_reduce_reasoning_for_short_choice(self) -> None:
         ali = _openai_compatible_request_options(

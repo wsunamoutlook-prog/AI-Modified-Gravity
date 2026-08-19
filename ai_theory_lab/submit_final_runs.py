@@ -73,7 +73,6 @@ FRONTIER6_RUNS = [
     ),
 ]
 
-
 CHEAP5_RUNS = [
     ModelRun(
         tag="openai",
@@ -140,14 +139,34 @@ EXPENSIVE3_RUNS = [
     ),
 ]
 
+
+CLAUDE5_RUNS = [
+    ModelRun(
+        tag="claude-opus5",
+        run_slug="claude_opus_5",
+        provider="anthropic",
+        model="claude-opus-5",
+        key_env="ANTHROPIC_API_KEY",
+    ),
+    ModelRun(
+        tag="claude-fable5",
+        run_slug="claude_fable_5",
+        provider="anthropic",
+        model="claude-fable-5",
+        key_env="ANTHROPIC_API_KEY",
+    ),
+]
+
 RUN_PRESETS = {
     "frontier6": FRONTIER6_RUNS,
+    "claude5": CLAUDE5_RUNS,
     "cheap5": CHEAP5_RUNS,
     "expensive3": EXPENSIVE3_RUNS,
 }
 
 DEFAULT_RUN_LABEL = {
     "frontier6": "openonly_aic_v1",
+    "claude5": "frontier6_openonly_aic_v4_claude5",
     "cheap5": "cheap_v1",
     "expensive3": "expensive_v1",
 }
@@ -263,7 +282,8 @@ def main() -> int:
         default="frontier6",
         help=(
             "Model set to submit. frontier6 is the current production comparison; "
-            "cheap5 and expensive3 are retained for historical reproduction."
+            "claude5 adds matched Opus 5 and Fable 5 experiments; cheap5 and "
+            "expensive3 are retained for historical reproduction."
         ),
     )
     parser.add_argument(
