@@ -16,6 +16,7 @@ python -m compileall -q \
   solver_v5_2
 
 python -m unittest discover -s tests -v
+python -m ai_theory_lab.build_token_context_cache --timeout 0
 python -m ai_theory_lab.check_api_connections --preset frontier6 --live --timeout 60
 python -m ai_theory_lab.check_api_connections --preset claude5 --live --timeout 60
 

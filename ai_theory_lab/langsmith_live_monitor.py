@@ -199,6 +199,11 @@ def _summary(run: str) -> dict[str, Any]:
         "global_best_delta_aic_vs_lcdm": None if best_aic is None else best_aic - LCDM_REFERENCE_AIC,
         "global_best_structure_score": _best_structure_score(rows),
         "open_search_best_chi2": _best(rows, "open_search"),
+        "non_eh_track_best_chi2": _best_track(rows, "non_eh"),
+        "non_eh_track_best_structure_score": _best_structure_score(non_eh_rows),
+        # Compatibility aliases for older JSON consumers. These metrics are
+        # theory-track diagnostics, not evidence that an open_only run sampled
+        # the dedicated non_eh proposal sector.
         "non_eh_best_chi2": _best_track(rows, "non_eh"),
         "non_eh_best_structure_score": _best_structure_score(non_eh_rows),
         "open_search_attempts": len(open_rows),
@@ -243,8 +248,8 @@ def main() -> int:
                 f"AIC*={_fmt(payload['global_best_aic'])} "
                 f"dAIC={_fmt(payload['global_best_delta_aic_vs_lcdm'])} "
                 f"score*={_fmt(payload['global_best_structure_score'])} "
-                f"non_eh_chi2*={_fmt(payload['non_eh_best_chi2'])} "
-                f"non_eh_score*={_fmt(payload['non_eh_best_structure_score'])}",
+                f"non_eh_track_chi2*={_fmt(payload['non_eh_track_best_chi2'])} "
+                f"non_eh_track_score*={_fmt(payload['non_eh_track_best_structure_score'])}",
                 flush=True,
             )
             trace_event("ai_theory_lab.live_metrics", payload, run_name=run)

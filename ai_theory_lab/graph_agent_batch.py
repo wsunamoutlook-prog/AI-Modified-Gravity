@@ -2941,8 +2941,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         default=1638.0,
         help=(
             "For async_slots, trigger 5000-sample refinement only when expanded "
-            "validation has best chi2 below this threshold. This is the default "
-            "threshold for theories not classified as non_eh."
+            "validation has best chi2 below this threshold. The same threshold "
+            "is applied uniformly to every organically discovered theory track."
         ),
     )
     parser.add_argument("--timeout-setup", type=int, default=1200)

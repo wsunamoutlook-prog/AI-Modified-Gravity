@@ -24,5 +24,5 @@
       "\\alpha": 0.5
     }
   ],
-  "rationale": "Minimal Einstein-Hilbert plus one quadratic scalar; parameter sample copied from a previously accepted run to test proposal compilation."
+  "rationale": "Minimal Einstein-Hilbert plus one quadratic scalar used as an explicit proposal-compilation regression case."
 }

@@ -44,6 +44,22 @@ def _install_sympy_pickle_compat() -> None:
     _sympy_function._rebuild_undef = _rebuild_undef
 
 
+class _DynamicFunctionUnpickler(pickle.Unpickler):
+    """Resolve FLRW function classes serialized by any agent entry module."""
+
+    _functions = dict(zip(DYN_NAMES, DYN_FUNCS))
+
+    def find_class(self, module: str, name: str):
+        function = self._functions.get(name)
+        if function is not None and (module == "__main__" or module.startswith("ai_theory_lab.")):
+            return function
+        return super().find_class(module, name)
+
+
+def _load_lagrangian_pickle(file_obj):
+    return _DynamicFunctionUnpickler(file_obj).load()
+
+
 def _register_dynamic_functions_for_pickle(obj) -> None:
     """Expose old dynamic Function classes on __main__ so stdlib pickle can write them."""
     main_module = sys.modules.get("__main__")
@@ -240,7 +256,7 @@ def run_eom(settings: Optional[Dict[str, Any]] = None) -> None:
 
         t0_load = _time.time()
         with open(pkl_path, "rb") as f:
-            lagrangian_results = pickle.load(f)
+            lagrangian_results = _load_lagrangian_pickle(f)
         _register_dynamic_functions_for_pickle(lagrangian_results)
         dt_load = _time.time() - t0_load
 

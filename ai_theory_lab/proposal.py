@@ -20,13 +20,12 @@ from gr_grammar_masker_v3_2.grammar import (
     m1_phi,
     m2_phi,
 )
-from gr_grammar_masker_v3_2.runner import _build_tensors_dict, _register_dynamic_functions_for_pickle
+from gr_grammar_masker_v3_2.runner import _register_dynamic_functions_for_pickle
 from gr_grammar_masker_v3_2.tensor import sqrt_mg
 
 
 VALID_SCALAR_CONFIGS = {"none", "phi1_only", "phi2_only", "both"}
 VALID_POTENTIALS = {"quadratic", "axion", None}
-ROOT = Path(__file__).resolve().parents[1]
 
 
 def load_proposal(path: Path) -> Dict[str, Any]:
@@ -35,17 +34,6 @@ def load_proposal(path: Path) -> Dict[str, Any]:
     if not isinstance(proposal, dict):
         raise TypeError("proposal JSON must be an object")
     return proposal
-
-
-def _candidate_catalog(max_derivatives: int = 2, dimensions=(2, 3, 4, 5, 6)) -> Dict[str, Any]:
-    tensors = _build_tensors_dict()
-    masker = GravityMasker(max_derivatives=max_derivatives)
-    masker.collect_candidates(tensors, dims=dimensions)
-    catalog: Dict[str, Any] = {}
-    for cand in masker.all_candidates:
-        for key in {cand.contraction_label, cand.general_label, cand.combo_label}:
-            catalog[str(key)] = cand
-    return {"masker": masker, "tensors": tensors, "candidates": catalog}
 
 
 def _make_potential(tensors: Dict[str, Any], which: int, pot_type: str):
@@ -236,6 +224,226 @@ def _compile_from_existing_catalog(
     return None
 
 
+def _load_token_level_context() -> Dict[str, Any]:
+    """Load the shared legal-operator cache, building it once when absent.
+
+    The import is intentionally local. ``cold_start_runner`` imports the
+    harness, which imports this module, so importing it at module load time
+    would create a circular import. By the time a proposal is compiled the
+    harness is fully initialized and the shared cache helper is safe to use.
+    """
+
+    from .cold_start_runner import _build_token_level_context
+
+    return _build_token_level_context(0, use_cache=True)
+
+
+def _candidate_alias_catalog(context: Dict[str, Any]) -> Dict[str, List[Any]]:
+    catalog: Dict[str, List[Any]] = {}
+    for candidate in getattr(context["masker"], "all_candidates", []) or []:
+        for raw_key in (
+            getattr(candidate, "contraction_label", None),
+            getattr(candidate, "general_label", None),
+            getattr(candidate, "combo_label", None),
+        ):
+            key = str(raw_key or "").strip()
+            if key:
+                catalog.setdefault(key, []).append(candidate)
+    return catalog
+
+
+def _resolve_candidate(catalog: Dict[str, List[Any]], label: str) -> Any:
+    matches = catalog.get(label, [])
+    if not matches:
+        raise ValueError(f"Unknown Grammar Masker operator: {label!r}")
+
+    unique: Dict[str, Any] = {}
+    for candidate in matches:
+        exact_label = str(getattr(candidate, "contraction_label", "") or "")
+        unique.setdefault(exact_label, candidate)
+    if len(unique) > 1:
+        choices = ", ".join(sorted(repr(key) for key in unique))
+        raise ValueError(
+            f"Ambiguous Grammar Masker operator alias {label!r}; use one of the "
+            f"exact contraction labels: {choices}"
+        )
+    return next(iter(unique.values()))
+
+
+def _candidate_allowed_for_scalar_config(candidate: Any, scalar_config: str) -> bool:
+    involves_phi1 = GravityMasker._involves_phi1(candidate)
+    involves_phi2 = GravityMasker._involves_phi2(candidate)
+    if scalar_config == "none":
+        return not involves_phi1 and not involves_phi2
+    if scalar_config == "phi1_only":
+        return not involves_phi2
+    if scalar_config == "phi2_only":
+        return not involves_phi1
+    return scalar_config == "both"
+
+
+def _compile_from_token_context(
+    *,
+    theory: Dict[str, Any],
+    scalar_config: str,
+    potential_types: Dict[str, Any],
+    context: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Compile a fresh proposal directly from legal token-level candidates."""
+
+    operator_specs = theory.get("operators")
+    if not isinstance(operator_specs, list) or not operator_specs:
+        _proposal_operator_labels(theory)  # Raise the canonical schema error.
+
+    catalog = _candidate_alias_catalog(context)
+    tensors = context["tensors"]
+    general_gravity: List[str] = []
+    general_nonminimal: List[str] = []
+    general_scalar: List[str] = []
+    substituted_gravity = sp.Integer(0)
+    substituted_nonminimal = sp.Integer(0)
+    substituted_scalar = sp.Integer(0)
+    terms: List[Dict[str, Any]] = []
+    seen_exact_labels: set[str] = set()
+
+    for index, spec in enumerate(operator_specs):
+        if not isinstance(spec, dict):
+            raise TypeError(f"theory.operators[{index}] must be an object")
+        requested_label = str(
+            spec.get("candidate") or spec.get("operator") or spec.get("general_label") or ""
+        ).strip()
+        if not requested_label:
+            raise ValueError(
+                f"theory.operators[{index}] must contain candidate/operator/general_label"
+            )
+        candidate = _resolve_candidate(catalog, requested_label)
+        exact_label = str(getattr(candidate, "contraction_label", "") or requested_label)
+        if exact_label in seen_exact_labels:
+            raise ValueError(f"Duplicate Grammar Masker operator in proposal: {exact_label!r}")
+        seen_exact_labels.add(exact_label)
+        if not _candidate_allowed_for_scalar_config(candidate, scalar_config):
+            raise ValueError(
+                f"Operator {requested_label!r} is incompatible with scalar_config={scalar_config!r}"
+            )
+
+        coefficient = _coefficient_symbol(spec.get("coefficient"), index)
+        sector = str(getattr(candidate, "sector", "gravity"))
+        mass_dim = int(getattr(candidate, "mass_dim"))
+        lambda_power = GravityMasker._pad_lambda(mass_dim, sector)
+        lambda_factor = Lambda_eft**lambda_power if lambda_power else sp.Integer(1)
+        lambda_text = f" Λ^{{{lambda_power}}}" if lambda_power else ""
+        general_label = str(getattr(candidate, "general_label", exact_label))
+        general_term = f"{coefficient}{lambda_text} · {general_label}"
+        symbolic_value = getattr(candidate, "symbolic_value")
+
+        if sector == "gravity":
+            general_gravity.append(general_term)
+            substituted_gravity += coefficient * lambda_factor * symbolic_value
+        elif sector == "non-minimal":
+            general_nonminimal.append(general_term)
+            substituted_nonminimal += coefficient * lambda_factor * symbolic_value
+        elif sector == "scalar":
+            general_scalar.append(general_term)
+            substituted_scalar += coefficient * lambda_factor * symbolic_value
+        else:
+            raise ValueError(f"Unknown candidate sector: {sector!r}")
+
+        terms.append(
+            {
+                "coeff_symbol": str(coefficient),
+                "coeff_token": f"COEFF_{index}",
+                "candidate": exact_label,
+                "mass_dim": mass_dim,
+                "lambda_power": lambda_power,
+                "sector": sector,
+            }
+        )
+
+    fixed_general, fixed_substituted, fixed_terms = _fixed_matter_terms(
+        tensors,
+        scalar_config,
+        potential_types,
+    )
+    terms.extend(fixed_terms)
+
+    inner_parts: List[str] = []
+    mp2_parts = general_gravity + general_nonminimal
+    if mp2_parts:
+        inner_parts.append("M_p² ( " + "  +  ".join(mp2_parts) + " )")
+    if general_scalar:
+        inner_parts.append("  +  ".join(general_scalar))
+    if fixed_general:
+        inner_parts.append("  +  ".join(fixed_general))
+
+    substituted = sqrt_mg * (
+        Mp**2 * (substituted_gravity + substituted_nonminimal)
+        + substituted_scalar
+        + fixed_substituted
+    )
+    return {
+        "n_terms": len(terms),
+        "general": "√(-g) [ " + "  +  ".join(inner_parts) + " ]",
+        "substituted": sp.simplify(substituted),
+        "terms": terms,
+        "scalar_config": scalar_config,
+        "potential_types": {
+            "phi1": potential_types.get("phi1"),
+            "phi2": potential_types.get("phi2"),
+        },
+    }
+
+
+def _write_compiled_proposal(
+    *,
+    proposal: Dict[str, Any],
+    proposal_path: Path,
+    run_dir: Path,
+    theory: Dict[str, Any],
+    scalar_config: str,
+    compiled_lagrangian: Dict[str, Any],
+    source: str,
+    source_metadata: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    run_dir.mkdir(parents=True, exist_ok=True)
+    lag_path = run_dir / "agent_lagrangians.pkl"
+    payload = {compiled_lagrangian["n_terms"]: [compiled_lagrangian]}
+    _register_dynamic_functions_for_pickle(payload)
+    with lag_path.open("wb") as f:
+        pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+    metadata: Dict[str, Any] = {
+        "proposal_path": str(proposal_path),
+        "agent_lagrangians_path": str(lag_path),
+        "proposal_id": proposal.get("proposal_id"),
+        "source": source,
+        "scalar_config": scalar_config,
+        "potential_types": compiled_lagrangian["potential_types"],
+        "operators": [
+            str(term.get("candidate"))
+            for term in compiled_lagrangian.get("terms", [])
+            if not term.get("fixed")
+        ],
+        "general": compiled_lagrangian["general"],
+    }
+    if source_metadata:
+        metadata.update(source_metadata)
+
+    parameter_samples = proposal.get("parameter_samples")
+    if parameter_samples is not None:
+        coeffs = _proposal_coefficients(theory)
+        _validate_parameter_samples(parameter_samples, coeffs, scalar_config=scalar_config)
+        parameter_samples = _normalize_parameter_samples(parameter_samples, coeffs)
+        param_path = run_dir / "agent_parameter_samples.json"
+        param_path.write_text(json.dumps(parameter_samples, indent=2, ensure_ascii=False), encoding="utf-8")
+        metadata["agent_parameter_samples_path"] = str(param_path)
+
+    (run_dir / "agent_lagrangian_metadata.json").write_text(
+        json.dumps(metadata, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    return metadata
+
+
 def compile_proposal_to_run(proposal_path: Path, run_dir: Path) -> Dict[str, Any]:
     proposal_path = proposal_path.expanduser().resolve()
     proposal = load_proposal(proposal_path)
@@ -259,53 +467,54 @@ def compile_proposal_to_run(proposal_path: Path, run_dir: Path) -> Dict[str, Any
         raise ValueError("phi1 potential type is required for this scalar_config")
     if scalar_config in {"phi2_only", "both"} and potential_types.get("phi2") is None:
         raise ValueError("phi2 potential type is required for this scalar_config")
+    if scalar_config in {"none", "phi2_only"} and potential_types.get("phi1") is not None:
+        raise ValueError("phi1 potential type must be null when phi1 is inactive")
+    if scalar_config in {"none", "phi1_only"} and potential_types.get("phi2") is not None:
+        raise ValueError("phi2 potential type must be null when phi2 is inactive")
 
-    source_lagrangians_path = Path(proposal.get("source_lagrangians_path") or ROOT / "lagrangians.pkl")
-    matched_lagrangian = _compile_from_existing_catalog(
+    source_path_value = proposal.get("source_lagrangians_path")
+    if source_path_value:
+        source_lagrangians_path = Path(str(source_path_value)).expanduser().resolve()
+        if not source_lagrangians_path.exists():
+            raise FileNotFoundError(f"Explicit replay catalog does not exist: {source_lagrangians_path}")
+        matched_lagrangian = _compile_from_existing_catalog(
+            theory=theory,
+            scalar_config=scalar_config,
+            potential_types=potential_types,
+            source_lagrangians_path=source_lagrangians_path,
+        )
+        if matched_lagrangian is None:
+            raise ValueError(
+                "Proposal theory was not found in the explicitly requested replay catalog."
+            )
+        match_info = dict(matched_lagrangian.pop("_proposal_match"))
+        return _write_compiled_proposal(
+            proposal=proposal,
+            proposal_path=proposal_path,
+            run_dir=run_dir,
+            theory=theory,
+            scalar_config=scalar_config,
+            compiled_lagrangian=matched_lagrangian,
+            source="proposal_json_existing_catalog",
+            source_metadata={
+                "source_lagrangians_path": match_info["source_lagrangians_path"],
+                "source_n_terms": match_info["source_n_terms"],
+                "source_local_number": match_info["source_local_number"],
+            },
+        )
+
+    compiled_lagrangian = _compile_from_token_context(
         theory=theory,
         scalar_config=scalar_config,
         potential_types=potential_types,
-        source_lagrangians_path=source_lagrangians_path,
+        context=_load_token_level_context(),
     )
-    if matched_lagrangian is not None:
-        match_info = dict(matched_lagrangian.pop("_proposal_match"))
-        run_dir.mkdir(parents=True, exist_ok=True)
-        lag_path = run_dir / "agent_lagrangians.pkl"
-        payload = {matched_lagrangian["n_terms"]: [matched_lagrangian]}
-        _register_dynamic_functions_for_pickle(payload)
-        with lag_path.open("wb") as f:
-            pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
-
-        metadata: Dict[str, Any] = {
-            "proposal_path": str(proposal_path),
-            "agent_lagrangians_path": str(lag_path),
-            "proposal_id": proposal.get("proposal_id"),
-            "source": "proposal_json_existing_catalog",
-            "source_lagrangians_path": match_info["source_lagrangians_path"],
-            "source_n_terms": match_info["source_n_terms"],
-            "source_local_number": match_info["source_local_number"],
-            "scalar_config": scalar_config,
-            "potential_types": matched_lagrangian["potential_types"],
-            "operators": _proposal_operator_labels(theory),
-            "general": matched_lagrangian["general"],
-        }
-
-        parameter_samples = proposal.get("parameter_samples")
-        if parameter_samples is not None:
-            coeffs = _proposal_coefficients(theory)
-            _validate_parameter_samples(parameter_samples, coeffs, scalar_config=scalar_config)
-            parameter_samples = _normalize_parameter_samples(parameter_samples, coeffs)
-            param_path = run_dir / "agent_parameter_samples.json"
-            param_path.write_text(json.dumps(parameter_samples, indent=2, ensure_ascii=False), encoding="utf-8")
-            metadata["agent_parameter_samples_path"] = str(param_path)
-
-        (run_dir / "agent_lagrangian_metadata.json").write_text(
-            json.dumps(metadata, indent=2, ensure_ascii=False),
-            encoding="utf-8",
-        )
-        return metadata
-
-    raise ValueError(
-        "Proposal theory was not found in the existing grammar-generated catalog. "
-        "Use candidate labels already present in lagrangians.pkl, or generate/update the catalog first."
+    return _write_compiled_proposal(
+        proposal=proposal,
+        proposal_path=proposal_path,
+        run_dir=run_dir,
+        theory=theory,
+        scalar_config=scalar_config,
+        compiled_lagrangian=compiled_lagrangian,
+        source="proposal_json_token_context",
     )

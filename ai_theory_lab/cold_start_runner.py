@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import math
 import os
 import pickle
 import random
 import signal
+import tempfile
 import time
 from contextlib import contextmanager
 from pathlib import Path
@@ -1056,6 +1058,21 @@ def _token_context_cache_path() -> Path:
     )
 
 
+@contextmanager
+def _token_context_cache_lock():
+    """Serialize cache construction across simultaneous Oscar jobs."""
+
+    cache_path = _token_context_cache_path()
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = cache_path.with_suffix(cache_path.suffix + ".lock")
+    with lock_path.open("a+b") as lock_file:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+
+
 def _load_token_level_context_cache() -> Optional[Dict[str, Any]]:
     path = _token_context_cache_path()
     if not path.exists():
@@ -1118,33 +1135,60 @@ def _save_token_level_context_cache(context: Dict[str, Any]) -> None:
         "max_derivatives": TOKEN_CONTEXT_MAX_DERIVATIVES,
         "context": context,
     }
+    temporary_path: Optional[Path] = None
     try:
         _register_dynamic_functions_for_pickle(context.get("tensors", {}))
         for candidate in getattr(context["masker"], "all_candidates", []) or []:
             _register_dynamic_functions_for_pickle(getattr(candidate, "symbolic_value", None))
             _register_dynamic_functions_for_pickle(getattr(candidate, "general_label", None))
-        with path.open("wb") as f:
+        file_descriptor, temporary_name = tempfile.mkstemp(
+            dir=path.parent,
+            prefix=path.name + ".",
+            suffix=".tmp",
+        )
+        os.close(file_descriptor)
+        temporary_path = Path(temporary_name)
+        with temporary_path.open("wb") as f:
             pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temporary_path, path)
+        temporary_path = None
     except Exception as exc:
         print(f"[TOKEN-CACHE] Could not save {path}: {type(exc).__name__}: {exc}", flush=True)
         return
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
     candidate_count = len(getattr(context["masker"], "all_candidates", []) or [])
     print(f"[TOKEN-CACHE] Saved {candidate_count} candidates to {path}", flush=True)
 
 
 def _build_token_level_context(timeout_seconds: int, use_cache: bool = True) -> Dict[str, Any]:
-    if use_cache:
+    def build() -> Dict[str, Any]:
+        with _wall_timeout(timeout_seconds, "Token-level Grammar Masker generation"):
+            tensors = _build_tensors_dict()
+            masker = GravityMasker(max_derivatives=TOKEN_CONTEXT_MAX_DERIVATIVES)
+            masker.collect_candidates(tensors, dims=TOKEN_CONTEXT_DIMS)
+        return {"tensors": tensors, "masker": masker}
+
+    if not use_cache:
+        return build()
+
+    cached = _load_token_level_context_cache()
+    if cached is not None:
+        return cached
+
+    # Multiple Frontier jobs can start on Oscar at the same instant. Only the
+    # first process builds the expensive symbolic catalog; followers wait and
+    # reload the completed atomic cache instead of racing to overwrite it.
+    with _token_context_cache_lock():
         cached = _load_token_level_context_cache()
         if cached is not None:
             return cached
-    with _wall_timeout(timeout_seconds, "Token-level Grammar Masker generation"):
-        tensors = _build_tensors_dict()
-        masker = GravityMasker(max_derivatives=TOKEN_CONTEXT_MAX_DERIVATIVES)
-        masker.collect_candidates(tensors, dims=TOKEN_CONTEXT_DIMS)
-    context = {"tensors": tensors, "masker": masker}
-    if use_cache:
+        context = build()
         _save_token_level_context_cache(context)
-    return context
+        return context
 
 
 def _write_token_level_context_summary(context: Dict[str, Any], path: Path) -> None:
