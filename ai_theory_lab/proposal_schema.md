@@ -237,7 +237,7 @@ For LLM-driven proposal selection, batch and graph entrypoints accept:
 
 LLM proposal records must include the selected provider/model/base URL metadata and latency/usage when available so later model-comparison tables can distinguish native APIs from gateways. Production comparisons use `--llm-fallback skip`: exhausted API failures are recorded and omitted while the scheduler refills the target, because silently replacing a failed API selection with the deterministic policy would contaminate model attribution. The response requests `candidate_index` plus a concise rationale, but the explicit index is authoritative and may be recovered if only the trailing rationale is truncated. Extended reasoning is disabled or minimized for this short selection call.
 
-The production `frontier6` preset also includes `deepseek-v4-pro` through the configured DashScope-compatible endpoint. `cheap5` and `expensive3` remain available only for reproducing earlier experiments.
+The production `frontier6` preset also includes `deepseek-v4-pro` through the configured DashScope-compatible endpoint. The matched `claude5` preset provides the Opus 5 and Fable 5 extension under the same 1000/3000/5000 numerical schedule.
 
 ## Optional Tracing
 

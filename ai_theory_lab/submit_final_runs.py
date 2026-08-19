@@ -1,4 +1,4 @@
-"""Generate and submit final multi-API comparison SLURM jobs.
+"""Generate and submit production 1000-theory comparison SLURM jobs.
 
 This helper avoids copy/pasting long cluster commands. It writes one SLURM file
 per model and optionally submits them with sbatch.
@@ -74,82 +74,31 @@ FRONTIER6_RUNS = [
 ]
 
 
-CHEAP5_RUNS = [
+CLAUDE5_RUNS = [
     ModelRun(
-        tag="openai",
-        run_slug="openai_gpt_5_4_mini",
-        provider="openai",
-        model="gpt-5.4-mini",
-        key_env="OPENAI_API_KEY",
-    ),
-    ModelRun(
-        tag="claude",
-        run_slug="claude_sonnet_4_6",
+        tag="claude-opus5",
+        run_slug="claude_opus_5",
         provider="anthropic",
-        model="claude-sonnet-4-6",
+        model="claude-opus-5",
         key_env="ANTHROPIC_API_KEY",
     ),
     ModelRun(
-        tag="gemini",
-        run_slug="gemini_3_5_flash",
-        provider="openai_compatible",
-        model="gemini-3.5-flash",
-        key_env="GEMINI_API_KEY",
-        base_url_expr="$GEMINI_BASE_URL",
-    ),
-    ModelRun(
-        tag="qwen",
-        run_slug="qwen3_7_plus",
-        provider="openai_compatible",
-        model="qwen3.7-plus",
-        key_env="DASHSCOPE_API_KEY",
-        base_url_expr="$QWEN_BASE_URL",
-    ),
-    ModelRun(
-        tag="deepseek",
-        run_slug="deepseek_ali_v4_pro",
-        provider="openai_compatible",
-        model="deepseek-v4-pro",
-        key_env="DASHSCOPE_API_KEY",
-        base_url_expr="$QWEN_BASE_URL",
-    ),
-]
-
-EXPENSIVE3_RUNS = [
-    ModelRun(
-        tag="openai",
-        run_slug="openai_gpt_5_5",
-        provider="openai",
-        model="gpt-5.5",
-        key_env="OPENAI_API_KEY",
-    ),
-    ModelRun(
-        tag="claude",
-        run_slug="claude_opus_4_8",
+        tag="claude-fable5",
+        run_slug="claude_fable_5",
         provider="anthropic",
-        model="claude-opus-4-8",
+        model="claude-fable-5",
         key_env="ANTHROPIC_API_KEY",
-    ),
-    ModelRun(
-        tag="gemini",
-        run_slug="gemini_3_1_pro",
-        provider="openai_compatible",
-        model="gemini-3.1-pro-preview",
-        key_env="GEMINI_API_KEY",
-        base_url_expr="$GEMINI_BASE_URL",
     ),
 ]
 
 RUN_PRESETS = {
     "frontier6": FRONTIER6_RUNS,
-    "cheap5": CHEAP5_RUNS,
-    "expensive3": EXPENSIVE3_RUNS,
+    "claude5": CLAUDE5_RUNS,
 }
 
 DEFAULT_RUN_LABEL = {
-    "frontier6": "openonly_aic_v1",
-    "cheap5": "cheap_v1",
-    "expensive3": "expensive_v1",
+    "frontier6": "frontier6_openonly_aic_v5_4",
+    "claude5": "frontier6_openonly_aic_v5_4_claude5",
 }
 
 
@@ -262,8 +211,8 @@ def main() -> int:
         choices=sorted(RUN_PRESETS),
         default="frontier6",
         help=(
-            "Model set to submit. frontier6 is the current production comparison; "
-            "cheap5 and expensive3 are retained for historical reproduction."
+            "Model set to submit. frontier6 is the six-model production comparison; "
+            "claude5 adds matched Opus 5 and Fable 5 experiments."
         ),
     )
     parser.add_argument(
@@ -271,7 +220,7 @@ def main() -> int:
         default="",
         help="Suffix for run names and log files. Defaults to the selected preset's versioned label.",
     )
-    parser.add_argument("--attempts", type=int, default=600)
+    parser.add_argument("--attempts", type=int, default=1000)
     parser.add_argument("--cpus", type=int, default=8)
     parser.add_argument("--mem", default="32G")
     parser.add_argument("--time", default="72:00:00")

@@ -10,8 +10,47 @@ venv/
 .matplotlib-cache/
 .idea/
 .vscode/
-# 运行生成的日志
+
+# Runtime products
 log/
 ai_theory_lab/runs/
 ai_theory_lab/memory/
 ai_theory_lab/cache/
+ai_theory_lab/proposals/
+ai_theory_lab/reports/
+ai_theory_lab/cluster/
+/ai_theory_lab/build_cmp1500_results_package.py
+/ai_theory_lab/build_cmp2000_overleaf_package.py
+/ai_theory_lab/plot_discovery_pipeline.py
+solver_v5_2/cache/
+lagrangians/
+eom_results/
+solver_result/
+outputs/
+output/
+tmp/
+cluster_report/
+
+# Generated jobs and serialized runtime state
+/*.slurm
+/lagrangians.pkl
+*.pickle
+
+# Historical experiments, paper builds, and local side projects
+/OLD Versions/
+/Hamiltonian Constraint/
+/overleaf_*/
+/paper_work/
+/paper_aic_strategy_update/
+/paper_figures/
+/figures/
+/signal_lab/
+/scripts/
+/tests/test_signal_lab.py
+/*.tex
+/*.bib
+/*.pdf
+/*.png
+/*.zip
+/*.tar.gz
+/pull_*.sh
