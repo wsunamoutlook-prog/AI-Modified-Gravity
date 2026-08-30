@@ -1,0 +1,79 @@
+{
+  "experiment_id": "fixed7_aic_resampling_20x5000_v1",
+  "description": "Fixed-Lagrangian finite-budget parameter-search stability control for the seven non-Sonnet headline representatives.",
+  "sampling_contract": {
+    "replicates": 20,
+    "samples_per_lagrangian": 5000,
+    "parameter_prior": "ai_theory_lab.config_p broad cold-start prior",
+    "current_loop_memory": false,
+    "joint_parameter_prior": false,
+    "historical_best_fit_seeding": false,
+    "vary_only": "random seed",
+    "interpretation": "Run-to-run variability of a finite-budget parameter search for a fixed serialized Lagrangian; not data uncertainty and not agent-level variability."
+  },
+  "representatives": [
+    {
+      "agent": "GPT-5.6 Sol",
+      "proposal": "G263",
+      "source_task_dir": "cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu_task_000263_expanded_slot_05",
+      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu/cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu_task_000263_expanded_slot_05",
+      "headline_chi2": 1638.0163077918285,
+      "headline_aic": 1648.0163077918285,
+      "headline_k": 5
+    },
+    {
+      "agent": "Claude Opus 5",
+      "proposal": "O769",
+      "source_task_dir": "cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5_task_000769_expanded_refine_slot_02",
+      "local_source_task_dir": "cluster_report/claude5_openonly_aic_final/claude5_paper_inputs_20260824/selected_tasks/cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5/cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5_task_000769_expanded_refine_slot_02",
+      "headline_chi2": 1637.9609152521139,
+      "headline_aic": 1647.9609152521139,
+      "headline_k": 5
+    },
+    {
+      "agent": "Claude Fable 5",
+      "proposal": "F456",
+      "source_task_dir": "cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5_task_000456_expanded_refine_slot_01",
+      "local_source_task_dir": "cluster_report/claude5_openonly_aic_final/claude5_paper_inputs_20260824/selected_tasks/cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5/cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5_task_000456_expanded_refine_slot_01",
+      "headline_chi2": 1637.9700107958788,
+      "headline_aic": 1647.9700107958788,
+      "headline_k": 5
+    },
+    {
+      "agent": "Gemini 3.6 Flash",
+      "proposal": "Gm986",
+      "source_task_dir": "cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix_task_000986_expanded_refine_slot_05",
+      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix/cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix_task_000986_expanded_refine_slot_05",
+      "headline_chi2": 1637.95591800854,
+      "headline_aic": 1647.95591800854,
+      "headline_k": 5
+    },
+    {
+      "agent": "Qwen 3.7 Max",
+      "proposal": "Q88",
+      "source_task_dir": "cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu_task_000088_expanded_slot_02",
+      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu/cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu_task_000088_expanded_slot_02",
+      "headline_chi2": 1638.011115865714,
+      "headline_aic": 1648.011115865714,
+      "headline_k": 5
+    },
+    {
+      "agent": "DeepSeek V4 Pro",
+      "proposal": "D820",
+      "source_task_dir": "cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix_task_000820_expanded_refine_slot_05",
+      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix/cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix_task_000820_expanded_refine_slot_05",
+      "headline_chi2": 1637.9618976750442,
+      "headline_aic": 1647.9618976750442,
+      "headline_k": 5
+    },
+    {
+      "agent": "Kimi K3",
+      "proposal": "K301",
+      "source_task_dir": "cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix_task_000301_expanded_refine_slot_07",
+      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix/cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix_task_000301_expanded_refine_slot_07",
+      "headline_chi2": 1637.9517610205505,
+      "headline_aic": 1647.9517610205505,
+      "headline_k": 5
+    }
+  ]
+}

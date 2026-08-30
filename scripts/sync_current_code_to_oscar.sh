@@ -13,7 +13,11 @@ rsync -avc --itemize-changes --relative \
   ./ai_theory_lab/check_api_connections.py \
   ./ai_theory_lab/cold_start_loop.md \
   ./ai_theory_lab/cold_start_runner.py \
+  ./ai_theory_lab/config_p.py \
   ./ai_theory_lab/dataset.py \
+  ./ai_theory_lab/fixed7_resampling_manifest.json \
+  ./ai_theory_lab/fixed_lagrangian_resampling.py \
+  ./ai_theory_lab/fixed_lagrangian_de.py \
   ./ai_theory_lab/graph_agent.py \
   ./ai_theory_lab/graph_agent_batch.py \
   ./ai_theory_lab/harness.py \
@@ -31,17 +35,27 @@ rsync -avc --itemize-changes --relative \
   ./solver_v5_2/core.py \
   ./solver_v5_2/runner.py \
   ./tests/test_compare_benchmarks.py \
+  ./tests/test_fixed_lagrangian_resampling.py \
+  ./tests/test_fixed_lagrangian_de.py \
   ./tests/test_hybrid_model_selection.py \
   ./tests/test_open_only_scheduler.py \
   ./run_cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5.slurm \
   ./run_cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5.slurm \
+  ./run_fixed7_de_prepare.slurm \
+  ./run_fixed7_de_array.slurm \
+  ./run_fixed7_de_summary.slurm \
   ./scripts/sync_current_code_to_oscar.sh \
   ./scripts/preflight_frontier6_on_oscar.sh \
   ./scripts/package_frontier6_openonly_results.sh \
   ./scripts/pull_frontier6_openonly_results.sh \
   ./scripts/select_frontier6_paper_inputs.py \
+  ./scripts/select_paper_inputs.py \
   ./scripts/audit_frontier6_paper_inputs.py \
   ./scripts/package_frontier6_paper_inputs.sh \
+  ./scripts/package_claude5_paper_inputs.sh \
+  ./scripts/summarize_llm_token_usage.py \
+  ./scripts/submit_fixed7_de_oscar.sh \
   ./scripts/pull_frontier6_paper_inputs.sh \
+  ./scripts/pull_claude5_paper_inputs.sh \
   ./scripts/fetch_frontier6_paper_inputs.sh \
   "$REMOTE"
