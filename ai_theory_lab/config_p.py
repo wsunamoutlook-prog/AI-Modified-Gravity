@@ -11,6 +11,8 @@ PARAMETER_PRIORS = {
     "mu1_m1_over_H0": {"low": 1.0e-2, "high": 1.0e2, "log10": True},
     "fbar1_f1_over_Mp": {"low": 1.0e-2, "high": 1.0e2, "log10": True},
     "varphi2_0_phi2_over_Lambda": {"low": 1.0e-5, "high": 1.0e5, "signed_log10": True},
+    "chi_bar_0_R_over_H0sq": {"low": 1.0e-2, "high": 1.0e3, "log10": True},
+    "q1_0_dvarphi1_dln_a": {"low": 1.0e-5, "high": 1.0e2, "signed_log10": True},
     "q2_0_dvarphi2_dln_a": {"low": 1.0e-5, "high": 1.0e5, "signed_log10": True},
     "mu2_m2_over_Lambda": {"low": 1.0e-5, "high": 1.0e5, "log10": True},
     "fbar2_f2_over_Lambda": {"low": 1.0e-5, "high": 1.0e5, "log10": True},

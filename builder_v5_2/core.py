@@ -260,6 +260,7 @@ def select_data(choice: str) -> np.ndarray:
 a_sym, adot, addot = sp.symbols("a adot addot", real=True)
 phi1, phi1dot, phi1ddot = sp.symbols("phi1 phi1dot phi1ddot", real=True)
 phi2, phi2dot, phi2ddot = sp.symbols("phi2 phi2dot phi2ddot", real=True)
+chi, chidot, chiddot = sp.symbols("chi chidot chiddot", real=True)
 
 M_p = sp.Symbol("M_p", positive=True)
 m1_sym = sp.Symbol("m_1", positive=True)
@@ -279,6 +280,7 @@ iota_sym, kappa_sym, xi_sym, varpi_sym = sp.symbols(
 x_sym, h_sym, hx_sym = sp.symbols("x h hx", real=True)
 varphi1_sym, q1_sym, q1x_sym = sp.symbols("varphi1 q1 q1x", real=True)
 varphi2_sym, q2_sym, q2x_sym = sp.symbols("varphi2 q2 q2x", real=True)
+chi_bar_sym, qchi_sym, qchix_sym = sp.symbols("chi_bar qchi qchix", real=True)
 H0_sym = sp.Symbol("H0", positive=True)
 mu1_sym = sp.Symbol("mu1", positive=True)
 mu2_sym = sp.Symbol("mu2", positive=True)
@@ -293,6 +295,7 @@ LOCAL_DICT = {
     "a": a_sym, "adot": adot, "addot": addot,
     "phi1": phi1, "phi1dot": phi1dot, "phi1ddot": phi1ddot,
     "phi2": phi2, "phi2dot": phi2dot, "phi2ddot": phi2ddot,
+    "chi": chi, "chidot": chidot, "chiddot": chiddot,
     "M_p": M_p, "m_1": m1_sym, "m_2": m2_sym,
     "f_1": f1_sym, "f_2": f2_sym,
     "rho_m0": rho_m0, "Lambda_eft": Lambda_sym,
@@ -304,6 +307,7 @@ LOCAL_DICT = {
 BASE_SYMBOLS = {a_sym, adot, addot,
                 phi1, phi1dot, phi1ddot,
                 phi2, phi2dot, phi2ddot,
+                chi, chidot, chiddot,
                 M_p, Lambda_sym,
                 m1_sym, m2_sym, f1_sym, f2_sym, rho_m0}
 
@@ -326,6 +330,10 @@ class Model:
     dimless_exprs: Optional[Dict[str, sp.Expr]] = None
     rhs_exprs: Optional[Dict[str, sp.Expr]] = None
     reject_reason: Optional[str] = None
+    has_scalaron: bool = False
+    scalaron_F_expr: Optional[sp.Expr] = None
+    scalaron_f_RR_expr: Optional[sp.Expr] = None
+    scalaron_mass_squared_expr: Optional[sp.Expr] = None
 
 
 @dataclass
@@ -376,13 +384,16 @@ def clean_expr_string(s: str) -> str:
         # Two-scalar derivatives: order matters (longest first)
         "d^2phi1/dt^2": "phi1ddot",
         "d^2phi2/dt^2": "phi2ddot",
+        "d^2chi/dt^2": "chiddot",
         "d^2a/dt^2": "addot",
         "dphi1/dt": "phi1dot",
         "dphi2/dt": "phi2dot",
+        "dchi/dt": "chidot",
         "da/dt": "adot",
         # Function notation → bare symbols
         "phi1(t)": "phi1",
         "phi2(t)": "phi2",
+        "chi(t)": "chi",
         "a(t)": "a",
         # Legacy single-scalar format (backward compat)
         "d^2phi/dt^2": "phi1ddot",
@@ -464,6 +475,14 @@ def extract_scalar_config(sec: str) -> str:
     return "none"
 
 
+def extract_scalaron_expr(sec: str, label: str) -> Optional[sp.Expr]:
+    """Parse one scalaron health expression emitted by the EOM stage."""
+    match = re.search(rf"^\s*{re.escape(label)}:\s*(.*)$", sec, flags=re.M)
+    if not match:
+        return None
+    return parse_eom_expr(match.group(1).strip())
+
+
 def extract_gf(sec: str) -> str:
     m = re.search(r"Ghost-free coefficient relations:\n(.*?)Final EOM", sec, flags=re.S)
     if not m:
@@ -473,7 +492,7 @@ def extract_gf(sec: str) -> str:
 
 
 def extract_final_eoms(sec: str) -> Dict[str, str]:
-    """Extract E_N, E_a, E_phi1, E_phi2 from the final EOM block."""
+    """Extract the final metric, matter-scalar, and scalaron EOM."""
     out = {}
     m_block = re.search(
         r"Final EOM \(N=1 gauge, ghost-free, symbolic, \+dust\):\n(.*?)(?:\n\s*Ghost-free:|\Z)",
@@ -481,7 +500,7 @@ def extract_final_eoms(sec: str) -> Dict[str, str]:
     if not m_block:
         return out
     block = m_block.group(1)
-    for key in ["N", "a", "phi1", "phi2"]:
+    for key in ["N", "a", "phi1", "phi2", "chi"]:
         m = re.search(rf"^\s*E_{key}\s*=\s*(.*)$", block, flags=re.M)
         if m:
             out[key] = m.group(1).strip()
@@ -507,7 +526,7 @@ def is_trivial_dust_eom(eom_strings: Dict[str, str]) -> bool:
     These models cannot define a nontrivial background IVP, so skipping them
     before SymPy parsing saves build time without changing viable results.
     """
-    if any(k in eom_strings for k in ("phi", "phi1", "phi2")):
+    if any(k in eom_strings for k in ("phi", "phi1", "phi2", "chi")):
         return False
     en = _compact_eom_string(eom_strings.get("N", ""))
     ea = _compact_eom_string(eom_strings.get("a", ""))
@@ -554,6 +573,14 @@ def parse_models(text: str) -> List[Model]:
         scalar_config = extract_scalar_config(sec)
         has_phi1 = scalar_config in ("phi1_only", "both") or "phi1" in eom_strings
         has_phi2 = scalar_config in ("phi2_only", "both") or "phi2" in eom_strings
+        has_scalaron = "chi" in eom_strings or bool(
+            re.search(r"scalaron:\s*(?:scalarizable|hybrid)", sec)
+        )
+        scalaron_F_expr = extract_scalaron_expr(sec, "scalaron_F") if has_scalaron else None
+        scalaron_f_RR_expr = extract_scalaron_expr(sec, "scalaron_f_RR") if has_scalaron else None
+        scalaron_mass_squared_expr = (
+            extract_scalaron_expr(sec, "scalaron_mass_squared") if has_scalaron else None
+        )
 
         # Detect EH coefficient
         eh_symbol = None
@@ -581,6 +608,10 @@ def parse_models(text: str) -> List[Model]:
             eom_exprs=eom_exprs,
             free_symbols=free,
             eh_symbol=eh_symbol,
+            has_scalaron=has_scalaron,
+            scalaron_F_expr=scalaron_F_expr,
+            scalaron_f_RR_expr=scalaron_f_RR_expr,
+            scalaron_mass_squared_expr=scalaron_mass_squared_expr,
         ))
     print(
         f"[INFO] parse_models: total_sections={n_sections}, kept={len(models)}, "
@@ -664,6 +695,10 @@ def nondimensionalize_expr(expr: sp.Expr, mode: str = "eft") -> sp.Expr:
         phi2: H0_sym * lambda_H_sym * varphi2_sym,
         phi2dot: H0_sym**2 * lambda_H_sym * h_sym * q2_sym,
         phi2ddot: H0_sym**3 * lambda_H_sym * h_sym * (hx_sym * q2_sym + h_sym * q2x_sym),
+        # scalaron chi has curvature dimension two
+        chi: H0_sym**2 * chi_bar_sym,
+        chidot: H0_sym**3 * h_sym * qchi_sym,
+        chiddot: H0_sym**4 * h_sym * (hx_sym * qchi_sym + h_sym * qchix_sym),
         # Masses
         m1_sym: H0_sym * mu1_sym,
         m2_sym: H0_sym * lambda_H_sym * mu2_sym,
@@ -769,6 +804,16 @@ def build_dimless_model_with_timeout(model: Model, mode: str = "eft", timeout_se
 def build_dimless_model(model: Model, mode: str = "eft") -> Model:
     try:
         dim = {k: nondimensionalize_expr(v, mode=mode) for k, v in model.eom_exprs.items()}
+        if model.has_scalaron:
+            if model.scalaron_F_expr is None or model.scalaron_f_RR_expr is None:
+                model.reject_reason = "scalaron health expressions missing from EOM summary"
+                return model
+            dim["scalaron_F"] = nondimensionalize_expr(model.scalaron_F_expr, mode=mode)
+            dim["scalaron_f_RR"] = nondimensionalize_expr(model.scalaron_f_RR_expr, mode=mode)
+            if model.scalaron_mass_squared_expr is not None:
+                dim["scalaron_mass_squared"] = nondimensionalize_expr(
+                    model.scalaron_mass_squared_expr, mode=mode
+                )
 
         # Fix EH coefficient if detected. This is the same normalization as before.
         if FIX_EH_COEFFICIENT and model.eh_symbol is not None:
@@ -794,6 +839,9 @@ def build_dimless_model(model: Model, mode: str = "eft") -> Model:
         if model.has_phi2 and "phi2" in dim:
             unknowns.append(q2x_sym)
             equations.append(dim["phi2"])
+        if model.has_scalaron and "chi" in dim:
+            unknowns.append(qchix_sym)
+            equations.append(dim["chi"])
 
         if not any(eq.has(u) for eq in equations for u in unknowns):
             model.reject_reason = "no e-fold evolution equation for h_x/q_x"
@@ -834,6 +882,11 @@ def build_dimless_model(model: Model, mode: str = "eft") -> Model:
                 model.reject_reason = "q2_x not determined by coupled scalar EOM"
                 return model
             rhs["q2x"] = _simplify_rhs_expr(s0[q2x_sym])
+        if model.has_scalaron and "chi" in dim:
+            if qchix_sym not in s0:
+                model.reject_reason = "qchi_x not determined by coupled scalaron EOM"
+                return model
+            rhs["qchix"] = _simplify_rhs_expr(s0[qchix_sym])
         model.rhs_exprs = rhs
         # Attach a lightweight diagnostic without changing dataclass schema.
         try:
@@ -849,4 +902,3 @@ def build_dimless_model(model: Model, mode: str = "eft") -> Model:
 # =============================================================================
 # Lambdify and numerical evaluation
 # =============================================================================
-

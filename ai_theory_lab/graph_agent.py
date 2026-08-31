@@ -33,6 +33,7 @@ from .memory import record_attempt
 from .report import generate_report
 from .validation_result import ValidationResult
 from .dataset import chi2_quality_tier, structure_score_for_attempt
+from eom_v5_2.scalaron import scalarize_lagrangian_data, verify_legendre_equivalence
 
 
 class GraphAgentState(TypedDict, total=False):
@@ -60,6 +61,7 @@ class GraphAgentState(TypedDict, total=False):
     rng: Any
     token_context: Any
     entry: Dict[str, Any]
+    scalaron: Dict[str, Any]
     source_path: str
     initial_record: Dict[str, Any]
     latest_record: Dict[str, Any]
@@ -292,13 +294,40 @@ def propose_theory(state: GraphAgentState) -> Dict[str, Any]:
             ),
         }
     source_path = proposal_dir / f"loop_{loop_index:02d}_token_lagrangians.pkl"
-    _write_token_level_source(entry, source_path)
     return {
         "entry": entry,
         "source_path": str(source_path),
         "messages": _append(
             state,
             f"Proposed token-level legal theory for loop {loop_index} using {entry.get('proposal_mode', proposal_mode)} mode.",
+        ),
+    }
+
+
+def scalarize_theory(state: GraphAgentState) -> Dict[str, Any]:
+    """Apply the reversible scalaron transform before deterministic EOM validation."""
+    entry = dict(state["entry"])
+    lagrangian = scalarize_lagrangian_data(entry["lagrangian"])
+    scalaron_data = lagrangian.get("scalaron") or {}
+    if scalaron_data.get("enabled") and not verify_legendre_equivalence(lagrangian):
+        raise ValueError("scalaron transform failed the chi=R Legendre-equivalence check")
+
+    scalaron = {
+        "enabled": bool(scalaron_data.get("enabled")),
+        "classification": scalaron_data.get("classification", "ordinary"),
+        "algebraic_term_indices": list(scalaron_data.get("algebraic_term_indices") or []),
+        "nonlinear_term_indices": list(scalaron_data.get("nonlinear_term_indices") or []),
+    }
+    entry["lagrangian"] = lagrangian
+    entry["scalaron"] = scalaron
+    source_path = Path(str(state["source_path"]))
+    _write_token_level_source(entry, source_path)
+    return {
+        "entry": entry,
+        "scalaron": scalaron,
+        "messages": _append(
+            state,
+            f"Scalaron pre-filter classified proposal as {scalaron['classification']}.",
         ),
     }
 
@@ -456,6 +485,7 @@ def reflect_after_validation(state: GraphAgentState) -> Dict[str, Any]:
         f"structure_score={structure_score}",
         f"structure_quality_tier={structure_tier}",
         f"tags={tags}",
+        f"scalaron={state.get('scalaron') or {'enabled': False, 'classification': 'ordinary'}}",
     ]
     if record.get("coarse_family_key"):
         observations.append(f"coarse_family={record.get('coarse_family_key')}")
@@ -644,7 +674,7 @@ def route_after_initialize(state: GraphAgentState) -> str:
 def route_after_proposal(state: GraphAgentState) -> str:
     if bool(state.get("fatal_stop")) or state.get("next_action") in {"skip_validation", "stop"}:
         return "write_loop_trace"
-    return "validate_initial"
+    return "scalarize_theory"
 
 
 def route_after_initial_decision(state: GraphAgentState) -> str:
@@ -670,6 +700,7 @@ def build_graph():
     graph.add_node("initialize_run", initialize_run)
     graph.add_node("start_loop", start_loop)
     graph.add_node("propose_theory", propose_theory)
+    graph.add_node("scalarize_theory", scalarize_theory)
     graph.add_node("validate_initial", validate_initial)
     graph.add_node("reflect_after_initial", reflect_after_validation)
     graph.add_node("decide_after_initial", decide_after_initial)
@@ -681,17 +712,38 @@ def build_graph():
     graph.add_node("finalize_run", finalize_run)
 
     graph.set_entry_point("initialize_run")
-    graph.add_conditional_edges("initialize_run", route_after_initialize)
+    graph.add_conditional_edges(
+        "initialize_run",
+        route_after_initialize,
+        {"finalize_run": "finalize_run", "start_loop": "start_loop"},
+    )
     graph.add_edge("start_loop", "propose_theory")
-    graph.add_conditional_edges("propose_theory", route_after_proposal)
+    graph.add_conditional_edges(
+        "propose_theory",
+        route_after_proposal,
+        {"write_loop_trace": "write_loop_trace", "scalarize_theory": "scalarize_theory"},
+    )
+    graph.add_edge("scalarize_theory", "validate_initial")
     graph.add_edge("validate_initial", "reflect_after_initial")
     graph.add_edge("reflect_after_initial", "decide_after_initial")
-    graph.add_conditional_edges("decide_after_initial", route_after_initial_decision)
+    graph.add_conditional_edges(
+        "decide_after_initial",
+        route_after_initial_decision,
+        {"validate_expanded": "validate_expanded", "write_loop_trace": "write_loop_trace"},
+    )
     graph.add_edge("validate_expanded", "reflect_after_expanded")
     graph.add_edge("reflect_after_expanded", "decide_after_expanded")
     graph.add_edge("decide_after_expanded", "write_loop_trace")
-    graph.add_conditional_edges("write_loop_trace", route_after_trace)
-    graph.add_conditional_edges("advance_loop", route_after_loop)
+    graph.add_conditional_edges(
+        "write_loop_trace",
+        route_after_trace,
+        {"finalize_run": "finalize_run", "advance_loop": "advance_loop"},
+    )
+    graph.add_conditional_edges(
+        "advance_loop",
+        route_after_loop,
+        {"finalize_run": "finalize_run", "start_loop": "start_loop"},
+    )
     graph.add_edge("finalize_run", END)
     return graph.compile()
 

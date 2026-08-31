@@ -268,6 +268,40 @@ class AsyncSlotResumeTests(unittest.TestCase):
 
 
 class SubmissionTemplateTests(unittest.TestCase):
+    def test_openai_scalar500_job_keeps_production_budget_and_provider(self) -> None:
+        text = _slurm_text(
+            FRONTIER6_RUNS[0],
+            run_name="cmp500_openai_gpt_5_6_sol_scalaron_openonly_aic_v1",
+            attempts=500,
+            cpus=8,
+            mem="32G",
+            time_limit="72:00:00",
+            run_label="scalaron_openonly_aic_v1",
+            group_mode="open_only",
+        )
+
+        required = [
+            "#SBATCH --job-name=mg-openai500",
+            "--waves 21",
+            "--target-attempts 500",
+            "--initial-parameter-samples 1000",
+            "--expanded-parameter-samples 3000",
+            "--expanded-chi2-threshold 2000",
+            "--refine-parameter-samples 5000",
+            "--refine-chi2-threshold 1638",
+            "--proposal-mode llm",
+            "--llm-provider openai",
+            "--llm-model gpt-5.6-sol",
+            "--llm-api-key-env OPENAI_API_KEY",
+            "--llm-fallback skip",
+            "--group-mode open_only",
+            "--scheduler async_slots",
+        ]
+        for value in required:
+            self.assertIn(value, text)
+        self.assertNotIn("--llm-provider anthropic", text)
+        self.assertNotIn("--llm-provider openai_compatible", text)
+
     def test_generated_slurm_uses_open_only(self) -> None:
         text = _slurm_text(
             CHEAP5_RUNS[0],

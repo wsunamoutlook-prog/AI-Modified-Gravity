@@ -8,6 +8,8 @@ from typing import Dict, List, Tuple, Any
 import sympy as sp
 from sympy.printing.str import StrPrinter
 
+from .scalaron import scalarize_lagrangian_data, verify_legendre_equivalence
+
 
 class ReadablePrinter(StrPrinter):
     def _print_Derivative(self, expr):
@@ -40,14 +42,15 @@ def _simp(expr):
 
 t_sym = sp.Symbol('t', real=True)
 
-# Function *classes* — four dynamical variables: N, a, φ1, φ2
+# Function *classes* — lapse, scale factor, two matter scalars, and scalaron
 _N_cls    = sp.Function('N', positive=True)
 _a_cls    = sp.Function('a', positive=True)
 _phi1_cls = sp.Function('phi1')
 _phi2_cls = sp.Function('phi2')
+_chi_cls  = sp.Function('chi')
 
-DYN_FUNCS = [_N_cls, _a_cls, _phi1_cls, _phi2_cls]
-DYN_NAMES = ['N', 'a', 'phi1', 'phi2']
+DYN_FUNCS = [_N_cls, _a_cls, _phi1_cls, _phi2_cls, _chi_cls]
+DYN_NAMES = ['N', 'a', 'phi1', 'phi2', 'chi']
 
 # Greek coefficient symbols (extended to 12 to match masker v3.0)
 _GREEK_COEFFS = [sp.Symbol(g) for g in
@@ -159,15 +162,20 @@ def find_high_order_derivs(expr, t_s=t_sym, max_allowed=2, max_scan=12):
     return result
 
 
-def _make_test_profile(coeffs_N, coeffs_a, coeffs_phi1, coeffs_phi2, t_s=t_sym):
+def _make_test_profile(
+        coeffs_N, coeffs_a, coeffs_phi1, coeffs_phi2, coeffs_chi=None,
+        t_s=t_sym):
     """Build a test profile from polynomial coefficient lists."""
     def _poly(cs):
         return sum(sp.Rational(c, 1) * t_s**k for k, c in enumerate(cs))
+    if coeffs_chi is None:
+        coeffs_chi = coeffs_phi2
     return {
         _N_cls:    sp.Lambda(t_s, _poly(coeffs_N)),
         _a_cls:    sp.Lambda(t_s, _poly(coeffs_a)),
         _phi1_cls: sp.Lambda(t_s, _poly(coeffs_phi1)),
         _phi2_cls: sp.Lambda(t_s, _poly(coeffs_phi2)),
+        _chi_cls:  sp.Lambda(t_s, _poly(coeffs_chi)),
     }
 
 
@@ -211,7 +219,7 @@ def _generate_test_profiles(
     Generate deterministic but seed-dependent polynomial test profiles.
 
     Why this exists:
-      - The ghost constraints are identities in N,a,phi1,phi2 and their derivatives.
+      - The ghost constraints are identities in N,a,phi1,phi2,chi and their derivatives.
       - We turn them into finite linear constraints on Greek coefficients by testing
         several generic polynomial backgrounds at several rational time values.
       - The profiles MUST change when the seed changes; otherwise retrying after a
@@ -223,7 +231,7 @@ def _generate_test_profiles(
     rng = random.Random(seed)
 
     # Enough small primes to build all coefficient lists with shuffle diversity.
-    base_primes = _first_primes(max(200, 4 * n_profiles * (degree + 1) + 50))
+    base_primes = _first_primes(max(250, 5 * n_profiles * (degree + 1) + 50))
 
     def _coeffs(positive: bool = True) -> List[int]:
         vals = []
@@ -242,8 +250,9 @@ def _generate_test_profiles(
         # Scalar profiles can have signs; this makes cancellations less structured.
         coeffs_phi1 = _coeffs(positive=False)
         coeffs_phi2 = _coeffs(positive=False)
+        coeffs_chi = _coeffs(positive=False)
         profiles.append(_make_test_profile(
-            coeffs_N, coeffs_a, coeffs_phi1, coeffs_phi2, t_s
+            coeffs_N, coeffs_a, coeffs_phi1, coeffs_phi2, coeffs_chi, t_s
         ))
 
     # Seed-dependent rational evaluation points. Keep them small and nonzero.
@@ -525,11 +534,20 @@ def process_lagrangian(L_data: dict, index: int, tex_fn=tex,
     Full pipeline for a single Lagrangian from masker v3.0:
       raw EOM → ghost constraints → solve → verify → gauge-fix → output.
     """
+    L_data = scalarize_lagrangian_data(L_data)
+    scalaron = L_data.get('scalaron') or {}
+
     print(f"\n{'═' * 70}")
     print(f"  LAGRANGIAN  #{index}")
     print(f"{'═' * 70}")
     print(f"  General:        {L_data['general']}")
     print(f"  FLRW:           {tex_fn(L_data['substituted'])}")
+    print(f"  scalaron:       {scalaron.get('classification', 'ordinary')}")
+    if scalaron.get('enabled'):
+        if not verify_legendre_equivalence(L_data):
+            raise ValueError("Scalaron Legendre transform failed the chi=R equivalence check")
+        print(f"  scalaron F:     {tex_fn(scalaron['F'])}")
+        print(f"  scalaron U:     {tex_fn(scalaron['U'])}")
 
     # Handle both old (has_phi) and new (scalar_config) format
     scalar_config = L_data.get('scalar_config', None)
@@ -767,4 +785,3 @@ def self_test():
     print("\n" + "=" * 60)
     print("  All self-tests passed.")
     print("=" * 60 + "\n")
-

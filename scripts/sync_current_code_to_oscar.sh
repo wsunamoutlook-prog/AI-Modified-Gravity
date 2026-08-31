@@ -25,12 +25,20 @@ rsync -avc --itemize-changes --relative \
   ./ai_theory_lab/langsmith_live_monitor.py \
   ./ai_theory_lab/llm_agent.py \
   ./ai_theory_lab/memory.py \
+  ./ai_theory_lab/proposal.py \
   ./ai_theory_lab/proposal_schema.md \
   ./ai_theory_lab/report.py \
   ./ai_theory_lab/compare_benchmarks.py \
   ./ai_theory_lab/submit_final_runs.py \
   ./ai_theory_lab/tracing.py \
   ./ai_theory_lab/validation_result.py \
+  ./builder_v5_2/AGENT.md \
+  ./builder_v5_2/core.py \
+  ./eom_v5_2/AGENT.md \
+  ./eom_v5_2/core.py \
+  ./eom_v5_2/runner.py \
+  ./eom_v5_2/scalaron.py \
+  ./gr_grammar_masker_v3_2/AGENT.md \
   ./solver_v5_2/AGENT.md \
   ./solver_v5_2/core.py \
   ./solver_v5_2/runner.py \
@@ -39,6 +47,8 @@ rsync -avc --itemize-changes --relative \
   ./tests/test_fixed_lagrangian_de.py \
   ./tests/test_hybrid_model_selection.py \
   ./tests/test_open_only_scheduler.py \
+  ./tests/test_scalaron.py \
+  ./run_cmp500_openai_gpt_5_6_sol_scalaron_openonly_aic_v1.slurm \
   ./run_cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5.slurm \
   ./run_cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5.slurm \
   ./run_fixed7_de_prepare.slurm \

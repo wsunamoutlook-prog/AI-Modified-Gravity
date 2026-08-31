@@ -1,6 +1,8 @@
 # EOM Stage
 
-This stage turns generated Lagrangians into equations of motion and filters them through the ghost-free / derivative-order constraints.
+This stage first scalarizes eligible nonlinear algebraic-R sectors, then turns
+the resulting representation into equations of motion and applies the FLRW
+derivative-order constraints.
 
 For a theory-generating agent, passing this stage means the theory is structurally eligible for numerical preparation. It is not yet a successful theory until the actual Builder code accepts it and the actual Solver code compares it against real data and writes a low `chi2`.
 
@@ -34,10 +36,20 @@ This stage decides whether a candidate Lagrangian is structurally acceptable bef
 
 It checks:
 
+- Scalaron classification: `ordinary`, `scalarizable`, or `hybrid`.
+- Exact Legendre equivalence of the raw and transformed actions under `chi=R`.
 - Raw EOM derivative order.
 - Ghost-free coefficient relations.
 - Whether final gauged EOMs respect the allowed derivative order.
 - Whether a Lagrangian is trivial after constraints.
+
+The scalaron transform is
+`f(R,phi_i) -> F(chi,phi_i) R - U(chi,phi_i)`, with
+`F = partial f/partial chi` and `U = chi F - f`.  `chi` is an independent
+dimension-two field; it must not reuse `phi1` or `phi2` and receives no ad hoc
+canonical kinetic term.  Ordinary theories pass through with an unchanged
+action and no `E_chi`.  Hybrid residual operators remain subject to the
+pre-existing coefficient-cancellation and derivative-order filter.
 
 ## Agent Responsibilities
 
@@ -51,6 +63,9 @@ The agent must:
 
 - Treat ghost-free filtering as a hard constraint.
 - Preserve the derivative-order constraint unless a human explicitly changes the physical rules.
+- Reject a scalaron transform if the symbolic `chi=R` equivalence check fails.
+- Keep the raw action, scalarized action, `F`, `U`, and `f_RR` in the serialized
+  record so downstream stages can audit the representation.
 - Record ghost-free relations and failure reasons for learning.
 - Forward ghost-free, nontrivial theories to the real Builder and Solver code before calling them good candidates.
 - Use isolated agent inputs/outputs for one-theory validation instead of forcing EOM to process the full 1120-theory batch.

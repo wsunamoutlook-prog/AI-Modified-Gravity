@@ -198,12 +198,18 @@ def _failure_tags(result: ValidationResult) -> List[str]:
     tags: List[str] = []
     patterns = [
         ("pre_sampling_timeout", r"pre[- ]sampling.*timeout|before sampling.*timeout|generation.*exceeded|setup/lambdify.*exceeded"),
-        ("q_initial_root_failure", r"no acceptable real q[12]_0 root|q[12]_0 root from e_n"),
+        (
+            "q_initial_root_failure",
+            r"no acceptable real q(?:1|2|chi)_0 root|q(?:1|2|chi)_0 root from e_n",
+        ),
         ("no_scalar_constraint", r"no[- ]scalar|no scalar"),
         ("h_absurdly_large", r"h\(z\) absurdly large|absurdly large"),
         ("constraint_drift", r"constraint drift|constraint.*too large"),
         ("q_not_determined", r"q[12]_x not determined|not determined"),
-        ("symbolic_timeout", r"symbolic build timeout|timeout"),
+        (
+            "symbolic_timeout",
+            r"symbolic build timeout(?:\s+after|\s*:)|\btimeout after \d|\btimed out after \d|\boperation timed out\b",
+        ),
         ("missing_ranking", r"no model_ranking|missing model_ranking|could not read.*ranking"),
         ("no_accepted_samples", r"no accepted|accepted_samples=0"),
         ("integration_failure", r"integration failed|solve_ivp failed|ivp failed"),

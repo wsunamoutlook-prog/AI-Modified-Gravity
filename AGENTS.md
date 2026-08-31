@@ -9,7 +9,7 @@ This project searches for viable modified-gravity theories with two scalar field
 The long-term goal is an AI theory-discovery loop:
 
 ```text
-propose theory -> validate grammar -> EOM ghost-free check -> Builder cache -> Solver scan -> score -> learn from results -> propose again
+propose theory -> validate grammar -> scalaron pre-filter -> EOM derivative-order check -> Builder cache -> Solver scan -> score -> learn from results -> propose again
 ```
 
 The agent proposes and analyzes candidate theories. The deterministic physics pipeline decides legality and data fit.
@@ -19,7 +19,7 @@ The agent proposes and analyzes candidate theories. The deterministic physics pi
 A theory-generating agent must treat theory proposal as the start of a full validation process, not as the final product. Every proposed theory should be pushed through the complete pipeline whenever feasible:
 
 ```text
-Grammar validity -> EOM ghost-free check -> Builder conversion -> Solver real-data comparison
+Grammar validity -> scalaron classification/transform -> EOM derivative-order check -> Builder conversion -> Solver real-data comparison
 ```
 
 The agent may use only part of the Grammar Masker logic to propose candidates, such as grammar tokens, candidate operators, scalar configurations, or structural fingerprints. That proposal-time shortcut is not validation. Validation requires actually running the project code for all downstream stages:
@@ -143,13 +143,17 @@ Run stages in this order:
 1. Grammar Masker
    python "GR_grammar_masker_v3.2.py"
 
-2. EOM
+2. Scalaron pre-filter (automatic inside agent compilation and EOM)
+   classify exact algebraic nonlinear-in-R sectors and apply the reversible
+   Legendre transform before derivative-order filtering
+
+3. EOM
    python "EOM v5.2.py"
 
-3. Builder
+4. Builder
    python "Builder v5.2.py"
 
-4. Solver
+5. Solver
    python "Solver v5.2.py"
 ```
 
@@ -224,6 +228,14 @@ The agent must:
 - Treat partial Grammar Masker compliance during proposal as insufficient for validation; verified theories must come from actually running EOM, Builder, and Solver and reading Solver's `chi2`.
 - Avoid repeatedly proposing structurally identical theories. In cold-start discovery, the same structural theory fingerprint must not appear more than 10 times across one experiment history unless the user explicitly asks for repeated sampling.
 - Treat ghost-free filtering as a hard physical constraint.
+- Leave ordinary linear-in-R theories unchanged.  Scalarize only exact algebraic
+  polynomials in `R`, `phi1`, and `phi2` containing at least one `R^2` or higher
+  monomial.  Never scalarize Ricci/Riemann contractions, derivatives of curvature,
+  or `Box R`; hybrid theories retain those residual operators for the existing EOM filter.
+- Preserve both raw and scalarized actions under one theory fingerprint.  The
+  scalaron representation is an equivalent validation form, not a second proposal.
+- Require the scalarized EOM to pass the same FLRW derivative-order filter, then
+  require `F=f_R>0` and `f_RR>0` along every accepted Solver trajectory.
 - Treat Builder rejection as a structural/numerical-preparation failure.
 - Treat Solver rejection reasons as learning signals, not noise to hide.
 - Record enough settings to reproduce an experiment.

@@ -161,6 +161,16 @@ def _write_summary(out_path: Path, all_results, tex_fn=tex) -> None:
                     f.write(f"  potential_types: {L_data.get('potential_types', {})}\n")
                 else:
                     f.write(f"  has_phi:        {L_data.get('has_phi', False)}\n")
+                scalaron = L_data.get("scalaron") or {}
+                f.write(f"  scalaron:       {scalaron.get('classification', 'ordinary')}\n")
+                if scalaron.get("enabled"):
+                    f.write(f"  scalaron_F:     {tex_fn(scalaron['F'])}\n")
+                    f.write(f"  scalaron_f_RR:  {tex_fn(scalaron['f_RR'])}\n")
+                    if scalaron.get("scalaron_mass_squared") is not None:
+                        f.write(
+                            f"  scalaron_mass_squared:  "
+                            f"{tex_fn(scalaron['scalaron_mass_squared'])}\n"
+                        )
                 f.write("  Terms:\n")
                 for ti, tt in enumerate(L_data["terms"]):
                     tag = "  (fixed)" if tt.get("fixed") else ""

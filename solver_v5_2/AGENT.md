@@ -88,6 +88,15 @@ The agent must:
 - Use isolated Solver output directories for agent validation so one-theory runs do not overwrite or confuse batch results.
 - Treat agent-proposed parameter samples as part of the theory experiment. Learn which parameter regions produce accepted samples and lower chi-square.
 - Label any use of historical Solver winners as replay/regression testing, not discovery.
+- For scalaron models, sample `chi_bar_0_R_over_H0sq`, solve
+  `qchi_0_dchi_bar_dln_a` from the initial lapse constraint, and reject the
+  sample if `F<=0` or `f_RR<=0` at the initial point or anywhere on the trajectory.
+- For pure `f(R)` branches, also reject non-positive local scalaron mass squared.
+  For mixed `f(R,phi_i)` branches, do not replace the coupled scalar mass matrix
+  by this one-field diagnostic.
+- Treat `F>0` as the positive effective-Planck-mass condition and `f_RR>0` as
+  the selected invertible, Dolgov--Kawasaki-stable branch condition.  Do not
+  claim that these background checks replace a future perturbation analysis.
 
 The agent must not:
 
@@ -183,6 +192,10 @@ Common parameter keys:
 - `varphi1_0_phi1_over_Mp`, `mu1_m1_over_H0`, `fbar1_f1_over_Mp`
 - `varphi2_0_phi2_over_Lambda`, `mu2_m2_over_Lambda`, `fbar2_f2_over_Lambda`
 - `q2_0_dvarphi2_dln_a` for two-scalar models where Solver solves `q1_0`; for `phi2_only` agent proposals, this value may also be supplied as a root-search hint while Solver still solves `q2_0` from `E_N(x=0)=0`
+- `chi_bar_0_R_over_H0sq` for scalaron models; `qchi_0_dchi_bar_dln_a` is
+  constraint-solved and is not an independent AIC parameter
+- `q1_0_dvarphi1_dln_a` and/or `q2_0_dvarphi2_dln_a` when an independent
+  scalaron is present, because the lapse constraint is then used to solve `qchi_0`
 - free coefficient names such as `\\beta`, `\\gamma`, or `coefficient:\\beta`
 
 Constraint-solved values such as `q1_0` in phi1 models and `q2_0` in phi2-only models are solved from `E_N(x=0)=0`. For `phi2_only` agent samples, a proposed `q2_0_dvarphi2_dln_a` is only a root-search hint/preference, not a bypass of the initial constraint.

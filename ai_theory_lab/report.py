@@ -895,8 +895,8 @@ def _write_summary(
             "",
             "## Top Family Representative Parameter Choices",
             "",
-            "| Rank | Loop | varphi1_0 | q1_0 | mu1 | fbar1 | varphi2_0 | q2_0 | mu2 | fbar2 | Free coefficients |",
-            "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---|",
+            "| Rank | Loop | varphi1_0 | q1_0 | mu1 | fbar1 | varphi2_0 | q2_0 | mu2 | fbar2 | chi_bar_0 | Free coefficients |",
+            "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|",
         ]
     )
     for rank, attempt in enumerate(representatives[:top_n], start=1):
@@ -908,6 +908,7 @@ def _write_summary(
             f"{_fmt(row.get('mu1_m1_over_H0'), 4)} | {_fmt(row.get('fbar1_f1_over_Mp'), 4)} | "
             f"{_fmt(row.get('varphi2_0_phi2_over_Lambda'), 4)} | {_fmt(row.get('q2_0_dvarphi2_dln_a'), 4)} | "
             f"{_fmt(row.get('mu2_m2_over_Lambda'), 4)} | {_fmt(row.get('fbar2_f2_over_Lambda'), 4)} | "
+            f"{_fmt(row.get('chi_bar_0_R_over_H0sq'), 4)} | "
             f"{_coefficient_summary(terms, row)} |"
         )
     lines.extend(

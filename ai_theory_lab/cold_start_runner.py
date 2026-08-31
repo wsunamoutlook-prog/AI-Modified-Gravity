@@ -28,6 +28,7 @@ from gr_grammar_masker_v3_2.grammar import (
 )
 from gr_grammar_masker_v3_2.runner import _build_tensors_dict, _register_dynamic_functions_for_pickle
 from gr_grammar_masker_v3_2.tensor import sqrt_mg
+from eom_v5_2.scalaron import scalarize_lagrangian_data
 
 from .config_p import (
     CORRECTION_SAMPLING,
@@ -831,7 +832,7 @@ def _compile_direct_lagrangian(
     substituted_full = sqrt_mg * (
         Mp**2 * (substituted_grav + substituted_nm) + substituted_sc + substituted_phi
     )
-    return {
+    lagrangian = {
         "n_terms": len(term_info),
         "general": general_str,
         "substituted": sp.simplify(substituted_full),
@@ -839,6 +840,7 @@ def _compile_direct_lagrangian(
         "scalar_config": scalar_config,
         "potential_types": {"phi1": potential_types.get("phi1"), "phi2": potential_types.get("phi2")},
     }
+    return scalarize_lagrangian_data(lagrangian)
 
 
 def _direct_entry(
@@ -855,6 +857,7 @@ def _direct_entry(
         for index, candidate in enumerate(ordered)
     ]
     lagrangian = _compile_direct_lagrangian(tensors, scalar_config, potential_types, ordered)
+    scalaron = lagrangian.get("scalaron") or {}
     return {
         "n_terms": int(lagrangian["n_terms"]),
         "local_number": int(local_number),
@@ -865,6 +868,12 @@ def _direct_entry(
         "coefficient_symbols": [spec["coefficient"] for spec in operator_specs],
         "general": lagrangian.get("general"),
         "lagrangian": lagrangian,
+        "scalaron": {
+            "enabled": bool(scalaron.get("enabled")),
+            "classification": scalaron.get("classification", "ordinary"),
+            "algebraic_term_indices": list(scalaron.get("algebraic_term_indices") or []),
+            "nonlinear_term_indices": list(scalaron.get("nonlinear_term_indices") or []),
+        },
         "construction_mode": "direct_candidate_combination",
     }
 
@@ -1333,6 +1342,8 @@ EXACT_PARAMETER_KEYS = [
     "mu1_m1_over_H0",
     "fbar1_f1_over_Mp",
     "varphi2_0_phi2_over_Lambda",
+    "chi_bar_0_R_over_H0sq",
+    "q1_0_dvarphi1_dln_a",
     "q2_0_dvarphi2_dln_a",
     "mu2_m2_over_Lambda",
     "fbar2_f2_over_Lambda",
@@ -1342,6 +1353,13 @@ EXACT_PARAMETER_KEYS = [
 def _term_by_coefficient(entry: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     terms = ((entry.get("lagrangian") or {}).get("terms") or [])
     return {str(term.get("coeff_symbol")): term for term in terms if term.get("coeff_symbol")}
+
+
+def _entry_has_scalaron(entry: Dict[str, Any]) -> bool:
+    scalaron = entry.get("scalaron")
+    if not isinstance(scalaron, dict):
+        scalaron = ((entry.get("lagrangian") or {}).get("scalaron") or {})
+    return bool(scalaron.get("enabled"))
 
 
 def _is_eh_operator(term: Dict[str, Any]) -> bool:
@@ -1762,6 +1780,10 @@ def _joint_required_parameter_keys(entry: Dict[str, Any]) -> List[str]:
                 "q2_0_dvarphi2_dln_a",
             ]
         )
+    if _entry_has_scalaron(entry):
+        keys.append("chi_bar_0_R_over_H0sq")
+        if scalar_config in {"phi1_only", "both"}:
+            keys.append("q1_0_dvarphi1_dln_a")
     return keys
 
 
@@ -1893,6 +1915,14 @@ def _parameter_sample(entry: Dict[str, Any], rng: random.Random, index: int, sum
         )
     if scalar_config in {"phi2_only", "both"}:
         sample["q2_0_dvarphi2_dln_a"] = _sample_parameter(rng, priors, "q2_0_dvarphi2_dln_a")
+    if _entry_has_scalaron(entry):
+        sample["chi_bar_0_R_over_H0sq"] = _sample_parameter(
+            rng, priors, "chi_bar_0_R_over_H0sq"
+        )
+        if scalar_config in {"phi1_only", "both"}:
+            sample["q1_0_dvarphi1_dln_a"] = _sample_parameter(
+                rng, priors, "q1_0_dvarphi1_dln_a"
+            )
 
     for spec in entry["operator_specs"]:
         label = spec["candidate"]
@@ -1959,6 +1989,14 @@ def _agent_exact_parameter_sample(entry: Dict[str, Any], index: int, summary: Di
         )
     if scalar_config in {"phi2_only", "both"}:
         sample["q2_0_dvarphi2_dln_a"] = _exact_prior_value(priors, "q2_0_dvarphi2_dln_a", index)
+    if _entry_has_scalaron(entry):
+        sample["chi_bar_0_R_over_H0sq"] = _exact_prior_value(
+            priors, "chi_bar_0_R_over_H0sq", index
+        )
+        if scalar_config in {"phi1_only", "both"}:
+            sample["q1_0_dvarphi1_dln_a"] = _exact_prior_value(
+                priors, "q1_0_dvarphi1_dln_a", index
+            )
 
     for coeff_index, spec in enumerate(entry["operator_specs"]):
         label = spec["candidate"]
@@ -2049,6 +2087,7 @@ def _proposal_for(
                 for spec in entry["operator_specs"]
             ],
             "theory_track": entry.get("theory_track") or _entry_track(entry),
+            "scalaron": entry.get("scalaron") or {"enabled": False, "classification": "ordinary"},
             **({"proposal_group": entry.get("proposal_group")} if entry.get("proposal_group") else {}),
             **(
                 {"proposal_required_operator_substring": entry.get("proposal_required_operator_substring")}
@@ -2173,7 +2212,10 @@ def _structural_expansion_skip_reason(attempt: Dict[str, Any], best: Optional[fl
     if "no_scalar_constraint" in tags:
         return f"structural failure tags={structural_tags}; no accepted chi2"
     if scalar_config == "none" and "missing_ranking" in tags and "no_accepted_samples" in tags:
-        return "no-scalar empty ranking after first 1000 samples; no expanded sampling"
+        sample_count = theory.get("parameter_sample_count")
+        if sample_count is None:
+            return "no-scalar empty ranking after initial sampling; no expanded sampling"
+        return f"no-scalar empty ranking after {sample_count} initial samples; no expanded sampling"
     if ("constraint_drift" in tags or "integration_failure" in tags) and "no_accepted_samples" in tags:
         return f"numerical instability tags={sorted(tags & {'constraint_drift', 'integration_failure'})}; no expanded sampling"
 

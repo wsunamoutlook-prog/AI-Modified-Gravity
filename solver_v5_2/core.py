@@ -192,6 +192,14 @@ PRIORS = {
         float(os.environ.get("VARPHI2_0_MIN", "-5")),
         float(os.environ.get("VARPHI2_0_MAX", "5")),
     ),
+    "chi_bar_0": (
+        float(os.environ.get("CHI_BAR_0_MIN", "-100")),
+        float(os.environ.get("CHI_BAR_0_MAX", "100")),
+    ),
+    "q_scalar_0": (
+        float(os.environ.get("Q_SCALAR_0_MIN", "-2")),
+        float(os.environ.get("Q_SCALAR_0_MAX", "2")),
+    ),
     "log10_mu1": (
         float(os.environ.get("LOG10_MU1_MIN", "-3.0")),
         float(os.environ.get("LOG10_MU1_MAX", "1.0")),
@@ -264,6 +272,7 @@ def load_current_likelihood_data():
 x_sym, h_sym = sp.symbols("x h", real=True)
 varphi1_sym, q1_sym = sp.symbols("varphi1 q1", real=True)
 varphi2_sym, q2_sym = sp.symbols("varphi2 q2", real=True)
+chi_bar_sym, qchi_sym = sp.symbols("chi_bar qchi", real=True)
 mu1_sym = sp.Symbol("mu1", positive=True)
 mu2_sym = sp.Symbol("mu2", positive=True)
 fbar1_sym = sp.Symbol("fbar1", positive=True)
@@ -288,6 +297,10 @@ class Model:
     dimless_exprs: Optional[Dict[str, sp.Expr]] = None
     rhs_exprs: Optional[Dict[str, sp.Expr]] = None
     reject_reason: Optional[str] = None
+    has_scalaron: bool = False
+    scalaron_F_expr: Optional[sp.Expr] = None
+    scalaron_f_RR_expr: Optional[sp.Expr] = None
+    scalaron_mass_squared_expr: Optional[sp.Expr] = None
 
 
 @dataclass
@@ -318,6 +331,8 @@ class SampleResult:
     q1_grid: Optional[np.ndarray] = None
     varphi2_grid: Optional[np.ndarray] = None
     q2_grid: Optional[np.ndarray] = None
+    chi_bar_grid: Optional[np.ndarray] = None
+    qchi_grid: Optional[np.ndarray] = None
     constraint_grid: Optional[np.ndarray] = None
     H_at_data: Optional[np.ndarray] = None
 
@@ -396,7 +411,14 @@ def effective_parameter_names(
             names.append("mu2_m2_over_Lambda")
         if uses(fbar2_sym):
             names.append("fbar2_f2_over_Lambda")
-    if model.has_phi1 and model.has_phi2 and (uses(q2_sym) or uses(varphi2_sym)):
+    has_scalaron = bool(getattr(model, "has_scalaron", False))
+    if has_scalaron and uses(chi_bar_sym):
+        names.append("chi_bar_0_R_over_H0sq")
+    if has_scalaron and model.has_phi1 and uses(q1_sym):
+        names.append("q1_0_dvarphi1_dln_a")
+    if has_scalaron and model.has_phi2 and uses(q2_sym):
+        names.append("q2_0_dvarphi2_dln_a")
+    elif model.has_phi1 and model.has_phi2 and (uses(q2_sym) or uses(varphi2_sym)):
         # q2_0 is sampled independently; q1_0 is constraint-solved.
         names.append("q2_0_dvarphi2_dln_a")
 
@@ -573,8 +595,9 @@ def lambdify_model(model: Model, mode: str):
     param_syms = get_param_symbols(model)
 
     # Build the argument list for lambdified functions
-    # All functions receive: x, h, varphi1, q1, varphi2, q2, rho_bar, mu1, mu2, fbar1, fbar2, lambda_H, <params>, [eps_HM]
+    # All functions receive the metric, matter-scalar, scalaron, and parameter state.
     args_common = [x_sym, h_sym, varphi1_sym, q1_sym, varphi2_sym, q2_sym,
+                   chi_bar_sym, qchi_sym,
                    rho_bar_sym, mu1_sym, mu2_sym, fbar1_sym, fbar2_sym,
                    lambda_H_sym] + param_syms
     if mode == "eft":
@@ -584,14 +607,28 @@ def lambdify_model(model: Model, mode: str):
     hx_expr = model.rhs_exprs["hx"]
     q1x_expr = model.rhs_exprs.get("q1x")
     q2x_expr = model.rhs_exprs.get("q2x")
+    qchix_expr = model.rhs_exprs.get("qchix")
 
     C_func = sp.lambdify(args_common, C_expr, modules="numpy")
     hx_func = sp.lambdify(args_common, hx_expr, modules="numpy")
     q1x_func = sp.lambdify(args_common, q1x_expr, modules="numpy") if q1x_expr is not None else None
     q2x_func = sp.lambdify(args_common, q2x_expr, modules="numpy") if q2x_expr is not None else None
+    qchix_func = sp.lambdify(args_common, qchix_expr, modules="numpy") if qchix_expr is not None else None
+    F_expr = model.dimless_exprs.get("scalaron_F")
+    f_RR_expr = model.dimless_exprs.get("scalaron_f_RR")
+    mass_squared_expr = model.dimless_exprs.get("scalaron_mass_squared")
+    F_func = sp.lambdify(args_common, F_expr, modules="numpy") if F_expr is not None else None
+    f_RR_func = sp.lambdify(args_common, f_RR_expr, modules="numpy") if f_RR_expr is not None else None
+    mass_squared_func = (
+        sp.lambdify(args_common, mass_squared_expr, modules="numpy")
+        if mass_squared_expr is not None else None
+    )
     k_parameter_names = effective_parameter_names(model, param_syms, mode)
 
-    return C_func, hx_func, q1x_func, q2x_func, param_syms, k_parameter_names
+    return (
+        C_func, hx_func, q1x_func, q2x_func, qchix_func,
+        F_func, f_RR_func, mass_squared_func, param_syms, k_parameter_names,
+    )
 
 
 def robust_float(val: Any) -> float:
@@ -676,9 +713,7 @@ def find_q0_root(
 
 
 def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
-                    compiled: Optional[
-                        Tuple[Any, Any, Any, Any, List[sp.Symbol], List[str]]
-                    ] = None,
+                    compiled: Optional[Tuple[Any, ...]] = None,
                     sn_data: Optional[dict] = None,
                     bao_data: Optional[dict] = None,
                     agent_sample: Optional[Dict[str, float]] = None,
@@ -693,6 +728,10 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
                 hx_func,
                 q1x_func,
                 q2x_func,
+                qchix_func,
+                F_func,
+                f_RR_func,
+                mass_squared_func,
                 param_syms,
                 k_parameter_names,
             ) = lambdify_model(model, mode)
@@ -704,6 +743,10 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             hx_func,
             q1x_func,
             q2x_func,
+            qchix_func,
+            F_func,
+            f_RR_func,
+            mass_squared_func,
             param_syms,
             k_parameter_names,
         ) = compiled
@@ -770,6 +813,16 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             )
             if model.has_phi2 else 0.0
         )
+        has_scalaron = bool(getattr(model, "has_scalaron", False))
+        chi_bar_0 = (
+            _agent_or_random_linear(
+                agent_sample,
+                ["chi_bar_0_R_over_H0sq", "chi_bar_0"],
+                rng,
+                "chi_bar_0",
+            )
+            if has_scalaron else 0.0
+        )
         lambda_H = _agent_or_random_log10(
             agent_sample,
             ["lambda_H_Lambda_over_H0", "lambda_H"],
@@ -783,15 +836,51 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     eps_HM = (H0_km * KM_S_MPC_TO_EV) / M_P_REDUCED_EV
     pval_list = [pvals[s] for s in param_syms]
 
-    def make_args(xx, hh, v1, qq1, v2, qq2):
-        args = [xx, hh, v1, qq1, v2, qq2, rho_bar, mu1, mu2, fbar1, fbar2, lambda_H] + pval_list
+    def make_args(xx, hh, v1, qq1, v2, qq2, cbar, qqchi):
+        args = [xx, hh, v1, qq1, v2, qq2, cbar, qqchi,
+                rho_bar, mu1, mu2, fbar1, fbar2, lambda_H] + pval_list
         if mode == "eft":
             args.append(eps_HM)
         return args
 
     # ── Determine initial q1_0 from constraint E_N(x=0) = 0 ──
     has_any_scalar = model.has_phi1 or model.has_phi2
-    if has_any_scalar and (q1x_func is not None or q2x_func is not None):
+    qchi_0 = 0.0
+    if has_scalaron and qchix_func is not None:
+        try:
+            q1_0 = (
+                _agent_or_random_linear(
+                    agent_sample,
+                    ["q1_0_dvarphi1_dln_a", "q1_0"],
+                    rng,
+                    "q_scalar_0",
+                )
+                if model.has_phi1 else 0.0
+            )
+            q2_0 = (
+                _agent_or_random_linear(
+                    agent_sample,
+                    ["q2_0_dvarphi2_dln_a", "q2_0"],
+                    rng,
+                    "q_scalar_0",
+                )
+                if model.has_phi2 else 0.0
+            )
+        except KeyError as exc:
+            return SampleResult(model.lag_id, False, f"agent parameter sample missing: {exc}")
+        qchi_hint = None
+        if agent_sample is not None:
+            qchi_hint = _optional_agent_value(
+                agent_sample, ["qchi_0_dchi_bar_dln_a", "qchi_0"]
+            )
+        def base_args(qtrial):
+            return make_args(
+                0.0, 1.0, varphi1_0, q1_0, varphi2_0, q2_0, chi_bar_0, qtrial
+            )
+        qchi_0 = find_q0_root(C_func, base_args, q_hint=qchi_hint)
+        if qchi_0 is None:
+            return SampleResult(model.lag_id, False, "no acceptable real qchi_0 root from E_N(x=0)=0")
+    elif has_any_scalar and (q1x_func is not None or q2x_func is not None):
         # If model has phi1, solve for q1_0 at fixed q2_0=0 (or sampled q2_0)
         # If model has only phi2, solve for q2_0 at q1_0=0
         if model.has_phi1:
@@ -808,7 +897,7 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             else:
                 q2_0 = 0.0
             def base_args(qtrial):
-                return make_args(0.0, 1.0, varphi1_0, qtrial, varphi2_0, q2_0)
+                return make_args(0.0, 1.0, varphi1_0, qtrial, varphi2_0, q2_0, 0.0, 0.0)
             q1_0 = find_q0_root(C_func, base_args)
             if q1_0 is None:
                 return SampleResult(model.lag_id, False, "no acceptable real q1_0 root from E_N(x=0)=0")
@@ -819,14 +908,14 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             if agent_sample is not None:
                 q2_hint = _optional_agent_value(agent_sample, ["q2_0_dvarphi2_dln_a", "q2_0"])
             def base_args(qtrial):
-                return make_args(0.0, 1.0, 0.0, 0.0, varphi2_0, qtrial)
+                return make_args(0.0, 1.0, 0.0, 0.0, varphi2_0, qtrial, 0.0, 0.0)
             q2_0 = find_q0_root(C_func, base_args, q_hint=q2_hint)
             if q2_0 is None:
                 return SampleResult(model.lag_id, False, "no acceptable real q2_0 root from E_N(x=0)=0")
     else:
-        q1_0, q2_0 = 0.0, 0.0
+        q1_0, q2_0, qchi_0 = 0.0, 0.0, 0.0
         try:
-            C0 = robust_float(C_func(*make_args(0.0, 1.0, 0.0, 0.0, 0.0, 0.0)))
+            C0 = robust_float(C_func(*make_args(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)))
             if not np.isfinite(C0) or abs(C0) > 1e-6:
                 return SampleResult(model.lag_id, False,
                                     f"no-scalar constraint not satisfied at x=0: C0={C0:.3e}")
@@ -836,7 +925,9 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
 
     # ── Check RHS at initial point ──
     try:
-        args0 = make_args(0.0, 1.0, varphi1_0, q1_0, varphi2_0, q2_0)
+        args0 = make_args(
+            0.0, 1.0, varphi1_0, q1_0, varphi2_0, q2_0, chi_bar_0, qchi_0
+        )
         hx0 = robust_float(hx_func(*args0))
         if not np.isfinite(hx0) or abs(hx0) > 1e6:
             return SampleResult(model.lag_id, False, "initial h_x is singular or absurd")
@@ -848,6 +939,18 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             q2x0 = robust_float(q2x_func(*args0))
             if not np.isfinite(q2x0) or abs(q2x0) > 1e6:
                 return SampleResult(model.lag_id, False, "initial q2_x is singular or absurd")
+        if has_scalaron and qchix_func is not None:
+            qchix0 = robust_float(qchix_func(*args0))
+            if not np.isfinite(qchix0) or abs(qchix0) > 1e6:
+                return SampleResult(model.lag_id, False, "initial qchi_x is singular or absurd")
+            if F_func is None or f_RR_func is None:
+                return SampleResult(model.lag_id, False, "scalaron health functions are missing")
+            if robust_float(F_func(*args0)) <= 0.0:
+                return SampleResult(model.lag_id, False, "scalaron F<=0 at initial point")
+            if robust_float(f_RR_func(*args0)) <= 0.0:
+                return SampleResult(model.lag_id, False, "scalaron f_RR<=0 at initial point")
+            if mass_squared_func is not None and robust_float(mass_squared_func(*args0)) <= 0.0:
+                return SampleResult(model.lag_id, False, "scalaron mass squared<=0 at initial point")
     except Exception as exc:
         return SampleResult(model.lag_id, False, f"initial RHS failed: {type(exc).__name__}")
 
@@ -862,7 +965,7 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     y0_list = [1.0]
     # Track index mapping
     idx_h = 0
-    idx_v1 = idx_q1 = idx_v2 = idx_q2 = None
+    idx_v1 = idx_q1 = idx_v2 = idx_q2 = idx_chi = idx_qchi = None
     ci = 1
     if model.has_phi1:
         y0_list.extend([varphi1_0, q1_0])
@@ -871,6 +974,10 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     if model.has_phi2:
         y0_list.extend([varphi2_0, q2_0])
         idx_v2, idx_q2 = ci, ci + 1
+        ci += 2
+    if has_scalaron:
+        y0_list.extend([chi_bar_0, qchi_0])
+        idx_chi, idx_qchi = ci, ci + 1
         ci += 2
     y0 = np.array(y0_list, dtype=float)
     n_state = len(y0)
@@ -892,7 +999,9 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             qq1 = float(yy[idx_q1]) if idx_q1 is not None else 0.0
             v2 = float(yy[idx_v2]) if idx_v2 is not None else 0.0
             qq2 = float(yy[idx_q2]) if idx_q2 is not None else 0.0
-            args = make_args(xx, hh, v1, qq1, v2, qq2)
+            cbar = float(yy[idx_chi]) if idx_chi is not None else 0.0
+            qqchi = float(yy[idx_qchi]) if idx_qchi is not None else 0.0
+            args = make_args(xx, hh, v1, qq1, v2, qq2, cbar, qqchi)
             dydt = np.zeros(n_state, dtype=float)
             dydt[idx_h] = robust_float(hx_func(*args))
             if idx_v1 is not None:
@@ -901,6 +1010,9 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             if idx_v2 is not None:
                 dydt[idx_v2] = qq2
                 dydt[idx_q2] = robust_float(q2x_func(*args))
+            if idx_chi is not None:
+                dydt[idx_chi] = qqchi
+                dydt[idx_qchi] = robust_float(qchix_func(*args))
             return dydt
         except TimeoutError:
             raise
@@ -932,6 +1044,8 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
     q1_grid = sol.y[idx_q1] if idx_q1 is not None else None
     varphi2_grid = sol.y[idx_v2] if idx_v2 is not None else None
     q2_grid = sol.y[idx_q2] if idx_q2 is not None else None
+    chi_bar_grid = sol.y[idx_chi] if idx_chi is not None else None
+    qchi_grid = sol.y[idx_qchi] if idx_qchi is not None else None
 
     if varphi1_grid is not None and np.max(np.abs(varphi1_grid)) > MAX_ABS_VARPHI_TRAJ:
         return SampleResult(model.lag_id, False, "|varphi1| trajectory too large")
@@ -941,6 +1055,10 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         return SampleResult(model.lag_id, False, "|varphi2| trajectory too large")
     if q2_grid is not None and np.max(np.abs(q2_grid)) > MAX_ABS_Q_TRAJ:
         return SampleResult(model.lag_id, False, "|q2| trajectory too large")
+    if chi_bar_grid is not None and np.max(np.abs(chi_bar_grid)) > 1e6:
+        return SampleResult(model.lag_id, False, "|chi/H0^2| trajectory too large")
+    if qchi_grid is not None and np.max(np.abs(qchi_grid)) > 1e6:
+        return SampleResult(model.lag_id, False, "|qchi| trajectory too large")
 
     z_grid = np.exp(-x_eval) - 1.0
     H_grid_phys = H0_km * h_grid
@@ -956,7 +1074,17 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
             qq1 = float(q1_grid[i]) if q1_grid is not None else 0.0
             v2 = float(varphi2_grid[i]) if varphi2_grid is not None else 0.0
             qq2 = float(q2_grid[i]) if q2_grid is not None else 0.0
-            C_vals.append(robust_float(C_func(*make_args(float(xx), hh, v1, qq1, v2, qq2))))
+            cbar = float(chi_bar_grid[i]) if chi_bar_grid is not None else 0.0
+            qqchi = float(qchi_grid[i]) if qchi_grid is not None else 0.0
+            args = make_args(float(xx), hh, v1, qq1, v2, qq2, cbar, qqchi)
+            C_vals.append(robust_float(C_func(*args)))
+            if has_scalaron:
+                if robust_float(F_func(*args)) <= 0.0:
+                    return SampleResult(model.lag_id, False, "scalaron F<=0 along trajectory")
+                if robust_float(f_RR_func(*args)) <= 0.0:
+                    return SampleResult(model.lag_id, False, "scalaron f_RR<=0 along trajectory")
+                if mass_squared_func is not None and robust_float(mass_squared_func(*args)) <= 0.0:
+                    return SampleResult(model.lag_id, False, "scalaron mass squared<=0 along trajectory")
         C_vals = np.array(C_vals, dtype=float)
     except Exception as exc:
         return SampleResult(model.lag_id, False, f"constraint monitor failed: {type(exc).__name__}")
@@ -1016,6 +1144,8 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         "varphi2_0_phi2_over_Lambda": varphi2_0,
         "q1_0_dvarphi1_dln_a": q1_0,
         "q2_0_dvarphi2_dln_a": q2_0,
+        "chi_bar_0_R_over_H0sq": chi_bar_0,
+        "qchi_0_dchi_bar_dln_a": qchi_0,
         "eps_HM_H0_over_Mp": eps_HM,
         "lambda_H_Lambda_over_H0": lambda_H,
         "Lambda_eV": lambda_H * H0_km * KM_S_MPC_TO_EV,
@@ -1036,6 +1166,7 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         x_grid=x_eval, z_grid=z_grid, h_grid=h_grid, H_grid=H_grid_phys,
         varphi1_grid=varphi1_grid, q1_grid=q1_grid,
         varphi2_grid=varphi2_grid, q2_grid=q2_grid,
+        chi_bar_grid=chi_bar_grid, qchi_grid=qchi_grid,
         constraint_grid=C_vals, H_at_data=None,
     )
 

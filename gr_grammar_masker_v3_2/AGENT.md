@@ -33,7 +33,21 @@ Output:
 
 Downstream consumer:
 
-- `eom_v5_2` reads `lagrangians.pkl`
+- the scalaron pre-filter classifies the serialized terms before `eom_v5_2`
+  applies its derivative-order analysis
+
+## Scalaron Eligibility
+
+Grammar generation itself remains unchanged.  After a legal Lagrangian is
+compiled, exact algebraic monomials made only from `R`, `phi1`, and `phi2` are
+inspected.  A scalaron transform is enabled only when this sector contains at
+least one nonlinear curvature monomial (`R^2` or higher).  Linear terms such as
+`R`, `phi1 R`, and `phi1 phi2 R` remain ordinary and are not restricted.
+
+Do not classify Ricci/Riemann contractions, `Box R`, `nabla R`, or any other
+curvature-derivative operator as scalarizable.  When a theory contains both a
+scalarizable algebraic-R sector and other operators, classify it as `hybrid`,
+transform only the algebraic-R sector, and preserve every residual term.
 
 ## Main Files
 

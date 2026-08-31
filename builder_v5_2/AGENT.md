@@ -43,6 +43,14 @@ It records:
 - `dimless_exprs`
 - `rhs_exprs`
 - `reject_reason`
+- `has_scalaron`, `scalaron_F_expr`, `scalaron_f_RR_expr`, and the pure-`f(R)`
+  scalaron mass expression when applicable
+
+For scalaron models Builder uses `chi_bar=chi/H0^2` and
+`qchi=d chi_bar/d ln(a)`.  It combines `E_a` and `E_chi` with any matter-scalar
+equations to solve for `h_x`, `qchi_x`, and the active matter-scalar RHS.  A
+scalaron model is rejected if `E_chi` or either health expression is missing.
+Models without `E_chi` retain the original two-scalar build path exactly.
 
 Models with `reject_reason` are structurally skipped by Solver.
 

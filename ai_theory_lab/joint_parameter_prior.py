@@ -21,6 +21,8 @@ COMMON_PARAMETER_COLUMNS = [
     "mu1_m1_over_H0",
     "fbar1_f1_over_Mp",
     "varphi2_0_phi2_over_Lambda",
+    "chi_bar_0_R_over_H0sq",
+    "q1_0_dvarphi1_dln_a",
     "q2_0_dvarphi2_dln_a",
     "mu2_m2_over_Lambda",
     "fbar2_f2_over_Lambda",

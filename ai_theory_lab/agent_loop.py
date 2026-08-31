@@ -36,6 +36,8 @@ COMMON_PARAMETER_COLUMNS = [
     "mu1_m1_over_H0",
     "fbar1_f1_over_Mp",
     "varphi2_0_phi2_over_Lambda",
+    "chi_bar_0_R_over_H0sq",
+    "q1_0_dvarphi1_dln_a",
     "q2_0_dvarphi2_dln_a",
     "mu2_m2_over_Lambda",
     "fbar2_f2_over_Lambda",
@@ -227,10 +229,19 @@ def _parameter_prior_from_samples(rows: List[Dict[str, str]], attempt_count: int
         clean = [value for value in values if value is not None]
         if not clean:
             continue
-        signed_log = column in {"varphi2_0_phi2_over_Lambda", "q2_0_dvarphi2_dln_a"}
+        signed_log = column in {
+            "varphi2_0_phi2_over_Lambda",
+            "q1_0_dvarphi1_dln_a",
+            "q2_0_dvarphi2_dln_a",
+        }
         priors["parameters"][column] = _numeric_prior(
             clean,
-            log=column.startswith("lambda_H") or column.startswith("mu") or column.startswith("fbar") or column == "varphi1_0_phi1_over_Mp",
+            log=(
+                column.startswith("lambda_H")
+                or column.startswith("mu")
+                or column.startswith("fbar")
+                or column in {"varphi1_0_phi1_over_Mp", "chi_bar_0_R_over_H0sq"}
+            ),
             signed_log=signed_log,
             quantile_low=q_low,
             quantile_high=q_high,
