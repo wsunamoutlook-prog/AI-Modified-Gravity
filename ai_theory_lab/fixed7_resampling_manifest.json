@@ -16,64 +16,78 @@
       "agent": "GPT-5.6 Sol",
       "proposal": "G263",
       "source_task_dir": "cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu_task_000263_expanded_slot_05",
-      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu/cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu_task_000263_expanded_slot_05",
+      "local_source_task_dir": "reproduction/fixed7/G263",
       "headline_chi2": 1638.0163077918285,
       "headline_aic": 1648.0163077918285,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu/cmp1000_openai_gpt_5_6_sol_frontier6_openonly_aic_v2_8cpu_task_000263_expanded_slot_05",
+      "source_sha256": "e17ef1b2815e07103699bf067f764db9c9ae12fe23a93b74a38fe55cc449edc4"
     },
     {
       "agent": "Claude Opus 5",
       "proposal": "O769",
       "source_task_dir": "cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5_task_000769_expanded_refine_slot_02",
-      "local_source_task_dir": "cluster_report/claude5_openonly_aic_final/claude5_paper_inputs_20260824/selected_tasks/cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5/cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5_task_000769_expanded_refine_slot_02",
+      "local_source_task_dir": "reproduction/fixed7/O769",
       "headline_chi2": 1637.9609152521139,
       "headline_aic": 1647.9609152521139,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/claude5_openonly_aic_final/claude5_paper_inputs_20260824/selected_tasks/cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5/cmp1000_claude_opus_5_frontier6_openonly_aic_v4_claude5_task_000769_expanded_refine_slot_02",
+      "source_sha256": "a10b95396e7b03174d3c05ffe4b86b78a693d7411396f7bcd5fef4e9d26172f9"
     },
     {
       "agent": "Claude Fable 5",
       "proposal": "F456",
       "source_task_dir": "cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5_task_000456_expanded_refine_slot_01",
-      "local_source_task_dir": "cluster_report/claude5_openonly_aic_final/claude5_paper_inputs_20260824/selected_tasks/cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5/cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5_task_000456_expanded_refine_slot_01",
+      "local_source_task_dir": "reproduction/fixed7/F456",
       "headline_chi2": 1637.9700107958788,
       "headline_aic": 1647.9700107958788,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/claude5_openonly_aic_final/claude5_paper_inputs_20260824/selected_tasks/cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5/cmp1000_claude_fable_5_frontier6_openonly_aic_v4_claude5_task_000456_expanded_refine_slot_01",
+      "source_sha256": "e17ef1b2815e07103699bf067f764db9c9ae12fe23a93b74a38fe55cc449edc4"
     },
     {
       "agent": "Gemini 3.6 Flash",
       "proposal": "Gm986",
       "source_task_dir": "cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix_task_000986_expanded_refine_slot_05",
-      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix/cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix_task_000986_expanded_refine_slot_05",
+      "local_source_task_dir": "reproduction/fixed7/Gm986",
       "headline_chi2": 1637.95591800854,
       "headline_aic": 1647.95591800854,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix/cmp1000_gemini_3_6_flash_frontier6_openonly_aic_v3_apifix_task_000986_expanded_refine_slot_05",
+      "source_sha256": "e17ef1b2815e07103699bf067f764db9c9ae12fe23a93b74a38fe55cc449edc4"
     },
     {
       "agent": "Qwen 3.7 Max",
       "proposal": "Q88",
       "source_task_dir": "cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu_task_000088_expanded_slot_02",
-      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu/cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu_task_000088_expanded_slot_02",
+      "local_source_task_dir": "reproduction/fixed7/Q88",
       "headline_chi2": 1638.011115865714,
       "headline_aic": 1648.011115865714,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu/cmp1000_qwen3_7_max_frontier6_openonly_aic_v2_8cpu_task_000088_expanded_slot_02",
+      "source_sha256": "e17ef1b2815e07103699bf067f764db9c9ae12fe23a93b74a38fe55cc449edc4"
     },
     {
       "agent": "DeepSeek V4 Pro",
       "proposal": "D820",
       "source_task_dir": "cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix_task_000820_expanded_refine_slot_05",
-      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix/cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix_task_000820_expanded_refine_slot_05",
+      "local_source_task_dir": "reproduction/fixed7/D820",
       "headline_chi2": 1637.9618976750442,
       "headline_aic": 1647.9618976750442,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix/cmp1000_deepseek_ali_v4_pro_frontier6_openonly_aic_v3_apifix_task_000820_expanded_refine_slot_05",
+      "source_sha256": "837ebc4ef3ec9bfd1cf7e5d2471693075197170aa49add8ce9f092d8e598ac83"
     },
     {
       "agent": "Kimi K3",
       "proposal": "K301",
       "source_task_dir": "cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix_task_000301_expanded_refine_slot_07",
-      "local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix/cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix_task_000301_expanded_refine_slot_07",
+      "local_source_task_dir": "reproduction/fixed7/K301",
       "headline_chi2": 1637.9517610205505,
       "headline_aic": 1647.9517610205505,
-      "headline_k": 5
+      "headline_k": 5,
+      "historical_local_source_task_dir": "cluster_report/frontier6_openonly_aic_final/frontier6_paper_inputs_20260730/selected_tasks/cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix/cmp1000_kimi_k3_frontier6_openonly_aic_v3_apifix_task_000301_expanded_refine_slot_07",
+      "source_sha256": "3d6553048afb865192936e8d8ab47382b0f9b16c4b5e3d47ef384dd2d0a18040"
     }
   ]
 }

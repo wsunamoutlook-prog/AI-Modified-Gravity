@@ -138,13 +138,15 @@ def run_solve_from_cache():
         f"parallel={SOLVER_PARALLEL}, workers={N_WORKERS}, "
         f"parallel_threshold={PARALLEL_SAMPLE_THRESHOLD}, likelihood=DES-SN+DESI-DR2-BAO, "
         f"N_GRID={N_GRID}, RTOL={RTOL:g}, ATOL={ATOL:g}, "
-        f"sample_integration_timeout={SAMPLE_INTEGRATION_TIMEOUT_SECONDS:g}s",
+        f"sample_integration_timeout={SAMPLE_INTEGRATION_TIMEOUT_SECONDS:g}s, "
+        f"identifiability={IDENTIFIABILITY_MODE}",
         flush=True,
     )
     all_results: List[SampleResult] = []
     all_evaluated: List[SampleResult] = []
     best_by_model: Dict[str, SampleResult] = {}
     reject_counts_by_model: Dict[str, Counter] = defaultdict(Counter)
+    identifiability_audits_by_model: Dict[str, Dict[str, Any]] = {}
 
     def samples_for_model(model: Model) -> Optional[List[Dict[str, float]]]:
         if samples_by_lag_id is None:
@@ -187,7 +189,10 @@ def run_solve_from_cache():
         for m in active_models:
             seed = _seed_for_model(RANDOM_SEED, m.lag_id, fallback_seed)
             out = _scan_single_model_worker((m, MODE, N_SAMPLES_PER_MODEL, seed, WORKER_SAMPLE_PROGRESS, sn_data, bao_data, samples_for_model(m)))
-            _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
+            _merge_worker_output(
+                out, all_results, all_evaluated, best_by_model,
+                reject_counts_by_model, identifiability_audits_by_model,
+            )
             completed += 1
             now = time.time()
             elapsed = now - scan_t0
@@ -228,7 +233,10 @@ def run_solve_from_cache():
                         crashed_count = sample_count_for_model(next((m for m in active_models if m.lag_id == lag_id), active_models[0]))
                         reject_counts_by_model[str(lag_id)][f"worker crashed: {type(exc).__name__}: {exc}"] += crashed_count
                         out = {"lag_id": lag_id, "accepted": [], "best": None, "rejects": {}, "elapsed": 0.0, "samples": crashed_count, "status": "crashed"}
-                    _merge_worker_output(out, all_results, all_evaluated, best_by_model, reject_counts_by_model)
+                    _merge_worker_output(
+                        out, all_results, all_evaluated, best_by_model,
+                        reject_counts_by_model, identifiability_audits_by_model,
+                    )
                     completed += 1
 
                     now = time.time()
@@ -271,6 +279,20 @@ def run_solve_from_cache():
     write_csv(OUTPUT_DIR / "accepted_samples_summary.csv", [result_row(r) for r in accepted])
     write_csv(OUTPUT_DIR / "all_samples_summary.csv", [result_row(r) for r in all_evaluated])
     write_csv(OUTPUT_DIR / "model_ranking.csv", [result_row(r) for r in model_best_list])
+    (OUTPUT_DIR / "identifiability_audit.json").write_text(
+        json.dumps(
+            {
+                "mode": IDENTIFIABILITY_MODE,
+                "relative_step": IDENTIFIABILITY_REL_STEP,
+                "rank_rtol": IDENTIFIABILITY_RANK_RTOL,
+                "zero_response_tol": IDENTIFIABILITY_ZERO_RESPONSE_TOL,
+                "models": identifiability_audits_by_model,
+            },
+            indent=2,
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
     write_best_solution(best, OUTPUT_DIR / "best_solution.csv")
     if SOLVER_MAKE_PLOTS:
         plot_best(best, OUTPUT_DIR / "best_fit_Hz.png")
@@ -311,6 +333,12 @@ def run_solve_from_cache():
     lines.append(f"Cache build simplify mode expected by this run: {BUILD_SIMPLIFY_MODE}")
     lines.append(f"Cache RHS extraction settings expected by this run: linear={USE_LINEAR_RHS_SOLVER}; general={ALLOW_GENERAL_SYMBOLIC_SOLVE}")
     lines.append(f"Accepted samples: {len(accepted)}")
+    lines.append(
+        "Identifiability audit: "
+        f"mode={IDENTIFIABILITY_MODE}, relative_step={IDENTIFIABILITY_REL_STEP:g}, "
+        f"rank_rtol={IDENTIFIABILITY_RANK_RTOL:g}; "
+        "report leaves primary AIC unchanged, use_rank applies k_identifiable"
+    )
     lines.append("")
     lines.append("Physics conventions")
     lines.append("- Uses x=ln(a)=-ln(1+z), h=H/H0.")
@@ -355,6 +383,16 @@ def run_solve_from_cache():
             f"alpha_BAO_hat={best.bao_alpha_hat}, "
             f"chi2/N={best.chi2_per_point:.6g}, AIC={best.aic:.6g}, BIC={best.bic:.6g}, k={best.k_params}"
         )
+        if best.identifiability_status != "off":
+            lines.append(
+                "  Identifiability: "
+                f"status={best.identifiability_status}, "
+                f"k_nominal={best.k_params_nominal}, "
+                f"k_identifiable={best.k_params_identifiable}, "
+                f"AIC_nominal={best.aic_nominal:.6g}, "
+                f"AIC_identifiable={best.aic_identifiable:.6g}, "
+                f"condition={best.identifiability_condition_number}"
+            )
         lines.append(f"  max |constraint|={best.max_abs_constraint:.3e}")
         if bm:
             lines.append(f"  General: {bm.general}")
@@ -398,6 +436,7 @@ def run_solve_from_cache():
         "accepted_samples_summary.csv",
         "all_samples_summary.csv",
         "best_solution.csv",
+        "identifiability_audit.json",
         "reject_reasons_by_model.csv",
         "accepted_samples_summary_partial.csv",
         "model_ranking_partial.csv",

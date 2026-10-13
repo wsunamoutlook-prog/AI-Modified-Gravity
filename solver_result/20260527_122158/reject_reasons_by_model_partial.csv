@@ -1,5 +1,0 @@
-lag_id,count,total_rejected_or_skipped,reason
-6,1,2,no-scalar constraint not satisfied at x=0: C0=1.904e+00
-6,1,2,no-scalar constraint not satisfied at x=0: C0=2.065e+00
-32,1,2,no-scalar constraint not satisfied at x=0: C0=1.846e+00
-32,1,2,no-scalar constraint not satisfied at x=0: C0=2.184e+00

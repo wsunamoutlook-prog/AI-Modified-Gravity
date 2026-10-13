@@ -64,6 +64,25 @@ Important reported metrics:
 
 `k_params` is the nominal effective parameter count after EOM ghost-cancellation substitutions and Builder reduction. It includes free parameters that actually enter the current background likelihood. Cancelled or fixed coefficients and constraint-solved initial velocities are excluded. The analytically profiled DES-SN offset and DESI BAO scale are included. `H0` is included only if it survives in the dimensionless dynamics; when it is merely an absolute scale removed by the profiled likelihood it is not counted. The flat-LCDM reference has `k=3`: `Omega_m0`, `M_SN`, and `alpha_BAO`. This is an algebraic AIC/BIC count, not a numerical Fisher-rank calculation.
 
+An optional best-fit background identifiability audit estimates the rank of the
+map from nominal fit parameters to the accepted `h(z)` trajectory.  Configure
+it with `SOLVER_IDENTIFIABILITY_MODE=off|report|use_rank`:
+
+- `off` is the default and preserves historical AIC/BIC behavior exactly.
+- `report` writes nominal and identifiable counts/AIC/BIC side by side while
+  leaving the primary `AIC`, `BIC`, and `k_params` columns unchanged.
+- `use_rank` explicitly selects the conservative identifiable count for the
+  primary AIC/BIC columns.  Perturbation directions that cannot be evaluated
+  are retained in `k`, so a stability boundary cannot spuriously reduce the
+  complexity penalty.
+
+The audit uses finite differences around the best accepted sample, SVD of the
+background-observable Jacobian, and separate counting of the two profiled
+likelihood nuisance parameters.  It writes `identifiability_audit.json` plus
+`k_params_nominal`, `k_params_identifiable`, `AIC_nominal`, and
+`AIC_identifiable` columns.  The numerical rank is a background-likelihood
+diagnostic; it is not a perturbation-level degree-of-freedom count.
+
 ## Agent Responsibilities
 
 The agent may:
@@ -216,6 +235,10 @@ Constraint-solved values such as `q1_0` in phi1 models and `q2_0` in phi2-only m
 - `RTOL`
 - `ATOL`
 - `MAX_ABS_CONSTRAINT`
+- `SOLVER_IDENTIFIABILITY_MODE` (`off`, `report`, or `use_rank`)
+- `SOLVER_IDENTIFIABILITY_REL_STEP`
+- `SOLVER_IDENTIFIABILITY_RANK_RTOL`
+- `SOLVER_IDENTIFIABILITY_ZERO_RESPONSE_TOL`
 - `H0_MIN`, `H0_MAX`
 - `OMEGA_M0_MIN`, `OMEGA_M0_MAX`
 - `LOG10_ABS_C_MIN`, `LOG10_ABS_C_MAX`

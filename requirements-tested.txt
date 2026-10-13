@@ -1,0 +1,11 @@
+# Top-level versions used for the v5.6 release checks (Python 3.12.2).
+# Use with: python -m pip install -r requirements.txt -c requirements-tested.txt
+numpy==2.4.6
+scipy==1.17.1
+sympy==1.14.0
+matplotlib==3.10.9
+langgraph==1.2.2
+langchain==1.3.2
+langsmith==0.8.8
+openai==2.38.0
+tqdm==4.67.3

@@ -2,6 +2,18 @@
 
 This file is the project-level guide for coding agents working in this repository. Read it first, then read the stage-specific `AGENT.md` files before changing or running a pipeline stage.
 
+## Mock experiment segregation
+
+`mock_experiments/` is reserved for **MOCK / SYNTHETIC DATA ONLY**. Read its
+`AGENTS.md` before working there. Never merge its data, search results, rankings,
+or learned memory into real-observation runs, real-data benchmarks, or paper
+tables. A successful mock fit is not a fit to observed DES-SN/DESI data.
+Keep mock outputs in their isolated workspace, retain explicit MOCK labels when
+exporting, and use a separately refitted mock LCDM reference for mock delta AIC.
+The one-mock/250-theory pilot is an appendix diagnostic, not an 8000-search
+look-elsewhere calibration. The original real data and existing results are
+read-only inputs to mock preparation and comparison.
+
 ## Project Goal
 
 This project searches for viable modified-gravity theories with two scalar fields. Candidate theories are generated inside a grammar-constrained theory space, filtered by symbolic EOM and ghost-free constraints, converted into numerical models, and compared against DES-SN + DESI-DR2 BAO data.

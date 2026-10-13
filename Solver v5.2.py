@@ -53,6 +53,14 @@ RUN_SETTINGS = {
     "SAMPLE_INTEGRATION_TIMEOUT_SECONDS": "0",
     "MAX_ABS_CONSTRAINT": "1e-4",
 
+    # Optional best-fit background identifiability audit.
+    # off: historical behavior; report: write both counts without changing AIC;
+    # use_rank: use the conservative Jacobian rank for primary AIC/BIC.
+    "SOLVER_IDENTIFIABILITY_MODE": "off",
+    "SOLVER_IDENTIFIABILITY_REL_STEP": "1e-3",
+    "SOLVER_IDENTIFIABILITY_RANK_RTOL": "1e-4",
+    "SOLVER_IDENTIFIABILITY_ZERO_RESPONSE_TOL": "1e-10",
+
     # Parameter priors
     "H0_MIN": "60.0",
     "H0_MAX": "75.0",

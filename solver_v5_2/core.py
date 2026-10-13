@@ -238,6 +238,32 @@ MAX_ABS_Q_TRAJ = float(os.environ.get("MAX_ABS_Q_TRAJ", "80.0"))
 MAX_H_KM_S_MPC = float(os.environ.get("MAX_H_KM_S_MPC", "1500.0"))
 MIN_H = float(os.environ.get("MIN_H", "1e-8"))
 SOLVER_MAKE_PLOTS = os.environ.get("SOLVER_MAKE_PLOTS", "1").strip().lower() not in {"0", "false", "no", "n", "off"}
+_IDENTIFIABILITY_MODE_RAW = os.environ.get("SOLVER_IDENTIFIABILITY_MODE", "off").strip().lower()
+_IDENTIFIABILITY_MODE_ALIASES = {
+    "0": "off", "false": "off", "no": "off",
+    "1": "report", "true": "report", "yes": "report",
+    "audit": "report", "on": "report",
+    "rank": "use_rank", "effective": "use_rank",
+}
+IDENTIFIABILITY_MODE = _IDENTIFIABILITY_MODE_ALIASES.get(
+    _IDENTIFIABILITY_MODE_RAW, _IDENTIFIABILITY_MODE_RAW
+)
+if IDENTIFIABILITY_MODE not in {"off", "report", "use_rank"}:
+    raise ValueError(
+        "SOLVER_IDENTIFIABILITY_MODE must be off, report, or use_rank; "
+        f"got {_IDENTIFIABILITY_MODE_RAW!r}"
+    )
+IDENTIFIABILITY_REL_STEP = float(os.environ.get("SOLVER_IDENTIFIABILITY_REL_STEP", "1e-3"))
+IDENTIFIABILITY_RANK_RTOL = float(os.environ.get("SOLVER_IDENTIFIABILITY_RANK_RTOL", "1e-4"))
+IDENTIFIABILITY_ZERO_RESPONSE_TOL = float(
+    os.environ.get("SOLVER_IDENTIFIABILITY_ZERO_RESPONSE_TOL", "1e-10")
+)
+if IDENTIFIABILITY_REL_STEP <= 0.0:
+    raise ValueError("SOLVER_IDENTIFIABILITY_REL_STEP must be positive")
+if IDENTIFIABILITY_RANK_RTOL <= 0.0:
+    raise ValueError("SOLVER_IDENTIFIABILITY_RANK_RTOL must be positive")
+if IDENTIFIABILITY_ZERO_RESPONSE_TOL < 0.0:
+    raise ValueError("SOLVER_IDENTIFIABILITY_ZERO_RESPONSE_TOL must be non-negative")
 DENOM_EPS = 1e-12
 
 MODE = os.environ.get("SOLVER_MODE", "eft").lower().strip()
@@ -257,6 +283,7 @@ from .likelihood import (
     chi2_desi_bao_from_grid,
     load_current_likelihood_data as _load_current_likelihood_data,
 )
+from .identifiability import audit_background_identifiability
 
 
 def load_current_likelihood_data():
@@ -321,6 +348,20 @@ class SampleResult:
     bic: float = math.inf
     k_params: int = 0
     k_parameter_names: Optional[List[str]] = None
+    aic_nominal: Optional[float] = None
+    bic_nominal: Optional[float] = None
+    k_params_nominal: Optional[int] = None
+    aic_identifiable: Optional[float] = None
+    bic_identifiable: Optional[float] = None
+    k_params_identifiable: Optional[int] = None
+    identifiability_status: str = "off"
+    identifiability_dynamic_rank: Optional[int] = None
+    identifiability_dynamic_parameter_count: Optional[int] = None
+    identifiability_condition_number: Optional[float] = None
+    identifiability_singular_values_json: str = ""
+    identifiability_null_combinations_json: str = ""
+    identifiability_unresolved_parameters: str = ""
+    identifiability_solver_evaluations: int = 0
     params: Optional[Dict[str, float]] = None
     max_abs_constraint: Optional[float] = None
     x_grid: Optional[np.ndarray] = None
@@ -1162,6 +1203,8 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         n_sn=len(sn_data["mu"]), n_bao=len(bao_data["value"]),
         chi2_per_point=chi2 / n, aic=aic, bic=bic, k_params=k,
         k_parameter_names=k_parameter_names,
+        aic_nominal=aic, bic_nominal=bic, k_params_nominal=k,
+        aic_identifiable=aic, bic_identifiable=bic, k_params_identifiable=k,
         params=params, max_abs_constraint=maxC,
         x_grid=x_eval, z_grid=z_grid, h_grid=h_grid, H_grid=H_grid_phys,
         varphi1_grid=varphi1_grid, q1_grid=q1_grid,
@@ -1169,6 +1212,102 @@ def evaluate_sample(model: Model, rng: np.random.Generator, mode: str,
         chi_bar_grid=chi_bar_grid, qchi_grid=qchi_grid,
         constraint_grid=C_vals, H_at_data=None,
     )
+
+
+def _audit_best_sample_identifiability(
+    model: Model,
+    best: SampleResult,
+    compiled: Tuple[Any, ...],
+    sn_data: dict,
+    bao_data: dict,
+    mode: str,
+) -> Dict[str, Any]:
+    """Audit one model at its best accepted background solution."""
+
+    if best.h_grid is None or best.params is None:
+        return {
+            "status": "unavailable",
+            "reason": "best sample lacks trajectory or parameter data",
+            "k_nominal": int(best.k_params),
+            "k_identifiable": int(best.k_params),
+        }
+
+    baseline_h = np.asarray(best.h_grid, dtype=float)
+    if np.any(baseline_h <= 0.0) or not np.all(np.isfinite(baseline_h)):
+        return {
+            "status": "unavailable",
+            "reason": "best h(z) trajectory is non-positive or non-finite",
+            "k_nominal": int(best.k_params),
+            "k_identifiable": int(best.k_params),
+        }
+    baseline_feature = np.log(baseline_h)
+
+    def evaluator(sample: Dict[str, float]):
+        result = evaluate_sample(
+            model,
+            np.random.default_rng(17),
+            mode,
+            compiled=compiled,
+            sn_data=sn_data,
+            bao_data=bao_data,
+            agent_sample=dict(sample),
+        )
+        if not result.success or result.h_grid is None:
+            return False, None, result.reason
+        h_values = np.asarray(result.h_grid, dtype=float)
+        if h_values.shape != baseline_h.shape or np.any(h_values <= 0.0):
+            return False, None, "perturbed h(z) grid is incompatible with baseline"
+        return True, np.log(h_values), "ok"
+
+    return audit_background_identifiability(
+        parameter_names=best.k_parameter_names or [],
+        base_sample=best.params,
+        baseline_feature=baseline_feature,
+        evaluator=evaluator,
+        profiled_parameter_names=PROFILED_LIKELIHOOD_PARAMETER_NAMES,
+        relative_step=IDENTIFIABILITY_REL_STEP,
+        rank_rtol=IDENTIFIABILITY_RANK_RTOL,
+        zero_response_tol=IDENTIFIABILITY_ZERO_RESPONSE_TOL,
+    )
+
+
+def _apply_identifiability_audit(
+    accepted: List[SampleResult],
+    best: SampleResult,
+    audit: Dict[str, Any],
+) -> None:
+    """Attach one best-fit rank audit to all accepted samples of a model."""
+
+    nominal_k = int(audit.get("k_nominal", best.k_params))
+    identifiable_k = int(audit.get("k_identifiable", nominal_k))
+    status = str(audit.get("status") or "unavailable")
+    n_data = int(best.n_sn + best.n_bao)
+    singular_values_json = json.dumps(audit.get("singular_values") or [])
+    null_combinations_json = json.dumps(audit.get("null_combinations") or [], sort_keys=True)
+    unresolved = ";".join(str(name) for name in audit.get("unresolved_parameter_names") or [])
+
+    for result in accepted:
+        result.k_params_nominal = nominal_k
+        result.aic_nominal = result.chi2 + 2.0 * nominal_k
+        result.bic_nominal = result.chi2 + nominal_k * math.log(max(1, n_data))
+        result.k_params_identifiable = identifiable_k
+        result.aic_identifiable = result.chi2 + 2.0 * identifiable_k
+        result.bic_identifiable = result.chi2 + identifiable_k * math.log(max(1, n_data))
+        result.identifiability_status = status
+        result.identifiability_dynamic_rank = audit.get("dynamic_rank")
+        result.identifiability_dynamic_parameter_count = audit.get("dynamic_parameter_count")
+        result.identifiability_condition_number = audit.get("condition_number")
+        result.identifiability_unresolved_parameters = unresolved
+        result.identifiability_solver_evaluations = int(audit.get("solver_evaluations") or 0)
+        if IDENTIFIABILITY_MODE == "use_rank" and status in {"ok", "partial_conservative"}:
+            result.k_params = identifiable_k
+            result.aic = result.aic_identifiable
+            result.bic = result.bic_identifiable
+
+    # Detailed SVD payloads are kept on the model representative only so the
+    # all-samples CSV does not repeat large JSON strings thousands of times.
+    best.identifiability_singular_values_json = singular_values_json
+    best.identifiability_null_combinations_json = null_combinations_json
 
 
 # =============================================================================
@@ -1290,6 +1429,21 @@ def result_row(r: SampleResult) -> Dict[str, Any]:
         "N_SN": r.n_sn, "N_BAO": r.n_bao,
         "AIC": r.aic, "BIC": r.bic, "k_params": r.k_params,
         "k_parameter_names": ";".join(r.k_parameter_names or []),
+        "AIC_nominal": r.aic_nominal,
+        "BIC_nominal": r.bic_nominal,
+        "k_params_nominal": r.k_params_nominal,
+        "k_parameter_names_nominal": ";".join(r.k_parameter_names or []),
+        "AIC_identifiable": r.aic_identifiable,
+        "BIC_identifiable": r.bic_identifiable,
+        "k_params_identifiable": r.k_params_identifiable,
+        "identifiability_status": r.identifiability_status,
+        "identifiability_dynamic_rank": r.identifiability_dynamic_rank,
+        "identifiability_dynamic_parameter_count": r.identifiability_dynamic_parameter_count,
+        "identifiability_condition_number": r.identifiability_condition_number,
+        "identifiability_singular_values_json": r.identifiability_singular_values_json,
+        "identifiability_null_combinations_json": r.identifiability_null_combinations_json,
+        "identifiability_unresolved_parameters": r.identifiability_unresolved_parameters,
+        "identifiability_solver_evaluations": r.identifiability_solver_evaluations,
         "max_abs_constraint": r.max_abs_constraint,
     }
     if r.params:
@@ -1300,7 +1454,14 @@ def result_row(r: SampleResult) -> Dict[str, Any]:
 RESULT_SUMMARY_COLUMNS = [
     "lag_id", "success", "reason", "chi2", "chi2_per_point",
     "chi2_hz", "chi2_sn", "chi2_bao", "sn_offset_hat", "bao_alpha_hat",
-    "N_SN", "N_BAO", "AIC", "BIC", "k_params", "k_parameter_names", "max_abs_constraint",
+    "N_SN", "N_BAO", "AIC", "BIC", "k_params", "k_parameter_names",
+    "AIC_nominal", "BIC_nominal", "k_params_nominal", "k_parameter_names_nominal",
+    "AIC_identifiable", "BIC_identifiable", "k_params_identifiable",
+    "identifiability_status", "identifiability_dynamic_rank",
+    "identifiability_dynamic_parameter_count", "identifiability_condition_number",
+    "identifiability_singular_values_json", "identifiability_null_combinations_json",
+    "identifiability_unresolved_parameters", "identifiability_solver_evaluations",
+    "max_abs_constraint",
 ]
 
 
@@ -1493,6 +1654,21 @@ def _scan_single_model_worker(args: Tuple[Model, str, int, int, int, dict, dict,
                 flush=True,
             )
 
+    identifiability_audit = None
+    if best is not None and IDENTIFIABILITY_MODE != "off":
+        try:
+            identifiability_audit = _audit_best_sample_identifiability(
+                model, best, compiled, sn_data, bao_data, mode
+            )
+        except Exception as exc:
+            identifiability_audit = {
+                "status": "unavailable",
+                "reason": f"{type(exc).__name__}: {exc}",
+                "k_nominal": int(best.k_params),
+                "k_identifiable": int(best.k_params),
+            }
+        _apply_identifiability_audit(accepted, best, identifiability_audit)
+
     return {
         "lag_id": model.lag_id,
         "accepted": accepted,
@@ -1502,6 +1678,7 @@ def _scan_single_model_worker(args: Tuple[Model, str, int, int, int, dict, dict,
         "elapsed": time.time() - t_model,
         "samples": n_samples_actual,
         "status": "done",
+        "identifiability_audit": identifiability_audit,
     }
 
 
@@ -1532,7 +1709,8 @@ def _merge_worker_output(out: Dict[str, Any],
                          all_results: List[SampleResult],
                          all_evaluated: List[SampleResult],
                          best_by_model: Dict[str, SampleResult],
-                         reject_counts_by_model: Dict[str, Counter]):
+                         reject_counts_by_model: Dict[str, Counter],
+                         identifiability_audits_by_model: Optional[Dict[str, Dict[str, Any]]] = None):
     lag_id = str(out["lag_id"])
     for res in out.get("accepted", []):
         all_results.append(res)
@@ -1545,3 +1723,6 @@ def _merge_worker_output(out: Dict[str, Any],
             best_by_model[lag_id] = best
     for reason, n in out.get("rejects", {}).items():
         reject_counts_by_model[lag_id][reason] += int(n)
+    audit = out.get("identifiability_audit")
+    if identifiability_audits_by_model is not None and isinstance(audit, dict):
+        identifiability_audits_by_model[lag_id] = audit

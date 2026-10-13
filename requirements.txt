@@ -1,7 +1,6 @@
 numpy
 scipy
 sympy
-pandas
 matplotlib
 langgraph
 langchain
